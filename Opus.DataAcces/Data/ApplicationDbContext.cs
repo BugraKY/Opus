@@ -15,5 +15,7 @@ namespace Opus.DataAcces.Data
     : base(options) { }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<Location> Location { get; set; }
+        public DbSet<UserLocation> UserLocation { get; set; }
     }
 }

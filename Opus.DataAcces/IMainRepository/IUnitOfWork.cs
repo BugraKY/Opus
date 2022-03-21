@@ -9,6 +9,8 @@ namespace Opus.DataAcces.IMainRepository
     public interface IUnitOfWork:IDisposable
     {
         IApplicationUserRepository ApplicationUser { get; }
+        ILocationRepository Location { get; }
+        IUserLocationRepository UserLocation { get; }
         void Save();
     }
 }

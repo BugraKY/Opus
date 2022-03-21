@@ -15,9 +15,12 @@ namespace Opus.DataAcces.MainRepository
         {
             _db = db;
             ApplicationUser = new ApplicationUserRepository(_db);
-
+            Location = new LocationRepository(_db);
+            UserLocation = new UserLocationRepository(_db);
         }
         public IApplicationUserRepository ApplicationUser { get; private set; }
+        public ILocationRepository Location { get; private set; }
+        public IUserLocationRepository UserLocation { get; private set; }   
         public void Dispose()
         {
             _db.Dispose();
