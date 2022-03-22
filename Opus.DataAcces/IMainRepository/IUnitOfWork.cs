@@ -11,6 +11,7 @@ namespace Opus.DataAcces.IMainRepository
         IApplicationUserRepository ApplicationUser { get; }
         ILocationRepository Location { get; }
         IUserLocationRepository UserLocation { get; }
+        IStaffRepository Staff { get; }
         void Save();
     }
 }

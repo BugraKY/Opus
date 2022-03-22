@@ -17,5 +17,6 @@ namespace Opus.Models.DbModels
         public string Active { get; set; }
         public string LocationUrl { get; set; }
         public string CountryId { get; set; }
+        public int IntId { get; set; }
     }
 }

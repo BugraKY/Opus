@@ -1,0 +1,205 @@
+.pixelarity-img-edit{
+	display: none;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background-color: #2d2d3e;
+	top:0px;
+	left: 0px;
+	z-index: 8;
+	opacity: 0;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.pixelarity-img-edit-act{
+	height: 37px;
+	width: 70px;
+	position: absolute;
+	border-radius: 20px;
+	background-color:#2ecc71;
+	left: 50%;
+	margin-left: -75px;	
+	bottom: 33px;
+	cursor: pointer;
+	text-align: center;
+	line-height: 37px;
+	color: rgba(10,10,10,0.55);
+	font-family: helvetica neue, segoe ui, roboto, sans-serif;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 8pt;	
+}
+
+.pixelarity-img-edit-cancel{
+	margin-left: 16px;
+	background-color: #ee5155;
+}
+
+.pixelarity-img-edit-can{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.3);
+	bottom: 50px;
+	right: 0px;
+	margin:auto;
+}
+
+.pixelarity-img-edit-process-can{
+	display: none;
+}
+
+.pixelarity-img-edit-select{
+	position: fixed;
+	background-color: rgba(10,10,10,0.4);
+	box-shadow: inset 0px 0px 0px 2px rgba(255, 255, 255, 1);
+}
+
+.pixelarity-img-edit-select-resize{
+	position: absolute;
+	height: 17px;
+	width: 17px;
+	background-color: rgba(255,255,255,1);
+	right: 2px;
+	bottom: 2px;
+	cursor: nwse-resize;
+}
+
+#pixelarity-side-opt-holder, #pixelarity-draw-opt-color-cont, #pixelarity-filter-opt-cont{
+	height: 210px;
+	width: 70px;
+	color: #fff;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	margin: auto;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	background-color: rgba(10,10,10,0.15);
+	color: #dadada;
+}
+
+.pixelarity-side-opt, .pixelarity-draw-opt, .pixelarity-draw-opt-color{
+	width: 70px;
+	height: 69px;
+	line-height: 70px;
+	border-bottom: 1px solid rgba(10,10,10,0.1);
+	text-align: center;
+	font-family: helvetica neue, segoe ui, roboto, sans-serif;
+	font-size: 9pt;
+	text-transform: uppercase;
+	font-weight: 500;
+	background-color: transparent;
+	cursor: pointer;	
+	-webkit-transition: background-color 0.3s;
+	-moz-transition: background-color 0.3s;
+	-khtml-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;	
+	-ms-transition: background-color 0.3s;
+	transition: background-color 0.3s;	
+}
+
+
+.pixelarity-side-opt:hover{
+	background-color: rgba(10,10,10,0.1);
+}
+
+.pixelarity-active-side-opt{
+	background-color: rgba(10,10,10,0.2);
+}
+
+#pixelarity-draw-opt-color-cont, #pixelarity-filter-opt-cont{
+	height: 140px;
+	width: 80px;
+	left: 0px;
+	right: initial;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	text-align: center;
+}
+
+
+.pixelarity-draw-opt-color{
+	height: 26px;
+	width: 26px;
+	border-radius: 100%;
+	display: inline-block;
+	background-color: rgba(10,10,10,0.1);
+	margin-top: 8px;
+	margin-left: 4px;
+	margin-right: 4px;
+	position: relative;
+	top: 9px;
+}
+
+.pixelarity-active-draw-opt{
+	background-color: rgba(10,10,10,0.4);
+}
+
+.pixelarity-active-draw-opt-color{
+	height: 20px;
+	width: 20px;
+	border: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+#pixelarity-draw-opt-color-1{
+	background-color: #000000;
+}
+#pixelarity-draw-opt-color-2{
+	background-color: #ffffff;
+}
+#pixelarity-draw-opt-color-3{
+	background-color: #2795f3;
+}
+#pixelarity-draw-opt-color-4{
+	background-color: #ec5454;
+}
+#pixelarity-draw-opt-color-5{
+	background-color: #2ecc71;
+}
+#pixelarity-draw-opt-color-6{
+	background-color: #efd244;
+}
+
+#pixelarity-filter-opt-cont{
+	height: 235px;
+	width: 100px;
+}
+
+.pixelarity-filter-opt{
+	position: relative;
+	height: 32px;
+	line-height: 32px;
+	margin-top: 10px;
+	top: 7px;
+	border-radius: 4px;
+	background-color: rgba(10,10,10,0);
+	width: 85%;
+	left: 7.5%;
+	text-transform: uppercase;
+	font-size: 9pt;
+	font-weight: 500;
+	font-family: helvetica neue, segoe ui, roboto, sans-serif;
+	cursor: pointer;
+	-webkit-transition: background-color 0.3s;
+	-moz-transition: background-color 0.3s;
+	-khtml-transition: background-color 0.3s;
+	-o-transition: background-color 0.3s;	
+	-ms-transition: background-color 0.3s;
+	transition: background-color 0.3s;	
+}
+
+
+.pixelarity-filter-opt:hover{
+	background-color: rgba(10,10,10,0.2);
+}
+
+.pixelarity-active-filter-opt{
+	background-color: rgba(10,10,10,0.32);

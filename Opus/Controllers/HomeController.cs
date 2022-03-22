@@ -13,18 +13,22 @@ namespace Opus.Controllers
         }
         public IActionResult Index()
         {
-            
-            
             #region Authentication Index
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var Claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            if (Claims != null)
+            if (GetClaim() != null)
             {
                 return RedirectToAction("Dashboard", "Home");//Go Dashboard
             }
             return Redirect("/signin");
             #endregion Authentication Index
-            
+        }
+        [Route("dashboard")]
+        public IActionResult Dashboard()
+        {
+            if (GetClaim() != null)
+            {
+                return View();
+            }
+            return Redirect("/signin");
         }
         public Claim GetClaim()
         {

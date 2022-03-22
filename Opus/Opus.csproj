@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-	  <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
 	  <Nullable>disable</Nullable>
 	  <ImplicitUsings>enable</ImplicitUsings>
   
@@ -22,6 +21,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Opus.DataAcces\Opus.DataAcces.csproj" />
     <ProjectReference Include="..\Opus.Models\Opus.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>

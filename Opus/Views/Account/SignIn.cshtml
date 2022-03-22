@@ -2,15 +2,86 @@
 @{
     Layout = null;
 }
-
+@model Opus.Models.ViewModels.SignInVM
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/vendors_css.css" rel="stylesheet" />
+    <link href="~/css/skin_color.css" rel="stylesheet" />
     <title>SignIn</title>
 </head>
-<body>
-    <h1>Login Page Without Layout</h1>
+<body class="hold-transition theme-primary bg-img" style="background-image: url(/images/auth-bg/login.jpg)">
+    <div class="container h-p100">
+        <div class="row align-items-center justify-content-md-center h-p100">
+            <div class="col-12">
+                <div class="row justify-content-center g-0">
+                    <div class="col-lg-5 col-md-5 col-12">
+                        <div class="bg-white rounded10 shadow-lg">
+                            <div class="content-top-agile p-20 pb-0">
+                                <img src="/images/opus_logo.png" />
+                                <hr />
+                                <h2 class="text-primary">Sign In</h2>
+                                <p class="mb-0">
+                                    Type your username and password for login.
+                                </p>
+
+                                @*if (Request.QueryString["userMessage"] != null)
+                                    {
+                                    <h2>@Request.QueryString["messageText"]</h2>
+                                    }
+                                *@
+                            </div>
+                            <div class="p-20">
+                                <form action="/signin" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
+                                            <input asp-for="Email" type="text" class="form-control ps-15 bg-transparent" placeholder="Username">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text  bg-transparent"><i class="ti-lock"></i></span>
+                                            <input asp-for="Password" type="password" class="form-control ps-15 bg-transparent" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="basic_checkbox_1" asp-for="RememberMe">
+                                                <label for="basic_checkbox_1">Remember Me</label>
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-6">
+                                            <div class="fog-pwd text-end">
+                                                <a href="javascript:void(0)" class="hover-warning"><i class="ion ion-locked"></i> Forgot pwd?</a><br>
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-12 text-center">
+                                            <button id="login" name="LoginControl" type="submit" class="btn btn-danger mt-10">SIGN IN</button>
+
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/vendors.min.js"></script>
+    <script src="~/js/pages/chat-popup.js"></script>
+    <script src="~/js/pages/toastr.js"></script>
+    <script src="~/lib/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
+    <script src="~/lib/icons/feather-icons/feather.min.js"></script>
 </body>
 </html>

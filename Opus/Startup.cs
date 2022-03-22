@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Opus.DataAcces.IMainRepository;
 using Opus.DataAcces.MainRepository;
+using Opus.Models.DbModels;
 
 namespace Opus
 {
@@ -27,7 +28,7 @@ namespace Opus
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;
@@ -43,6 +44,7 @@ namespace Opus
 
             services.AddMvc();
             services.AddRazorPages().AddSessionStateTempDataProvider();
+            //services.AddRazorPages();
             services.AddHttpContextAccessor();
             services.AddSession(options =>
             {
@@ -88,11 +90,11 @@ namespace Opus
             */
             app.UseAuthentication();
             app.UseAuthorization();
-
+            /*
             app.UseCors(builder =>
             {
                 builder.WithOrigins("https://manypointscreative.com", "http://manypointscreative.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-            });
+            });*/
             /*
             app.UseEndpoints(endpoints =>
             {
