@@ -18,5 +18,7 @@ namespace Opus.DataAcces.Data
         public DbSet<Location> Location { get; set; }
         public DbSet<UserLocation> UserLocation { get; set; }
         public DbSet<Staff> Staff { get; set; }
+        public DbSet<FamilyMembers> FamilyMembers { get; set; }
+        public DbSet<FamilyRelationship> FamilyRelationship { get; set; }
     }
 }

@@ -2,5 +2,124 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    @model IEnumerable<Opus.Models.DbModels.Staff>
 }
+@using static Opus.Utility.Enums
 
+<div class="container-full">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Staff List</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item" aria-current="page">Staffs</li>
+                            <li class="breadcrumb-item active" aria-current="page">Staff List</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Staff List</h4>
+
+                    </div>
+
+
+                    <div class="box-body">
+                        <div class="table-responsive">
+
+                            <div id="example_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+
+                                <table id="example" class="table table-lg invoice-archive dataTable no-footer" role="grid" aria-describedby="example_info">
+                                    <thead>
+                                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;">Resim</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 122px;">Name</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Surname: activate to sort column ascending" style="width: 200px;">Surname</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Identy No: activate to sort column ascending" style="width: 114px;">Identy No</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Gsm No: activate to sort column ascending" style="width: 153px;">Gsm No</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 108px;">Start date</th><th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 72px;">Status</th><th class="text-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 77px;">Actions</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var staff in Model)
+                                        {
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="~/Uploads/Staff/Profile/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+                                                <td>@staff.FirstName</td>
+                                                <td>@staff.LastName</td>
+                                                <td>@staff.IdentityNumber</td>
+                                                <td>@staff.MobileNumber</td>
+                                                <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
+                                                <td>
+                                                    
+                                                            @switch (staff.Status)
+                                                            {
+                                                                case (int)StatusOfStaff.Active:
+                                                                    <span></span>
+                                                                    break;
+                                                                case (int)StatusOfStaff.Passive:
+                                                                    <span></span>
+                                                                    break;
+                                                                case (int)StatusOfStaff.Quit:
+                                                                    <span></span>
+                                                                    break;
+                                                            }
+                                                            <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 1 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 0 ? "Active" : "")@(@staff.Status == 1 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
+                                                </td>
+                                                <td class="text-center">
+
+                                                    <div class="list-icons d-inline-flex">
+                                                        <a href="~/Staff/Edit/@staff.Id" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-12">
+                <div class="box box-inverse box-success">
+                    <div class="box-body">
+                        <div class="flexbox">
+                            <h5 class="text-center">Active Staffs</h5>
+
+                        </div>
+
+                        <div class="text-center my-2">
+                            <div class="fs-60"> @ViewBag.TotalActive</div>
+                            <span>Total  Active Staff</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-inverse badge-secondary">
+                    <div class="box-body">
+                        <div class="flexbox">
+                            <h5>Passive Staffs</h5>
+
+                        </div>
+
+                        <div class="text-center my-2">
+                            <div class="fs-60">@ViewBag.TotalPassive</div>
+                            <span>Total Passive Staff</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>

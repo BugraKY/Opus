@@ -1,0 +1,602 @@
+﻿
+@{
+    ViewData["Title"] = "Add Staff";
+}
+@model Opus.Models.ViewModels.StaffVM
+
+<div class="container-full">
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Horizontal Timeline</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item" aria-current="page">UI</li>
+                            <li class="breadcrumb-item active" aria-current="page">Horizontal Timeline</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Step wizard with validation</h4>
+                        <h6 class="box-subtitle">You can us the validation like what we did</h6>
+                    </div>
+
+                    <!-- yeni deneme-->
+
+
+                    <div class="box-body wizard-content">
+                        <form id="myform" action="/staff/add" class="validation-wizard wizard-circle" enctype="multipart/form-data" method="post">
+                            <h6>Info's</h6>
+                            <section>
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Personel Hakkında</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="label_email control-label" for="prof_image">Image : </label>
+                                                            <input class="form-control" id="file" accept="image/*" type="file">
+                                                            <input type="hidden" name="image" id="image" />
+                                                            <div class="media">
+                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Name <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Name" asp-for="FirstName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Surname <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Surname" asp-for="LastName">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">GSM <span class="danger">*</span></label>
+                                                            <input data-rule-minlength="2" name="gsm" type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Create Stamp Number?  <span class="danger">*</span></label>
+                                                            <select class="form-select " asp-for="AddStamp">
+                                                                <option value="" selected="selected">Select</option>
+                                                                <option value="False">No</option>
+                                                                <option value="True">Yes</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i> Requirements</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Place of Birth  <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Date of Birth <span class="danger">*</span></label>
+                                                            <input type="date" class="form-control " asp-for="DateOfBirth">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Mother Name <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Fathers Name <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Marital Status <span class="danger">*</span></label>
+                                                            <select class="form-select " asp-for="MaritalStatus">
+                                                                <option value="" selected="selected">Select</option>
+                                                                <option value="1">Married</option>
+                                                                <option value="0">Single</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Identity Number <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Kimlik" data-inputmask="'mask':['99999999999']" data-mask="" asp-for="IdentityNumber">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Number of Children <span class="danger">*</span></label>
+                                                    <input type="number" class="form-control " placeholder="Çocuk Sayısı" asp-for="NumberOfChildren">
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">D2 Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" asp-for="TestD2">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">MSA Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" asp-for="TestMSA">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> About User</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">IBAN <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Current Salary</label>
+                                                            <input type="number" class="form-control" placeholder="Güncel Maaş" value="2800.00" asp-for="CurrentSalary">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Statue</label>
+                                                            <select class="form-select" asp-for="WhiteCollarWorker">
+                                                                <option value="False">Blue Collar</option>
+                                                                <option value="True">White Collar</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Date of Employment <span class="danger">*</span></label>
+                                                            <input type="date" class="form-control " asp-for="DateOfEntry">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Education Status</label>
+                                                            <select class="form-select" asp-for="EducationalStatus">
+                                                                <option value="Primary School Graduate">Primary School Graduate</option>
+                                                                <option value="High School Graduate">High School Graduate</option>
+                                                                <option value="Undergraduate Degree">Undergraduate Degree</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Status <span class="danger">*</span></label>
+                                                            <select class="form-select" asp-for="Active">
+                                                                <option value="0" selected="selected">Active</option>
+                                                                <option value="1">Passive</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h4 class="box-title text-info mb-0 mt-20"><i class="ti-envelope me-15"></i> Contact Info &amp; Bio</h4>
+                                                <hr class="my-15">
+                                                <div class="form-group">
+                                                    <label class="form-label">Contact Number 2:</label>
+                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumber">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Contact Number 3:</label>
+                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumberSec">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Blood Group  <span class="danger">*</span></label>
+                                                    <select class="form-select " asp-for="BloodTypeId">
+                                                        <option value="" selected="selected"></option>
+                                                        <option value="0">AB Rh (+)</option>
+                                                        <option value="1">A Rh (+)</option>
+                                                        <option value="2">B Rh (+)</option>
+                                                        <option value="3">0 Rh (+)</option>
+                                                        <option value="4">AB Rh (-)</option>
+                                                        <option value="5">A Rh (-)</option>
+                                                        <option value="6">B Rh (-)</option>
+                                                        <option value="7">0 Rh (-)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Address <span class="danger">*</span></label>
+                                                    <textarea rows="4" class="form-control " placeholder="Address" asp-for="StreetAddress"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <h6>Family Details</h6>
+                            <section>
+                                <div class="box-body py-0">
+                                    <div class="table-responsive">
+                                        <table class="table no-border" id="tab_logic">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="pt-10">Yakınlık</th>
+                                                    <th class="pt-10">Ad Soyad</th>
+                                                    <th class="pt-10">Kimlik No</th>
+                                                    <th class="pt-10">Doğum Yeri</th>
+                                                    <th class="pt-10">Doğum Tarihi</th>
+                                                    <th class="pt-10"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id='addr0' data-id="0" class="hidden">
+                                                    <td data-name="yakinlik">
+                                                        <div class="bg-lightest rounded text-center">
+                                                            <select class="form-select" id="familyMembersFamilyRelationshipId" asp-for="FamilyMembers[0].FamilyRelationshipId">
+                                                                <option value="" selected="selected">Yakınlık</option>
+                                                                <option value="Eşi">Eş</option>
+                                                                <option value="Çocuğu">Çocuk</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td data-name="ad">
+                                                        <div class="bg-lightest rounded text-center">
+                                                            <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" asp-for="FamilyMembers[0].FullName"/>
+
+                                                        </div>
+                                                    </td>
+                                                    <td data-name="ailekimlikNo">
+                                                        <div class="bg-lightest rounded text-center">
+                                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" asp-for="FamilyMembers[0].IdentityNumber" maxlength="11" />
+                                                        </div>
+                                                    </td>
+                                                    <td data-name="ailedogumYeri">
+                                                        <div class="bg-lightest rounded text-center">
+                                                            <input type="text" id="familyMembersBirthPlace" placeholder='Doğum Yeri' class="form-control" asp-for="FamilyMembers[0].BirthPlace" />
+                                                        </div>
+                                                    </td>
+                                                    <td data-name="ailedogumTarihi">
+                                                        <div class="bg-lightest rounded text-center">
+                                                            <input type="date" class="form-control" id="familyMembersDateOfBirth" asp-for="FamilyMembers[0].DateOfBirth">
+                                                        </div>
+                                                    </td>
+                                                    <td data-name="del">
+                                                        <button id="familyMembersDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="modal-footer">
+                                            <button id="add_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add Row</button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </section>
+                            <h6>Equipment</h6>
+                            <section>
+
+
+
+
+                                <div class="box-body py-0">
+                                    <div class="table-responsive">
+
+
+                                        <table class="table no-border" id="tab_logicik">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="pt-10">Product</th>
+                                                    <th class="pt-10">Size</th>
+                                                    <th class="pt-10">Quantity</th>
+                                                    <th class="pt-10">Delivery Date</th>
+                                                    <th class="pt-10">Return Date</th>
+                                                    <th class="pt-10"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="mycontainer" id="mainrow">
+                                                    <td>
+
+                                                        <select id="urunler" class="urun form-select form-control " onchange="LoadSize(this)">
+                                                            <option>Select</option>
+                                                        </select>
+
+                                                    </td>
+                                                    <td>
+                                                        <select id="bedenler" class="beden form-select form-control ">
+                                                            <option>Select</option>
+                                                        </select>
+
+                                                    </td>
+                                                    <td>
+
+                                                        <input type="number" id="adet" class="adet form-control "  />
+
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" id="verilisTarihi" class="verilisTarihi form-control "  />
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="date" id="iadeTarihi" class="iadeTarihi form-control "  />
+                                                    </td>
+
+
+                                                    <td>
+                                                        <input type="button" id="add" value="Add" style="width:80px" class="btn btn-success" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div id="orderItems">
+                                            <table class="table table-responsive" id="equipmentdetailsItems">
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                        <!--buraya gelecek-->
+
+
+
+                                    </div>
+                                </div>
+
+
+
+                            </section>
+                            <h6>Documents</h6>
+                            <section>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Kişisel Belgeler</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Kimlik</label>
+                                                            <input id="dosya" data-id="1" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Kan Grubu</label>
+                                                            <input id="dosya" data-id="2" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
+                                                            <input id="dosya" data-id="3" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Ehliyet</label>
+                                                            <input id="dosya" data-id="4" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Askerlik Durum Belgesi</label>
+                                                            <input id="dosya" data-id="5" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İkametgah</label>
+                                                            <input id="dosya" data-id="6" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Diploma</label>
+                                                            <input id="dosya" data-id="7" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Tetanoz Aşısı</label>
+                                                            <input id="dosya" data-id="8" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
+                                                            <input id="dosya" data-id="9" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">KVKK Taahhüt Tutanağı</label>
+                                                            <input id="dosya" data-id="10" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
+                                                            <input id="dosya" data-id="11" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İç Yönetmelik</label>
+                                                            <input id="dosya" data-id="12" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Resmi Belgeler</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Sigorta Girişi</label>
+                                                            <input id="dosya" data-id="13" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Adli Sicil</label>
+                                                            <input id="dosya" data-id="14" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">İş Sözleşmesi</label>
+                                                            <input id="dosya" data-id="15" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Agi Formu</label>
+                                                            <input id="dosya" data-id="16" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Fazla Mesai</label>
+                                                            <input id="dosya" data-id="17" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İş Güvenliği</label>
+                                                            <input id="dosya" data-id="18" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Zimmet Formu</label>
+                                                            <input id="dosya" data-id="19" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">D2 Testi</label>
+                                                            <input id="dosya" data-id="20" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Msa Testi <span class="danger">*</span></label>
+                                                            <input id="dosya" data-id="21" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Görev Tanımı</label>
+                                                            <input id="dosya" data-id="22" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

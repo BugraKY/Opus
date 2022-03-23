@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Opus.DataAcces.Data;
 
@@ -11,9 +12,10 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220323125605_InitialMigration8")]
+    partial class InitialMigration8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,9 +252,14 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("StaffId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("StaffId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FamilyRelationshipId");
+
+                    b.HasIndex("StaffId1");
 
                     b.ToTable("FamilyMembers");
                 });
@@ -344,6 +351,9 @@ namespace Opus.DataAcces.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EducationalStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FamilyMembersId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FatherName")
@@ -515,7 +525,16 @@ namespace Opus.DataAcces.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Opus.Models.DbModels.Staff", null)
+                        .WithMany("FamilyMembers")
+                        .HasForeignKey("StaffId1");
+
                     b.Navigation("FamilyRelationship");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.Staff", b =>
+                {
+                    b.Navigation("FamilyMembers");
                 });
 #pragma warning restore 612, 618
         }

@@ -41,6 +41,15 @@ $(document).ready(function () {
 
                 var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
                 c.attr("name", $(cur_td).data("name"));
+
+
+                c.children("#familyMembersFamilyRelationshipId").attr("name", "FamilyMembers[" + newid + "].FamilyRelationshipId");
+                c.children("#familyMembersFullName").attr("name", "FamilyMembers[" + newid + "].FullName");
+                c.children("#familyMembersIdentityNumber").attr("name", "FamilyMembers[" + newid + "].IdentityNumber");
+                c.children("#familyMembersBirthPlace").attr("name", "FamilyMembers[" + newid + "].BirthPlace");
+                c.children("#familyMembersDateOfBirth").attr("name", "FamilyMembers[" + newid + "].DateOfBirth");
+                c.children("#familyMembersDel").attr("name", newid);
+
                 c.appendTo($(td));
                 td.appendTo($(tr));
             } else {
@@ -57,6 +66,7 @@ $(document).ready(function () {
 
         $(tr).find("td button.row-remove").on("click", function () {
             $(this).closest("tr").remove();
+            console.log(JSON.stringify($(this)) + " - Removed!");
         });
     });
 

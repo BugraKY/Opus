@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Opus.DataAcces\Opus.DataAcces.csproj" />
     <ProjectReference Include="..\Opus.Models\Opus.Models.csproj" />
+    <ProjectReference Include="..\Opus.Utility\Opus.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
