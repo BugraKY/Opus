@@ -19,7 +19,7 @@ namespace Opus.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                var staffs=_uow.Staff.GetAll();
+                var staffs = _uow.Staff.GetAll();
                 ViewBag.TotalActive = staffs.Where(x => x.Status == (int)StatusOfStaff.Active).Count();
                 ViewBag.TotalPassive = staffs.Where(x => x.Status == (int)StatusOfStaff.Passive).Count();
                 ViewBag.TotalExit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();
@@ -34,7 +34,12 @@ namespace Opus.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                return View();//Go Dashboard
+                var _products = _uow.Products.GetAll();
+                var staffVM = new StaffVM()
+                {
+                    Products=_products
+                };
+                return View(staffVM);
             }
             return NotFound();
             #endregion Authentication

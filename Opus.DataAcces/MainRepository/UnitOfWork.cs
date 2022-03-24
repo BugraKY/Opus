@@ -18,11 +18,25 @@ namespace Opus.DataAcces.MainRepository
             Location = new LocationRepository(_db);
             UserLocation = new UserLocationRepository(_db);
             Staff = new StaffRepository(_db);
+            BloodType = new BloodTypeRepository(_db);
+            FamilyMembers = new FamilyMembersRepository(_db);
+            FamilyRelationship = new FamilyRelationshipRepository(_db);
+            Products = new ProductsRepository(_db);
+            ProductSize = new ProductSizeRepository(_db);
+            ProductCategory = new ProductCategoryRepository(_db);
+            StaffEquipment = new StaffEquipmentRepository(_db);
         }
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public ILocationRepository Location { get; private set; }
         public IUserLocationRepository UserLocation { get; private set; }
         public IStaffRepository Staff { get; private set; }
+        public IBloodTypeRepository BloodType { get; }
+        public IFamilyMembersRepository FamilyMembers { get; }
+        public IFamilyRelationshipRepository FamilyRelationship { get; }
+        public IProductsRepository Products { get; }
+        public IProductSizeRepository ProductSize { get; }
+        public IProductCategoryRepository ProductCategory { get; }
+        public IStaffEquipmentRepository StaffEquipment { get; }
         public void Dispose()
         {
             _db.Dispose();

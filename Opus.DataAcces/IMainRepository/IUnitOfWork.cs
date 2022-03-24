@@ -12,6 +12,13 @@ namespace Opus.DataAcces.IMainRepository
         ILocationRepository Location { get; }
         IUserLocationRepository UserLocation { get; }
         IStaffRepository Staff { get; }
+        IBloodTypeRepository BloodType { get; }
+        IFamilyMembersRepository FamilyMembers { get; }
+        IFamilyRelationshipRepository FamilyRelationship { get; }
+        IProductsRepository Products { get; }
+        IProductSizeRepository ProductSize { get; }
+        IProductCategoryRepository ProductCategory { get; }
+        IStaffEquipmentRepository StaffEquipment { get; }
         void Save();
     }
 }

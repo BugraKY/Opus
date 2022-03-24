@@ -15,6 +15,8 @@ namespace Opus.Models.ViewModels
         public int BloodTypeId { get; set; }
         [ForeignKey("FamilyMembersId")]
         public string FamilyMembersId { get; set; }
-        public List<FamilyMembers> FamilyMembers { get; set; }
+        public FamilyMembersVM FamilyMembers { get; set; }
+        public StaffEquipmentVm StaffEquipment { get; set; }
+        public IEnumerable<Products> Products { get; set; }
     }
 }
