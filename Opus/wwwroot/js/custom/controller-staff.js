@@ -874,7 +874,7 @@ $(document).ready(function () {
 
 
         if (isAllValid) {
-            
+            /*
             var $newRow = $('#mainrow').clone().removeAttr('id');
             $('.urun', $newRow).val($('#urunler').val());
             $('.beden', $newRow).val($('#bedenler').val());
@@ -907,6 +907,7 @@ $(document).ready(function () {
             $('#urunler,#bedenler').val('0');
             $('#adet,#verilisTarihi,#iadeTarihi').val('');
             $('#equipmentItemError').empty();
+            */
 
         }
 

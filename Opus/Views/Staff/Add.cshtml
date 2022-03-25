@@ -3,6 +3,7 @@
     ViewData["Title"] = "Add Staff";
 }
 @model Opus.Models.ViewModels.StaffVM
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="container-full">
     <div class="content-header">
@@ -274,13 +275,13 @@
                                                     </td>
                                                     <td data-name="ad">
                                                         <div class="bg-lightest rounded text-center">
-                                                            <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" name="FamilyMembers.FullName"/>
+                                                            <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" name="FamilyMembers.FullName" />
 
                                                         </div>
                                                     </td>
                                                     <td data-name="ailekimlikNo">
                                                         <div class="bg-lightest rounded text-center">
-                                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" name="FamilyMembers.IdentityNumber" min="11" max="11"/>
+                                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" name="FamilyMembers.IdentityNumber" maxlength="11" />
                                                         </div>
                                                     </td>
                                                     <td data-name="ailedogumYeri">
@@ -309,78 +310,160 @@
                             </section>
                             <h6>Equipment</h6>
                             <section>
-
-
-
-
                                 <div class="box-body py-0">
                                     <div class="table-responsive">
-
-
-                                        <table class="table no-border" id="tab_logicik">
+                                        <table class="table no-border" id="tab_equp">
                                             <thead>
                                                 <tr class="text-start">
-                                                    <th class="pt-10">Product</th>
-                                                    <th class="pt-10">Size</th>
+                                                    <th class="pt-10">Products</th>
                                                     <th class="pt-10">Quantity</th>
                                                     <th class="pt-10">Delivery Date</th>
                                                     <th class="pt-10">Return Date</th>
                                                     <th class="pt-10"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr class="mycontainer" id="mainrow">
-                                                    <td style="min-width: 200px; max-width: 200px;">
+                                            <tbody class="tdoby_equ">
+                                                @*
+                        <tr id='addr0' data-id="0" class="hidden">
 
-                                                        <select id="StaffEquipment.ProductId" class="urun form-select form-control select2" onchange="LoadSize(this)" style="width: 100%;" name="StaffEquipment.ProductId">
-                                                            <option disabled hidden>Select</option>
-                                                            @foreach (var item in Model.Products)
-                                                            {
-                                                                <option value="@item.Id">@item.Name</option>
-                                                            }
-                                                        </select>
+                            <td data-name="products">
+                                <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
+                                    <select class="form-control select2" id="select_equ">
+                                        <option value="-1" selected="selected" hidden>Select Product</option>
+                                        <option value="0">China</option>
+                                        <option value="1">Malayasia</option>
+                                        <option value="2">Singapore</option>
+                                    </select>
+                                </div>
+                            </td>
 
-                                                    </td>
-                                                    <td style="min-width:100px;">
-                                                        <select class="beden form-select form-control" id="rate">
-                                                            <option>Select</option>
-                                                        </select>
+                            <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
+                                <div class="bg-lightest rounded text-center">
+                                    <input id="equQua" type="number" class="form-control" asp-for="StaffEquipment.Quantity" />
 
-                                                    </td>
-                                                    <td>
-
-                                                        <input type="number" id="quantity" class="adet form-control " name="StaffEquipment.Quantity" />
-
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" id="verilisTarihi" class="verilisTarihi form-control " name="StaffEquipment.DeliveryDate" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" id="iadeTarihi" class="iadeTarihi form-control " name="StaffEquipment.ReturnDate" />
-                                                    </td>
-                                                    <td>
-                                                        <input type="button" id="add" value="Add" style="width:80px" class="btn btn-success" />
-                                                    </td>
-                                                </tr>
+                                </div>
+                            </td>
+                            <td data-name="deliveryDate">
+                                <div class="bg-lightest rounded text-center">
+                                    <input id="equDelivery" type="date" class="form-control" asp-for="StaffEquipment.DeliveryDate" />
+                                </div>
+                            </td>
+                            <td data-name="returnDate">
+                                <div class="bg-lightest rounded text-center">
+                                    <input id="equReturn" type="date" class="form-control" asp-for="StaffEquipment.ReturnDate" />
+                                </div>
+                            </td>
+                            <td data-name="del">
+                                <button id="staffEquipmentDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
+                            </td>
+                        </tr>
+                                                *@
                                             </tbody>
                                         </table>
-                                        <div id="orderItems">
-                                            <table class="table table-responsive" id="equipmentdetailsItems">
-                                                <tbody>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                        <!--buraya gelecek-->
-
 
 
                                     </div>
                                 </div>
 
+                                <div class="border-top">
+                                    <div class="row mt-4">
+                                        <div class="col-3">
+                                            <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
+                                                <select class="form-control select2" id="select_equ" style="min-width:250px;">
+                                                    <option value="-1" selected="selected" hidden>Select Product</option>
+                                                    <option value="0">China</option>
+                                                    <option value="1">Malayasia</option>
+                                                    <option value="2">Singapore</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input id="equQua" type="number" class="form-control" />
 
-
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input id="equDelivery" type="date" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input id="equReturn" type="date" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="add_Equipment_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>Add to list</button>
+                                </div>
                             </section>
+
+                            @*
+                                <section>
+                                    <div class="box-body py-0">
+                                        <div class="table-responsive">
+
+
+                                            <table class="table no-border" id="tab_logicik">
+                                                <thead>
+                                                    <tr class="text-start">
+                                                        <th class="pt-10">Product</th>
+                                                        <th class="pt-10">Size</th>
+                                                        <th class="pt-10">Quantity</th>
+                                                        <th class="pt-10">Delivery Date</th>
+                                                        <th class="pt-10">Return Date</th>
+                                                        <th class="pt-10"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="mycontainer" id="mainrow">
+                                                        <td style="min-width: 200px; max-width: 200px;">
+
+                                                            <select id="productId" class="form-select form-control select2" style="width: 100%;" name="StaffEquipment.ProductId">
+                                                                @foreach (var item in Model.Products)
+                                                                {
+                                                                    <option value="@item.Id">@item.Name</option>
+                                                                }
+                                                            </select>
+
+
+                                                        </td>
+                                                        <td style="min-width:100px;">
+                                                            <select class="beden form-select form-control" id="rate">
+                                                                <option>Select</option>
+                                                            </select>
+
+                                                        </td>
+                                                        <td>
+                                                            <input id="equQua" type="number" class="form-control" asp-for="StaffEquipment.Quantity" />
+                                                        </td>
+                                                        <td>
+                                                            <input id="equDelivery" type="date" class="form-control" asp-for="StaffEquipment.DeliveryDate" />
+                                                        </td>
+                                                        <td>
+                                                            <input id="equReturn" type="date" class="form-control" asp-for="StaffEquipment.ReturnDate" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="button" id="add" value="Add" style="width:80px" class="btn btn-success" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div id="orderItems">
+                                                <table class="table table-responsive" id="equipmentdetailsItems">
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!--buraya gelecek-->
+
+
+
+                                        </div>
+                                    </div>
+
+                                </section>
+                            *@
                             <h6>Documents</h6>
                             <section>
 
@@ -600,4 +683,17 @@
         </div>
     </section>
 </div>
+
+@section scripts
+{
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>        </script>
+    <script>
+        $(document).ready(function () {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
+
+
+}
 

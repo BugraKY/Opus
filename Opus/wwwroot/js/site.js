@@ -2,6 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+var countSelect = 0;
 $(document).ready(function () {
 
 
@@ -63,6 +64,104 @@ $(document).ready(function () {
 
         // add the new row
         $(tr).appendTo($('#tab_logic'));
+
+        $(tr).find("td button.row-remove").on("click", function () {
+            $(this).closest("tr").remove();
+            console.log(JSON.stringify($(this)) + " - Removed!");
+        });
+    });
+
+
+    $("#add_Equipment_row").on("click", function () {
+        const selectedText = $("#select_equ option:selected").text();
+        const selectedValue = $("#select_equ option:selected").val();
+
+
+        var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" disabled/>`;
+        var selectedElementVal = `<input type="text" name="StaffEquipment.ProductId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
+
+        var tbody_equ_item = `
+                                                    <tr id='addr0' data-id="0" class="hidden">
+                                                        <td data-name="products">
+                                                            <div class="rounded text-center">
+                                                                `+ selectedElementTxt + selectedElementVal+ `
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input id="equQua" type="number" class="form-control" name="StaffEquipment.Quantity" />
+
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input id="equDelivery" type="date" class="form-control" name="StaffEquipment.DeliveryDate" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="returnDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input id="equReturn" type="date" class="form-control" name="StaffEquipment.ReturnDate" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="del">
+                                                            <button id="staffEquipmentDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
+                                                        </td>
+                                                    </tr>
+
+`;
+
+        $(".tdoby_equ").append(tbody_equ_item);
+        console.log(tbody_equ_item);
+        console.log("Selected: " + selectedElement);
+    });
+    $("#zzzz").on("click", function () {
+        // Dynamic Rows Code
+
+        // Get max row id and set new id
+        var newid = 0;
+        $.each($("#tab_equp tr"), function () {
+            if (parseInt($(this).data("id")) > newid) {
+                newid = parseInt($(this).data("id"));
+            }
+        });
+        newid++;
+
+        var tr = $("<tr></tr>", {
+            id: "addr",
+            "data-id": newid
+        });
+
+        // loop through each td and create new elements with name of newid
+        $.each($("#tab_equp tbody tr:nth(0) td"), function () {
+            var td;
+            var cur_td = $(this);
+
+            var children = cur_td.children();
+
+            // add new td and element if it has a nane
+            if ($(this).data("name") !== undefined) {
+                td = $("<td></td>", {
+                    "data-name": $(cur_td).data("name")
+                });
+
+                var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                console.log(c);
+                c.attr("name", $(cur_td).data("name"));
+
+
+                c.appendTo($(td));
+                td.appendTo($(tr));
+            } else {
+                td = $("<td></td>", {
+                    'text': $('#tab_equp tr').length
+                }).appendTo($(tr));
+            }
+        });
+
+
+
+        // add the new row
+        $(tr).appendTo($('#tab_equp'));
 
         $(tr).find("td button.row-remove").on("click", function () {
             $(this).closest("tr").remove();

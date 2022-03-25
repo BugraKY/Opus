@@ -59,6 +59,8 @@ $(document).ready(function () {
     $('#add').click(function () {
         //validation and add order items
         var isAllValid = true;
+
+        /*
         if ($('#urunler').val() == "0") {
             isAllValid = false;
             $('#urunler').siblings('span.error').css('visibility', 'visible');
@@ -90,8 +92,11 @@ $(document).ready(function () {
         else {
             $('#rate').siblings('span.error').css('visibility', 'hidden');
         }
+        */
+        
 
         if (isAllValid) {
+            /*
             var $newRow = $('#mainrow').clone().removeAttr('id');
             $('.pc', $newRow).val($('#urunler').val());
             $('.product', $newRow).val($('#bedenler').val());
@@ -109,6 +114,7 @@ $(document).ready(function () {
             $('#urunler,#bedenler').val('0');
             $('#quantity,#rate').val('');
             $('#orderItemError').empty();
+            */
         }
 
     })

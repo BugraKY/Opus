@@ -37,7 +37,7 @@ namespace Opus.Controllers
                 var _products = _uow.Products.GetAll();
                 var staffVM = new StaffVM()
                 {
-                    Products=_products
+                    Products=_products.ToList()
                 };
                 return View(staffVM);
             }
@@ -48,7 +48,7 @@ namespace Opus.Controllers
         public async Task<IActionResult> AddAsync(StaffVM staff)
         {
             await Task.Delay(1);
-            var deg = staff;
+            var StaffEquipment = staff.StaffEquipment;
             return NoContent();
             #region Authentication
             if (GetClaim() != null)
