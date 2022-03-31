@@ -6,11 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus
 {
     public class Program
     {
+        /*
+        private static IHttpContextAccessor m_httpContextAccessor;
+        public static HttpContext Current => m_httpContextAccessor.HttpContext;
+        public static string AppBaseUrl => $"{Current.Request.Scheme}://{Current.Request.Host}{Current.Request.PathBase}";
+        public Program(IHttpContextAccessor contextAccessor)
+        {
+            m_httpContextAccessor = contextAccessor;
+        }*/
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
@@ -20,7 +29,17 @@ namespace Opus
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    try
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    }
+                    catch (Exception e)
+                    {
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Error: "+e.Message+"\nCode: "+e.HResult+"\n\nSource: \n"+e.StackTrace);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                 });
     }
 }

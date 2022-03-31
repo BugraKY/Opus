@@ -2,6 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
 var countSelect = 0;
 $(document).ready(function () {
 
@@ -73,11 +74,20 @@ $(document).ready(function () {
 
 
     $("#add_Equipment_row").on("click", function () {
+        const equDelivery_val = $("#equDelivery").val();
+        const equReturn_val = $("#equReturn").val();
+
         const selectedText = $("#select_equ option:selected").text();
         const selectedValue = $("#select_equ option:selected").val();
+        const equDelivery = equDelivery_val.toString('dd-MM-yy');
+        const equReturn = equReturn_val.toString('dd-MM-yy');
+        const equQua = $("#equQua").val();
 
 
-        var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" disabled/>`;
+
+
+
+        var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText+`" disabled/>`;
         var selectedElementVal = `<input type="text" name="StaffEquipment.ProductId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
 
         var tbody_equ_item = `
@@ -89,30 +99,32 @@ $(document).ready(function () {
                                                         </td>
                                                         <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input id="equQua" type="number" class="form-control" name="StaffEquipment.Quantity" />
+                                                                <input id="" type="number" class="form-control" name="StaffEquipment.Quantity" value="`+ equQua + `" title="` + equQua +`" disabled/>
 
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input id="equDelivery" type="date" class="form-control" name="StaffEquipment.DeliveryDate" />
+                                                                <input id="" type="date" class="form-control" name="StaffEquipment.DeliveryDate" value=`+ equDelivery_val + ` title="` + equDelivery +`" disabled/>
                                                             </div>
                                                         </td>
                                                         <td data-name="returnDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input id="equReturn" type="date" class="form-control" name="StaffEquipment.ReturnDate" />
+                                                                <input id="" type="date" class="form-control" name="StaffEquipment.ReturnDate" value="`+ equReturn_val + `" title="` + equReturn +`" disabled/>
                                                             </div>
                                                         </td>
                                                         <td data-name="del">
-                                                            <button id="staffEquipmentDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
+                                                            <button id="" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
                                                         </td>
                                                     </tr>
 
 `;
-
         $(".tdoby_equ").append(tbody_equ_item);
         console.log(tbody_equ_item);
-        console.log("Selected: " + selectedElement);
+        //console.log("Selected: " + selectedElement);
+        $("#equDelivery").val("");
+        $("#equReturn").val("");
+        $("#equQua").val("");
     });
     $("#zzzz").on("click", function () {
         // Dynamic Rows Code

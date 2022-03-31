@@ -3,6 +3,13 @@
     ViewData["Title"] = "Add Staff";
 }
 @model Opus.Models.ViewModels.StaffVM
+    <style>
+        .select2-container--default .select2-selection--single {
+            min-width: 220px;
+            max-width: 576px;
+            width:auto;
+        }
+    </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="container-full">
@@ -366,29 +373,41 @@
                                 </div>
 
                                 <div class="border-top">
-                                    <div class="row mt-4">
-                                        <div class="col-3">
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col">
                                             <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
+                                                @*
                                                 <select class="form-control select2" id="select_equ" style="min-width:250px;">
                                                     <option value="-1" selected="selected" hidden>Select Product</option>
                                                     <option value="0">China</option>
                                                     <option value="1">Malayasia</option>
                                                     <option value="2">Singapore</option>
                                                 </select>
+                                                *@
+                                                <select class="form-control select2" id="select_equ" style="min-width:250px;">
+                                                    <option value="-1" selected="selected" hidden>Select Product</option>
+                                                    @foreach (var item in Model.Products)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+
+                                        <div class="col">
                                             <div class="bg-lightest rounded text-center">
                                                 <input id="equQua" type="number" class="form-control" />
 
                                             </div>
                                         </div>
-                                        <div class="col-3">
+
+                                        <div class="col">
                                             <div class="bg-lightest rounded text-center">
                                                 <input id="equDelivery" type="date" class="form-control" />
                                             </div>
                                         </div>
-                                        <div class="col-3">
+
+                                        <div class="col">
                                             <div class="bg-lightest rounded text-center">
                                                 <input id="equReturn" type="date" class="form-control" />
                                             </div>

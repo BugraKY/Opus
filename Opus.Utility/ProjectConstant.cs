@@ -35,5 +35,10 @@ namespace Opus.Utility
             public const string ProjectResponsible = "Proje Yetkilisi";
             public const string OperationResponsible = "Operasyon Yetkilisi";
         }
+        public static class AppConfig
+        {
+            //public static List<string> Localhost = "";
+            public static IEnumerable<string>? Localhost;
+        }
     }
 }
