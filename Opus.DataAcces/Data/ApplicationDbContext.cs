@@ -25,6 +25,13 @@ namespace Opus.DataAcces.Data
         public DbSet<Staff> Staff { get; set; }
         public DbSet<UserLocation> UserLocation { get; set; }
         public DbSet<StaffEquipment> StaffEquipment { get; set; }
-
+        /*
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Staff>()
+                .HasIndex(u => u.IdentityNumber)
+                .IsUnique();
+        }
+        */
     }
 }

@@ -30,7 +30,8 @@ namespace Opus.Models.DbModels
         public string BirthPlace { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int NumberOfChildren { get; set; }
-        public string BloodType { get; set; }
+        //public string BloodType { get; set; }
+        public int BloodTypeId { get; set; }
         public int TestD2 { get; set; }
         public int TestMSA { get; set; }
         public string CurrentSalary { get; set; }

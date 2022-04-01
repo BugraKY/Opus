@@ -1,5 +1,6 @@
 ﻿var Categories = []
 //fetch categories from database
+/*
 function LoadCategory(element) {
     if (Categories.length == 0) {
         //ajax function for fetch data
@@ -18,6 +19,7 @@ function LoadCategory(element) {
         renderCategory(element);
     }
 }
+*/
 
 function renderCategory(element) {
     var $ele = $(element);
@@ -29,6 +31,7 @@ function renderCategory(element) {
 }
 
 //fetch products
+/*
 function LoadProduct(categoryDD) {
     $.ajax({
         type: "GET",
@@ -42,7 +45,7 @@ function LoadProduct(categoryDD) {
             console.log(error);
         }
     })
-}
+}*/
 
 function renderProduct(element, data) {
     //render product
@@ -129,4 +132,4 @@ $(document).ready(function () {
 
 });
 
-LoadCategory($('#urunler'));
+//LoadCategory($('#urunler'));

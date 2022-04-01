@@ -3,13 +3,24 @@
     ViewData["Title"] = "Add Staff";
 }
 @model Opus.Models.ViewModels.StaffVM
-    <style>
-        .select2-container--default .select2-selection--single {
-            min-width: 220px;
-            max-width: 576px;
-            width:auto;
-        }
-    </style>
+<style>
+    .select2-container--default .select2-selection--single {
+        min-width: 220px;
+        max-width: 576px;
+        width: auto;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 
 <div class="container-full">
@@ -42,7 +53,7 @@
 
 
                     <div class="box-body wizard-content">
-                        <form id="myform" action="/staff/add" class="validation-wizard wizard-circle" enctype="multipart/form-data" method="post">
+                        <form id="myform" action="/staff/add" class="validation-wizard" enctype="multipart/form-data" method="post">
                             <h6>Info's</h6>
                             <section>
                                 <div class="row">
@@ -66,13 +77,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Name <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Name" asp-for="FirstName">
+                                                            <input type="text" class="form-control " placeholder="Name" asp-for="FirstName" value="Ahmet">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Surname <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Surname" asp-for="LastName">
+                                                            <input type="text" class="form-control " placeholder="Surname" asp-for="LastName" value="Karaca">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,15 +91,15 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">GSM <span class="danger">*</span></label>
-                                                            <input data-rule-minlength="2" name="gsm" type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber">
+                                                            <input data-rule-minlength="2" name="gsm" type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber" value="5465456464">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Create Stamp Number?  <span class="danger">*</span></label>
                                                             <select class="form-select " asp-for="AddStamp">
-                                                                <option value="" selected="selected">Select</option>
-                                                                <option value="False">No</option>
+                                                                <option value="">Select</option>
+                                                                <option value="False" selected="selected">No</option>
                                                                 <option value="True">Yes</option>
                                                             </select>
                                                         </div>
@@ -100,13 +111,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Place of Birth  <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace">
+                                                            <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace" value="Üsküdar">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Birth <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control " asp-for="DateOfBirth">
+                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -114,13 +125,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Mother Name <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName">
+                                                            <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName" value="mother-name">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Fathers Name <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName">
+                                                            <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName" value="father-name">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -138,25 +149,26 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Identity Number <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Kimlik" data-inputmask="'mask':['99999999999']" data-mask="" asp-for="IdentityNumber">
+                                                            @*<input id="idnum" type="text" class="form-control " placeholder="Kimlik" data-inputmask="'mask':['99999999999']" data-mask="" asp-for="IdentityNumber" value="68465416846">*@
+                                                            <input id="idnum" type="number" class="form-control " placeholder="Kimlik" asp-for="IdentityNumber" value="68465416846" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Number of Children <span class="danger">*</span></label>
-                                                    <input type="number" class="form-control " placeholder="Çocuk Sayısı" asp-for="NumberOfChildren">
+                                                    <input type="number" class="form-control " placeholder="Çocuk Sayısı" asp-for="NumberOfChildren" value="1">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" asp-for="TestD2">
+                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" asp-for="TestD2" value="2">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">MSA Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" asp-for="TestMSA">
+                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" asp-for="TestMSA" value="3">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -196,7 +208,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Employment <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control " asp-for="DateOfEntry">
+                                                            <input type="date" class="form-control " asp-for="DateOfEntry" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -214,7 +226,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Status <span class="danger">*</span></label>
-                                                            <select class="form-select" asp-for="Active">
+                                                            <select class="form-select" asp-for="Status">
                                                                 <option value="0" selected="selected">Active</option>
                                                                 <option value="1">Passive</option>
                                                             </select>
@@ -288,7 +300,7 @@
                                                     </td>
                                                     <td data-name="ailekimlikNo">
                                                         <div class="bg-lightest rounded text-center">
-                                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" name="FamilyMembers.IdentityNumber" maxlength="11" />
+                                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" name="FamilyMembers.IdentityNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
                                                         </div>
                                                     </td>
                                                     <td data-name="ailedogumYeri">
@@ -331,39 +343,39 @@
                                             </thead>
                                             <tbody class="tdoby_equ">
                                                 @*
-                        <tr id='addr0' data-id="0" class="hidden">
+                                                    <tr id='addr0' data-id="0" class="hidden">
 
-                            <td data-name="products">
-                                <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
-                                    <select class="form-control select2" id="select_equ">
-                                        <option value="-1" selected="selected" hidden>Select Product</option>
-                                        <option value="0">China</option>
-                                        <option value="1">Malayasia</option>
-                                        <option value="2">Singapore</option>
-                                    </select>
-                                </div>
-                            </td>
+                                                        <td data-name="products">
+                                                            <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
+                                                                <select class="form-control select2" id="select_equ">
+                                                                    <option value="-1" selected="selected" hidden>Select Product</option>
+                                                                    <option value="0">China</option>
+                                                                    <option value="1">Malayasia</option>
+                                                                    <option value="2">Singapore</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
 
-                            <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
-                                <div class="bg-lightest rounded text-center">
-                                    <input id="equQua" type="number" class="form-control" asp-for="StaffEquipment.Quantity" />
+                                                        <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input id="equQua" type="number" class="form-control" asp-for="StaffEquipment.Quantity" />
 
-                                </div>
-                            </td>
-                            <td data-name="deliveryDate">
-                                <div class="bg-lightest rounded text-center">
-                                    <input id="equDelivery" type="date" class="form-control" asp-for="StaffEquipment.DeliveryDate" />
-                                </div>
-                            </td>
-                            <td data-name="returnDate">
-                                <div class="bg-lightest rounded text-center">
-                                    <input id="equReturn" type="date" class="form-control" asp-for="StaffEquipment.ReturnDate" />
-                                </div>
-                            </td>
-                            <td data-name="del">
-                                <button id="staffEquipmentDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
-                            </td>
-                        </tr>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input id="equDelivery" type="date" class="form-control" asp-for="StaffEquipment.DeliveryDate" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="returnDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input id="equReturn" type="date" class="form-control" asp-for="StaffEquipment.ReturnDate" />
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="del">
+                                                            <button id="staffEquipmentDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
+                                                        </td>
+                                                    </tr>
                                                 *@
                                             </tbody>
                                         </table>
@@ -377,12 +389,12 @@
                                         <div class="col">
                                             <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
                                                 @*
-                                                <select class="form-control select2" id="select_equ" style="min-width:250px;">
-                                                    <option value="-1" selected="selected" hidden>Select Product</option>
-                                                    <option value="0">China</option>
-                                                    <option value="1">Malayasia</option>
-                                                    <option value="2">Singapore</option>
-                                                </select>
+                                                    <select class="form-control select2" id="select_equ" style="min-width:250px;">
+                                                        <option value="-1" selected="selected" hidden>Select Product</option>
+                                                        <option value="0">China</option>
+                                                        <option value="1">Malayasia</option>
+                                                        <option value="2">Singapore</option>
+                                                    </select>
                                                 *@
                                                 <select class="form-control select2" id="select_equ" style="min-width:250px;">
                                                     <option value="-1" selected="selected" hidden>Select Product</option>
@@ -693,8 +705,6 @@
                                     </div>
                                 </div>
                             </section>
-
-
                         </form>
                     </div>
                 </div>
@@ -706,10 +716,26 @@
 @section scripts
 {
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script src="~/js/ajax-requests.js"></script>
     <script>
         $(document).ready(function () {
+            $(':a').prop('disabled', true);
+            $(':button').prop('disabled', true);
+            console.log("add Script has been load");
             $('.selectpicker').selectpicker();
+
+            $("#idnum").on('input', function () {
+                var idval = $("#idnum").val();
+                var _leng = $('#idnum').val().length;
+                console.log("identity has been Change Length: " + idval);
+                if (_leng > 10) {
+                    authIdNum(idval);
+                }
+            });
+            console.log("Hell the who are u?");
+
+
         });
     </script>
 

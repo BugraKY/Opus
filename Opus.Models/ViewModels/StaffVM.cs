@@ -11,10 +11,9 @@ namespace Opus.Models.ViewModels
     public class StaffVM : Staff
     {
         public bool AddStamp { get; set; }
-        [ForeignKey("BloodTypeId")]
-        public int BloodTypeId { get; set; }
         [ForeignKey("FamilyMembersId")]
         public string FamilyMembersId { get; set; }
+        public BloodType BloodType { get; set; }
         public FamilyMembersVM FamilyMembers { get; set; }
         public StaffEquipmentVm StaffEquipment { get; set; }
         public IEnumerable<Products> Products { get; set; }

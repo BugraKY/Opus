@@ -4,6 +4,7 @@
 // Write your JavaScript code.
 
 var countSelect = 0;
+var equTr = 0;
 $(document).ready(function () {
 
 
@@ -91,7 +92,7 @@ $(document).ready(function () {
         var selectedElementVal = `<input type="text" name="StaffEquipment.ProductId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
 
         var tbody_equ_item = `
-                                                    <tr id='addr0' data-id="0" class="hidden">
+                                                    <tr id='equ' data-id="`+equTr+`" class="hidden">
                                                         <td data-name="products">
                                                             <div class="rounded text-center">
                                                                 `+ selectedElementTxt + selectedElementVal+ `
@@ -99,22 +100,22 @@ $(document).ready(function () {
                                                         </td>
                                                         <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input id="" type="number" class="form-control" name="StaffEquipment.Quantity" value="`+ equQua + `" title="` + equQua +`" disabled/>
+                                                                <input type="number" class="form-control" name="StaffEquipment.Quantity" value="`+ equQua + `" title="` + equQua +`" readonly="readonly"/>
 
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input id="" type="date" class="form-control" name="StaffEquipment.DeliveryDate" value=`+ equDelivery_val + ` title="` + equDelivery +`" disabled/>
+                                                                <input type="date" class="form-control" name="StaffEquipment.DeliveryDate" value=`+ equDelivery_val + ` title="` + equDelivery +`" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="returnDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input id="" type="date" class="form-control" name="StaffEquipment.ReturnDate" value="`+ equReturn_val + `" title="` + equReturn +`" disabled/>
+                                                                <input type="date" class="form-control" name="StaffEquipment.ReturnDate" value="`+ equReturn_val + `" title="` + equReturn +`" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="del">
-                                                            <button id="" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
+                                                            <button id="delEqu" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
                                                         </td>
                                                     </tr>
 
@@ -125,6 +126,7 @@ $(document).ready(function () {
         $("#equDelivery").val("");
         $("#equReturn").val("");
         $("#equQua").val("");
+        equTr++;
     });
     $("#zzzz").on("click", function () {
         // Dynamic Rows Code
@@ -180,7 +182,11 @@ $(document).ready(function () {
             console.log(JSON.stringify($(this)) + " - Removed!");
         });
     });
+    $("#myform").on('click', "#delEqu", function () {
+        console.log("clicked.");
+        $(this).parent().parent().remove();
 
+    });
 
     // İk Ürünler
 

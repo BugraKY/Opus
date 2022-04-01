@@ -11,15 +11,15 @@ namespace Opus.Models.DbModels
     public class FamilyMembers
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }//[PersonelEsCocukID]
         [ForeignKey("FamilyRelationshipId")]
-        public int FamilyRelationshipId { get; set; }
+        public int FamilyRelationshipId { get; set; }//[TanimEsCocukTipiID] or [Tip] this is complicated
         public FamilyRelationship FamilyRelationship { get; set; }
-        public string StaffId { get; set; }
-        public string FullName { get; set; }
-        public string IdentityNumber { get; set; }
-        public string BirthPlace { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string StaffId { get; set; }//[PersonelBilgiID]
+        public string FullName { get; set; }//[AdiSoyadi]
+        public string IdentityNumber { get; set; }//[TcKimlikNo]
+        public string BirthPlace { get; set; }//[DogumYeri]
+        public DateTime DateOfBirth { get; set; }//[DogumTarihi]
 
     }
 }

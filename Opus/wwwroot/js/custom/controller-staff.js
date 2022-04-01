@@ -2,12 +2,12 @@
 
 
 
-    
+    /*
     $.ajaxSetup({
         type: "post",
         url: "/Staff/Urunler",
         dataType: "json"
-    });
+    });*/
     $.extend({
         urunCek: function () {
             $.ajax({
@@ -723,7 +723,7 @@ function ikBedenGüncelle(id) {
 // İk Ürünler
 
 var Products = []
-
+/*
 function LoadProduct(element) {
     if (Products.length == 0) {
         //veri çek
@@ -742,6 +742,7 @@ function LoadProduct(element) {
         renderProduct(element);
     }
 }
+*/
 
 function renderProduct(element) {
     var $ele = $(element);
@@ -927,4 +928,4 @@ $(document).ready(function () {
 
 });
 
-LoadProduct($('#urunler'));
+//LoadProduct($('#urunler'));
