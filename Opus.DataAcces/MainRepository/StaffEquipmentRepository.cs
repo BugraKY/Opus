@@ -19,9 +19,9 @@ namespace Opus.DataAcces.MainRepository
             _db = db;
         }
 
-        public void Update(StaffEquipment equipment)
+        public void Update(StaffEquipment staffEquipment)
         {
-            _db.Update(equipment);
+            _db.Update(staffEquipment);
         }
     }
 }

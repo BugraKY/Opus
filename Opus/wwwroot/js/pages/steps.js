@@ -30,7 +30,53 @@ $(".validation-wizard").steps({
         return form.validate().settings.ignore = ":disabled", form.valid()
     }
     , onFinished: function (event, currentIndex) {
-        StaffAdd();
+
+        /*
+        var respBool = false;
+
+        console.log("step: " + currentIndex);
+        var idval = $("#idnum").val();
+        var _leng = $('#idnum').val().length;
+        console.log("identity has been Change Length: " + idval);
+        if (_leng > 10) {
+            authIdNum(idval, respBool);
+        }
+        if (respBool) {
+            StaffAdd();
+        }
+        console.log("Step Response: " + respBool);*/
+        $.ajax({
+            type: "POST",
+            url: "/api/checkid-num",
+            data: JSON.stringify($("#idnum").val()),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (!(response)) {
+                    $.toast({
+                        heading: 'ID Number Auth',
+                        text: 'Identity number is already being used.',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else {
+                    StaffAdd();
+                }
+            },
+            failure: function (response) {
+                console.log("Kayýt baþarýsýz! - Failure response");
+                $(':a').prop('disabled', true);
+                $(':button').prop('disabled', true);
+            },
+            error: function (response) {
+                console.log("Kayýt baþarýsýz! - Error response");
+            }
+        });
         // swal("Your Form Submitted!", "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor.");
     }
 }), $(".validation-wizard").validate({

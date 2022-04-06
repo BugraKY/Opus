@@ -1,4 +1,5 @@
-﻿using Opus.Models.DbModels;
+﻿using Microsoft.AspNetCore.Http;
+using Opus.Models.DbModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,9 @@ namespace Opus.Models.ViewModels
         public BloodType BloodType { get; set; }
         public FamilyMembersVM FamilyMembers { get; set; }
         public StaffEquipmentVm StaffEquipment { get; set; }
+        public IEnumerable<FamilyMembers> FamilyMembersEnumerable { get; set; }
+        public IEnumerable<StaffEquipment> StaffEquipmentEnumerable { get; set; }
         public IEnumerable<Products> Products { get; set; }
+        public DocumentFilesVM Files { get; set; }
     }
 }

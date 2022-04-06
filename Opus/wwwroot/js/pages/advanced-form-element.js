@@ -15,10 +15,11 @@ $(function () {
     $('[data-mask]').inputmask();
 
     //Date range picker
-    $('#reservation').daterangepicker();
+    //$('#reservation').daterangepicker();
     //Date range picker with time picker
-    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' });
+    //$('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' });
     //Date range as a button
+    /*
     $('#daterange-btn').daterangepicker(
       {
         ranges   : {
@@ -36,12 +37,14 @@ $(function () {
         $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
       }
     );
+    */
 
     //Date picker
+    /*
     $('#datepicker').datepicker({
       autoclose: true
     });
-
+    */
     //iCheck for checkbox and radio inputs
     $('.ichack-input input[type="checkbox"].minimal, .ichack-input input[type="radio"].minimal').iCheck({
       checkboxClass: 'icheckbox_minimal-blue',
@@ -59,15 +62,16 @@ $(function () {
     });
 
     //Colorpicker
-    $('.my-colorpicker1').colorpicker();
+    //$('.my-colorpicker1').colorpicker();
     //color picker with addon
-    $('.my-colorpicker2').colorpicker();
+    //$('.my-colorpicker2').colorpicker();
 
     //Timepicker
+    /*
     $('.timepicker').timepicker({
       showInputs: false
     });
-	
+	*/
 	//Bootstrap-TouchSpin
         $(".vertical-spin").TouchSpin({
             verticalbuttons: true,

@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using static Opus.Utility.ProjectConstant;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Opus
 {
@@ -60,6 +62,7 @@ namespace Opus
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
             services.AddLogging(
                 builder =>
@@ -70,8 +73,12 @@ namespace Opus
                     .AddConsole();
                 });
             //var baseUrl = Request.GetTypedHeaders().Referer.ToString();
-        }
+            var cultures = new List<CultureInfo> {
+                new CultureInfo("en"),
+                new CultureInfo("tr")
+            };
 
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -133,7 +140,7 @@ namespace Opus
             var HostString = "";
             foreach (var item in AppConfig.Localhost)
             {
-                HostString += "\n"+ item;
+                HostString += "\n" + item;
             }
             Console.WriteLine("Opus Running. LocalHost: " + HostString);
             Console.WriteLine("IPV4: " + GetAllLocalIPv4().FirstOrDefault());
@@ -154,7 +161,7 @@ namespace Opus
                         }
                     }
                 }
-                else if(item.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 && item.OperationalStatus == OperationalStatus.Up)
+                else if (item.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 && item.OperationalStatus == OperationalStatus.Up)
                 {
                     foreach (UnicastIPAddressInformation ip in item.GetIPProperties().UnicastAddresses)
                     {

@@ -5,12 +5,9 @@
 
 var countSelect = 0;
 var equTr = 0;
+var famTr = 0;
+
 $(document).ready(function () {
-
-
-
-
-
 
     $("#add_row").on("click", function () {
         // Dynamic Rows Code
@@ -127,6 +124,66 @@ $(document).ready(function () {
         $("#equReturn").val("");
         $("#equQua").val("");
         equTr++;
+    });
+    $("#add_Family_row").on("click", function () {
+        const familyFullName = $("#familyMembersFullName").val();
+        const familyIdentityNum = $("#familyMembersIdentityNumber").val();
+        const familyBirthPlace = $("#familyMembersBirthPlace").val();
+        const familyDateofBirth = $("#familyMembersDateOfBirth").val();
+
+        const familyDate = familyDateofBirth.toString('dd-MM-yy');
+
+        const selectedText = $("#familyMembersFamilyRelationshipId option:selected").text();
+        const selectedValue = $("#familyMembersFamilyRelationshipId option:selected").val();
+
+
+
+
+
+        var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" disabled/>`;
+        var selectedElementVal = `<input type="text" name="FamilyMembers.FamilyRelationshipId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
+
+        var tbody_fam_item = `
+                                                    <tr id='equ' data-id="`+ famTr + `" class="hidden">
+                                                        <td data-name="products">
+                                                            <div class="rounded text-center">
+                                                                `+ selectedElementTxt + selectedElementVal + `
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="quantity">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="text" class="form-control" name="FamilyMembers.FullName" value="`+ familyFullName + `" title="` + familyFullName + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="number" class="form-control" name="FamilyMembers.IdentityNumber" value=`+ familyIdentityNum + ` title="` + familyIdentityNum + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="text" class="form-control" name="FamilyMembers.BirthPlace" value=`+ familyBirthPlace + ` title="` + familyBirthPlace + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="date" class="form-control" name="FamilyMembers.DateOfBirth" value=`+ familyDateofBirth + ` title="` + familyDate + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="del">
+                                                            <button id="delEqu" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                        </td>
+                                                    </tr>
+
+`;
+        $(".tdoby_fam").append(tbody_fam_item);
+        console.log(tbody_fam_item);
+        //console.log("Selected: " + selectedElement);
+        $("#familyMembersFullName").val("");
+        $("#familyMembersIdentityNumber").val("");
+        $("#familyMembersBirthPlace").val("");
+        $("#familyMembersDateOfBirth").val("");
+        famTr++;
     });
     $("#zzzz").on("click", function () {
         // Dynamic Rows Code
@@ -256,13 +313,15 @@ $(document).ready(function () {
         return $helper;
     };
 
+    /*
     $(".table-sortable tbody").sortable({
         helper: fixHelperModified
     }).disableSelection();
+    
 
     $(".table-sortable thead").disableSelection();
 
-
+*/
 
     $("#add_row").trigger("click");
 });
@@ -313,7 +372,6 @@ function PersonmotionDetails(id) {
     });
     return false;
 }
-
 
 function Add08() {
     document.getElementById("time").value = "08:00";

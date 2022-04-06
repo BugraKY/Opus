@@ -20,6 +20,9 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+    .jq-toast-single{
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+        }
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 
@@ -49,12 +52,10 @@
                         <h6 class="box-subtitle">You can us the validation like what we did</h6>
                     </div>
 
-                    <!-- yeni deneme-->
-
-
                     <div class="box-body wizard-content">
                         <form id="myform" action="/staff/add" class="validation-wizard" enctype="multipart/form-data" method="post">
                             <h6>Info's</h6>
+
                             <section>
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
@@ -117,7 +118,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Birth <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                                            <input type="date" class="form-control" asp-for="DateOfBirth" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -149,7 +150,6 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Identity Number <span class="danger">*</span></label>
-                                                            @*<input id="idnum" type="text" class="form-control " placeholder="Kimlik" data-inputmask="'mask':['99999999999']" data-mask="" asp-for="IdentityNumber" value="68465416846">*@
                                                             <input id="idnum" type="number" class="form-control " placeholder="Kimlik" asp-for="IdentityNumber" value="68465416846" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
                                                         </div>
                                                     </div>
@@ -266,11 +266,13 @@
                                     </div>
                                 </div>
                             </section>
+
                             <h6>Family Details</h6>
+
                             <section>
                                 <div class="box-body py-0">
                                     <div class="table-responsive">
-                                        <table class="table no-border" id="tab_logic">
+                                        <table class="table no-border" id="tab_equp">
                                             <thead>
                                                 <tr class="text-start">
                                                     <th class="pt-10">Yakınlık</th>
@@ -281,53 +283,55 @@
                                                     <th class="pt-10"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr id='addr0' data-id="0" class="hidden">
-                                                    <td data-name="yakinlik">
-                                                        <div class="bg-lightest rounded text-center">
-                                                            <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
-                                                                <option value="-1" selected="selected">Yakınlık</option>
-                                                                <option value="0">Eş</option>
-                                                                <option value="1">Çocuk</option>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td data-name="ad">
-                                                        <div class="bg-lightest rounded text-center">
-                                                            <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" name="FamilyMembers.FullName" />
-
-                                                        </div>
-                                                    </td>
-                                                    <td data-name="ailekimlikNo">
-                                                        <div class="bg-lightest rounded text-center">
-                                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" name="FamilyMembers.IdentityNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
-                                                        </div>
-                                                    </td>
-                                                    <td data-name="ailedogumYeri">
-                                                        <div class="bg-lightest rounded text-center">
-                                                            <input type="text" id="familyMembersBirthPlace" placeholder='Doğum Yeri' class="form-control" name="FamilyMembers.BirthPlace" />
-                                                        </div>
-                                                    </td>
-                                                    <td data-name="ailedogumTarihi">
-                                                        <div class="bg-lightest rounded text-center">
-                                                            <input type="date" class="form-control" id="familyMembersDateOfBirth" name="FamilyMembers.DateOfBirth">
-                                                        </div>
-                                                    </td>
-                                                    <td data-name="del">
-                                                        <button id="familyMembersDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
-                                                    </td>
-                                                </tr>
+                                            <tbody class="tdoby_fam">
                                             </tbody>
                                         </table>
-                                        <div class="modal-footer">
-                                            <button id="add_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add Row</button>
-                                        </div>
 
 
                                     </div>
                                 </div>
+
+                                <div class="border-top">
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                    <option value="-1" selected="selected">Yakınlık</option>
+                                                    <option value="1">Eş</option>
+                                                    <option value="2">Çocuk</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="text" id="familyMembersBirthPlace" placeholder='Doğum Yeri' class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="date" class="form-control" id="familyMembersDateOfBirth" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="add_Family_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>Add to list</button>
+                                </div>
                             </section>
+
                             <h6>Equipment</h6>
+
                             <section>
                                 <div class="box-body py-0">
                                     <div class="table-responsive">
@@ -342,41 +346,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="tdoby_equ">
-                                                @*
-                                                    <tr id='addr0' data-id="0" class="hidden">
-
-                                                        <td data-name="products">
-                                                            <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
-                                                                <select class="form-control select2" id="select_equ">
-                                                                    <option value="-1" selected="selected" hidden>Select Product</option>
-                                                                    <option value="0">China</option>
-                                                                    <option value="1">Malayasia</option>
-                                                                    <option value="2">Singapore</option>
-                                                                </select>
-                                                            </div>
-                                                        </td>
-
-                                                        <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
-                                                            <div class="bg-lightest rounded text-center">
-                                                                <input id="equQua" type="number" class="form-control" asp-for="StaffEquipment.Quantity" />
-
-                                                            </div>
-                                                        </td>
-                                                        <td data-name="deliveryDate">
-                                                            <div class="bg-lightest rounded text-center">
-                                                                <input id="equDelivery" type="date" class="form-control" asp-for="StaffEquipment.DeliveryDate" />
-                                                            </div>
-                                                        </td>
-                                                        <td data-name="returnDate">
-                                                            <div class="bg-lightest rounded text-center">
-                                                                <input id="equReturn" type="date" class="form-control" asp-for="StaffEquipment.ReturnDate" />
-                                                            </div>
-                                                        </td>
-                                                        <td data-name="del">
-                                                            <button id="staffEquipmentDel" name="del0" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span><span class="path2"></span></span></button>
-                                                        </td>
-                                                    </tr>
-                                                *@
                                             </tbody>
                                         </table>
 
@@ -388,14 +357,7 @@
                                     <div class="row mt-4 mb-4">
                                         <div class="col">
                                             <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
-                                                @*
-                                                    <select class="form-control select2" id="select_equ" style="min-width:250px;">
-                                                        <option value="-1" selected="selected" hidden>Select Product</option>
-                                                        <option value="0">China</option>
-                                                        <option value="1">Malayasia</option>
-                                                        <option value="2">Singapore</option>
-                                                    </select>
-                                                *@
+
                                                 <select class="form-control select2" id="select_equ" style="min-width:250px;">
                                                     <option value="-1" selected="selected" hidden>Select Product</option>
                                                     @foreach (var item in Model.Products)
@@ -429,75 +391,9 @@
                                 </div>
                             </section>
 
-                            @*
-                                <section>
-                                    <div class="box-body py-0">
-                                        <div class="table-responsive">
-
-
-                                            <table class="table no-border" id="tab_logicik">
-                                                <thead>
-                                                    <tr class="text-start">
-                                                        <th class="pt-10">Product</th>
-                                                        <th class="pt-10">Size</th>
-                                                        <th class="pt-10">Quantity</th>
-                                                        <th class="pt-10">Delivery Date</th>
-                                                        <th class="pt-10">Return Date</th>
-                                                        <th class="pt-10"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="mycontainer" id="mainrow">
-                                                        <td style="min-width: 200px; max-width: 200px;">
-
-                                                            <select id="productId" class="form-select form-control select2" style="width: 100%;" name="StaffEquipment.ProductId">
-                                                                @foreach (var item in Model.Products)
-                                                                {
-                                                                    <option value="@item.Id">@item.Name</option>
-                                                                }
-                                                            </select>
-
-
-                                                        </td>
-                                                        <td style="min-width:100px;">
-                                                            <select class="beden form-select form-control" id="rate">
-                                                                <option>Select</option>
-                                                            </select>
-
-                                                        </td>
-                                                        <td>
-                                                            <input id="equQua" type="number" class="form-control" asp-for="StaffEquipment.Quantity" />
-                                                        </td>
-                                                        <td>
-                                                            <input id="equDelivery" type="date" class="form-control" asp-for="StaffEquipment.DeliveryDate" />
-                                                        </td>
-                                                        <td>
-                                                            <input id="equReturn" type="date" class="form-control" asp-for="StaffEquipment.ReturnDate" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="button" id="add" value="Add" style="width:80px" class="btn btn-success" />
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <div id="orderItems">
-                                                <table class="table table-responsive" id="equipmentdetailsItems">
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <!--buraya gelecek-->
-
-
-
-                                        </div>
-                                    </div>
-
-                                </section>
-                            *@
                             <h6>Documents</h6>
-                            <section>
 
+                            <section>
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
                                         <div class="box">
@@ -508,25 +404,22 @@
                                                     <div class="col-md-6">
 
                                                         <div class="form-group">
-                                                            <label class="form-label">Kimlik</label>
-                                                            <input id="dosya" data-id="1" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
+                                                            <label class="form-label">Kimlik *</label>
+                                                            <input asp-for="Files.Identity" type="file" placeholder="Debit Form" class="input_email form-control" >
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Kan Grubu</label>
-                                                            <input id="dosya" data-id="2" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
+                                                            <input asp-for="Files.BloodType" type="file" placeholder="Debit Form" class="input_email form-control">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-
-                                                            <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
-                                                            <input id="dosya" data-id="3" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+                                                            <label class="form-label">Sağlık Raporu *</label>
+                                                            <input asp-for="Files.HealthReport" type="file" placeholder="Debit Form" class="form-control" >
 
 
                                                         </div>
@@ -534,7 +427,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Ehliyet</label>
-                                                            <input id="dosya" data-id="4" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.DrivingLicence" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -543,14 +436,14 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Askerlik Durum Belgesi</label>
-                                                            <input id="dosya" data-id="5" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.MilitaryStatus" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İkametgah</label>
-                                                            <input id="dosya" data-id="6" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.PlaceResidence" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -560,14 +453,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Diploma</label>
-                                                            <input id="dosya" data-id="7" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.Diploma" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Tetanoz Aşısı</label>
-                                                            <input id="dosya" data-id="8" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -576,7 +469,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
-                                                            <input id="dosya" data-id="9" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.KVKKLaborAgreement" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -584,15 +477,15 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">KVKK Taahhüt Tutanağı</label>
-                                                            <input id="dosya" data-id="10" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.KVKKCommitmentReport" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
-                                                            <input id="dosya" data-id="11" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <label class="form-label">İSG Talimatı ve Taahhüt Formu *</label>
+                                                            <input asp-for="Files.OHSInstructionCommitmentForm" type="file" placeholder="Debit Form" class="input_email form-control" >
 
                                                         </div>
                                                     </div>
@@ -600,7 +493,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İç Yönetmelik</label>
-                                                            <input id="dosya" data-id="12" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.InternalRegulation" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -617,15 +510,15 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
 
-                                                            <label class="form-label">Sigorta Girişi</label>
-                                                            <input id="dosya" data-id="13" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+                                                            <label class="form-label">Sigorta Girişi *</label>
+                                                            <input asp-for="Files.Insurance" type="file" placeholder="Debit Form" class="form-control" >
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="form-label">Adli Sicil</label>
-                                                            <input id="dosya" data-id="14" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <label class="form-label">Adli Sicil *</label>
+                                                            <input asp-for="Files.CriminalReport" type="file" placeholder="Debit Form" class="input_email form-control" >
 
                                                         </div>
                                                     </div>
@@ -635,14 +528,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">İş Sözleşmesi</label>
-                                                            <input id="dosya" data-id="15" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.BusinessArrangement" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Agi Formu</label>
-                                                            <input id="dosya" data-id="16" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.AgiForm" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -652,14 +545,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Fazla Mesai</label>
-                                                            <input id="dosya" data-id="17" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input asp-for="Files.Overtime" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İş Güvenliği</label>
-                                                            <input id="dosya" data-id="18" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+                                                            <input asp-for="Files.WorkSafety" type="file" placeholder="Debit Form" class="form-control ">
 
                                                         </div>
                                                     </div>
@@ -668,15 +561,15 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
 
-                                                            <label class="form-label">Zimmet Formu</label>
-                                                            <input id="dosya" data-id="19" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <label class="form-label">Zimmet Formu *</label>
+                                                            <input asp-for="Files.CommitmentForm" type="file" placeholder="Debit Form" class="input_email form-control" >
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="form-label">D2 Testi</label>
-                                                            <input id="dosya" data-id="20" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <label class="form-label">D2 Testi *</label>
+                                                            <input asp-for="Files.D2Test" type="file" placeholder="Debit Form" class="input_email form-control" >
 
                                                         </div>
                                                     </div>
@@ -684,20 +577,15 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-
                                                             <label class="form-label">Msa Testi <span class="danger">*</span></label>
-                                                            <input id="dosya" data-id="21" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
+                                                            <input asp-for="Files.MSATest" type="file" placeholder="Debit Form" class="input_email form-control">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Görev Tanımı</label>
-                                                            <input id="dosya" data-id="22" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
+                                                            <input asp-for="Files.TaskDefinition" type="file" placeholder="Debit Form" class="input_email form-control">
                                                         </div>
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -705,6 +593,7 @@
                                     </div>
                                 </div>
                             </section>
+
                         </form>
                     </div>
                 </div>
@@ -719,12 +608,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
     <script src="~/js/ajax-requests.js"></script>
     <script>
-        $(document).ready(function () {
-            $(':a').prop('disabled', true);
-            $(':button').prop('disabled', true);
-            console.log("add Script has been load");
-            $('.selectpicker').selectpicker();
-
+        $(document).ready(function () {/*
+                    $(':a').prop('disabled', true);
+                    $(':button').prop('disabled', true);
+                    console.log("add Script has been load");
+                    $('.selectpicker').selectpicker();
+                    */
             $("#idnum").on('input', function () {
                 var idval = $("#idnum").val();
                 var _leng = $('#idnum').val().length;
@@ -733,8 +622,81 @@
                     authIdNum(idval);
                 }
             });
-            console.log("Hell the who are u?");
 
+            $('input[id=Files_Identity]').change(function(ev) {
+                $('input[id=Files_Identity]').addClass("bb-3 border-info");
+                $('input[id=Files_Identity]').removeClass("border-danger");
+            });
+            $('input[id=Files_HealthReport]').change(function(ev) {
+                $('input[id=Files_HealthReport]').addClass("bb-3 border-info");
+                $('input[id=Files_HealthReport]').removeClass("border-danger");
+            });
+            $('input[id=Files_MilitaryStatus]').change(function(ev) {
+                $('input[id=Files_MilitaryStatus]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_Diploma]').change(function(ev) {
+                $('input[id=Files_Diploma]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_KVKKLaborAgreement]').change(function(ev) {
+                $('input[id=Files_KVKKLaborAgreement]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_OHSInstructionCommitmentForm]').change(function(ev) {
+                $('input[id=Files_OHSInstructionCommitmentForm]').addClass("bb-3 border-info");
+                $('input[id=Files_OHSInstructionCommitmentForm]').removeClass("border-danger");
+            });
+            $('input[id=Files_DrivingLicence]').change(function(ev) {
+                $('input[id=Files_DrivingLicence]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_PlaceResidence]').change(function(ev) {
+                $('input[id=Files_PlaceResidence]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_TetanusVaccine]').change(function(ev) {
+                $('input[id=Files_TetanusVaccine]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_KVKKCommitmentReport]').change(function(ev) {
+                $('input[id=Files_KVKKCommitmentReport]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_InternalRegulation]').change(function(ev) {
+                $('input[id=Files_InternalRegulation]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_Insurance]').change(function(ev) {
+                $('input[id=Files_Insurance]').addClass("bb-3 border-info");
+                $('input[id=Files_Insurance]').removeClass("border-danger");
+            });
+            $('input[id=Files_BusinessArrangement]').change(function(ev) {
+                $('input[id=Files_BusinessArrangement]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_BloodType]').change(function(ev) {
+                $('input[id=Files_BloodType]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_Overtime]').change(function(ev) {
+                $('input[id=Files_Overtime]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_CommitmentForm]').change(function(ev) {
+                $('input[id=Files_CommitmentForm]').addClass("bb-3 border-info");
+                $('input[id=Files_CommitmentForm]').removeClass("border-danger");
+            });
+            $('input[id=Files_MSATest]').change(function(ev) {
+                $('input[id=Files_MSATest]').addClass("bb-3 border-info");
+                $('input[id=Files_MSATest]').removeClass("border-danger");
+            });
+            $('input[id=Files_CriminalReport]').change(function(ev) {
+                $('input[id=Files_CriminalReport]').addClass("bb-3 border-info");
+                $('input[id=Files_CriminalReport]').removeClass("border-danger");
+            });
+            $('input[id=Files_AgiForm]').change(function(ev) {
+                $('input[id=Files_AgiForm]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_WorkSafety]').change(function(ev) {
+                $('input[id=Files_WorkSafety]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_D2Test]').change(function(ev) {
+                $('input[id=Files_D2Test]').addClass("bb-3 border-info");
+            });
+            $('input[id=Files_TaskDefinition]').change(function(ev) {
+                $('input[id=Files_TaskDefinition]').addClass("bb-3 border-info");
+                $('input[id=Files_TaskDefinition]').removeClass("border-danger");
+            });
 
         });
     </script>

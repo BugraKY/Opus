@@ -30,13 +30,13 @@ namespace Opus.DataAcces.MainRepository
         public ILocationRepository Location { get; private set; }
         public IUserLocationRepository UserLocation { get; private set; }
         public IStaffRepository Staff { get; private set; }
-        public IBloodTypeRepository BloodType { get; }
-        public IFamilyMembersRepository FamilyMembers { get; }
-        public IFamilyRelationshipRepository FamilyRelationship { get; }
-        public IProductsRepository Products { get; }
-        public IProductSizeRepository ProductSize { get; }
-        public IProductCategoryRepository ProductCategory { get; }
-        public IStaffEquipmentRepository StaffEquipment { get; }
+        public IBloodTypeRepository BloodType { get; private set; }
+        public IFamilyMembersRepository FamilyMembers { get; private set; }
+        public IFamilyRelationshipRepository FamilyRelationship { get; private set; }
+        public IProductsRepository Products { get; private set; }
+        public IProductSizeRepository ProductSize { get; private set; }
+        public IProductCategoryRepository ProductCategory { get; private set; }
+        public IStaffEquipmentRepository StaffEquipment { get; private set; }
         public void Dispose()
         {
             _db.Dispose();

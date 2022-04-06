@@ -545,114 +545,45 @@ $(document).ready(function () {
 
 
 
-})
-
-
-
-    
-
-function StaffAddDocument() {
-
-
-    var dosya = [];
-    var belgeTipi = [];
-
-
-
-
-    $("input[name=dosya]").each(function () {
-        if ($(this).val() && $(this).val() != '') {
-            dosya.push($(this).val());
-            belgeTipi.push($(this).attr('data-id'));
-        }
-    });
-
-
-
-
-
-    $.post("/Staff/InsertCustomer",
-        {
-
-            dosya: dosya,
-            belgeTipi: belgeTipi
-        },
-        function (data) {
-            console.log(data);
-        });
-
-
-}
-
+});
 
 
 function StaffAdd() {
+    console.log("submitting");
+    /*
+    if($('input[id=Files_Identity').val()==""){
+        $('input[id=Files_Identity').addClass("bb-3 border-info");
+        alert("Identity cannot Empty");
+    }*/
+    var fileIdentity = $('input[id=Files_Identity]').val().split('\\').pop();
+    var fileHealthReport = $('input[id=Files_HealthReport]').val().split('\\').pop();
+    var fileOHSInstructionCommitmentForm = $('input[id=Files_OHSInstructionCommitmentForm]').val().split('\\').pop();
+    var fileInsurance = $('input[id=Files_Insurance]').val().split('\\').pop();
+    var fileCommitmentForm = $('input[id=Files_CommitmentForm]').val().split('\\').pop();
+    var fileMSATest = $('input[id=Files_MSATest]').val().split('\\').pop();
+    var fileCriminalReport = $('input[id=Files_CriminalReport]').val().split('\\').pop();
 
-
-
-
-
-    var data = $("#myform").serialize()
-
-    var dosya = [];
-    var belgeTipi = [];
-
-    var image = $("input[name=image]").val();
-
-    var formdata = new FormData(); //FormData object
-    var file = document.getElementById('dosya');
-    //Iterating through each files selected in fileInput
-    for (i = 0; i < file.files.length; i++) {
-        //Appending each file to FormData object
-        formdata.append(file.files[i].name, file.files[i]);
-    }
-
-
-    $("input[name=dosya]").each(function () {
-        if ($(this).val() && $(this).val() != '') {
-            dosya.push($(this).val());
-            belgeTipi.push($(this).attr('data-id'));
+    if(fileIdentity==''){$('input[id=Files_Identity]').addClass("bb-3 border-danger");}
+    if(fileHealthReport==''){$('input[id=Files_HealthReport]').addClass("bb-3 border-danger");}
+    if(fileOHSInstructionCommitmentForm==''){$('input[id=Files_OHSInstructionCommitmentForm]').addClass("bb-3 border-danger");}
+    if(fileInsurance==''){$('input[id=Files_Insurance]').addClass("bb-3 border-danger");}
+    if(fileCommitmentForm==''){$('input[id=Files_CommitmentForm]').addClass("bb-3 border-danger");}
+    if(fileMSATest==''){$('input[id=Files_MSATest]').addClass("bb-3 border-danger");}
+    if(fileCriminalReport==''){$('input[id=Files_CriminalReport]').addClass("bb-3 border-danger");}
+    if(fileIdentity != ''&& fileHealthReport != '' && fileOHSInstructionCommitmentForm != '' && fileInsurance != '' && fileCommitmentForm != '' && fileMSATest != '' && fileCriminalReport != ''){ 
+        console.log("Success");  $('#myform').submit();}
+        else{
+            $.toast({
+                heading: 'Required file fields',
+                text: 'Attention to the require fields for documents.',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
         }
-    });
-
-    var datas = 'data=' + data + '&dosya=' + dosya + '&belgeTipi=' + belgeTipi + '&formdata=' + formdata + '&image=' + image;
-
-    $.ajax({
-
-        url: "/Staff/Add",
-        type: "Post",
-        data: datas,
-        success: function (data) {
-            if (data.success) {
-                
-                window.location.href = "/Staff/Edit/" + data.personelId;
-                $('#steps-uid-0-p-4').addClass('current');
-                //location.reload();
-
-            }
-            else if (data.document) {
-                StaffAddDocument();
-            }
-
-            else {
-                $.toast({
-                    heading: 'İşlem başarısız oldu!',
-                    text: data.message,
-                    position: 'top-right',
-                    loaderBg: '#ff6849',
-                    icon: 'error',
-                    hideAfter: 5500
-
-                });
-            }
-        }
-
-    });
-
-
-
-
-
 }
 
 $(function () {

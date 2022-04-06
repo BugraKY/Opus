@@ -2,17 +2,22 @@
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
+using Opus.Utility;
 using System.Security.Claims;
 using static Opus.Utility.Enums;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Controllers
 {
     public class StaffController : Controller
     {
         private readonly IUnitOfWork _uow;
-        public StaffController(IUnitOfWork uow)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public StaffController(IUnitOfWork uow, IWebHostEnvironment hostEnvironment)
         {
             _uow = uow;
+            _hostEnvironment = hostEnvironment;
+
         }
         [Route("staff")]
         public IActionResult Index()
@@ -45,27 +50,67 @@ namespace Opus.Controllers
             return NotFound();
             #endregion Authentication
         }
+        [HttpGet("staff/edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            var _staff=_uow.Staff.GetFirstOrDefault(x => x.Id == id);
+            var _familyMembers = _uow.FamilyMembers.GetAll(x=>x.StaffId==id.ToString(),includeProperties: "FamilyRelationship");
+            var _staffEquipments = _uow.StaffEquipment.GetAll(x => x.StaffId == id);
+            var _products = _uow.Products.GetAll();
+            var staffVM = new StaffVM()
+            {
+                Active = _staff.Active,
+                IBAN = _staff.IBAN,
+                StreetAddress = _staff.StreetAddress,
+                TestMSA = _staff.TestMSA,
+                BirthPlace = _staff.BirthPlace,
+                BlackList = _staff.BlackList,
+                BloodTypeId = _staff.BloodTypeId,
+                CountryId = _staff.CountryId,
+                CurrentSalary = _staff.CurrentSalary,
+                DateOfBirth = _staff.DateOfBirth,
+                DateOfEntry = _staff.DateOfEntry,
+                DateOfQuit = _staff.DateOfQuit,
+                Degree = _staff.Degree,
+                EducationalStatus = _staff.EducationalStatus,
+                FatherName = _staff.FatherName,
+                FirstName = _staff.FirstName,
+                LastName = _staff.LastName,
+                IdentityNumber = _staff.IdentityNumber,
+                ImageFile = _staff.ImageFile,
+                MaritalStatus = _staff.MaritalStatus,
+                MobileNumber = _staff.MobileNumber,
+                MotherName = _staff.MotherName,
+                NumberOfChildren = _staff.NumberOfChildren,
+                PhoneNumber = _staff.PhoneNumber,
+                PhoneNumberSec = _staff.PhoneNumberSec,
+                RegistrationNumber = _staff.RegistrationNumber,
+                Status = _staff.Status,
+                TestD2 = _staff.TestD2,
+                WhiteCollarWorker = _staff.WhiteCollarWorker,
+                FamilyMembersEnumerable=_familyMembers,
+                StaffEquipmentEnumerable=_staffEquipments,
+                Products=_products
+
+            };
+            return View(staffVM);
+        }
+        [HttpPost("staff/edit/{id}")]
+        public IActionResult Upsert(int id)
+        {
+            return View();
+        }
         [HttpPost("staff/add")]
         public async Task<IActionResult> AddAsync(StaffVM staffVm)
         {
+            //PR 1456 kaldırılacak..
+            //return NoContent();
+            var files = staffVm.Files;
+            string webRootPath = _hostEnvironment.WebRootPath;
+            /*
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             List<FamilyMembers> _familyMembers = new List<FamilyMembers>();
-            int i = 0;
-            foreach (var item in staffVm.StaffEquipment.ProductId)
-            {
-                var _product = _uow.Products.GetFirstOrDefault(i => i.Id == item);
-                var _staffEquipment = new StaffEquipment()
-                {
-                    ProductId = _product.Id,
-                    Quantity = staffVm.StaffEquipment.Quantity[i],
-                    DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
-                    ReturnDate = staffVm.StaffEquipment.ReturnDate[i]
-                };
-                _products.Add(_product);
-                _staffEquipments.Add(_staffEquipment);
-                i++;
-            }
             var _staff = new Staff()
             {
                 Active = staffVm.Active,
@@ -99,6 +144,27 @@ namespace Opus.Controllers
                 WhiteCollarWorker = staffVm.WhiteCollarWorker
             };
             _uow.Staff.Add(_staff);
+            _uow.Save();
+
+            
+            int i = 0;
+            foreach (var item in staffVm.StaffEquipment.ProductId)
+            {
+                var _product = _uow.Products.GetFirstOrDefault(i => i.Id == item);
+                var _staffEquipment = new StaffEquipment()
+                {
+                    ProductId = _product.Id,
+                    Quantity = staffVm.StaffEquipment.Quantity[i],
+                    DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
+                    ReturnDate = staffVm.StaffEquipment.ReturnDate[i],
+                    StaffId=_staff.Id
+                };
+                _products.Add(_product);
+                //_staffEquipments.Add(_staffEquipment);
+                _uow.StaffEquipment.Add(_staffEquipment);
+                i++;
+            }
+            _uow.Save();
             i = 0;
             foreach (var item in staffVm.FamilyMembers.IdentityNumber)
             {
@@ -111,12 +177,18 @@ namespace Opus.Controllers
                     IdentityNumber = item,
                     StaffId = _staff.Id.ToString()
                 };
+                //_familyMembers.Add(_familyMember);
+                _uow.FamilyMembers.Add(_familyMember);
                 i++;
             }
+            _uow.Save();
             var _bloodtype = _uow.BloodType.GetFirstOrDefault(i => i.Id == staffVm.BloodTypeId);
             staffVm.BloodType = _bloodtype;
+            */
+            CopyFileExtension.Upload(staffVm.Files, webRootPath);
 
-            _uow.StaffEquipment.AddRange(_staffEquipments);
+            //_uow.StaffEquipment.AddRange(_staffEquipments);
+            //_uow.FamilyMembers.AddRange(_familyMembers);
             //_uow.FamilyMembers.AddRange();
             //_uow.Save();
             await Task.Delay(1);
@@ -145,7 +217,38 @@ namespace Opus.Controllers
         {
             return Json(false);
         }
-
+        [HttpGet("api/remove-member/{id}")]
+        public ToastMessageVM RemoveMember(int id)
+        {
+            var _familyMember = _uow.FamilyMembers.GetFirstOrDefault(i=>i.Id == id);
+            /*
+            _uow.FamilyMembers.Remove(_familyMember);
+            _uow.Save();*/
+            var _message = new ToastMessageVM()
+            {
+                Header = "Family member has been removed.",
+                Message= " Removed Member: <h6>"+_familyMember.FullName+"</h6>",
+                Icon= Toast.Icon.Success,
+                ShowHideTransition=Toast.ShowHideTransition.Slide
+            };
+            /*
+            var _message = new ToastMessageVM()
+            {
+                Header = "Family member cannot removed.",
+                Message = " Remove Error: <h6>" + _familyMember.FullName + "</h6>",
+                HideAfter = Toast.HideAfter.Long,
+                Icon = Toast.Icon.Warning,
+                ShowHideTransition = Toast.ShowHideTransition.Slide
+            };*/
+            return _message;
+        }
+        [HttpPost]
+        public FamilyMembers AddMember([FromBody]FamilyMembers familyMembers)
+        {
+            _uow.FamilyMembers.Add(familyMembers);
+            _uow.Save();
+            return null;//aynı zamanda html tr de eklenebilir. Burdan ajax success e object gönderilebilir!
+        }
         #endregion API
         public Claim GetClaim()
         {
