@@ -31,6 +31,7 @@ namespace Opus.Models.ViewModels
         public IFormFile WorkSafety { get; set; }
         public IFormFile D2Test { get; set; }
         public IFormFile TaskDefinition { get; set; }
+        public IFormFile ImageFile { get; set; }
 
 
 

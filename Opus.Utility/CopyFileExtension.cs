@@ -22,9 +22,12 @@ namespace Opus.Utility
         public void Upload(DocumentFilesVM Files, string webRootPath, Guid _guid, int staffId)
         {
             List<DocumentVM> _documents = new List<DocumentVM>();
-            var Dir = webRootPath + Personels.Documentation + _guid.ToString();
-            if (!(Directory.Exists(Dir)))
-                Directory.CreateDirectory(Dir);
+            var DIR_PerDoc = webRootPath + Personels.Root+ _guid.ToString() + Personels.Documentation ;
+            var DIR_ProfileIMG = webRootPath + Personels.Root+ _guid.ToString() + Personels.ProfileIMG ;
+            if (!(Directory.Exists(DIR_PerDoc)))
+                Directory.CreateDirectory(DIR_PerDoc);
+            if (!(Directory.Exists(DIR_ProfileIMG)))
+                Directory.CreateDirectory(DIR_ProfileIMG);
 
             //List<string> uploads = new List<string>();
             List<IFormFile> FileList = new List<IFormFile>();
@@ -308,11 +311,11 @@ namespace Opus.Utility
                 {
                     string[] Name = item.FormFile.Name.Split('.');
                     var _fileName = Name[1] + Path.GetExtension(item.FormFile.FileName);
-                    var location = Path.Combine(webRootPath + @"\assets\personels\documentations\" + _guid + @"\" + _fileName);
+                    var location = Path.Combine(DIR_PerDoc + _fileName);
 
                     using (var fileStream = new FileStream(location, FileMode.Create))
                     {
-                        //item.FormFile.CopyTo(fileStream);
+                        item.FormFile.CopyTo(fileStream);
                     }
                     var _documentItem = new Documents
                     {
@@ -327,7 +330,16 @@ namespace Opus.Utility
                 }
                 _uow.Save();
             }
+            if(Files.ImageFile != null)
+            {
+                var _fileName = Files.ImageFile.FileName;
+                var location = Path.Combine(DIR_ProfileIMG + _fileName);
 
+                using (var fileStream = new FileStream(location, FileMode.Create))
+                {
+                    Files.ImageFile.CopyTo(fileStream);
+                }
+            }
 
         }
     }

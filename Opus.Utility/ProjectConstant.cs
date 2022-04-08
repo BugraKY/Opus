@@ -97,8 +97,9 @@ namespace Opus.Utility
             public static class Personels
             {
 
-                public const string Documentation = @"\assets\personels\documentations\";
-
+                public const string Root = @"\assets\personels\";
+                public const string Documentation = @"\doc\";
+                public const string ProfileIMG = @"\img\";
             }
         }
 

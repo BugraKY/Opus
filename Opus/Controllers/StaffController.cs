@@ -26,9 +26,6 @@ namespace Opus.Controllers
             if (GetClaim() != null)
             {
                 var staffs = _uow.Staff.GetAll();
-                ViewBag.TotalActive = staffs.Where(x => x.Status == (int)StatusOfStaff.Active).Count();
-                ViewBag.TotalPassive = staffs.Where(x => x.Status == (int)StatusOfStaff.Passive).Count();
-                ViewBag.TotalExit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();
                 return View(staffs);
             }
             return NotFound();
@@ -51,11 +48,11 @@ namespace Opus.Controllers
             #endregion Authentication
         }
         [HttpGet("staff/edit/{id}")]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(Guid id)
         {
-            var _staff=_uow.Staff.GetFirstOrDefault(x => x.Id == id);
+            var _staff=_uow.Staff.GetFirstOrDefault(x => x.Guid == id);
             var _familyMembers = _uow.FamilyMembers.GetAll(x=>x.StaffId==id.ToString(),includeProperties: "FamilyRelationship");
-            var _staffEquipments = _uow.StaffEquipment.GetAll(x => x.StaffId == id);
+            var _staffEquipments = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
             var _products = _uow.Products.GetAll();
             var staffVM = new StaffVM()
             {
@@ -90,10 +87,16 @@ namespace Opus.Controllers
                 WhiteCollarWorker = _staff.WhiteCollarWorker,
                 FamilyMembersEnumerable=_familyMembers,
                 StaffEquipmentEnumerable=_staffEquipments,
-                Products=_products
+                Products=_products,
+                Guid = _staff.Guid,
 
             };
             return View(staffVM);
+        }
+        [HttpGet("staff/card/{id}")]
+        public IActionResult Card()
+        {
+            return View();
         }
         [HttpPost("staff/edit/{id}")]
         public IActionResult Upsert(int id)
@@ -132,7 +135,7 @@ namespace Opus.Controllers
                 FirstName = staffVm.FirstName,
                 LastName = staffVm.LastName,
                 IdentityNumber = staffVm.IdentityNumber,
-                ImageFile = staffVm.ImageFile,
+                ImageFile = staffVm.Files.ImageFile.FileName,
                 MaritalStatus = staffVm.MaritalStatus,
                 MobileNumber = staffVm.MobileNumber,
                 MotherName = staffVm.MotherName,
@@ -144,45 +147,26 @@ namespace Opus.Controllers
                 WhiteCollarWorker = staffVm.WhiteCollarWorker,
                 Guid = Guid.NewGuid()
             };
-            return NoContent();
+
             _uow.Staff.Add(_staff);
             _uow.Save();
-
+            var staffId=_staff.Id;
             int i = 0;
 
-            /*
-            if (staffVm.StaffEquipment.ProductId.Count() > 0)
+            
+            if (staffVm.StaffEquipmentEnumerable.Count() > 0)
             {
-                foreach (var item in staffVm.StaffEquipment.ProductId)
+                foreach (var item in staffVm.StaffEquipmentEnumerable)
                 {
-                    var _product = _uow.Products.GetFirstOrDefault(i => i.Id == item);
-                    if (staffVm.StaffEquipment.ReturnDate[i] == null)
+                    var _staffEquipment = new StaffEquipment()
                     {
-                        var _staffEquipment = new StaffEquipment()
-                        {
-                            ProductId = _product.Id,
-                            Quantity = staffVm.StaffEquipment.Quantity[i],
-                            DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
-                            StaffId = _staff.Id
-                        };
-                        _uow.StaffEquipment.Add(_staffEquipment);
-                    }
-                    else
-                    {
-                        var _staffEquipment = new StaffEquipment()
-                        {
-                            ProductId = _product.Id,
-                            Quantity = staffVm.StaffEquipment.Quantity[i],
-                            DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
-                            ReturnDate = staffVm.StaffEquipment.ReturnDate[i],
-                            StaffId = _staff.Id
-                        };
-                        _uow.StaffEquipment.Add(_staffEquipment);
-                    }
-
-                    _products.Add(_product);
-
-                    i++;
+                        DeliveryDate = item.DeliveryDate,
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                        ReturnDate = item.ReturnDate,
+                        StaffId = staffId
+                    };
+                    _uow.StaffEquipment.Add(_staffEquipment);
                 }
                 _uow.Save();
                 i = 0;
@@ -198,7 +182,7 @@ namespace Opus.Controllers
                         FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
                         FullName = staffVm.FamilyMembers.FullName[i],
                         IdentityNumber = item,
-                        StaffId = _staff.Id.ToString()
+                        StaffId = staffId.ToString()
                     };
                     _uow.FamilyMembers.Add(_familyMember);
 
@@ -206,7 +190,7 @@ namespace Opus.Controllers
                 }
                 _uow.Save();
             }
-            */
+            
 
             var _bloodtype = _uow.BloodType.GetFirstOrDefault(i => i.Id == staffVm.BloodTypeId);
             staffVm.BloodType = _bloodtype;
@@ -275,6 +259,21 @@ namespace Opus.Controllers
             _uow.FamilyMembers.Add(familyMembers);
             _uow.Save();
             return null;//aynı zamanda html tr de eklenebilir. Burdan ajax success e object gönderilebilir!
+        }
+        [HttpGet("api/statusofstaff")]
+        public StatusOfStaffVM GetActive()
+        {
+            /*var staffs = _uow.Staff.GetAll();
+            var active = staffs.Where(x => x.Status == (int)StatusOfStaff.Active).Count();
+            var passive = staffs.Where(x => x.Status == (int)StatusOfStaff.Passive).Count();
+            var quit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();*/
+            var _statusofstaff = new StatusOfStaffVM()
+            {
+                Active=_uow.Staff.GetAll(i=>i.Status==0).Count(),
+                Passive=_uow.Staff.GetAll(i=>i.Status==1).Count(),
+                Quit=_uow.Staff.GetAll(i=>i.Status==2).Count()
+            };
+            return _statusofstaff;
         }
         #endregion API
         public Claim GetClaim()

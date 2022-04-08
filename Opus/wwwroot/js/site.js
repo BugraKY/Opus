@@ -84,7 +84,6 @@ $(document).ready(function () {
         console.log("js has changed - 2.");
         console.log("return date: " + equDelivery);
         if ($('#select_equ').val() == -1) {
-
             $.toast({
                 heading: 'Required Product selection',
                 text: 'Please select a product.',
@@ -95,7 +94,6 @@ $(document).ready(function () {
                 position: 'top-right',
                 hideAfter: 5000
             });
-
         }
         else if (equQua == "" || equQua == null) {
             $.toast({
@@ -194,14 +192,72 @@ $(document).ready(function () {
         const selectedText = $("#familyMembersFamilyRelationshipId option:selected").text();
         const selectedValue = $("#familyMembersFamilyRelationshipId option:selected").val();
 
+        if (selectedValue == -1) {
+            $.toast({
+                heading: 'Required family member selection',
+                text: 'Please select a family member.',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (familyFullName == "" || familyFullName == null) {
+            $.toast({
+                heading: 'Required Full Name',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (familyIdentityNum == "" || familyIdentityNum == null) {
+            $.toast({
+                heading: 'Required Identity Number',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (familyBirthPlace == "" || familyBirthPlace == null) {
+            $.toast({
+                heading: 'Required Birthplace',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (familyDate == "" || familyDate == null) {
+            $.toast({
+                heading: 'Required Birthdate',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else {
 
+            var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" disabled/>`;
+            var selectedElementVal = `<input type="text" name="FamilyMembers.FamilyRelationshipId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
 
-
-
-        var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" disabled/>`;
-        var selectedElementVal = `<input type="text" name="FamilyMembers.FamilyRelationshipId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
-
-        var tbody_fam_item = `
+            var tbody_fam_item = `
                                                     <tr id='equ' data-id="`+ famTr + `" class="hidden">
                                                         <td data-name="products">
                                                             <div class="rounded text-center">
@@ -234,14 +290,17 @@ $(document).ready(function () {
                                                     </tr>
 
 `;
-        $(".tdoby_fam").append(tbody_fam_item);
-        console.log(tbody_fam_item);
-        //console.log("Selected: " + selectedElement);
-        $("#familyMembersFullName").val("");
-        $("#familyMembersIdentityNumber").val("");
-        $("#familyMembersBirthPlace").val("");
-        $("#familyMembersDateOfBirth").val("");
-        famTr++;
+            $(".tdoby_fam").append(tbody_fam_item);
+            console.log(tbody_fam_item);
+            //console.log("Selected: " + selectedElement);
+            $("#familyMembersFullName").val("");
+            $("#familyMembersIdentityNumber").val("");
+            $("#familyMembersBirthPlace").val("");
+            $("#familyMembersDateOfBirth").val("");
+            famTr++;
+        }
+
+
     });
     $("#zzzz").on("click", function () {
         // Dynamic Rows Code

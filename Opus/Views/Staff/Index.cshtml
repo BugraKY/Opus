@@ -49,7 +49,7 @@
                                         @foreach (var staff in Model)
                                         {
                                             <tr role="row" class="odd">
-                                                <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="~/Uploads/Staff/Profile/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+                                                <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
                                                 <td>@staff.FirstName</td>
                                                 <td>@staff.LastName</td>
                                                 <td>@staff.IdentityNumber</td>
@@ -74,7 +74,8 @@
                                                 <td class="text-center">
 
                                                     <div class="list-icons d-inline-flex">
-                                                        <a href="~/Staff/Edit/@staff.Id" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>
+                                                        <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -98,7 +99,7 @@
                         </div>
 
                         <div class="text-center my-2">
-                            <div class="fs-60"> @ViewBag.TotalActive</div>
+                            <div class="fs-60"><span id="active"></span></div>
                             <span>Total  Active Staff</span>
                         </div>
                     </div>
@@ -111,7 +112,7 @@
                         </div>
 
                         <div class="text-center my-2">
-                            <div class="fs-60">@ViewBag.TotalPassive</div>
+                            <div class="fs-60"><span id="passive"></span></div>
                             <span>Total Passive Staff</span>
                         </div>
                     </div>
@@ -128,8 +129,19 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
+            $.ajax({
+                url: "/api/statusofstaff",
+                type: "GET",
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    $('#active').html(data.active);
+                    $('#passive').html(data.passive);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
 
+                }
 
+            });
         });
     </script>
 }
