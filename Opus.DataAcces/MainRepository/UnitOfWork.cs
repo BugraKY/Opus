@@ -25,6 +25,8 @@ namespace Opus.DataAcces.MainRepository
             ProductSize = new ProductSizeRepository(_db);
             ProductCategory = new ProductCategoryRepository(_db);
             StaffEquipment = new StaffEquipmentRepository(_db);
+            Documents = new DocumentsRepository(_db);
+            DocumentType = new DocumentTypeRepository(_db);
         }
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public ILocationRepository Location { get; private set; }
@@ -37,6 +39,8 @@ namespace Opus.DataAcces.MainRepository
         public IProductSizeRepository ProductSize { get; private set; }
         public IProductCategoryRepository ProductCategory { get; private set; }
         public IStaffEquipmentRepository StaffEquipment { get; private set; }
+        public IDocumentsRepository Documents { get; private set; }
+        public IDocumentTypeRepository DocumentType { get; private set; }
         public void Dispose()
         {
             _db.Dispose();

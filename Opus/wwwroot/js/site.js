@@ -71,7 +71,8 @@ $(document).ready(function () {
     });
 
 
-    $("#add_Equipment_row").on("click", function () {
+    $("#add_Equipment_row").on("click", function (e) {
+        console.log(e);
         const equDelivery_val = $("#equDelivery").val();
         const equReturn_val = $("#equReturn").val();
 
@@ -80,35 +81,70 @@ $(document).ready(function () {
         const equDelivery = equDelivery_val.toString('dd-MM-yy');
         const equReturn = equReturn_val.toString('dd-MM-yy');
         const equQua = $("#equQua").val();
+        console.log("js has changed - 2.");
+        console.log("return date: " + equDelivery);
+        if ($('#select_equ').val() == -1) {
 
+            $.toast({
+                heading: 'Required Product selection',
+                text: 'Please select a product.',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
 
-
-
-
-        var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText+`" disabled/>`;
-        var selectedElementVal = `<input type="text" name="StaffEquipment.ProductId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
-
-        var tbody_equ_item = `
-                                                    <tr id='equ' data-id="`+equTr+`" class="hidden">
+        }
+        else if (equQua == "" || equQua == null) {
+            $.toast({
+                heading: 'Required input quantity',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (equDelivery == "" || equDelivery == null) {
+            $.toast({
+                heading: 'Required Delivery Date',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else {
+            var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" disabled/>`;
+            var selectedElementVal = `<input type="text" class="form-control staffequSelected d-none" value="` + selectedValue + `" hidden/>`;
+            var tbody_equ_item = `
+                                                    <tr id='equ+`+ equTr + `' data-id="` + equTr + `" class="hidden">
                                                         <td data-name="products">
                                                             <div class="rounded text-center">
-                                                                `+ selectedElementTxt + selectedElementVal+ `
+                                                                `+ selectedElementTxt + selectedElementVal + `
                                                             </div>
                                                         </td>
                                                         <td data-name="quantity" style="min-width: 50px; max-width: 50px; ">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="number" class="form-control" name="StaffEquipment.Quantity" value="`+ equQua + `" title="` + equQua +`" readonly="readonly"/>
+                                                                <input type="number" class="form-control staffequQua" value="`+ equQua + `" title="` + equQua + `" readonly="readonly"/>
 
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="date" class="form-control" name="StaffEquipment.DeliveryDate" value=`+ equDelivery_val + ` title="` + equDelivery +`" readonly="readonly"/>
+                                                                <input type="date" class="form-control staffequDelivery" value=`+ equDelivery_val + ` title="` + equDelivery + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="returnDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="date" class="form-control" name="StaffEquipment.ReturnDate" value="`+ equReturn_val + `" title="` + equReturn +`" readonly="readonly"/>
+                                                                <input type="date" class="form-control staffequReturn" value="`+ equReturn_val + `" title="` + equReturn + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="del">
@@ -117,13 +153,35 @@ $(document).ready(function () {
                                                     </tr>
 
 `;
-        $(".tdoby_equ").append(tbody_equ_item);
-        console.log(tbody_equ_item);
-        //console.log("Selected: " + selectedElement);
-        $("#equDelivery").val("");
-        $("#equReturn").val("");
-        $("#equQua").val("");
-        equTr++;
+
+            $(".tdoby_equ").append(tbody_equ_item);
+            console.log(tbody_equ_item);
+            //console.log("Selected: " + selectedElement);
+            $("#equDelivery").val("");
+            $("#equReturn").val("");
+            $("#equQua").val("");
+            equTr++;
+
+            $('.staffequSelected').each(function (i) {
+                $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].ProductId');
+            });
+            $('.staffequQua').each(function (i) {
+                $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].Quantity');
+            });
+            $('.staffequDelivery').each(function (i) {
+                $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].DeliveryDate');
+            });
+            $('.staffequReturn').each(function (i) {
+                $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].ReturnDate');
+            });
+
+
+        }
+
+
+
+
+
     });
     $("#add_Family_row").on("click", function () {
         const familyFullName = $("#familyMembersFullName").val();
@@ -243,6 +301,18 @@ $(document).ready(function () {
         console.log("clicked.");
         $(this).parent().parent().remove();
 
+        $('.staffequSelected').each(function (i) {
+            $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].ProductId');
+        });
+        $('.staffequQua').each(function (i) {
+            $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].Quantity');
+        });
+        $('.staffequDelivery').each(function (i) {
+            $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].DeliveryDate');
+        });
+        $('.staffequReturn').each(function (i) {
+            $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].ReturnDate');
+        });
     });
 
     // İk Ürünler

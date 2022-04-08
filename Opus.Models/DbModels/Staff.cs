@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,6 +13,8 @@ namespace Opus.Models.DbModels
     {
         [Key]
         public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Guid { get; set; }
         public string RegistrationNumber { get; set; }//Sicil No
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -32,8 +35,8 @@ namespace Opus.Models.DbModels
         public int NumberOfChildren { get; set; }
         //public string BloodType { get; set; }
         public int BloodTypeId { get; set; }
-        public int TestD2 { get; set; }
-        public int TestMSA { get; set; }
+        public int TestD2_TNE { get; set; }
+        public int TestD2_E { get; set; }
         public string CurrentSalary { get; set; }
         public string IBAN { get; set; }
         public string CountryId { get; set; }
@@ -42,7 +45,5 @@ namespace Opus.Models.DbModels
         public string EducationalStatus { get; set; }
         public string ImageFile { get; set; }
         public string Degree { get; set; }
-
-
     }
 }

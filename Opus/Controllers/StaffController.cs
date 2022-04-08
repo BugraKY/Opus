@@ -9,6 +9,7 @@ using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Controllers
 {
+    //[Authorize]
     public class StaffController : Controller
     {
         private readonly IUnitOfWork _uow;
@@ -17,7 +18,6 @@ namespace Opus.Controllers
         {
             _uow = uow;
             _hostEnvironment = hostEnvironment;
-
         }
         [Route("staff")]
         public IActionResult Index()
@@ -62,7 +62,8 @@ namespace Opus.Controllers
                 Active = _staff.Active,
                 IBAN = _staff.IBAN,
                 StreetAddress = _staff.StreetAddress,
-                TestMSA = _staff.TestMSA,
+                TestD2_TNE = _staff.TestD2_TNE,
+                TestD2_E= _staff.TestD2_E,
                 BirthPlace = _staff.BirthPlace,
                 BlackList = _staff.BlackList,
                 BloodTypeId = _staff.BloodTypeId,
@@ -86,7 +87,6 @@ namespace Opus.Controllers
                 PhoneNumberSec = _staff.PhoneNumberSec,
                 RegistrationNumber = _staff.RegistrationNumber,
                 Status = _staff.Status,
-                TestD2 = _staff.TestD2,
                 WhiteCollarWorker = _staff.WhiteCollarWorker,
                 FamilyMembersEnumerable=_familyMembers,
                 StaffEquipmentEnumerable=_staffEquipments,
@@ -103,20 +103,21 @@ namespace Opus.Controllers
         [HttpPost("staff/add")]
         public async Task<IActionResult> AddAsync(StaffVM staffVm)
         {
-            //PR 1456 kaldırılacak..
-            //return NoContent();
-            var files = staffVm.Files;
+
+            //var files = staffVm.Files;
             string webRootPath = _hostEnvironment.WebRootPath;
-            /*
+            
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             List<FamilyMembers> _familyMembers = new List<FamilyMembers>();
+
             var _staff = new Staff()
             {
                 Active = staffVm.Active,
                 IBAN = staffVm.IBAN,
                 StreetAddress = staffVm.StreetAddress,
-                TestMSA = staffVm.TestMSA,
+                TestD2_TNE = staffVm.TestD2_TNE,
+                TestD2_E= staffVm.TestD2_E,
                 BirthPlace = staffVm.BirthPlace,
                 BlackList = staffVm.BlackList,
                 BloodTypeId = staffVm.BloodTypeId,
@@ -140,52 +141,78 @@ namespace Opus.Controllers
                 PhoneNumberSec = staffVm.PhoneNumberSec,
                 RegistrationNumber = staffVm.RegistrationNumber,
                 Status = staffVm.Status,
-                TestD2 = staffVm.TestD2,
-                WhiteCollarWorker = staffVm.WhiteCollarWorker
+                WhiteCollarWorker = staffVm.WhiteCollarWorker,
+                Guid = Guid.NewGuid()
             };
+            return NoContent();
             _uow.Staff.Add(_staff);
             _uow.Save();
 
-            
             int i = 0;
-            foreach (var item in staffVm.StaffEquipment.ProductId)
+
+            /*
+            if (staffVm.StaffEquipment.ProductId.Count() > 0)
             {
-                var _product = _uow.Products.GetFirstOrDefault(i => i.Id == item);
-                var _staffEquipment = new StaffEquipment()
+                foreach (var item in staffVm.StaffEquipment.ProductId)
                 {
-                    ProductId = _product.Id,
-                    Quantity = staffVm.StaffEquipment.Quantity[i],
-                    DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
-                    ReturnDate = staffVm.StaffEquipment.ReturnDate[i],
-                    StaffId=_staff.Id
-                };
-                _products.Add(_product);
-                //_staffEquipments.Add(_staffEquipment);
-                _uow.StaffEquipment.Add(_staffEquipment);
-                i++;
+                    var _product = _uow.Products.GetFirstOrDefault(i => i.Id == item);
+                    if (staffVm.StaffEquipment.ReturnDate[i] == null)
+                    {
+                        var _staffEquipment = new StaffEquipment()
+                        {
+                            ProductId = _product.Id,
+                            Quantity = staffVm.StaffEquipment.Quantity[i],
+                            DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
+                            StaffId = _staff.Id
+                        };
+                        _uow.StaffEquipment.Add(_staffEquipment);
+                    }
+                    else
+                    {
+                        var _staffEquipment = new StaffEquipment()
+                        {
+                            ProductId = _product.Id,
+                            Quantity = staffVm.StaffEquipment.Quantity[i],
+                            DeliveryDate = staffVm.StaffEquipment.DeliveryDate[i],
+                            ReturnDate = staffVm.StaffEquipment.ReturnDate[i],
+                            StaffId = _staff.Id
+                        };
+                        _uow.StaffEquipment.Add(_staffEquipment);
+                    }
+
+                    _products.Add(_product);
+
+                    i++;
+                }
+                _uow.Save();
+                i = 0;
             }
-            _uow.Save();
-            i = 0;
-            foreach (var item in staffVm.FamilyMembers.IdentityNumber)
+            if (staffVm.FamilyMembers.IdentityNumber.Count() > 0)
             {
-                var _familyMember = new FamilyMembers()
+                foreach (var item in staffVm.FamilyMembers.IdentityNumber)
                 {
-                    BirthPlace = staffVm.FamilyMembers.BirthPlace[i],
-                    DateOfBirth = DateTime.Parse(staffVm.FamilyMembers.DateOfBirth[i]),
-                    FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
-                    FullName = staffVm.FamilyMembers.FullName[i],
-                    IdentityNumber = item,
-                    StaffId = _staff.Id.ToString()
-                };
-                //_familyMembers.Add(_familyMember);
-                _uow.FamilyMembers.Add(_familyMember);
-                i++;
+                    var _familyMember = new FamilyMembers()
+                    {
+                        BirthPlace = staffVm.FamilyMembers.BirthPlace[i],
+                        DateOfBirth = DateTime.Parse(staffVm.FamilyMembers.DateOfBirth[i]),
+                        FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
+                        FullName = staffVm.FamilyMembers.FullName[i],
+                        IdentityNumber = item,
+                        StaffId = _staff.Id.ToString()
+                    };
+                    _uow.FamilyMembers.Add(_familyMember);
+
+                    i++;
+                }
+                _uow.Save();
             }
-            _uow.Save();
+            */
+
             var _bloodtype = _uow.BloodType.GetFirstOrDefault(i => i.Id == staffVm.BloodTypeId);
             staffVm.BloodType = _bloodtype;
-            */
-            CopyFileExtension.Upload(staffVm.Files, webRootPath);
+            
+            CopyFileExtension copyFile = new CopyFileExtension(_uow);
+            copyFile.Upload(staffVm.Files, webRootPath,_staff.Guid,_staff.Id);
 
             //_uow.StaffEquipment.AddRange(_staffEquipments);
             //_uow.FamilyMembers.AddRange(_familyMembers);

@@ -1859,7 +1859,7 @@ Theme Primary Color
   .theme-primary .form-element .form-control:focus {
     background-image: linear-gradient(45deg, #0052cc, #00baff), linear-gradient(#3b6dc1, #3b6dc1); }
 .theme-primary .form-control:focus {
-  border-color: #0052cc; }
+  border-color: #00baff }
 .theme-primary [type=checkbox]:checked.chk-col-primary + label:before {
   border-right: 2px solid #0052cc;
   border-bottom: 2px solid #0052cc; }

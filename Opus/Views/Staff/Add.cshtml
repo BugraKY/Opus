@@ -23,6 +23,9 @@
     .jq-toast-single{
         box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
         }
+    .theme-primary .border-critical {
+        border-color: #c80000 !important;
+    }
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 
@@ -64,17 +67,19 @@
                                                 <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Personel Hakkında</h4>
                                                 <hr class="my-15">
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-6">
+                                                        <input type="hidden" name="image" id="image" />
+                                                        <div class="media">
+                                                            <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="label_email control-label" for="prof_image">Image : </label>
                                                             <input class="form-control" id="file" accept="image/*" type="file">
-                                                            <input type="hidden" name="image" id="image" />
-                                                            <div class="media">
-                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
-                                                            </div>
-
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Name <span class="danger">*</span></label>
@@ -161,14 +166,14 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="form-label">D2 Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" asp-for="TestD2" value="2">
+                                                            <label class="form-label">D2 (TN-E) Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" id="d2-tne" step="1" asp-for="TestD2_TNE" value="2">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="form-label">MSA Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" asp-for="TestMSA" value="3">
+                                                            <label class="form-label">D2 (E) Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" id="d2-e" step="0.1" asp-for="TestD2_E" value="3">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -575,12 +580,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
+                                                    @*
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Msa Testi <span class="danger">*</span></label>
                                                             <input asp-for="Files.MSATest" type="file" placeholder="Debit Form" class="input_email form-control">
                                                         </div>
-                                                    </div>
+                                                    </div>*@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Görev Tanımı</label>
@@ -622,6 +628,46 @@
                     authIdNum(idval);
                 }
             });
+
+
+            $('#d2-tne').change(function(val){
+                console.log("TNE Value: " + val.currentTarget.value);
+                if (val.currentTarget.value > 85) {
+                    $('#d2-tne').addClass("bb-5 border-info");
+                    $('#d2-tne').removeClass("border-critical");
+                    //$('#d2-tne').removeClass("border-warning");
+                }/*
+                else if (val.currentTarget.value < 70) {
+                    $('#d2-tne').addClass("bb-5 border-warning");
+                    $('#d2-tne').removeClass("border-critical");
+                    $('#d2-tne').removeClass("border-info");
+                }*/
+                else {
+                    $('#d2-tne').addClass("bb-5 border-critical");
+                    //$('#d2-tne').removeClass("border-warning");
+                    $('#d2-tne').removeClass("border-info");
+                }
+            });
+            $('#d2-e').change(function (val) {
+                console.log("E Value: " + val.currentTarget.value);
+                if (val.currentTarget.value < 5) {
+                    $('#d2-e').addClass("bb-5 border-info");
+                    $('#d2-e').removeClass("border-critical");
+                    //$('#d2-e').removeClass("border-warning");
+                }/*
+                else if (val.currentTarget.value < 70) {
+                    $('#d2-e').addClass("bb-5 border-warning");
+                    $('#d2-e').removeClass("border-critical");
+                    $('#d2-e').removeClass("border-info");
+                }*/
+                else {
+                    $('#d2-e').addClass("bb-5 border-critical");
+                    //$('#d2-e').removeClass("border-warning");
+                    $('#d2-e').removeClass("border-info");
+                }
+            });
+            //$('#d2-e').val();
+
 
             $('input[id=Files_Identity]').change(function(ev) {
                 $('input[id=Files_Identity]').addClass("bb-3 border-info");

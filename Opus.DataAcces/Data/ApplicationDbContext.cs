@@ -12,7 +12,7 @@ namespace Opus.DataAcces.Data
     public class ApplicationDbContext:IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : base(options) { }//10
+    : base(options) { }//13 Model
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
@@ -25,13 +25,14 @@ namespace Opus.DataAcces.Data
         public DbSet<Staff> Staff { get; set; }
         public DbSet<UserLocation> UserLocation { get; set; }
         public DbSet<StaffEquipment> StaffEquipment { get; set; }
-        /*
-        protected override void OnModelCreating(ModelBuilder builder)
+        public DbSet<Documents> Documents { get; set; }
+        public DbSet<DocumentType> DocumentType { get; set; }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            builder.Entity<Staff>()
-                .HasIndex(u => u.IdentityNumber)
-                .IsUnique();
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Staff>()
+                        .HasIndex(u => new { u.IdentityNumber }).IsUnique();
         }
-        */
     }
 }

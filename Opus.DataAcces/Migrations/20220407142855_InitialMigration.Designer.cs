@@ -12,8 +12,8 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220323125605_InitialMigration8")]
-    partial class InitialMigration8
+    [Migration("20220407142855_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,11 +228,79 @@ namespace Opus.DataAcces.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Opus.Models.DbModels.BloodType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BloodTypes");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.Documents", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DocumentTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.DocumentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Required")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("WarningTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DocumentType");
+                });
+
             modelBuilder.Entity("Opus.Models.DbModels.FamilyMembers", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("BirthPlace")
                         .HasColumnType("nvarchar(max)");
@@ -252,14 +320,9 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("StaffId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StaffId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("FamilyRelationshipId");
-
-                    b.HasIndex("StaffId1");
 
                     b.ToTable("FamilyMembers");
                 });
@@ -312,6 +375,77 @@ namespace Opus.DataAcces.Migrations
                     b.ToTable("Location");
                 });
 
+            modelBuilder.Entity("Opus.Models.DbModels.ProductCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.Products", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ProductSize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductSizes");
+                });
+
             modelBuilder.Entity("Opus.Models.DbModels.Staff", b =>
                 {
                     b.Property<int>("Id")
@@ -329,8 +463,8 @@ namespace Opus.DataAcces.Migrations
                     b.Property<bool>("BlackList")
                         .HasColumnType("bit");
 
-                    b.Property<string>("BloodType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BloodTypeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("CountryId")
                         .HasColumnType("nvarchar(max)");
@@ -353,20 +487,21 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("EducationalStatus")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FamilyMembersId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FatherName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("IBAN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ImageFile")
                         .HasColumnType("nvarchar(max)");
@@ -401,10 +536,10 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TestD2")
+                    b.Property<int>("TestD2_E")
                         .HasColumnType("int");
 
-                    b.Property<int>("TestMSA")
+                    b.Property<int>("TestD2_TNE")
                         .HasColumnType("int");
 
                     b.Property<bool>("WhiteCollarWorker")
@@ -412,7 +547,39 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IdentityNumber")
+                        .IsUnique()
+                        .HasFilter("[IdentityNumber] IS NOT NULL");
+
                     b.ToTable("Staff");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.StaffEquipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffEquipment");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.UserLocation", b =>
@@ -525,16 +692,18 @@ namespace Opus.DataAcces.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Opus.Models.DbModels.Staff", null)
-                        .WithMany("FamilyMembers")
-                        .HasForeignKey("StaffId1");
-
                     b.Navigation("FamilyRelationship");
                 });
 
-            modelBuilder.Entity("Opus.Models.DbModels.Staff", b =>
+            modelBuilder.Entity("Opus.Models.DbModels.Products", b =>
                 {
-                    b.Navigation("FamilyMembers");
+                    b.HasOne("Opus.Models.DbModels.ProductCategory", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductCategory");
                 });
 #pragma warning restore 612, 618
         }

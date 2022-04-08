@@ -19,6 +19,8 @@ namespace Opus.DataAcces.IMainRepository
         IProductSizeRepository ProductSize { get; }
         IProductCategoryRepository ProductCategory { get; }
         IStaffEquipmentRepository StaffEquipment { get; }
+        IDocumentTypeRepository DocumentType { get; }
+        IDocumentsRepository Documents { get; }
         void Save();
     }
 }

@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.DbModels
 {
-    public class StaffEquipment
+    public class Documents
     {
         [Key]
         public int Id { get; set; }
         public int StaffId { get; set; }
-        public long ProductId { get; set; }
-        public int Quantity { get; set; }
-        public DateTime DeliveryDate {get;set;}
-        public DateTime ReturnDate { get; set; }
+        public int DocumentTypeId { get; set; }
+        public string FileName { get; set; }
+        public bool Active { get; set; }
+        public DateTime Created { get; set; }
     }
 }

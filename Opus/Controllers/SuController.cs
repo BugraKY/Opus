@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Controllers
 {
@@ -10,13 +11,15 @@ namespace Opus.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _uow;
         private readonly ILogger<SuController> _logger;
 
-        public SuController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUnitOfWork uow, ILogger<SuController> logger)
+        public SuController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,RoleManager<IdentityRole> roleManager, IUnitOfWork uow, ILogger<SuController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _uow = uow;
             _logger = logger;
         }
@@ -34,9 +37,6 @@ namespace Opus.Controllers
             {
                 //var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
 
-
-
-
                 var _user = new ApplicationUser
                 {
                     FirstName=userVM.FirstName,
@@ -52,6 +52,33 @@ namespace Opus.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Süper kullanıcıdan yönetici eklendi.");
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                    }
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.OperationResponsible))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.OperationResponsible));
+                    }
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.Accounting))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.Accounting));
+                    }
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.FieldOfficer))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.FieldOfficer));
+                    }
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.ProjectResponsible))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.ProjectResponsible));
+                    }
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.QS_Operation))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.QS_Operation));
+                    }
+                    
+                    _logger.LogInformation("Admin account creating by 'Super Admin'");
+                    await _userManager.AddToRoleAsync(_user, UserRoles.Admin);
 
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

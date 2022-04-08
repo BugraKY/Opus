@@ -1,45 +1,120 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Opus.DataAcces.Data;
+using System.Configuration;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Opus.Models.DbModels;
+using Microsoft.AspNetCore.Identity;
+using Opus.DataAcces.IMainRepository;
+using Opus.DataAcces.MainRepository;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Globalization;
+using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.AspNetCore.Builder;
 using static Opus.Utility.ProjectConstant;
 
-namespace Opus
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    public class Program
+    options.Password.RequiredLength = 6;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredUniqueChars = 0;
+})
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddDataProtection();
+
+builder.Services.AddMvc();
+builder.Services.AddRazorPages().AddSessionStateTempDataProvider();
+//services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(10);
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
+/*
+builder.Services.AddLogging(
+    builder =>
     {
-        /*
-        private static IHttpContextAccessor m_httpContextAccessor;
-        public static HttpContext Current => m_httpContextAccessor.HttpContext;
-        public static string AppBaseUrl => $"{Current.Request.Scheme}://{Current.Request.Host}{Current.Request.PathBase}";
-        public Program(IHttpContextAccessor contextAccessor)
-        {
-            m_httpContextAccessor = contextAccessor;
-        }*/
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        builder.AddFilter("Microsoft", LogLevel.Warning)
+        .AddFilter("System", LogLevel.Warning)
+        .AddFilter("NToastNotify", LogLevel.Warning)
+        .AddConsole();
+    });
+*/
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    try
-                    {
-                        webBuilder.UseStartup<Startup>();
-                    }
-                    catch (Exception e)
-                    {
+var app = builder.Build();
 
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.WriteLine("Error: "+e.Message+"\nCode: "+e.HResult+"\n\nSource: \n"+e.StackTrace);
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                });
-    }
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+app.UseAuthentication();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+app.UseCookiePolicy();
+app.UseSession();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+Console.WriteLine("IPV4: " + GetAllLocalIPv4().FirstOrDefault());
+app.Run();
+
+
+
+
+
+
+
+
+
+
+
+/*
+var _addresses = app.ServerFeatures.Get<IServerAddressesFeature>().Addresses;
+AppConfig.Localhost = _addresses;*/
+/*
+Console.ForegroundColor = ConsoleColor.Green;
+var HostString = "";
+foreach (var item in AppConfig.Localhost)
+{
+    HostString += "\n" + item;
+}
+Console.WriteLine("Opus Running. LocalHost: " + HostString);
+Console.WriteLine("IPV4: " + GetAllLocalIPv4().FirstOrDefault());
+Console.ForegroundColor = ConsoleColor.White;
+*/

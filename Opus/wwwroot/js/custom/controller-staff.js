@@ -11,10 +11,10 @@
     $.extend({
         urunCek: function () {
             $.ajax({
-               
+
                 data: { "tip": "urunCek" },
                 success: function (sonuc) {
-                   
+
                     if (sonuc.ok) {
 
                         $.each(sonuc.text, function (index, item) {
@@ -40,9 +40,9 @@
                 data: { "ikUrunlerId": ikUrunlerId, "tip": "bedenCek" },
                 success: function (sonuc) {
 
-                    $("#beden option").remove();                  
+                    $("#beden option").remove();
                     if (sonuc.ok) {
-                        $("#beden").prop("disabled", false);                          
+                        $("#beden").prop("disabled", false);
                         $.each(sonuc.text, function (index, item) {
                             var optionhtml = '<option value="' + item.Value + '">' + item.Text + '</option>';
                             $("#beden").append(optionhtml);
@@ -172,18 +172,18 @@ $(document).ready(function () {
     //AllClick();
 
 
- 
 
-        $("#file").change(function (e) {
-            var img = e.target.files[0];
-            document.getElementById("profilepic").style.display = 'block';
-            if (!iEdit.open(img, true, function (res) {
-                $("#profilepic").attr("src", res);               
-                document.getElementById("image").value = res;
-            })) {
-                alert("Please check file type !!!");
-            }
-        });
+
+    $("#file").change(function (e) {
+        var img = e.target.files[0];
+        document.getElementById("profilepic").style.display = 'block';
+        if (!iEdit.open(img, true, function (res) {
+            $("#profilepic").attr("src", res);
+            document.getElementById("image").value = res;
+        })) {
+            alert("Please check file type !!!");
+        }
+    });
 
 
     // CROP START
@@ -540,7 +540,7 @@ $(document).ready(function () {
         if (iEdit.status) {
             iEdit.selectionBox.css({ 'left': (($(window).width() / 2) - $(iEdit.can).height() / 2) + 10 + 'px', 'top': $(window).height() / 2 - $(iEdit.can).height() / 2 + 10 + 'px' });
         }
-    });	
+    });
     // CROP END
 
 
@@ -549,6 +549,10 @@ $(document).ready(function () {
 
 
 function StaffAdd() {
+    //Test kaldırılacak!
+    $('#myform').submit();
+    //Test
+
     console.log("submitting");
     /*
     if($('input[id=Files_Identity').val()==""){
@@ -560,36 +564,38 @@ function StaffAdd() {
     var fileOHSInstructionCommitmentForm = $('input[id=Files_OHSInstructionCommitmentForm]').val().split('\\').pop();
     var fileInsurance = $('input[id=Files_Insurance]').val().split('\\').pop();
     var fileCommitmentForm = $('input[id=Files_CommitmentForm]').val().split('\\').pop();
-    var fileMSATest = $('input[id=Files_MSATest]').val().split('\\').pop();
     var fileCriminalReport = $('input[id=Files_CriminalReport]').val().split('\\').pop();
+    var filesD2test = $('input[id=Files_D2Test]').val().split('\\').pop();
 
-    if(fileIdentity==''){$('input[id=Files_Identity]').addClass("bb-3 border-danger");}
-    if(fileHealthReport==''){$('input[id=Files_HealthReport]').addClass("bb-3 border-danger");}
-    if(fileOHSInstructionCommitmentForm==''){$('input[id=Files_OHSInstructionCommitmentForm]').addClass("bb-3 border-danger");}
-    if(fileInsurance==''){$('input[id=Files_Insurance]').addClass("bb-3 border-danger");}
-    if(fileCommitmentForm==''){$('input[id=Files_CommitmentForm]').addClass("bb-3 border-danger");}
-    if(fileMSATest==''){$('input[id=Files_MSATest]').addClass("bb-3 border-danger");}
-    if(fileCriminalReport==''){$('input[id=Files_CriminalReport]').addClass("bb-3 border-danger");}
-    if(fileIdentity != ''&& fileHealthReport != '' && fileOHSInstructionCommitmentForm != '' && fileInsurance != '' && fileCommitmentForm != '' && fileMSATest != '' && fileCriminalReport != ''){ 
-        console.log("Success");  $('#myform').submit();}
-        else{
-            $.toast({
-                heading: 'Required file fields',
-                text: 'Attention to the require fields for documents.',
-                icon: 'warning',
-                showHideTransition: 'slide',
-                loader: false,        // Change it to false to disable loader
-                loaderBg: '#9EC600',  // To change the background
-                position: 'top-right',
-                hideAfter: 5000
-            });
-        }
+    if (fileIdentity == '') { $('input[id=Files_Identity]').addClass("bb-3 border-danger"); }
+    if (fileHealthReport == '') { $('input[id=Files_HealthReport]').addClass("bb-3 border-danger"); }
+    if (fileOHSInstructionCommitmentForm == '') { $('input[id=Files_OHSInstructionCommitmentForm]').addClass("bb-3 border-danger"); }
+    if (fileInsurance == '') { $('input[id=Files_Insurance]').addClass("bb-3 border-danger"); }
+    if (filesD2test == '') { $('input[id=Files_D2Test]').addClass("bb-3 border-danger"); }
+
+    if (fileCommitmentForm == '') { $('input[id=Files_CommitmentForm]').addClass("bb-3 border-danger"); }
+    if (fileCriminalReport == '') { $('input[id=Files_CriminalReport]').addClass("bb-3 border-danger"); }
+    if (fileIdentity != '' && fileHealthReport != '' && fileOHSInstructionCommitmentForm != '' && fileInsurance != '' && fileCommitmentForm != '' && fileCriminalReport != '' && filesD2test != '') {
+        console.log("Success"); $('#myform').submit();
+    }
+    else {
+        $.toast({
+            heading: 'Required file fields',
+            text: 'Attention to the require fields for documents.',
+            icon: 'warning',
+            showHideTransition: 'slide',
+            loader: false,        // Change it to false to disable loader
+            loaderBg: '#9EC600',  // To change the background
+            position: 'top-right',
+            hideAfter: 5000
+        });
+    }
 }
 
 $(function () {
 
 
-       
+
     $('#urunlers').change(function () {
 
         var id = $('#urunler').val();
@@ -681,9 +687,9 @@ function renderProduct(element) {
     $ele.append($('<option/>').val('0').text('Select Product'));
     $.each(Products, function (i, val) {
         $ele.append($('<option/>').val(val.id).text(val.urunAdi));
-        
+
     })
-    
+
 }
 
 //bedenleri getir
@@ -699,7 +705,7 @@ function LoadSize(urunId) {
         error: function (error) {
             console.log(error);
         }
-      
+
     })
 }
 
@@ -710,26 +716,26 @@ function renderSize(element, data) {
     $ele.append($('<option/>').val('0').text('Select Size'));
     $.each(data, function (i, val) {
         $ele.append($('<option/>').val(val.id).text(val.bedenAdi).attr("stok", val.stok));
-           
+
     })
 
-   
+
 }
 
 $(document).ready(function () {
 
-   
-    
+
+
     $('#add').click(function () {
 
 
-        
 
-        
+
+
         //form hata kontrolü
         var isAllValid = true;
 
-   
+
 
         if ($('#urunler').val() == "0") {
             isAllValid = false;
@@ -743,7 +749,7 @@ $(document).ready(function () {
 
             });
         }
-    
+
 
         if ($('#bedenler').val() == "0") {
             isAllValid = false;
@@ -757,11 +763,11 @@ $(document).ready(function () {
 
             });
         }
-    
 
-  
 
-   
+
+
+
         if ($('#adet').val() <= 0) {
             isAllValid = false;
             $.toast({
@@ -773,7 +779,7 @@ $(document).ready(function () {
                 hideAfter: 5500
 
             });
-            
+
         }
 
         var stok = $('#bedenler').find(':selected').attr('stok');
@@ -851,11 +857,11 @@ $(document).ready(function () {
     });
 
 
-    
 
-   
 
-    
+
+
+
 
 });
 

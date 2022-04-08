@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,9 +60,9 @@ namespace Opus.Utility
             }
             public static class HideAfter
             {
-                public const int Short = 2000; 
-                public const int Normal = 5000; 
-                public const int Long = 7000; 
+                public const int Short = 2000;
+                public const int Normal = 5000;
+                public const int Long = 7000;
             }
         }
 
@@ -68,6 +70,7 @@ namespace Opus.Utility
         {
             public static class CreateFiles
             {
+                /*
                 public const string Identity= @"\assets\testfiles\Identity";
                 public const string HealthReport = @"\assets\testfiles\HealthReport";
                 public const string MilitaryStatus = @"\assets\testfiles\MilitaryStatus";
@@ -89,8 +92,43 @@ namespace Opus.Utility
                 public const string AgiForm = @"\assets\testfiles\AgiForm";
                 public const string WorkSafety = @"\assets\testfiles\WorkSafety";
                 public const string D2Test = @"\assets\testfiles\D2Test";
-                public const string TaskDefinition = @"\assets\testfiles\TaskDefinition";
+                public const string TaskDefinition = @"\assets\testfiles\TaskDefinition";*/
             }
+            public static class Personels
+            {
+
+                public const string Documentation = @"\assets\personels\documentations\";
+
+            }
+        }
+
+        public static string[] GetAllLocalIPv4()
+        {
+            List<string> ipAddrList = new List<string>();
+            foreach (NetworkInterface item in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (item.NetworkInterfaceType == NetworkInterfaceType.Ethernet && item.OperationalStatus == OperationalStatus.Up)
+                {
+                    foreach (UnicastIPAddressInformation ip in item.GetIPProperties().UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ipAddrList.Add(ip.Address.ToString());
+                        }
+                    }
+                }
+                else if (item.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 && item.OperationalStatus == OperationalStatus.Up)
+                {
+                    foreach (UnicastIPAddressInformation ip in item.GetIPProperties().UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ipAddrList.Add(ip.Address.ToString());
+                        }
+                    }
+                }
+            }
+            return ipAddrList.ToArray();
         }
 
     }

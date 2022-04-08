@@ -46,7 +46,7 @@ namespace Opus.Controllers
                     _logger.LogInformation("Kullanıcı bilgisi doğru değil. - Girilen Email :" + Input.Email);
                     //ModelState.AddModelError(string.Empty, "Kullanıcı bilgisi yalnış. Lütfen bilgilerinizi kontrol ediniz.");
                     ModelState.AddModelError(string.Empty, "Giriş bilgilerinden E-posta veya Şifre doğru değil. Lütfen bilgilerinizi kontrol ediniz.");
-                    return View("Index");
+                    return Redirect("/signin");
                 }
                 if (result.IsNotAllowed)
                 {
