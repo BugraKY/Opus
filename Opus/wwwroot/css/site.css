@@ -21,3 +21,6 @@ body {
 .danger {
     color: #ff0000 !important;
 }
+#loader {
+    background: #fff url(/images/preloaders/1.gif) no-repeat center center!important;
+}

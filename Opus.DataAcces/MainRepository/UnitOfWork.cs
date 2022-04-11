@@ -27,6 +27,7 @@ namespace Opus.DataAcces.MainRepository
             StaffEquipment = new StaffEquipmentRepository(_db);
             Documents = new DocumentsRepository(_db);
             DocumentType = new DocumentTypeRepository(_db);
+            MaritalStatus = new MaritalStatusRepository(_db);
         }
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public ILocationRepository Location { get; private set; }
@@ -41,6 +42,7 @@ namespace Opus.DataAcces.MainRepository
         public IStaffEquipmentRepository StaffEquipment { get; private set; }
         public IDocumentsRepository Documents { get; private set; }
         public IDocumentTypeRepository DocumentType { get; private set; }
+        public IMaritalStatusRepository MaritalStatus { get; private set; }
         public void Dispose()
         {
             _db.Dispose();

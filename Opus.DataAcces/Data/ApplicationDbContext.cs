@@ -12,7 +12,7 @@ namespace Opus.DataAcces.Data
     public class ApplicationDbContext:IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : base(options) { }//13 Model
+    : base(options) { }//14 Model
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
@@ -27,6 +27,7 @@ namespace Opus.DataAcces.Data
         public DbSet<StaffEquipment> StaffEquipment { get; set; }
         public DbSet<Documents> Documents { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
+        public DbSet<MaritalStatus> MaritalStatus { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

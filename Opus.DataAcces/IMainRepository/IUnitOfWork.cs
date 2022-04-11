@@ -21,6 +21,7 @@ namespace Opus.DataAcces.IMainRepository
         IStaffEquipmentRepository StaffEquipment { get; }
         IDocumentTypeRepository DocumentType { get; }
         IDocumentsRepository Documents { get; }
+        IMaritalStatusRepository MaritalStatus { get; }
         void Save();
     }
 }

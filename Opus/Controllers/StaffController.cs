@@ -50,8 +50,8 @@ namespace Opus.Controllers
         [HttpGet("staff/edit/{id}")]
         public IActionResult Edit(Guid id)
         {
-            var _staff=_uow.Staff.GetFirstOrDefault(x => x.Guid == id);
-            var _familyMembers = _uow.FamilyMembers.GetAll(x=>x.StaffId==id.ToString(),includeProperties: "FamilyRelationship");
+            var _staff = _uow.Staff.GetFirstOrDefault(x => x.Guid == id);
+            var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == id.ToString(), includeProperties: "FamilyRelationship");
             var _staffEquipments = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
             var _products = _uow.Products.GetAll();
             var staffVM = new StaffVM()
@@ -60,7 +60,7 @@ namespace Opus.Controllers
                 IBAN = _staff.IBAN,
                 StreetAddress = _staff.StreetAddress,
                 TestD2_TNE = _staff.TestD2_TNE,
-                TestD2_E= _staff.TestD2_E,
+                TestD2_E = _staff.TestD2_E,
                 BirthPlace = _staff.BirthPlace,
                 BlackList = _staff.BlackList,
                 BloodTypeId = _staff.BloodTypeId,
@@ -85,9 +85,9 @@ namespace Opus.Controllers
                 RegistrationNumber = _staff.RegistrationNumber,
                 Status = _staff.Status,
                 WhiteCollarWorker = _staff.WhiteCollarWorker,
-                FamilyMembersEnumerable=_familyMembers,
-                StaffEquipmentEnumerable=_staffEquipments,
-                Products=_products,
+                FamilyMembersEnumerable = _familyMembers,
+                StaffEquipmentEnumerable = _staffEquipments,
+                Products = _products,
                 Guid = _staff.Guid,
 
             };
@@ -109,7 +109,7 @@ namespace Opus.Controllers
 
             //var files = staffVm.Files;
             string webRootPath = _hostEnvironment.WebRootPath;
-            
+
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             List<FamilyMembers> _familyMembers = new List<FamilyMembers>();
@@ -120,7 +120,7 @@ namespace Opus.Controllers
                 IBAN = staffVm.IBAN,
                 StreetAddress = staffVm.StreetAddress,
                 TestD2_TNE = staffVm.TestD2_TNE,
-                TestD2_E= staffVm.TestD2_E,
+                TestD2_E = staffVm.TestD2_E,
                 BirthPlace = staffVm.BirthPlace,
                 BlackList = staffVm.BlackList,
                 BloodTypeId = staffVm.BloodTypeId,
@@ -150,11 +150,11 @@ namespace Opus.Controllers
 
             _uow.Staff.Add(_staff);
             _uow.Save();
-            var staffId=_staff.Id;
+            var staffId = _staff.Id;
             int i = 0;
 
-            
-            if (staffVm.StaffEquipmentEnumerable.Count() > 0)
+
+            if (staffVm.StaffEquipmentEnumerable != null)
             {
                 foreach (var item in staffVm.StaffEquipmentEnumerable)
                 {
@@ -171,7 +171,7 @@ namespace Opus.Controllers
                 _uow.Save();
                 i = 0;
             }
-            if (staffVm.FamilyMembers.IdentityNumber.Count() > 0)
+            if (staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
             {
                 foreach (var item in staffVm.FamilyMembers.IdentityNumber)
                 {
@@ -190,13 +190,13 @@ namespace Opus.Controllers
                 }
                 _uow.Save();
             }
-            
+
 
             var _bloodtype = _uow.BloodType.GetFirstOrDefault(i => i.Id == staffVm.BloodTypeId);
             staffVm.BloodType = _bloodtype;
-            
+
             CopyFileExtension copyFile = new CopyFileExtension(_uow);
-            copyFile.Upload(staffVm.Files, webRootPath,_staff.Guid,_staff.Id);
+            copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id);
 
             //_uow.StaffEquipment.AddRange(_staffEquipments);
             //_uow.FamilyMembers.AddRange(_familyMembers);
@@ -231,16 +231,16 @@ namespace Opus.Controllers
         [HttpGet("api/remove-member/{id}")]
         public ToastMessageVM RemoveMember(int id)
         {
-            var _familyMember = _uow.FamilyMembers.GetFirstOrDefault(i=>i.Id == id);
+            var _familyMember = _uow.FamilyMembers.GetFirstOrDefault(i => i.Id == id);
             /*
             _uow.FamilyMembers.Remove(_familyMember);
             _uow.Save();*/
             var _message = new ToastMessageVM()
             {
                 Header = "Family member has been removed.",
-                Message= " Removed Member: <h6>"+_familyMember.FullName+"</h6>",
-                Icon= Toast.Icon.Success,
-                ShowHideTransition=Toast.ShowHideTransition.Slide
+                Message = " Removed Member: <h6>" + _familyMember.FullName + "</h6>",
+                Icon = Toast.Icon.Success,
+                ShowHideTransition = Toast.ShowHideTransition.Slide
             };
             /*
             var _message = new ToastMessageVM()
@@ -254,7 +254,7 @@ namespace Opus.Controllers
             return _message;
         }
         [HttpPost]
-        public FamilyMembers AddMember([FromBody]FamilyMembers familyMembers)
+        public FamilyMembers AddMember([FromBody] FamilyMembers familyMembers)
         {
             _uow.FamilyMembers.Add(familyMembers);
             _uow.Save();
@@ -269,11 +269,38 @@ namespace Opus.Controllers
             var quit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();*/
             var _statusofstaff = new StatusOfStaffVM()
             {
-                Active=_uow.Staff.GetAll(i=>i.Status==0).Count(),
-                Passive=_uow.Staff.GetAll(i=>i.Status==1).Count(),
-                Quit=_uow.Staff.GetAll(i=>i.Status==2).Count()
+                Active = _uow.Staff.GetAll(i => i.Status == 0).Count(),
+                Passive = _uow.Staff.GetAll(i => i.Status == 1).Count(),
+                Quit = _uow.Staff.GetAll(i => i.Status == 2).Count()
             };
             return _statusofstaff;
+        }
+        [HttpGet("api/getcard/{tcid}")]
+        public StaffVM Getcard(string tcid)
+        {
+            var _staff = _uow.Staff.GetFirstOrDefault(i => i.IdentityNumber == tcid);
+            if (_staff == null)
+                return null;
+
+            var _marital = _uow.MaritalStatus.GetFirstOrDefault(i => i.Value == _staff.MaritalStatus);
+            var _card = new StaffVM()
+            {
+                Guid = _staff.Guid,
+                IdentityNumber = _staff.IdentityNumber,
+                FirstName = _staff.FirstName,
+                LastName = _staff.LastName,
+                BirthPlace = _staff.BirthPlace,
+                DateOfBirth_STR = _staff.DateOfBirth.ToString("dd/MM/yyyy"),
+                MobileNumber = _staff.MobileNumber,
+                MotherName = _staff.MotherName,
+                FatherName = _staff.FatherName,
+                Marital = _marital,
+                NumberOfChildren = _staff.NumberOfChildren,
+                TestD2_TNE = _staff.TestD2_TNE,
+                TestD2_E = _staff.TestD2_E,
+                ImageFile = _staff.ImageFile
+            };
+            return _card;
         }
         #endregion API
         public Claim GetClaim()

@@ -11,9 +11,11 @@ namespace Opus.Models.ViewModels
 {
     public class StaffVM : Staff
     {
+        public string DateOfBirth_STR { get; set; }
         public bool AddStamp { get; set; }
         [ForeignKey("FamilyMembersId")]
         public string FamilyMembersId { get; set; }
+        public MaritalStatus Marital { get; set; }
         public BloodType BloodType { get; set; }
         public FamilyMembersVM FamilyMembers { get; set; }
         public StaffEquipmentVm StaffEquipment { get; set; }
