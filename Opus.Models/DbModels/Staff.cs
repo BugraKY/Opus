@@ -35,8 +35,8 @@ namespace Opus.Models.DbModels
         public int NumberOfChildren { get; set; }
         //public string BloodType { get; set; }
         public int BloodTypeId { get; set; }
-        public int TestD2_TNE { get; set; }
-        public int TestD2_E { get; set; }
+        public float TestD2_TNE { get; set; }
+        public float TestD2_E { get; set; }
         public string CurrentSalary { get; set; }
         public string IBAN { get; set; }
         public string CountryId { get; set; }

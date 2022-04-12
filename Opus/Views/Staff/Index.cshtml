@@ -67,44 +67,52 @@
                                     <tbody>
                                         @foreach (var staff in Model)
                                         {
-                                            <tr role="row" class="odd">
-                                                @*
-                                                    <td>
-                                                        <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
-                                                        <label for="@staff.Guid"></label>
-                                                    </td>
-                                                *@
-                                                <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+                                        <tr role="row" class="odd">
+                                            @*
+        <td>
+            <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
+            <label for="@staff.Guid"></label>
+        </td>
+                                            *@
+                                            <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+                                            @if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
+                                            {
+                                                <td class="text-danger">@staff.FirstName</td>
+                                                <td class="text-danger">@staff.LastName</td>
+                                            }
+                                            else
+                                            {
                                                 <td>@staff.FirstName</td>
                                                 <td>@staff.LastName</td>
-                                                <td>@staff.IdentityNumber</td>
-                                                <td>@staff.MobileNumber</td>
-                                                <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
-                                                <td>
+                                            }
+                                            <td>@staff.IdentityNumber</td>
+                                            <td>@staff.MobileNumber</td>
+                                            <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
+                                            <td>
 
-                                                    @switch (staff.Status)
-                                                    {
-                                                        case (int)StatusOfStaff.Active:
-                                                            <span></span>
-                                                            break;
-                                                        case (int)StatusOfStaff.Passive:
-                                                            <span></span>
-                                                            break;
-                                                        case (int)StatusOfStaff.Quit:
-                                                            <span></span>
-                                                            break;
-                                                    }
-                                                    <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 1 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 0 ? "Active" : "")@(@staff.Status == 1 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
-                                                </td>
-                                                <td class="text-center">
+                                                @switch (staff.Status)
+                                                {
+                                                    case (int)StatusOfStaff.Active:
+                                                        <span></span>
+                                                        break;
+                                                    case (int)StatusOfStaff.Passive:
+                                                        <span></span>
+                                                        break;
+                                                    case (int)StatusOfStaff.Quit:
+                                                        <span></span>
+                                                        break;
+                                                }
+                                                <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 1 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 0 ? "Active" : "")@(@staff.Status == 1 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
+                                            </td>
+                                            <td class="text-center">
 
-                                                    <div class="list-icons d-inline-flex">
-                                                        @*<a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>*@
-                                                        <a href="#modal" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> Card</a>
-                                                        <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                <div class="list-icons d-inline-flex">
+                                                    @*<a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>*@
+                                                    <a href="#modal" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> Card</a>
+                                                    <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -163,7 +171,7 @@
         </div>
 
 
-        <div class="box box-solid bg-danger">
+        <div class="box box-solid bg-danger" id="card-header">
             <div class="box-header">
                 <h4 class="box-title" id="card-fullname"><strong></strong></h4>
                 <div class="float-end">
@@ -198,7 +206,7 @@
             $('.card-btn').on('click', function () {
                 var currentRow = $(this).closest("tr");
                 var tcId = currentRow.find("td:eq(3)").text();
-
+                var d2Section = '';
                 $.ajax({
                     url: "/api/getcard/" + tcId,
                     contentType: "application/json; charset=utf-8",
@@ -210,8 +218,36 @@
 
                     },
                     success: function (data, textStatus, jqXHR) {
+                        if (data.testD2_TNE < 85) {
+                            d2Section += `<div class="row text-danger"><div class="col-5"><label>D2 (TNE) Test Result:</label></div><div class="col-7"><label>` + data.testD2_TNE + `</label></div></div>`;
+                        }
+                        else {
+                            d2Section += `<div class="row"><div class="col-5"><label>D2 (TNE) Test Result:</label></div><div class="col-7"><label>` + data.testD2_TNE + `</label></div></div>`;
+                        }
+                        if (data.testD2_E > 5) {
+                            d2Section += `<div class="row text-danger"><div class="col-5"><label>D2 (E) Test Result:</label></div><div class="col-7"><label>` + data.testD2_E + `</label></div></div>`;
+                        }
+                        else {
+                            d2Section += `<div class="row"><div class="col-5"><label>D2 (E) Test Result:</label></div><div class="col-7"><label>`+ data.testD2_E + `</label></div></div>`;
+                        }
+                        if (data.testD2_TNE < 85 || data.testD2_E > 5) {
+                            $('div[id=card-header]').addClass("bg-danger");
+                            $('div[id=card-header]').removeClass("bg-info");
+                        }
+                        else {
+                            $('div[id=card-header]').removeClass("bg-danger");
+                            $('div[id=card-header]').addClass("bg-info");
+                        }
                         console.log(data);
+                        @*
 
+                                            if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
+                                            {
+                                                <td class="text-danger">@staff.FirstName</td>
+                                                <td class="text-danger">@staff.LastName</td>
+                                            }
+
+                            *@
                         $('#card-body').html(`
             <div class="row">
 <div class="col-4">
@@ -228,8 +264,7 @@
 <div class="row"><div class="col-5"><label>Father Name:</label></div><div class="col-7"><label>`+ data.fatherName+`</label></div></div>
 <div class="row"><div class="col-5"><label>Marital Status:</label></div><div class="col-7"><label>`+ data.marital.name+`</label></div></div>
 <div class="row"><div class="col-5"><label>Number of Children:</label></div><div class="col-7"><label>`+ data.numberOfChildren+`</label></div></div>
-<div class="row"><div class="col-5"><label>D2 (TNE) Test Result:</label></div><div class="col-7"><label>`+ data.testD2_TNE+`</label></div></div>
-<div class="row"><div class="col-5"><label>D2 (E) Test Result:</label></div><div class="col-7"><label>`+ data.testD2_E+`</label></div></div>
+`+d2Section+`
 
 </div>
 </div>
