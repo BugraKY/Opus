@@ -3,6 +3,7 @@
 *@
 @{
     @model IEnumerable<Opus.Models.DbModels.Staff>
+    int s = 0;
 }
 @using static Opus.Utility.Enums
 <style>
@@ -49,74 +50,77 @@
                         <div class="table-responsive">
 
                             <div id="example_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-
-                                <table id="example" class="table table-lg invoice-archive dataTable no-footer" role="grid" aria-describedby="example_info">
-                                    <thead>
-                                        <tr role="row">
-                                            @*<th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;"></th>*@
-                                            <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;">Resim</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 122px;">Name</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Surname: activate to sort column ascending" style="width: 200px;">Surname</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Identy No: activate to sort column ascending" style="width: 114px;">Identy No</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Gsm No: activate to sort column ascending" style="width: 153px;">Gsm No</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 108px;">Start date</th>
-                                            <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 72px;">Status</th>
-                                            <th class="text-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 77px;">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var staff in Model)
-                                        {
-                                        <tr role="row" class="odd">
-                                            @*
-        <td>
-            <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
-            <label for="@staff.Guid"></label>
-        </td>
-                                            *@
-                                            <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
-                                            @if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
+                                <form method="post" action="/staff/multiple-upsert">
+                                    <table id="example" class="table table-lg invoice-archive dataTable no-footer" role="grid" aria-describedby="example_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;"></th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;">Resim</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 122px;">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Surname: activate to sort column ascending" style="width: 200px;">Surname</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Identy No: activate to sort column ascending" style="width: 114px;">Identy No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Gsm No: activate to sort column ascending" style="width: 153px;">Gsm No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 108px;">Start date</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 72px;">Status</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 77px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var staff in Model)
                                             {
-                                                <td class="text-danger">@staff.FirstName</td>
-                                                <td class="text-danger">@staff.LastName</td>
+                                                <tr role="row" class="odd">
+                                                    @*
+                                                        <td>
+                                                            <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
+                                                            <label for="@staff.Guid"></label>
+                                                        </td>
+                                                    *@
+                                                    <td><input type="checkbox" id="ChecksVMEnumerable[@s].Checked" class="chk-col-success check-staff" style="" name="ChecksVMEnumerable[@s].Checked" value="false" /> <label for="ChecksVMEnumerable[@s].Checked"></label> <input type="text" name="ChecksVMEnumerable[@s].Guid" value="@staff.Guid" class="guid-staff d-none" hidden /></td>
+                                                    <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+                                                    @if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
+                                                    {
+                                                        <td class="text-danger">@staff.FirstName</td>
+                                                        <td class="text-danger">@staff.LastName</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@staff.FirstName</td>
+                                                        <td>@staff.LastName</td>
+                                                    }
+                                                    <td>@staff.IdentityNumber</td>
+                                                    <td>@staff.MobileNumber</td>
+                                                    <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
+                                                    <td>
+
+                                                        @switch (staff.Status)
+                                                        {
+                                                            case (int)StatusOfStaff.Active:
+                                                                <span></span>
+                                                                break;
+                                                            case (int)StatusOfStaff.Passive:
+                                                                <span></span>
+                                                                break;
+                                                            case (int)StatusOfStaff.Quit:
+                                                                <span></span>
+                                                                break;
+                                                        }
+                                                        <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 1 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 0 ? "Active" : "")@(@staff.Status == 1 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <div class="list-icons d-inline-flex">
+                                                            @*<a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>*@
+                                                            <a href="#modal" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> Card</a>
+                                                            <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                s += 1;
                                             }
-                                            else
-                                            {
-                                                <td>@staff.FirstName</td>
-                                                <td>@staff.LastName</td>
-                                            }
-                                            <td>@staff.IdentityNumber</td>
-                                            <td>@staff.MobileNumber</td>
-                                            <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
-                                            <td>
-
-                                                @switch (staff.Status)
-                                                {
-                                                    case (int)StatusOfStaff.Active:
-                                                        <span></span>
-                                                        break;
-                                                    case (int)StatusOfStaff.Passive:
-                                                        <span></span>
-                                                        break;
-                                                    case (int)StatusOfStaff.Quit:
-                                                        <span></span>
-                                                        break;
-                                                }
-                                                <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 1 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 0 ? "Active" : "")@(@staff.Status == 1 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
-                                            </td>
-                                            <td class="text-center">
-
-                                                <div class="list-icons d-inline-flex">
-                                                    @*<a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>*@
-                                                    <a href="#modal" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> Card</a>
-                                                    <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        }
-                                    </tbody>
-                                </table>
-
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-primary">Check</button>
+                                </form>
                             </div>
 
                         </div>
@@ -300,6 +304,16 @@
             $('.check-staff').on('click', function () {
                 var degs = $('.check-staff').val;
                 console.log(degs);
+
+                if ($(this).is(':checked')) {
+                    $(this).attr('value', 'true');
+                } else {
+                    $(this).attr('value', 'false');
+                }
+
+                //$('#checkbox-value').text($('#checkbox1').val());
+
+
             });
             $.ajax({
                 url: "/api/statusofstaff",

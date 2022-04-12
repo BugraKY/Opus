@@ -22,6 +22,7 @@ namespace Opus.Models.ViewModels
         public IEnumerable<FamilyMembers> FamilyMembersEnumerable { get; set; }
         public IEnumerable<StaffEquipment> StaffEquipmentEnumerable { get; set; }
         public IEnumerable<Products> Products { get; set; }
+        public IEnumerable<ChecksVM> ChecksVMEnumerable { get; set; }
         public DocumentFilesVM Files { get; set; }
     }
 }

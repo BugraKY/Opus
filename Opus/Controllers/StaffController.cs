@@ -25,7 +25,7 @@ namespace Opus.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll();
+                var staffs = _uow.Staff.GetAll().OrderBy(o=>o.Status);
                 return View(staffs);
             }
             return NotFound();
@@ -213,6 +213,22 @@ namespace Opus.Controllers
             return NotFound();
             #endregion Authentication
         }
+        [HttpPost("staff/multiple-upsert")]
+        public IActionResult MultipleUpsert(StaffVM staffVm)
+        {
+            IList<Staff> _staffs = new List<Staff>();
+            foreach (var item in staffVm.ChecksVMEnumerable)
+            {
+                if (item.Checked)
+                {
+                    var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == item.Guid);
+                    _staffs.Add(_staff);
+                }
+
+            }
+            return View(_staffs);
+            //return NoContent();
+        }
         #region API
         [HttpPost("api/checkid-num")]
         public JsonResult IdNumberIsUnique([FromBody] string identityNumber)
@@ -301,6 +317,12 @@ namespace Opus.Controllers
                 ImageFile = _staff.ImageFile
             };
             return _card;
+        }
+
+        [HttpPost("api/multiple-upsert")]
+        public IEnumerable<UpsertMultipleVM> UpsertMultipleApi([FromBody] IEnumerable<UpsertMultipleVM> upsertobjEnum)
+        {
+            return upsertobjEnum;
         }
         #endregion API
         public Claim GetClaim()

@@ -1,0 +1,1 @@
+export var TOOLBAR_CLASS = 'dx-toolbar';

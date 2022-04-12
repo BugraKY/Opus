@@ -37,7 +37,7 @@ namespace Opus.Models.DbModels
         public int BloodTypeId { get; set; }
         public float TestD2_TNE { get; set; }
         public float TestD2_E { get; set; }
-        public string CurrentSalary { get; set; }
+        public float CurrentSalary { get; set; }
         public string IBAN { get; set; }
         public string CountryId { get; set; }
         public bool WhiteCollarWorker { get; set; }

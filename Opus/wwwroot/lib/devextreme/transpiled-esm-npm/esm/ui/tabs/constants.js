@@ -1,0 +1,1 @@
+export var TABS_EXPANDED_CLASS = 'dx-tabs-expanded';

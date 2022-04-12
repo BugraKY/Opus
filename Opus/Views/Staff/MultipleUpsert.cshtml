@@ -1,0 +1,219 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<Opus.Models.DbModels.Staff>
+<style>
+    .editable-disabled {
+        pointer-events: none;
+    }
+</style>
+<section class="content">
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header">
+                    <h4 class="box-title">Multiple Editable Salary <strong>Datatable</strong></h4>
+                    <h6 class="subtitle">Just click on word which you want to change and enter</h6>
+                </div>
+                <div class="demo-container">
+                    <div id="gridContainer"></div>
+                </div>
+
+                @*
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-bordered table-separated">
+                                <thead>
+                                    <tr>
+                                        <th class="editable-disabled"></th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Current Salary</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-editable">
+                                    foreach (var item in Model)
+                                    {
+                                        <tr id="item.Guid">
+                                            <td class="editable-disabled"><a class="avatar avatar-lg"><img src="/assets/personels/@item.Guid/img/@item.ImageFile" class="bg-success-light" alt="@item.FirstName @item.LastName"> </a></td>
+                                            <td>item.FirstName</td>
+                                            <td>item.LastName</td>
+                                            <td>item.CurrentSalary</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Current Salary</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                *@
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+    </div>
+
+</section>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    @*<script src="~/lib/vendor_components/datatable/datatables.min.js"></script>
+        <script src="~/lib/vendor_components/tiny-editable/mindmup-editabletable.js"></script>*@
+
+    @*
+        <script src="~/lib/vendor_components/datatable/datatables.min.js"></script>
+        <script src="~/js/pages/data-table.js"></script>
+        <script src="~/js/pages/editable-tables.js"></script>
+        <script src="~/lib/vendor_components/datatable/datatables.min.js"></script>
+        <script src="~/lib/vendor_components/tiny-editable/mindmup-editabletable.js"></script>
+        <script src="~/lib/vendor_components/tiny-editable/numeric-input-example.js"></script>
+
+    *@
+
+    <script src="~/lib/devextreme/js/dx.web.js"></script>
+    <script src="~/lib/devextreme/js/dx.aspnet.data.min.js"></script>
+
+    <script>
+        function html2json() {
+            var json = '{';
+            var otArr = [];
+            var tbl2 = $('#tbody-editable tr').each(function (i) {
+                x = $(this).children();
+                var itArr = [];
+                x.each(function () {
+                    itArr.push('"' + $(this).text() + '"');
+                });
+                otArr.push('"' + i + '": [' + itArr.join(',') + ']');
+            })
+            json += otArr.join(",") + '}'
+            console.log(json);
+            return json;
+        }
+
+
+        function deve_edit() {
+            const staffs = @Json.Serialize(Model);
+            var data = JSON.stringify(staffs);
+            console.clear()
+            $(() => {/*
+                const employeesStore = new DevExpress.data.ArrayStore({
+                    key: 'Id',
+                    data: staffs,
+                });*/
+
+                const dataGrid = $('#gridContainer').dxDataGrid({
+                    dataSource: staffs,
+                    keyExpr: 'guid',
+                    showBorders: true,
+                    paging: {
+                        enabled: false,
+                    },
+                    editing: {
+                        mode: 'cell',
+                        allowUpdating: true,
+                        allowAdding: false,
+                        allowDeleting: false,
+                    },
+                    selection: {
+                        mode: 'single',
+                    },
+                    columns: [,
+                        @*{ dataField: 'Position', caption: '', width: 170, },*@
+                        { dataField: 'firstName', caption: 'First Name', width: 170, },
+                        { dataField: 'lastName', caption: 'Last Name', width: 170, },
+                        { dataField: 'currentSalary', dataType: 'number', caption: 'Current Salary', width: 170, },
+                    ],
+                    
+                    toolbar: {
+
+                        items: [
+                            {
+                                name: 'addRowButton',
+                                showText: 'always',
+                            },
+                            
+                            {
+                                location: 'after',
+                                widget: 'dxButton',
+                                options: {
+                                    text: 'Delete Selected Records',
+                                    icon: 'trash',
+                                    disabled: true,
+                                    onClick() {
+                                        dataGrid.getSelectedRowKeys().forEach((key) => {
+                                            employeesStore.remove(key);
+                                        });
+                                        dataGrid.refresh();
+                                    },
+                                },
+                            },
+                            
+                        ],
+
+                    },
+                    onSelectionChanged(data) {
+                        dataGrid.option('toolbar.items[1].options.disabled', !data.selectedRowsData.length);
+                        /*
+                        const datachanges = JSON.stringify(data.selectedRowsData);
+                        console.log("On Selection Changed: " + datachanges);
+                        $.ajax({
+                            method: "POST",
+                            url: "/api/multiple-upsert",
+                            data: datachanges,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                        })
+                            .done(function (msg) {
+                                alert("Data Saved: " + msg);
+                            });
+                        */
+                    },
+                    onSaving(e) {
+                        //console.log("On Saving: " + JSON.stringify(e.changes));
+                        const datachanges = JSON.stringify(e.changes);
+                        const datachangesModel = JSON.stringify(e.model);
+                        console.log("On Saving Model: " + datachanges);
+                        
+                        $.ajax({
+                            method: "POST",
+                            url: "/api/multiple-upsert",
+                            data: e.changes ,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+                                alert("Data Saved: " + response);
+                            },
+                        })
+                            .done(function (msg) {
+
+                            });
+                        
+                    },
+                }).dxDataGrid('instance');
+            });
+
+        }
+
+
+
+        $(document).ready(function () {
+            //html2json();
+            deve_edit();
+        });
+    </script>
+}

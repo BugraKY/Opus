@@ -1,0 +1,9 @@
+2022-03-01 05:07:47.245 |trace| ==========================================
+2022-03-01 05:07:47.245 |debug| Process args: c:\projects\DevExtreme\21.2\BuildLabel\node\node.exe c:\Projects\DevExtreme\21.2\BuildLabel\Temp\DevExtreme.v21.2\repo\GitHub\node_modules\devextreme-internal-tools\index.js inject-descriptions-to-bundle --descriptions-path c:\projects\DevExtreme\21.2\BuildLabel\Temp\DevExtreme.v21.2\repo/Tools/Descriptions.json --js-scripts c:\projects\DevExtreme\21.2\BuildLabel\Temp\DevExtreme.v21.2\repo\DevExtreme.AspNet.Mvc\DevExtreme.AspNet.Mvc\Builders\Generated --syntax AspNet --search-pattern *.g.cs
+2022-03-01 05:07:47.245 |info| Tools version: 7.7.0
+2022-03-01 05:07:49.854 |info| Descriptions.Injector OK
+2022-03-01 05:07:49.854 |info| 
+elapsed: 3s 15ms
+errors: 0
+warnings: 0
+

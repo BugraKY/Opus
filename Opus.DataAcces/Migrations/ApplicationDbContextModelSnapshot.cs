@@ -486,8 +486,8 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("CountryId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CurrentSalary")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("CurrentSalary")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");

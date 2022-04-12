@@ -1,0 +1,14 @@
+import domAdapter from '../../core/dom_adapter';
+import devices from '../../core/devices'; // Must become obsolete after the fix https://bugs.chromium.org/p/chromium/issues/detail?id=947408
+
+function isModernAndroidDevice() {
+  var {
+    android,
+    version
+  } = devices.real();
+  return android && version[0] > 4;
+}
+
+export function isInputEventsL2Supported() {
+  return 'onbeforeinput' in domAdapter.createElement('input') || isModernAndroidDevice();
+}
