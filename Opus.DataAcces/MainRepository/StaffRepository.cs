@@ -23,5 +23,9 @@ namespace Opus.DataAcces.MainRepository
         {
             _db.Update(staff);
         }
+        public void UpdateRange(IEnumerable<Staff> staffs)
+        {
+            _db.UpdateRange(staffs);
+        }
     }
 }

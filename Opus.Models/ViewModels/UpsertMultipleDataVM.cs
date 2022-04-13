@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.ViewModels
 {
-    public class UpsertMultipleVM
+    public class UpsertMultipleDataVM
     {
-        public string Key { get; set; }
         public float CurrentSalary { get; set; }
-        public UpsertMultipleDataVM Data { get; set; }
     }
 }

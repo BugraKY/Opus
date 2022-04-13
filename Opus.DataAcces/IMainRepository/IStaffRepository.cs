@@ -10,5 +10,6 @@ namespace Opus.DataAcces.IMainRepository
     public interface IStaffRepository : IRepository<Staff>
     {
         void Update(Staff staff);
+        void UpdateRange(IEnumerable<Staff> staffs);
     }
 }

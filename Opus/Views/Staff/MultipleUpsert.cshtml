@@ -134,8 +134,9 @@
                     },
                     columns: [,
                         @*{ dataField: 'Position', caption: '', width: 170, },*@
-                        { dataField: 'firstName', caption: 'First Name', width: 170, },
-                        { dataField: 'lastName', caption: 'Last Name', width: 170, },
+                        { dataField: 'guid', allowEditing: false, visible: false, caption: '', },
+                        { dataField: 'firstName', allowEditing: false, caption: 'First Name', width: 170, },
+                        { dataField: 'lastName', allowEditing: false, caption: 'Last Name', width: 170, },
                         { dataField: 'currentSalary', dataType: 'number', caption: 'Current Salary', width: 170, },
                     ],
                     
@@ -187,16 +188,16 @@
                         //console.log("On Saving: " + JSON.stringify(e.changes));
                         const datachanges = JSON.stringify(e.changes);
                         const datachangesModel = JSON.stringify(e.model);
-                        console.log("On Saving Model: " + datachanges);
+                        console.log(Object.values(e.changes));
                         
                         $.ajax({
                             method: "POST",
                             url: "/api/multiple-upsert",
-                            data: e.changes ,
+                            data: datachanges ,
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (response) {
-                                alert("Data Saved: " + response);
+                                console.log("Data Saved: " + response);
                             },
                         })
                             .done(function (msg) {

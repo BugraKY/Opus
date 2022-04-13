@@ -320,9 +320,24 @@ namespace Opus.Controllers
         }
 
         [HttpPost("api/multiple-upsert")]
-        public IEnumerable<UpsertMultipleVM> UpsertMultipleApi([FromBody] IEnumerable<UpsertMultipleVM> upsertobjEnum)
+        public IEnumerable<Staff> UpsertMultipleApi([FromBody] IEnumerable<UpsertMultipleVM> upsertobjEnum)
         {
-            return upsertobjEnum;
+            List<Staff> _staffs = new List<Staff>();
+            foreach (var item in upsertobjEnum)
+            {
+                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == Guid.Parse(item.Key));
+                _staff.CurrentSalary = item.Data.CurrentSalary;
+                _staffs.Add(_staff);
+            }
+            _uow.Staff.UpdateRange(_staffs);
+            _uow.Save();
+            return _staffs;
+        }
+        [HttpPost("api/get-multiple")]
+        public IEnumerable<Staff> GetMultipleApi([FromBody] IEnumerable<Staff> staffs)
+        {
+
+            return null;
         }
         #endregion API
         public Claim GetClaim()
