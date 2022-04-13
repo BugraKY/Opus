@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
+using Opus.Extensions;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 using Opus.Utility;
@@ -319,8 +320,8 @@ namespace Opus.Controllers
             return _card;
         }
 
-        [HttpPost("api/multiple-upsert")]
-        public IEnumerable<Staff> UpsertMultipleApi([FromBody] IEnumerable<UpsertMultipleVM> upsertobjEnum)
+        [HttpPost("api/single-upsert")]
+        public IEnumerable<Staff> UpsertSingleApi([FromBody] IEnumerable<UpsertMultipleVM> upsertobjEnum)
         {
             List<Staff> _staffs = new List<Staff>();
             foreach (var item in upsertobjEnum)
@@ -333,11 +334,32 @@ namespace Opus.Controllers
             _uow.Save();
             return _staffs;
         }
+        [HttpPost("api/multiple-upsert")]
+        public IEnumerable<Staff> UpsertMultipleApi([FromBody] IEnumerable<UpsertMultipleVM> upsertobjEnum)
+        {
+            List<Staff> _staffs = new List<Staff>();
+            foreach (var item in upsertobjEnum)
+            {
+                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == Guid.Parse(item.Key));
+                _staff.CurrentSalary = item.CurrentSalary;
+                _staffs.Add(_staff);
+            }
+            _uow.Staff.UpdateRange(_staffs);
+            _uow.Save();
+            return _staffs;
+        }
         [HttpPost("api/get-multiple")]
         public IEnumerable<Staff> GetMultipleApi([FromBody] IEnumerable<Staff> staffs)
         {
 
             return null;
+        }
+        [HttpGet("api/getbank/{bankCode}")]
+        public BankCodesVM GetBank(int bankCode)
+        {
+            ValidateBank _validate = new ValidateBank(_hostEnvironment);
+            var bank = _validate.Validate(bankCode);
+            return bank;
         }
         #endregion API
         public Claim GetClaim()

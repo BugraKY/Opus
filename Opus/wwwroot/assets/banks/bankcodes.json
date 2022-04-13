@@ -1,0 +1,342 @@
+[
+  {
+    "bankCode": 1,
+    "name": "Türkiye Cumhuriyet Merkez Bankasý A.Þ.",
+    "url": "/assets/banks/logos/tcmb.svg"
+  },
+  {
+    "bankCode": 4,
+    "name": "Ýller Bankasý",
+    "url": "/assets/banks/logos/ilbank.png"
+  },
+  {
+    "bankCode": 10,
+    "name": "Türkiye Cumhuriyeti Ziraat Bankasý A.Þ.",
+    "url": "/assets/banks/logos/ziraatbank.png"
+  },
+  {
+    "bankCode": 12,
+    "name": "Türkiye Halk Bankasý A.Þ.",
+    "url": "/assets/banks/logos/halkbank.png"
+  },
+  {
+    "bankCode": 13,
+    "name": "Denizbank",
+    "url": "/assets/banks/logos/denizbank.png"
+  },
+  {
+    "bankCode": 14,
+    "name": "Türkiye Sýnai Kalkýnma Bankasý A.Þ.",
+    "url": "/assets/banks/logos/tskb.jpg"
+  },
+  {
+    "bankCode": 15,
+    "name": "Türkiye Vakýflar Bankasý T.A.O.",
+    "url": "/assets/banks/logos/vakifbank.png"
+  },
+  {
+    "bankCode": 16,
+    "name": "Türkiye Ýhracat Kredi Bankasý A.Þ. (Eximbank)",
+    "url": "/assets/banks/logos/eximbank.png"
+  },
+  {
+    "bankCode": 17,
+    "name": "Türkiye Kalkýnma Bankasý A.Þ.",
+    "url": "/assets/banks/logos/kalkinmabank.png"
+
+  },
+  {
+    "bankCode": 29,
+    "name": "Birleþik Fon Bankasý A.Þ. (Bayýndýrbank A.Þ.)",
+    "url": "/assets/banks/logos/bfb.gif"
+  },
+  {
+    "bankCode": 32,
+    "name": "Türk Ekonomi Bankasý A.Þ.",
+    "url": "/assets/banks/logos/teb.png"
+  },
+  {
+    "bankCode": 34,
+    "name": "Aktif Yatýrým Bankasý A.Þ.",
+    "url": "/assets/banks/logos/aktifbank.png"
+  },
+  {
+    "bankCode": 46,
+    "name": "Akbank T.A.Þ.",
+    "url": "/assets/banks/logos/akbank.png"
+  },
+  {
+    "bankCode": 48,
+    "name": "HSBC Bank A.Þ.",
+    "url": "/assets/banks/logos/hsbc.svg"
+  },
+  {
+    "bankCode": 58,
+    "name": "Sýnai Yatýrým Bankasý A.Þ.",
+    "url": "/assets/banks/logos/sinai-yatirim-bank.svg"
+  },
+  {
+    "bankCode": 59,
+    "name": "Þekerbank T.A.Þ.",
+    "url": "/assets/banks/logos/sekerbank.png"
+  },
+  {
+    "bankCode": 62,
+    "name": "Türkiye Garanti Bankasý A.Þ.",
+    "url": "/assets/banks/logos/garanti.svg"
+  },
+  {
+    "bankCode": 64,
+    "name": "Türkiye Ýþ Bankasý A.Þ.",
+    "url": "/assets/banks/logos/isbank.png"
+  },
+  {
+    "bankCode": 67,
+    "name": "Yapý ve Kredi Bankasý A.Þ.",
+    "url": "/assets/banks/logos/yapikredi.png"
+
+  },
+  {
+    "bankCode": 71,
+    "name": "Fortis Bank (TEB)",
+    "url": "/assets/banks/logos/teb.png"
+  },
+  {
+    "bankCode": 87,
+    "name": "Banca di Roma"
+  },
+  {
+    "bankCode": 88,
+    "name": "The Royal Bank of Scotland PLC Merkezi Amsterdam Ýstanbul Merkez Þubesi"
+  },
+  {
+    "bankCode": 91,
+    "name": "Arap Türk Bankasý A.Þ."
+  },
+  {
+    "bankCode": 92,
+    "name": "Citibank N.A."
+  },
+  {
+    "bankCode": 94,
+    "name": "Bank Mellat"
+  },
+  {
+    "bankCode": 95,
+    "name": "BCCI"
+  },
+  {
+    "bankCode": 96,
+    "name": "Turkish Bank A.Þ."
+  },
+  {
+    "bankCode": 97,
+    "name": "Habib Bank Limited"
+  },
+  {
+    "bankCode": 98,
+    "name": "JP Morgan Chase Bank Ýstanbul Türkiye Þubesi"
+  },
+  {
+    "bankCode": 99,
+    "name": "Oyak Bank A.Þ. - ING BANK",
+    "url": "/assets/banks/logos/ing.png"
+  },
+  {
+    "bankCode": 100,
+    "name": "Adabank A.Þ."
+  },
+  {
+    "bankCode": 101,
+    "name": "Türk Sakura Bank A.Þ."
+  },
+  {
+    "bankCode": 103,
+    "name": "Fiba Bank A.Þ."
+  },
+  {
+    "bankCode": 104,
+    "name": "IMPEXBANK"
+  },
+  {
+    "bankCode": 106,
+    "name": "PORTIGON A.G."
+  },
+  {
+    "bankCode": 107,
+    "name": "BNP-Ak-Dresdner Bank A.Þ."
+  },
+  {
+    "bankCode": 108,
+    "name": "Turkland Bank A.Þ."
+  },
+  {
+    "bankCode": 109,
+    "name": "Tekstil Bankasý A.Þ."
+  },
+  {
+    "bankCode": 110,
+    "name": "Credit Lyonnais"
+  },
+  {
+    "bankCode": 111,
+    "name": "Finansbank A.Þ.",
+    "logo": "/assets/banks/logos/finansbank.png"
+    
+  },
+  {
+    "bankCode": 113,
+    "name": "Marbank"
+  },
+  {
+    "bankCode": 115,
+    "name": "Deutsche Bank A.Þ."
+  },
+  {
+    "bankCode": 116,
+    "name": "TAÝB Yatýrým Bank A.Þ."
+  },
+  {
+    "bankCode": 117,
+    "name": "Turizm Yatýrým ve Ticaret Bank A.Þ."
+  },
+  {
+    "bankCode": 118,
+    "name": "Kýbrýs Kredi Bankasý"
+  },
+  {
+    "bankCode": 119,
+    "name": "Birleþik Yatýrým"
+  },
+  {
+    "bankCode": 121,
+    "name": "Standard Chartered Yatýrým Bankasý Türk A.Þ."
+  },
+  {
+    "bankCode": 122,
+    "name": "Societe Generale"
+  },
+  {
+    "bankCode": 123,
+    "name": "HSBC Bank A.Þ.",
+    "url": "/assets/banks/logos/hsbc.svg"
+  },
+  {
+    "bankCode": 124,
+    "name": "Alternatifbank A.Þ."
+  },
+  {
+    "bankCode": 125,
+    "name": "Burganbank A.Þ."
+  },
+  {
+    "bankCode": 127,
+    "name": "KentBank"
+  },
+  {
+    "bankCode": 128,
+    "name": "Park Yatýrým Bankasý"
+  },
+  {
+    "bankCode": 129,
+    "name": "Tat Yatýrým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 132,
+    "name": "IMKB Takas ve Saklama Bankasý A.Þ."
+  },
+  {
+    "bankCode": 133,
+    "name": "ING BANK",
+    "url": "/assets/banks/logos/ing.png"
+  },
+  {
+    "bankCode": 134,
+    "name": "Denizbank A.Þ.",
+    "url": "/assets/banks/logos/denizbank.png"
+  },
+  {
+    "bankCode": 135,
+    "name": "Anadolubank A.Þ."
+  },
+  {
+    "bankCode": 136,
+    "name": "Okan Yatýrým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 137,
+    "name": "Rabobank Nederland Ýstanbul Merkez Þubesi"
+  },
+  {
+    "bankCode": 138,
+    "name": "Diler Yatýrým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 139,
+    "name": "GSD Yatýrým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 140,
+    "name": "Credit Suisse First Boston Ýstanbul Þubesi"
+  },
+  {
+    "bankCode": 141,
+    "name": "Nurol Yatýrým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 142,
+    "name": "Bank Pozitif Kredi ve Kalkýnma Bankasý A.Þ."
+  },
+  {
+    "bankCode": 144,
+    "name": "Atlas Yatýrým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 145,
+    "name": "Morgan Guarenty Trusy Company"
+  },
+  {
+    "bankCode": 146,
+    "name": "OdeaBank A.Þ."
+  },
+  {
+    "bankCode": 147,
+    "name": "Bank of Tokyo -Mitsubishi UFJ Turkey A.Þ."
+  },
+  {
+    "bankCode": 148,
+    "name": "Intesa SanPaolo SPA Ýtalya-Ýstanbul Merkez Þubesi"
+  },
+  {
+    "bankCode": 203,
+    "name": "Al Baraka Türk Katýlým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 204,
+    "name": "Family Finans Kurumu"
+  },
+  {
+    "bankCode": 205,
+    "name": "Kuveyt Türk Katýlým Bankasý A.Þ.",
+    "url": "/assets/banks/logos/kuveyt.png"
+  },
+  {
+    "bankCode": 206,
+    "name": "Türkiye Finans Katýlým Bankasý A.Þ.",
+    "url": "/assets/banks/logos/turkiye-finans.png"
+  },
+  {
+    "bankCode": 208,
+    "name": "Asya Katýlým Bankasý A.Þ."
+  },
+  {
+    "bankCode": 210,
+    "name": "Vakýf Katýlým Bankasý A.Þ.",
+    "url": "/assets/banks/logos/vakifkatilim.png"
+  },
+  {
+    "bankCode": 223,
+    "name": "Al Baraka Türk Katýlým Bankasý A.Þ.",
+    "url": "/assets/banks/logos/albaraka.jpg"
+  }
+]

@@ -14,5 +14,9 @@ namespace Opus.Utility
             Passive = 1,
             Quit = 2
         }
+        public enum BankCode
+        {
+
+        }
     }
 }

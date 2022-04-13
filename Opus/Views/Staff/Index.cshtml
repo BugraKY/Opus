@@ -209,7 +209,7 @@
 
             $('.card-btn').on('click', function () {
                 var currentRow = $(this).closest("tr");
-                var tcId = currentRow.find("td:eq(3)").text();
+                var tcId = currentRow.find("td:eq(4)").text();
                 var d2Section = '';
                 $.ajax({
                     url: "/api/getcard/" + tcId,
@@ -222,6 +222,7 @@
 
                     },
                     success: function (data, textStatus, jqXHR) {
+                        console.log(JSON.stringify(data));
                         if (data.testD2_TNE < 85) {
                             d2Section += `<div class="row text-danger"><div class="col-5"><label>D2 (TNE) Test Result:</label></div><div class="col-7"><label>` + data.testD2_TNE + `</label></div></div>`;
                         }

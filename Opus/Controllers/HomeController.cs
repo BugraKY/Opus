@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using System.Security.Claims;
+using Opus.Extensions;
 
 namespace Opus.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _uow;
-        public HomeController(IUnitOfWork uow)
+        private readonly IWebHostEnvironment _hostEnvironment;//wwwroot konum olarak erişim sağlar. Yani host dosyamızın ana dosyasına erişilir.
+        public HomeController(IUnitOfWork uow, IWebHostEnvironment hostEnvironment)
         {
             _uow = uow;
+            _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {

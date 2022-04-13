@@ -103,6 +103,17 @@ namespace Opus.Utility
             }
         }
 
+        public class BankAuth
+        {
+            public static class IBAN
+            {
+                public static int Control { get; set; }
+                public static int BankCode { get; set; }
+                public static int NationalControl { get; set; }
+                public static int AccountNumber { get; set; }
+            }
+        }
+
         public static string[] GetAllLocalIPv4()
         {
             List<string> ipAddrList = new List<string>();

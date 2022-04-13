@@ -89,6 +89,7 @@
     <script src="~/lib/devextreme/js/dx.aspnet.data.min.js"></script>
 
     <script>
+        var staffs = @Json.Serialize(Model);
         function html2json() {
             var json = '{';
             var otArr = [];
@@ -107,7 +108,6 @@
 
 
         function deve_edit() {
-            const staffs = @Json.Serialize(Model);
             var data = JSON.stringify(staffs);
             console.clear()
             $(() => {/*
@@ -139,7 +139,7 @@
                         { dataField: 'lastName', allowEditing: false, caption: 'Last Name', width: 170, },
                         { dataField: 'currentSalary', dataType: 'number', caption: 'Current Salary', width: 170, },
                     ],
-                    
+
                     toolbar: {
 
                         items: [
@@ -147,23 +147,65 @@
                                 name: 'addRowButton',
                                 showText: 'always',
                             },
-                            
+
                             {
                                 location: 'after',
-                                widget: 'dxButton',
+                                widget: 'dxNumberBox',
                                 options: {
-                                    text: 'Delete Selected Records',
-                                    icon: 'trash',
-                                    disabled: true,
-                                    onClick() {
+                                    placeholder: 'Enter CurrentSalary all selected staffs',
+                                    id: 'dx-staffs',
+                                    dataType: 'number',
+                                    showSpinButtons: true,
+                                    /*disabled: false,*/
+                                    onEnterKey(data) {
                                         dataGrid.getSelectedRowKeys().forEach((key) => {
                                             employeesStore.remove(key);
                                         });
-                                        dataGrid.refresh();
+
+                                        var jsonObj = [];
+
+                                        $.each(staffs, function (i, item) {
+                                            //staffs[i].currentSalary = JSON.parse(data.component._changedValue);
+                                            //console.log(staffs[i].guid);
+
+                                            var upsertItem = {};
+                                            upsertItem["key"] = staffs[i].guid;
+                                            upsertItem["currentSalary"] = JSON.parse(data.component._changedValue);
+                                            jsonObj.push(upsertItem);
+
+
+
+                                        });
+
+                                        //console.log(jsonObj);
+
+                                        $.ajax({
+                                            method: "POST",
+                                            url: "/api/multiple-upsert",
+                                            data: JSON.stringify(jsonObj),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (response) {
+                                                console.log("Success Data: " + JSON.stringify(response));
+                                                staffs = response;
+                                                deve_edit();
+
+                                                $.toast({
+                                                    heading: "Salaries",
+                                                    text: "Salaries have been successfully updated",
+                                                    icon: "success",
+                                                    showHideTransition: data.showHideTransition,
+                                                    loader: false,        // Change it to false to disable loader
+                                                    loaderBg: '#9EC600',  // To change the background
+                                                    position: 'top-right',
+                                                    hideAfter: 5000
+                                                });
+                                            },
+                                        })
                                     },
                                 },
                             },
-                            
+
                         ],
 
                     },
@@ -172,16 +214,7 @@
                         /*
                         const datachanges = JSON.stringify(data.selectedRowsData);
                         console.log("On Selection Changed: " + datachanges);
-                        $.ajax({
-                            method: "POST",
-                            url: "/api/multiple-upsert",
-                            data: datachanges,
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                        })
-                            .done(function (msg) {
-                                alert("Data Saved: " + msg);
-                            });
+
                         */
                     },
                     onSaving(e) {
@@ -189,10 +222,10 @@
                         const datachanges = JSON.stringify(e.changes);
                         const datachangesModel = JSON.stringify(e.model);
                         console.log(Object.values(e.changes));
-                        
+
                         $.ajax({
                             method: "POST",
-                            url: "/api/multiple-upsert",
+                            url: "/api/single-upsert",
                             data: datachanges ,
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
@@ -203,7 +236,7 @@
                             .done(function (msg) {
 
                             });
-                        
+
                     },
                 }).dxDataGrid('instance');
             });
