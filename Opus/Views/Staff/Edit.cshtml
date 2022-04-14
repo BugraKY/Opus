@@ -20,355 +20,298 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs nav-fill" role="tablist">
-                <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#infoTab" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">1 Info's</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#familyTab" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">2 Family Details</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#equipmentTab" role="tab"><span><i class="ion-email"></i></span> <span class="hidden-xs-down ms-15">3 Equipment</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#documentsTab" role="tab"><span><i class="ion-settings"></i></span> <span class="hidden-xs-down ms-15">4 Documents</span></a> </li>
-                <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#trainingTab" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">5 Training</span></a> </li>
-                <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#salaryTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">6 Salary</span></a> </li>
-                <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#timeKeepingTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">7 Time Keeping</span></a> </li>
-                <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#minuteDofTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">8 Minute-Dof</span></a> </li>
-                <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#leavesTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">9 Leaves</span></a> </li>
-            </ul>
-            <!-- Tab panes -->
+            @*<form action="/staff/updating" method="post">*@
+            <form asp-action="Update" method="post">
+                <input type="text" value="@Model.Guid" asp-for="Guid" class="d-none" hidden />
+                <input type="text" value="@Model.Id" asp-for="Id" class="d-none" hidden />
+                <input type="text" value="@Model.ImageFile" asp-for="ImageFile" class="d-none" hidden />
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-fill" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#infoTab" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">1 Info's</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#familyTab" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">2 Family Details</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#equipmentTab" role="tab"><span><i class="ion-email"></i></span> <span class="hidden-xs-down ms-15">3 Equipment</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#documentsTab" role="tab"><span><i class="ion-settings"></i></span> <span class="hidden-xs-down ms-15">4 Documents</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#trainingTab" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">5 Training</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#salaryTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">6 Salary</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#timeKeepingTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">7 Time Keeping</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#minuteDofTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">8 Minute-Dof</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link disabled" data-bs-toggle="tab" href="#leavesTab" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">9 Leaves</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
 
-            <div class="tab-content tabcontent-border">
-                <!--1 Info's-->
-                <div class="tab-pane active" id="infoTab" role="tabpanel">
-                    <div class="p-15">
+                <div class="tab-content tabcontent-border">
+                    <!--1 Info's-->
+                    <div class="tab-pane active" id="infoTab" role="tabpanel">
+                        <div class="p-15">
 
-                        <section>
-                            <div class="row">
-                                <div class="col-lg-6 col-12">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Personel Hakkında</h4>
-                                            <hr class="my-15">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="media">
-                                                        <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/@Model.Guid/img/@Model.ImageFile">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="label_email control-label" for="prof_image">Image : </label>
-                                                        <input class="form-control" id="file" accept="image/*" type="file">
-                                                        <input type="hidden" name="image" id="image" />
+                            <section>
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Personel Hakkında</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
                                                         <div class="media">
-                                                            <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
+                                                            <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/@Model.Guid/img/@Model.ImageFile">
                                                         </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label_email control-label" for="prof_image">Image : </label>
+                                                            <input class="form-control" id="file" accept="image/*" type="file">
+                                                            <input type="hidden" name="image" id="image" />
+                                                            <div class="media">
+                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
+                                                            </div>
 
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Name <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Name" asp-for="FirstName" value="@Model.FirstName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Surname <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Surname" asp-for="LastName" value="@Model.LastName">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Name <span class="danger">*</span></label>
-                                                        <input type="text" class="form-control " placeholder="Name" asp-for="FirstName" value="@Model.FirstName">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">GSM <span class="danger">*</span></label>
+                                                            <input data-rule-minlength="2" type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber" value="@Model.MobileNumber">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Surname <span class="danger">*</span></label>
-                                                        <input type="text" class="form-control " placeholder="Surname" asp-for="LastName" value="@Model.LastName">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">GSM <span class="danger">*</span></label>
-                                                        <input data-rule-minlength="2" name="gsm" type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber" value="@Model.MobileNumber">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Create Stamp Number?  <span class="danger">*</span></label>
-                                                        <select class="form-select " asp-for="AddStamp">
-                                                            <option value="">Select</option>
-                                                            @if (Model.AddStamp)
-                                                            {
-                                                                <option value="False">No</option>
-                                                                <option value="True" selected="selected">Yes</option>
-                                                            }
-                                                            else
-                                                            {
-                                                                <option value="False" selected="selected">No</option>
-                                                                <option value="True">Yes</option>
-                                                            }
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Create Stamp Number?  <span class="danger">*</span></label>
+                                                            <select class="form-select " asp-for="AddStamp">
+                                                                <option value="">Select</option>
+                                                                @if (Model.AddStamp)
+                                                                {
+                                                                    <option value="False">No</option>
+                                                                    <option value="True" selected="selected">Yes</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="False" selected="selected">No</option>
+                                                                    <option value="True">Yes</option>
+                                                                }
 
-                                                        </select>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i> Requirements</h4>
-                                            <hr class="my-15">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Place of Birth  <span class="danger">*</span></label>
-                                                        <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace" value="@Model.BirthPlace">
+                                                <h4 class="box-title text-info mb-0 mt-20"><i class="ti-save me-15"></i> Requirements</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Place of Birth  <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace" value="@Model.BirthPlace">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Date of Birth <span class="danger">*</span></label>
+                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Date of Birth <span class="danger">*</span></label>
-                                                        <input type="date" class="form-control required" asp-for="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Mother Name <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName" value="@Model.MotherName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Fathers Name <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName" value="@Model.FatherName">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Mother Name <span class="danger">*</span></label>
-                                                        <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName" value="@Model.MotherName">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Marital Status <span class="danger">*</span></label>
+                                                            <select class="form-select " asp-for="MaritalStatus">
+                                                                @if (Model.MaritalStatus == 1)
+                                                                {
+                                                                    <option value="1" selected="selected">Married</option>
+                                                                    <option value="0">Single</option>
+                                                                }
+                                                                else if (Model.MaritalStatus == 0)
+                                                                {
+                                                                    <option value="1">Married</option>
+                                                                    <option value="0" selected="selected">Single</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Identity Number <span class="danger">*</span></label>
+                                                            <input id="idnum" type="number" class="form-control " placeholder="Kimlik" asp-for="IdentityNumber" value="@Model.IdentityNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Fathers Name <span class="danger">*</span></label>
-                                                        <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName" value="@Model.FatherName">
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Number of Children <span class="danger">*</span></label>
+                                                    <input type="number" class="form-control " placeholder="Çocuk Sayısı" asp-for="NumberOfChildren" value="@Model.NumberOfChildren">
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Marital Status <span class="danger">*</span></label>
-                                                        <select class="form-select " asp-for="MaritalStatus">
-                                                            @if (Model.MaritalStatus == 1)
-                                                            {
-                                                                <option value="1" selected="selected">Married</option>
-                                                                <option value="0">Single</option>
-                                                            }
-                                                            else if (Model.MaritalStatus == 0)
-                                                            {
-                                                                <option value="1">Married</option>
-                                                                <option value="0" selected="selected">Single</option>
-                                                            }
-                                                        </select>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">D2 (TNE) Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="D2 (TNE) Test Result" asp-for="TestD2_TNE" value="@Model.TestD2_TNE">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Identity Number <span class="danger">*</span></label>
-                                                        <input id="idnum" type="number" class="form-control " placeholder="Kimlik" asp-for="IdentityNumber" value="@Model.IdentityNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Number of Children <span class="danger">*</span></label>
-                                                <input type="number" class="form-control " placeholder="Çocuk Sayısı" asp-for="NumberOfChildren" value="@Model.NumberOfChildren">
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">D2 (TNE) Test Result</label>
-                                                        <input type="number" class="form-control" placeholder="D2 (TNE) Test Result" asp-for="TestD2_TNE" value="@Model.TestD2_TNE">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">D2 (E) Test Result</label>
-                                                        <input type="number" class="form-control" placeholder="D2 (E) Test Result" asp-for="TestD2_E" value="@Model.TestD2_E">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">D2 (E) Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="D2 (E) Test Result" asp-for="TestD2_E_STR" value="@Model.TestD2_E.ToString().Replace(',','.')" step="0.1">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> About User</h4>
-                                            <hr class="my-15">
-                                            <div class="row">
-                                                <div class="col-md-6">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> About User</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
 
-                                                    <div class="form-group">
-                                                        <label class="form-label">IBAN <span class="danger">*</span></label>
-                                                        <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
+                                                        <div class="form-group">
+                                                            <label class="form-label">IBAN <span class="danger">*</span></label>
+                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Current Salary</label>
+                                                            <input type="number" class="form-control" placeholder="Güncel Maaş" value="@Model.CurrentSalary" asp-for="CurrentSalary" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Current Salary</label>
-                                                        <input type="number" class="form-control" placeholder="Güncel Maaş" value="@Model.CurrentSalary" asp-for="CurrentSalary" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Statue</label>
-                                                        <select class="form-select" asp-for="WhiteCollarWorker">
-                                                            @if (Model.WhiteCollarWorker)
-                                                            {
-                                                                <option value="False">Blue Collar</option>
-                                                                <option value="True" selected="selected">White Collar</option>
-                                                            }
-                                                            else
-                                                            {
-                                                                <option value="False" selected="selected">Blue Collar</option>
-                                                                <option value="True">White Collar</option>
-                                                            }
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Statue</label>
+                                                            <select class="form-select" asp-for="WhiteCollarWorker">
+                                                                @if (Model.WhiteCollarWorker)
+                                                                {
+                                                                    <option value="False">Blue Collar</option>
+                                                                    <option value="True" selected="selected">White Collar</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="False" selected="selected">Blue Collar</option>
+                                                                    <option value="True">White Collar</option>
+                                                                }
 
-                                                        </select>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Date of Employment <span class="danger">*</span></label>
+                                                            <input type="date" class="form-control " asp-for="DateOfEntry" value="@Model.DateOfEntry.ToString("yyyy-MM-dd")">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Date of Employment <span class="danger">*</span></label>
-                                                        <input type="date" class="form-control " asp-for="DateOfEntry" value="@Model.DateOfEntry.ToString("yyyy-MM-dd")">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Education Status</label>
+                                                            <select class="form-select" asp-for="EducationalStatus">
+                                                                @if (Model.EducationalStatus == "Primary School Graduate")
+                                                                {
+                                                                    <option value="Primary School Graduate" selected="selected">Primary School Graduate</option>
+                                                                    <option value="High School Graduate">High School Graduate</option>
+                                                                    <option value="Undergraduate Degree">Undergraduate Degree</option>
+                                                                }
+                                                                else if (Model.EducationalStatus == "High School Graduate")
+                                                                {
+                                                                    <option value="Primary School Graduate">Primary School Graduate</option>
+                                                                    <option value="High School Graduate" selected="selected">High School Graduate</option>
+                                                                    <option value="Undergraduate Degree">Undergraduate Degree</option>
+                                                                }
+                                                                else if (Model.EducationalStatus == "Undergraduate Degree")
+                                                                {
+                                                                    <option value="Primary School Graduate">Primary School Graduate</option>
+                                                                    <option value="High School Graduate">High School Graduate</option>
+                                                                    <option value="Undergraduate Degree" selected="selected">Undergraduate Degree</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Status <span class="danger">*</span></label>
+                                                            <select class="form-select" asp-for="Status">
+                                                                <option value="1" selected="selected">Active</option>
+                                                                <option value="0">Passive</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Education Status</label>
-                                                        <select class="form-select" asp-for="EducationalStatus">
-                                                            @if (Model.EducationalStatus == "Primary School Graduate")
-                                                            {
-                                                                <option value="Primary School Graduate" selected="selected">Primary School Graduate</option>
-                                                                <option value="High School Graduate">High School Graduate</option>
-                                                                <option value="Undergraduate Degree">Undergraduate Degree</option>
-                                                            }
-                                                            else if (Model.EducationalStatus == "High School Graduate")
-                                                            {
-                                                                <option value="Primary School Graduate">Primary School Graduate</option>
-                                                                <option value="High School Graduate" selected="selected">High School Graduate</option>
-                                                                <option value="Undergraduate Degree">Undergraduate Degree</option>
-                                                            }
-                                                            else if (Model.EducationalStatus == "Undergraduate Degree")
-                                                            {
-                                                                <option value="Primary School Graduate">Primary School Graduate</option>
-                                                                <option value="High School Graduate">High School Graduate</option>
-                                                                <option value="Undergraduate Degree" selected="selected">Undergraduate Degree</option>
-                                                            }
-                                                        </select>
-                                                    </div>
+                                                <h4 class="box-title text-info mb-0 mt-20"><i class="ti-envelope me-15"></i> Contact Info &amp; Bio</h4>
+                                                <hr class="my-15">
+                                                <div class="form-group">
+                                                    <label class="form-label">Contact Number 2:</label>
+                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumber">
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Status <span class="danger">*</span></label>
-                                                        <select class="form-select" asp-for="Status">
-                                                            <option value="0" selected="selected">Active</option>
-                                                            <option value="1">Passive</option>
-                                                        </select>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Contact Number 3:</label>
+                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumberSec">
                                                 </div>
-                                            </div>
-                                            <h4 class="box-title text-info mb-0 mt-20"><i class="ti-envelope me-15"></i> Contact Info &amp; Bio</h4>
-                                            <hr class="my-15">
-                                            <div class="form-group">
-                                                <label class="form-label">Contact Number 2:</label>
-                                                <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumber">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Contact Number 3:</label>
-                                                <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumberSec">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Blood Group  <span class="danger">*</span></label>
-                                                <select class="form-select " asp-for="BloodTypeId" id="bloodtype">
-                                                    <option value="" selected="selected"></option>
-                                                    <option value="0">AB Rh (+)</option>
-                                                    <option value="1">A Rh (+)</option>
-                                                    <option value="2">B Rh (+)</option>
-                                                    <option value="3">0 Rh (+)</option>
-                                                    <option value="4">AB Rh (-)</option>
-                                                    <option value="5">A Rh (-)</option>
-                                                    <option value="6">B Rh (-)</option>
-                                                    <option value="7">0 Rh (-)</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Address <span class="danger">*</span></label>
-                                                <textarea rows="4" class="form-control " placeholder="Address" asp-for="StreetAddress">@Model.StreetAddress</textarea>
+                                                <div class="form-group">
+                                                    <label class="form-label">Blood Group  <span class="danger">*</span></label>
+                                                    <select class="form-select " asp-for="BloodTypeId" id="bloodtype">
+                                                        <option value="" selected="selected"></option>
+                                                        <option value="0">AB Rh (+)</option>
+                                                        <option value="1">A Rh (+)</option>
+                                                        <option value="2">B Rh (+)</option>
+                                                        <option value="3">0 Rh (+)</option>
+                                                        <option value="4">AB Rh (-)</option>
+                                                        <option value="5">A Rh (-)</option>
+                                                        <option value="6">B Rh (-)</option>
+                                                        <option value="7">0 Rh (-)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label">Address <span class="danger">*</span></label>
+                                                    <textarea rows="4" class="form-control " placeholder="Address" asp-for="StreetAddress">@Model.StreetAddress</textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>
+                            </section>
 
-                    </div>
-                </div>
-
-                <!--2 Family Details-->
-                <div class="tab-pane" id="familyTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <div class="box-body">
-                            <div class="table-responsive">
-                                <table id="example1" class="table table-bordered table-separated">
-                                    <thead>
-                                        <tr>
-                                            <th class="pt-10">Yakınlık</th>
-                                            <th class="pt-10">Ad Soyad</th>
-                                            <th class="pt-10">Kimlik No</th>
-                                            <th class="pt-10">Doğum Yeri</th>
-                                            <th class="pt-10">Doğum Tarihi</th>
-                                            <th class="pt-10"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="">
-                                        @foreach (var item in Model.FamilyMembersEnumerable)
-                                        {
-                                            <tr id="fam-tr-@item.Id">
-                                                <td>
-                                                    @item.FamilyRelationship.Name@*
-                                                        if (item.FamilyRelationship.Id == 1)
-                                                        {
-                                                            <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
-                                                                <option value="1" selected="selected">Eş</option>
-                                                                <option value="2">Çocuk</option>
-                                                            </select>
-                                                        }
-                                                        else
-                                                        {
-                                                            <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
-                                                                <option value="1">Eş</option>
-                                                                <option value="2" selected="selected">Çocuk</option>
-                                                            </select>
-                                                        }
-
-                                                    *@
-                                                </td>
-                                                <td>@item.FullName</td>
-                                                <td>@item.IdentityNumber</td>
-                                                <td>@item.BirthPlace</td>
-                                                <td>@item.DateOfBirth.ToString("dd.MM.yyyy")</td>
-                                                <td id="remove_@item.Id"><a href="#remove" onClick="removeMember(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
-                                            </tr>
-                                        }
-
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th class="pt-10">Yakınlık</th>
-                                            <th class="pt-10">Ad Soyad</th>
-                                            <th class="pt-10">Kimlik No</th>
-                                            <th class="pt-10">Doğum Yeri</th>
-                                            <th class="pt-10">Doğum Tarihi</th>
-                                            <th class="pt-10"></th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
                         </div>
+                    </div>
 
+                    <!--2 Family Details-->
+                    <div class="tab-pane" id="familyTab" role="tabpanel">
+                        <div class="p-15">
 
-
-                        <section>
-                            <div class="box-body py-0">
+                            <div class="box-body">
                                 <div class="table-responsive">
-                                    <table class="table no-border" id="tab_equp">
+                                    <table id="example1" class="table table-bordered table-separated">
                                         <thead>
-                                            <tr class="text-start">
+                                            <tr>
                                                 <th class="pt-10">Yakınlık</th>
                                                 <th class="pt-10">Ad Soyad</th>
                                                 <th class="pt-10">Kimlik No</th>
@@ -377,376 +320,445 @@
                                                 <th class="pt-10"></th>
                                             </tr>
                                         </thead>
-                                        <tbody class="tdoby_fam">
+                                        <tbody id="">
+                                            @foreach (var item in Model.FamilyMembersEnumerable)
+                                            {
+                                                <tr id="fam-tr-@item.Id">
+                                                    <td>
+                                                        @item.FamilyRelationship.Name@*
+                                                            if (item.FamilyRelationship.Id == 1)
+                                                            {
+                                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                                    <option value="1" selected="selected">Eş</option>
+                                                                    <option value="2">Çocuk</option>
+                                                                </select>
+                                                            }
+                                                            else
+                                                            {
+                                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                                    <option value="1">Eş</option>
+                                                                    <option value="2" selected="selected">Çocuk</option>
+                                                                </select>
+                                                            }
+
+                                                        *@
+                                                    </td>
+                                                    <td>@item.FullName</td>
+                                                    <td>@item.IdentityNumber</td>
+                                                    <td>@item.BirthPlace</td>
+                                                    <td>@item.DateOfBirth.ToString("dd.MM.yyyy")</td>
+                                                    <td id="remove_@item.Id"><a href="#remove" onClick="removeMember(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
+                                                </tr>
+                                            }
+
                                         </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="border-top">
-                                <div class="row mt-4 mb-4">
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
-                                                <option value="-1" selected="selected">Yakınlık</option>
-                                                <option value="1">Eş</option>
-                                                <option value="2">Çocuk</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" />
-
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input type="text" id="familyMembersBirthPlace" placeholder='Doğum Yeri' class="form-control" />
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input type="date" class="form-control" id="familyMembersDateOfBirth" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <button id="add_Family_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>Add to list</button>
-                            </div>
-                        </section>
-
-                    </div>
-                </div>
-
-                <!--3 Equipment-->
-                <div class="tab-pane" id="equipmentTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <section>
-                            <div class="box-body py-0">
-                                <div class="table-responsive">
-                                    <table class="table no-border" id="tab_equp">
-                                        <thead>
-                                            <tr class="text-start">
-                                                <th class="pt-10">Products</th>
-                                                <th class="pt-10">Quantity</th>
-                                                <th class="pt-10">Delivery Date</th>
-                                                <th class="pt-10">Return Date</th>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="pt-10">Yakınlık</th>
+                                                <th class="pt-10">Ad Soyad</th>
+                                                <th class="pt-10">Kimlik No</th>
+                                                <th class="pt-10">Doğum Yeri</th>
+                                                <th class="pt-10">Doğum Tarihi</th>
                                                 <th class="pt-10"></th>
                                             </tr>
-                                        </thead>
-                                        <tbody class="tdoby_equ">
-                                        </tbody>
+                                        </tfoot>
                                     </table>
-
-
                                 </div>
                             </div>
 
-                            <div class="border-top">
-                                <div class="row mt-4 mb-4">
-                                    <div class="col">
-                                        <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
 
-                                            <select class="form-control select2" id="select_equ" style="min-width:250px;">
-                                                <option value="-1" selected="selected" hidden>Select Product</option>
-                                                @foreach (var item in Model.Products)
-                                                {
-                                                    <option value="@item.Id">@item.Name</option>
-                                                }
-                                            </select>
+
+                            <section>
+                                <div class="box-body py-0">
+                                    <div class="table-responsive">
+                                        <table class="table no-border" id="tab_equp">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="pt-10">Yakınlık</th>
+                                                    <th class="pt-10">Ad Soyad</th>
+                                                    <th class="pt-10">Kimlik No</th>
+                                                    <th class="pt-10">Doğum Yeri</th>
+                                                    <th class="pt-10">Doğum Tarihi</th>
+                                                    <th class="pt-10"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tdoby_fam">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="border-top">
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                    <option value="-1" selected="selected">Yakınlık</option>
+                                                    <option value="1">Eş</option>
+                                                    <option value="2">Çocuk</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="text" id="familyMembersBirthPlace" placeholder='Doğum Yeri' class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input type="date" class="form-control" id="familyMembersDateOfBirth" />
+                                            </div>
                                         </div>
                                     </div>
+                                    <button id="add_Family_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>Add to list</button>
+                                </div>
+                            </section>
 
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input id="equQua" type="number" class="form-control" />
+                        </div>
+                    </div>
 
+                    <!--3 Equipment-->
+                    <div class="tab-pane" id="equipmentTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <section>
+                                <div class="box-body py-0">
+                                    <div class="table-responsive">
+                                        <table class="table no-border" id="tab_equp">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="pt-10">Products</th>
+                                                    <th class="pt-10">Quantity</th>
+                                                    <th class="pt-10">Delivery Date</th>
+                                                    <th class="pt-10">Return Date</th>
+                                                    <th class="pt-10"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tdoby_equ">
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="border-top">
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col">
+                                            <div class="rounded text-center" style="z-index:9999;" id="selectElem_Equ">
+
+                                                <select class="form-control select2" id="select_equ" style="min-width:250px;">
+                                                    <option value="-1" selected="selected" hidden>Select Product</option>
+                                                    @foreach (var item in Model.Products)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input id="equQua" type="number" class="form-control" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input id="equDelivery" type="date" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="bg-lightest rounded text-center">
+                                                <input id="equReturn" type="date" class="form-control" />
+                                            </div>
                                         </div>
                                     </div>
+                                    <button id="add_Equipment_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>Add to list</button>
+                                </div>
+                            </section>
 
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input id="equDelivery" type="date" class="form-control" />
+                        </div>
+                    </div>
+
+                    <!--4 Documents-->
+                    <div class="tab-pane" id="documentsTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <section>
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Kişisel Belgeler</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="form-label">Kimlik</label>
+                                                            <input id="dosya" data-id="1" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Kan Grubu</label>
+                                                            <input id="dosya" data-id="2" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
+                                                            <input id="dosya" data-id="3" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Ehliyet</label>
+                                                            <input id="dosya" data-id="4" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Askerlik Durum Belgesi</label>
+                                                            <input id="dosya" data-id="5" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İkametgah</label>
+                                                            <input id="dosya" data-id="6" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Diploma</label>
+                                                            <input id="dosya" data-id="7" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Tetanoz Aşısı</label>
+                                                            <input id="dosya" data-id="8" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
+                                                            <input id="dosya" data-id="9" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">KVKK Taahhüt Tutanağı</label>
+                                                            <input id="dosya" data-id="10" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
+                                                            <input id="dosya" data-id="11" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İç Yönetmelik</label>
+                                                            <input id="dosya" data-id="12" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Resmi Belgeler</h4>
+                                                <hr class="my-15">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
 
-                                    <div class="col">
-                                        <div class="bg-lightest rounded text-center">
-                                            <input id="equReturn" type="date" class="form-control" />
+                                                            <label class="form-label">Sigorta Girişi</label>
+                                                            <input id="dosya" data-id="13" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Adli Sicil</label>
+                                                            <input id="dosya" data-id="14" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">İş Sözleşmesi</label>
+                                                            <input id="dosya" data-id="15" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Agi Formu</label>
+                                                            <input id="dosya" data-id="16" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Fazla Mesai</label>
+                                                            <input id="dosya" data-id="17" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">İş Güvenliği</label>
+                                                            <input id="dosya" data-id="18" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Zimmet Formu</label>
+                                                            <input id="dosya" data-id="19" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">D2 Testi</label>
+                                                            <input id="dosya" data-id="20" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+
+                                                            <label class="form-label">Msa Testi <span class="danger">*</span></label>
+                                                            <input id="dosya" data-id="21" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Görev Tanımı</label>
+                                                            <input id="dosya" data-id="22" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <button id="add_Equipment_row" type="button" class="btn btn-primary"><i class="fa fa-plus"></i>Add to list</button>
-                            </div>
-                        </section>
+                            </section>
 
+                        </div>
+                    </div>
+
+                    <!--5 Training-->
+                    <div class="tab-pane" id="trainingTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <h1>5 Training</h1>
+                        </div>
+                    </div>
+
+                    <!--6 Salary-->
+                    <div class="tab-pane" id="salaryTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <h1>6 Salary</h1>
+                        </div>
+                    </div>
+
+                    <!--7 Time Keeping-->
+                    <div class="tab-pane" id="timeKeepingTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <h1>7 Time Keeping</h1>
+                        </div>
+                    </div>
+
+                    <!--8 Minute-Dof-->
+                    <div class="tab-pane" id="minuteDofTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <h1>8 Minute-Dof</h1>
+                        </div>
+                    </div>
+
+                    <!--9 Leaves-->
+                    <div class="tab-pane" id="leavesTab" role="tabpanel">
+                        <div class="p-15">
+
+                            <h1>9 Leaves</h1>
+                        </div>
                     </div>
                 </div>
 
-                <!--4 Documents-->
-                <div class="tab-pane" id="documentsTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <section>
-                            <div class="row">
-                                <div class="col-lg-6 col-12">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Kişisel Belgeler</h4>
-                                            <hr class="my-15">
-                                            <div class="row">
-                                                <div class="col-md-6">
-
-                                                    <div class="form-group">
-                                                        <label class="form-label">Kimlik</label>
-                                                        <input id="dosya" data-id="1" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Kan Grubu</label>
-                                                        <input id="dosya" data-id="2" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
-                                                        <input id="dosya" data-id="3" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
-
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Ehliyet</label>
-                                                        <input id="dosya" data-id="4" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Askerlik Durum Belgesi</label>
-                                                        <input id="dosya" data-id="5" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">İkametgah</label>
-                                                        <input id="dosya" data-id="6" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">Diploma</label>
-                                                        <input id="dosya" data-id="7" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Tetanoz Aşısı</label>
-                                                        <input id="dosya" data-id="8" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
-                                                        <input id="dosya" data-id="9" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">KVKK Taahhüt Tutanağı</label>
-                                                        <input id="dosya" data-id="10" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
-                                                        <input id="dosya" data-id="11" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">İç Yönetmelik</label>
-                                                        <input id="dosya" data-id="12" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Resmi Belgeler</h4>
-                                            <hr class="my-15">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">Sigorta Girişi</label>
-                                                        <input id="dosya" data-id="13" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Adli Sicil</label>
-                                                        <input id="dosya" data-id="14" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">İş Sözleşmesi</label>
-                                                        <input id="dosya" data-id="15" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Agi Formu</label>
-                                                        <input id="dosya" data-id="16" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">Fazla Mesai</label>
-                                                        <input id="dosya" data-id="17" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">İş Güvenliği</label>
-                                                        <input id="dosya" data-id="18" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">Zimmet Formu</label>
-                                                        <input id="dosya" data-id="19" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">D2 Testi</label>
-                                                        <input id="dosya" data-id="20" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-
-                                                        <label class="form-label">Msa Testi <span class="danger">*</span></label>
-                                                        <input id="dosya" data-id="21" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Görev Tanımı</label>
-                                                        <input id="dosya" data-id="22" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
-                                                    </div>
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                    </div>
+                <div class="d-flex align-content-end justify-content-end pt-10">
+                    <button class="btn btn-primary">
+                        Update
+                    </button>
                 </div>
-
-                <!--5 Training-->
-                <div class="tab-pane" id="trainingTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <h1>5 Training</h1>
-                    </div>
-                </div>
-
-                <!--6 Salary-->
-                <div class="tab-pane" id="salaryTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <h1>6 Salary</h1>
-                    </div>
-                </div>
-
-                <!--7 Time Keeping-->
-                <div class="tab-pane" id="timeKeepingTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <h1>7 Time Keeping</h1>
-                    </div>
-                </div>
-
-                <!--8 Minute-Dof-->
-                <div class="tab-pane" id="minuteDofTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <h1>8 Minute-Dof</h1>
-                    </div>
-                </div>
-
-                <!--9 Leaves-->
-                <div class="tab-pane" id="leavesTab" role="tabpanel">
-                    <div class="p-15">
-
-                        <h1>9 Leaves</h1>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
         <!-- /.box-body -->
     </div>

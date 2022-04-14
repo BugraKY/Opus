@@ -94,17 +94,17 @@
 
                                                         @switch (staff.Status)
                                                         {
-                                                            case (int)StatusOfStaff.Active:
+                                                            case (int)StatusOfStaff.Passive:
                                                                 <span></span>
                                                                 break;
-                                                            case (int)StatusOfStaff.Passive:
+                                                            case (int)StatusOfStaff.Active:
                                                                 <span></span>
                                                                 break;
                                                             case (int)StatusOfStaff.Quit:
                                                                 <span></span>
                                                                 break;
                                                         }
-                                                        <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 1 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 0 ? "Active" : "")@(@staff.Status == 1 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
+                                                        <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 0 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 1 ? "Active" : "")@(@staff.Status == 0 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
                                                     </td>
                                                     <td class="text-center">
 

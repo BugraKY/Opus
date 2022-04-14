@@ -26,7 +26,7 @@ namespace Opus.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll().OrderBy(o=>o.Status);
+                var staffs = _uow.Staff.GetAll().OrderByDescending(o=>o.Status);
                 return View(staffs);
             }
             return NotFound();
@@ -90,9 +90,95 @@ namespace Opus.Controllers
                 StaffEquipmentEnumerable = _staffEquipments,
                 Products = _products,
                 Guid = _staff.Guid,
+                Id = _staff.Id
 
             };
             return View(staffVM);
+        }
+        [HttpPost("staff/updating")]
+        public IActionResult Update(StaffVM _staffVM)
+        {
+
+            if(_staffVM.ImageFile != null)
+            {
+                var _staff = new Staff()
+                {
+                    Id = _staffVM.Id,
+                    Guid = _staffVM.Guid,
+                    Active = _staffVM.Active,
+                    IBAN = _staffVM.IBAN,
+                    StreetAddress = _staffVM.StreetAddress,
+                    BirthPlace = _staffVM.BirthPlace,
+                    BlackList = _staffVM.BlackList,
+                    BloodTypeId = _staffVM.BloodTypeId,
+                    CountryId = _staffVM.CountryId,
+                    CurrentSalary = _staffVM.CurrentSalary,
+                    DateOfBirth = _staffVM.DateOfBirth,
+                    DateOfEntry = _staffVM.DateOfEntry,
+                    DateOfQuit = _staffVM.DateOfQuit,
+                    Degree = _staffVM.Degree,
+                    EducationalStatus = _staffVM.EducationalStatus,
+                    FatherName = _staffVM.FatherName,
+                    MotherName = _staffVM.MotherName,
+                    FirstName = _staffVM.FirstName,
+                    LastName = _staffVM.LastName,
+                    IdentityNumber = _staffVM.IdentityNumber,
+                    ImageFile = _staffVM.ImageFile,
+                    MaritalStatus = _staffVM.MaritalStatus,
+                    MobileNumber = _staffVM.MobileNumber,
+                    NumberOfChildren = _staffVM.NumberOfChildren,
+                    Status = _staffVM.Status,
+                    PhoneNumber = _staffVM.PhoneNumber,
+                    PhoneNumberSec = _staffVM.PhoneNumberSec,
+                    RegistrationNumber = _staffVM.RegistrationNumber,
+                    TestD2_TNE = _staffVM.TestD2_TNE,
+                    TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.',',')),
+                    WhiteCollarWorker = _staffVM.WhiteCollarWorker
+                };
+                _uow.Staff.Update(_staff);
+            }
+            else
+            {
+                var imageFıle = _uow.Staff.GetFirstOrDefault(i => i.Guid == _staffVM.Guid).ImageFile;
+                var _staff = new Staff()
+                {
+                    Id = _staffVM.Id,
+                    Guid = _staffVM.Guid,
+                    Active = _staffVM.Active,
+                    IBAN = _staffVM.IBAN,
+                    StreetAddress = _staffVM.StreetAddress,
+                    BirthPlace = _staffVM.BirthPlace,
+                    BlackList = _staffVM.BlackList,
+                    BloodTypeId = _staffVM.BloodTypeId,
+                    CountryId = _staffVM.CountryId,
+                    CurrentSalary = _staffVM.CurrentSalary,
+                    DateOfBirth = _staffVM.DateOfBirth,
+                    DateOfEntry = _staffVM.DateOfEntry,
+                    DateOfQuit = _staffVM.DateOfQuit,
+                    Degree = _staffVM.Degree,
+                    EducationalStatus = _staffVM.EducationalStatus,
+                    FatherName = _staffVM.FatherName,
+                    MotherName = _staffVM.MotherName,
+                    FirstName = _staffVM.FirstName,
+                    LastName = _staffVM.LastName,
+                    IdentityNumber = _staffVM.IdentityNumber,
+                    //ImageFile = _uow.Staff.GetFirstOrDefault(i => i.Guid == _staffVM.Guid).ImageFile.ToString(),
+                    MaritalStatus = _staffVM.MaritalStatus,
+                    MobileNumber = _staffVM.MobileNumber,
+                    NumberOfChildren = _staffVM.NumberOfChildren,
+                    Status = _staffVM.Status,
+                    PhoneNumber = _staffVM.PhoneNumber,
+                    PhoneNumberSec = _staffVM.PhoneNumberSec,
+                    RegistrationNumber = _staffVM.RegistrationNumber,
+                    TestD2_TNE = _staffVM.TestD2_TNE,
+                    TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ',')),
+                    WhiteCollarWorker = _staffVM.WhiteCollarWorker
+                };
+                _uow.Staff.Update(_staff);
+            }
+            _uow.Save();
+            //return NoContent();
+            return Redirect("/staff/edit/" + _staffVM.Guid);
         }
         [HttpGet("staff/card/{id}")]
         public IActionResult Card()
@@ -107,7 +193,8 @@ namespace Opus.Controllers
         [HttpPost("staff/add")]
         public async Task<IActionResult> AddAsync(StaffVM staffVm)
         {
-
+            var test = staffVm.TestD2_E;
+            return NoContent();
             //var files = staffVm.Files;
             string webRootPath = _hostEnvironment.WebRootPath;
 

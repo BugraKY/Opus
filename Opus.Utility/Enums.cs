@@ -10,9 +10,9 @@ namespace Opus.Utility
     {
         public enum StatusOfStaff
         {
-            Active = 0,
-            Passive = 1,
-            Quit = 2
+            Quit = 2,
+            Active = 1,
+            Passive = 0
         }
         public enum BankCode
         {
