@@ -21,6 +21,7 @@ namespace Opus.Models.ViewModels
         public BloodType BloodType { get; set; }
         public FamilyMembersVM FamilyMembers { get; set; }
         public StaffEquipmentVm StaffEquipment { get; set; }
+        public DocumentFilesReadVM DocumentRead { get; set; }
         public IEnumerable<FamilyMembers> FamilyMembersEnumerable { get; set; }
         public IEnumerable<StaffEquipment> StaffEquipmentEnumerable { get; set; }
         public IEnumerable<Products> Products { get; set; }

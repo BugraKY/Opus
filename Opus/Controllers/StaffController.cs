@@ -51,9 +51,29 @@ namespace Opus.Controllers
         [HttpGet("staff/edit/{id}")]
         public IActionResult Edit(Guid id)
         {
+            List<StaffEquipment>_staffEquipments = new List<StaffEquipment>();
             var _staff = _uow.Staff.GetFirstOrDefault(x => x.Guid == id);
             var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == _staff.Id.ToString(), includeProperties: "FamilyRelationship");
-            var _staffEquipments = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
+            var _staffEquipmentsEnum = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
+            var _documents = _uow.Documents.GetAll(i=>i.StaffId == _staff.Id);
+
+            //we need getdocument Extensions!!
+            var getDocuments = GetDocuments.GetByStaff(_documents);
+            foreach (var item in _staffEquipmentsEnum)
+            {
+                var _product = _uow.Products.GetFirstOrDefault(i=>i.Id == item.ProductId);
+                var eq = new StaffEquipment()
+                {
+                    DeliveryDate = item.DeliveryDate,
+                    Id = item.Id,
+                    ProductId = item.ProductId,
+                    Product = _product,
+                    Quantity = item.Quantity,
+                    ReturnDate = item.ReturnDate,
+                    StaffId = item.StaffId
+                };
+                _staffEquipments.Add(eq);
+            }
             var _products = _uow.Products.GetAll();
             var staffVM = new StaffVM()
             {
@@ -71,6 +91,7 @@ namespace Opus.Controllers
                 DateOfEntry = _staff.DateOfEntry,
                 DateOfQuit = _staff.DateOfQuit,
                 Degree = _staff.Degree,
+                DocumentRead=getDocuments,
                 EducationalStatus = _staff.EducationalStatus,
                 FatherName = _staff.FatherName,
                 FirstName = _staff.FirstName,
@@ -343,6 +364,33 @@ namespace Opus.Controllers
             {
                 Header = "Family member has been removed.",
                 Message = " Removed Member: <h6>" + _familyMember.FullName + "</h6>",
+                Icon = Toast.Icon.Success,
+                ShowHideTransition = Toast.ShowHideTransition.Slide
+            };
+            /*
+            var _message = new ToastMessageVM()
+            {
+                Header = "Family member cannot removed.",
+                Message = " Remove Error: <h6>" + _familyMember.FullName + "</h6>",
+                HideAfter = Toast.HideAfter.Long,
+                Icon = Toast.Icon.Warning,
+                ShowHideTransition = Toast.ShowHideTransition.Slide
+            };*/
+            return _message;
+        }
+        [HttpGet("api/remove-equipment/{id}")]
+        public ToastMessageVM RemoveEquipment(int id)
+        {
+            var _equipment = _uow.StaffEquipment.GetFirstOrDefault(i => i.Id == id);
+            var _product = _uow.Products.GetFirstOrDefault(i=>i.Id == _equipment.ProductId);
+
+            /*
+            _uow.FamilyMembers.Remove(_familyMember);
+            _uow.Save();*/
+            var _message = new ToastMessageVM()
+            {
+                Header = "Staff equipment has been removed.",
+                Message = " Removed Equipment: <h6>" + _product.Name + "</h6>",
                 Icon = Toast.Icon.Success,
                 ShowHideTransition = Toast.ShowHideTransition.Slide
             };

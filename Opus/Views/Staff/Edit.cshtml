@@ -91,23 +91,23 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Create Stamp Number?  <span class="danger">*</span></label>
-                                                            <input class="form-control" disabled value="No"/>
+                                                            <input class="form-control" disabled value="No" />
                                                             @*
 
-                                                            <select class="form-select" asp-for="AddStamp" disabled>
-                                                                <option value="">Select</option>
-                                                                @if (Model.AddStamp)
-                                                                {
-                                                                    <option value="False" disabled>No</option>
-                                                                    <option value="True" selected="selected" disabled>Yes</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value="False" selected="selected" disabled>No</option>
-                                                                    <option value="True" disabled>Yes</option>
-                                                                }
+                                                                <select class="form-select" asp-for="AddStamp" disabled>
+                                                                    <option value="">Select</option>
+                                                                    @if (Model.AddStamp)
+                                                                    {
+                                                                        <option value="False" disabled>No</option>
+                                                                        <option value="True" selected="selected" disabled>Yes</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="False" selected="selected" disabled>No</option>
+                                                                        <option value="True" disabled>Yes</option>
+                                                                    }
 
-                                                            </select>
+                                                                </select>
                                                             *@
                                                         </div>
                                                     </div>
@@ -440,7 +440,7 @@
 
                             <div class="box-body">
                                 <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered table-separated">
+                                    <table id="" class="table table-bordered table-separated">
                                         <thead>
                                             <tr>
                                                 <th class="pt-10">Products</th>
@@ -453,32 +453,31 @@
                                         <tbody id="">
                                             @foreach (var item in Model.StaffEquipmentEnumerable)
                                             {
-                                            <tr id="eq-tr-@item.Id">
-                                                <td>
-                                                    @item.ProductId
-                                                </td>
-                                                <td>@item.Quantity</td>
-                                                <td>@item.DeliveryDate.ToString("dd.MM.yyyy")</td>
-                                                @if (item.ReturnDate > DateTime.Parse("01.01.2010"))
-                                                {
-                                                    <td>@item.ReturnDate.ToString("dd.MM.yyyy")</td>
-                                                }
-                                                else
-                                                {
-                                                <td>None</td>
-                                                }
-                                                <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeStaff(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
-                                            </tr>
+                                                <tr id="eq-tr-@item.Id">
+                                                    <td>
+                                                        @item.Product.Name
+                                                    </td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.DeliveryDate.ToString("dd.MM.yyyy")</td>
+                                                    @if (item.ReturnDate > DateTime.Parse("01.01.2010"))
+                                                    {
+                                                        <td>@item.ReturnDate.ToString("dd.MM.yyyy")</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>None</td>
+                                                    }
+                                                    <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeEq(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
+                                                </tr>
                                             }
 
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th class="pt-10">Yakınlık</th>
-                                                <th class="pt-10">Ad Soyad</th>
-                                                <th class="pt-10">Kimlik No</th>
-                                                <th class="pt-10">Doğum Yeri</th>
-                                                <th class="pt-10">Doğum Tarihi</th>
+                                                <th class="pt-10">Products</th>
+                                                <th class="pt-10">Quantity</th>
+                                                <th class="pt-10">Delivery Date</th>
+                                                <th class="pt-10">Return Date</th>
                                                 <th class="pt-10"></th>
                                             </tr>
                                         </tfoot>
@@ -565,14 +564,27 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label">Kimlik</label>
-                                                            <input id="dosya" data-id="1" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
-
+                                                            @if (Model.DocumentRead.Identity == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" onclick='location.href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity";return false;' style='cursor: pointer;' target='_blank' oncontextmenu="return false" download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Kan Grubu</label>
-                                                            <input id="dosya" data-id="2" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -582,7 +594,7 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
-                                                            <input id="dosya" data-id="3" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+                                                            <input type="file" placeholder="Debit Form" class="form-control ">
 
 
                                                         </div>
@@ -590,7 +602,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Ehliyet</label>
-                                                            <input id="dosya" data-id="4" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -599,14 +611,14 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Askerlik Durum Belgesi</label>
-                                                            <input id="dosya" data-id="5" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İkametgah</label>
-                                                            <input id="dosya" data-id="6" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -616,14 +628,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Diploma</label>
-                                                            <input id="dosya" data-id="7" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Tetanoz Aşısı</label>
-                                                            <input id="dosya" data-id="8" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -632,7 +644,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
-                                                            <input id="dosya" data-id="9" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -640,7 +652,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">KVKK Taahhüt Tutanağı</label>
-                                                            <input id="dosya" data-id="10" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -648,7 +660,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
-                                                            <input id="dosya" data-id="11" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -656,7 +668,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İç Yönetmelik</label>
-                                                            <input id="dosya" data-id="12" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -674,14 +686,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Sigorta Girişi</label>
-                                                            <input id="dosya" data-id="13" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+                                                            <input type="file" placeholder="Debit Form" class="form-control ">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Adli Sicil</label>
-                                                            <input id="dosya" data-id="14" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -691,14 +703,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">İş Sözleşmesi</label>
-                                                            <input id="dosya" data-id="15" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Agi Formu</label>
-                                                            <input id="dosya" data-id="16" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -708,14 +720,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Fazla Mesai</label>
-                                                            <input id="dosya" data-id="17" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İş Güvenliği</label>
-                                                            <input id="dosya" data-id="18" name="dosya" type="file" placeholder="Debit Form" class="form-control ">
+                                                            <input type="file" placeholder="Debit Form" class="form-control ">
 
                                                         </div>
                                                     </div>
@@ -725,14 +737,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Zimmet Formu</label>
-                                                            <input id="dosya" data-id="19" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 Testi</label>
-                                                            <input id="dosya" data-id="20" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
@@ -742,14 +754,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Msa Testi <span class="danger">*</span></label>
-                                                            <input id="dosya" data-id="21" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Görev Tanımı</label>
-                                                            <input id="dosya" data-id="22" name="dosya" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            <input type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
 
@@ -829,7 +841,6 @@
 
     <script>
         function removeMember(memId) {
-
             $.ajax({
                 type: 'GET',
                 url: "/api/remove-member/" + memId,
@@ -847,6 +858,27 @@
                         });
 
                     $('#fam-tr-' + memId).remove();
+                },
+            });
+        };
+        function removeEq(eqId) {
+            $.ajax({
+                type: 'GET',
+                url: "/api/remove-equipment/" + eqId,
+                success: function (data) {
+
+                    $.toast({
+                        heading: data.header,
+                        text: data.message,
+                        icon: data.icon,
+                        showHideTransition: data.showHideTransition,
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 7000
+                    });
+
+                    $('#eq-tr-' + eqId).remove();
                 },
             });
         };
