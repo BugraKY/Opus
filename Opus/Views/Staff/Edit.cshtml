@@ -91,20 +91,24 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Create Stamp Number?  <span class="danger">*</span></label>
-                                                            <select class="form-select " asp-for="AddStamp">
+                                                            <input class="form-control" disabled value="No"/>
+                                                            @*
+
+                                                            <select class="form-select" asp-for="AddStamp" disabled>
                                                                 <option value="">Select</option>
                                                                 @if (Model.AddStamp)
                                                                 {
-                                                                    <option value="False">No</option>
-                                                                    <option value="True" selected="selected">Yes</option>
+                                                                    <option value="False" disabled>No</option>
+                                                                    <option value="True" selected="selected" disabled>Yes</option>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <option value="False" selected="selected">No</option>
-                                                                    <option value="True">Yes</option>
+                                                                    <option value="False" selected="selected" disabled>No</option>
+                                                                    <option value="True" disabled>Yes</option>
                                                                 }
 
                                                             </select>
+                                                            *@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -347,7 +351,7 @@
                                                     <td>@item.IdentityNumber</td>
                                                     <td>@item.BirthPlace</td>
                                                     <td>@item.DateOfBirth.ToString("dd.MM.yyyy")</td>
-                                                    <td id="remove_@item.Id"><a href="#remove" onClick="removeMember(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
+                                                    <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeMember(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
                                                 </tr>
                                             }
 
@@ -433,6 +437,55 @@
                     <!--3 Equipment-->
                     <div class="tab-pane" id="equipmentTab" role="tabpanel">
                         <div class="p-15">
+
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table id="example1" class="table table-bordered table-separated">
+                                        <thead>
+                                            <tr>
+                                                <th class="pt-10">Products</th>
+                                                <th class="pt-10">Quantity</th>
+                                                <th class="pt-10">Delivery Date</th>
+                                                <th class="pt-10">Return Date</th>
+                                                <th class="pt-10"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="">
+                                            @foreach (var item in Model.StaffEquipmentEnumerable)
+                                            {
+                                            <tr id="eq-tr-@item.Id">
+                                                <td>
+                                                    @item.ProductId
+                                                </td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.DeliveryDate.ToString("dd.MM.yyyy")</td>
+                                                @if (item.ReturnDate > DateTime.Parse("01.01.2010"))
+                                                {
+                                                    <td>@item.ReturnDate.ToString("dd.MM.yyyy")</td>
+                                                }
+                                                else
+                                                {
+                                                <td>None</td>
+                                                }
+                                                <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeStaff(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
+                                            </tr>
+                                            }
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="pt-10">Yakınlık</th>
+                                                <th class="pt-10">Ad Soyad</th>
+                                                <th class="pt-10">Kimlik No</th>
+                                                <th class="pt-10">Doğum Yeri</th>
+                                                <th class="pt-10">Doğum Tarihi</th>
+                                                <th class="pt-10"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
 
                             <section>
                                 <div class="box-body py-0">

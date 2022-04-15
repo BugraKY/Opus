@@ -52,7 +52,7 @@ namespace Opus.Controllers
         public IActionResult Edit(Guid id)
         {
             var _staff = _uow.Staff.GetFirstOrDefault(x => x.Guid == id);
-            var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == id.ToString(), includeProperties: "FamilyRelationship");
+            var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == _staff.Id.ToString(), includeProperties: "FamilyRelationship");
             var _staffEquipments = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
             var _products = _uow.Products.GetAll();
             var staffVM = new StaffVM()
