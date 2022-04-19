@@ -21,7 +21,7 @@
         <!-- /.box-header -->
         <div class="box-body">
             @*<form action="/staff/updating" method="post">*@
-            <form asp-action="Update" method="post">
+            <form asp-action="Update" method="post" id="myform">
                 <input type="text" value="@Model.Guid" asp-for="Guid" class="d-none" hidden />
                 <input type="text" value="@Model.Id" asp-for="Id" class="d-none" hidden />
                 <input type="text" value="@Model.ImageFile" asp-for="ImageFile" class="d-none" hidden />
@@ -198,7 +198,7 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label">IBAN <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
+                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -206,6 +206,12 @@
                                                             <label class="form-label">Current Salary</label>
                                                             <input type="number" class="form-control" placeholder="Güncel Maaş" value="@Model.CurrentSalary" asp-for="CurrentSalary" />
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <img id="bank_logo" height="100" width="320" />
+                                                        <h6 id="bank_name"></h6>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -396,21 +402,19 @@
                                     <div class="row mt-4 mb-4">
                                         <div class="col">
                                             <div class="bg-lightest rounded text-center">
-                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                <select class="form-select" id="familyMembersFamilyRelationshipId">
                                                     <option value="-1" selected="selected">Yakınlık</option>
                                                     <option value="1">Eş</option>
                                                     <option value="2">Çocuk</option>
                                                 </select>
                                             </div>
                                         </div>
-
                                         <div class="col">
                                             <div class="bg-lightest rounded text-center">
                                                 <input type="text" id="familyMembersFullName" placeholder='Ad Soyad' class="form-control" />
 
                                             </div>
                                         </div>
-
                                         <div class="col">
                                             <div class="bg-lightest rounded text-center">
                                                 <input type="number" id="familyMembersIdentityNumber" placeholder='Kimlik Numarası' class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
@@ -575,7 +579,8 @@
                                                                         <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
                                                                     </div>
                                                                     <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" onclick='location.href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity";return false;' style='cursor: pointer;' target='_blank' oncontextmenu="return false" download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                        @*<a class="primary" onclick='window.open("/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity");return false;' style='cursor: pointer;' target='_blank' oncontextmenu="return false" download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>*@
                                                                     </div>
                                                                 </div>
                                                             }
@@ -584,7 +589,21 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Kan Grubu</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.BloodType == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.BloodType" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -592,18 +611,42 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-
                                                             <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control ">
-
-
+                                                            @if (Model.DocumentRead.HealthReport == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.HealthReport" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Ehliyet</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
-
+                                                            @if (Model.DocumentRead.DrivingLicence == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.DrivingLicence" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
@@ -611,31 +654,84 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Askerlik Durum Belgesi</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
-
+                                                            @if (Model.DocumentRead.MilitaryStatus == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.MilitaryStatus" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İkametgah</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
-
+                                                            @if (Model.DocumentRead.PlaceResidence == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.PlaceResidence" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-
                                                             <label class="form-label">Diploma</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.Diploma == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Diploma" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Tetanoz Aşısı</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.TetanusVaccine == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.TetanusVaccine" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -644,7 +740,21 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.KVKKLaborAgreement == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.KVKKLaborAgreement" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -652,7 +762,21 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">KVKK Taahhüt Tutanağı</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.KVKKCommitmentReport == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.KVKKCommitmentReport" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -660,7 +784,21 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.OHSInstructionCommitmentForm == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.OHSInstructionCommitmentForm" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -668,7 +806,21 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İç Yönetmelik</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.InternalRegulation == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.InternalRegulation" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -686,14 +838,42 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Sigorta Girişi</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control ">
+                                                            @if (Model.DocumentRead.Insurance == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Insurance" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Adli Sicil</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.CriminalReport == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.CriminalReport" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -703,14 +883,42 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">İş Sözleşmesi</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.BusinessArrangement == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.BusinessArrangement" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Agi Formu</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.AgiForm == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.AgiForm" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -720,14 +928,42 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Fazla Mesai</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.Overtime == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Overtime" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İş Güvenliği</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control ">
+                                                            @if (Model.DocumentRead.WorkSafety == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.WorkSafety" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -737,14 +973,42 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Zimmet Formu</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.CommitmentForm == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.CommitmentForm" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 Testi</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.D2Test == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.D2Test" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
                                                     </div>
@@ -752,16 +1016,22 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-
-                                                            <label class="form-label">Msa Testi <span class="danger">*</span></label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
                                                             <label class="form-label">Görev Tanımı</label>
-                                                            <input type="file" placeholder="Debit Form" class="form-control">
+                                                            @if (Model.DocumentRead.TaskDefinition == null)
+                                                            {
+                                                                <input type="file" placeholder="Debit Form" class="form-control">
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="row">
+                                                                    <div class="col-10">
+                                                                        <input type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    </div>
+                                                                    <div class="col-2 d-flex justify-content-center my-auto">
+                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.TaskDefinition" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            }
 
                                                         </div>
 
@@ -884,6 +1154,86 @@
         };
         $(document).ready(function () {
             $("#bloodtype select").val("@Model.BloodTypeId").change();
+
+            const ibanStatic = '@Model.IBAN';
+            const bankCodeStatic = ibanStatic.substring(8, 11).replace(/\s/g, '');
+
+
+
+            $.ajax({
+                url: '/api/getbank/' + bankCodeStatic + '/' + ibanStatic,
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    //console.log(JSON.stringify(res.url));
+                    if (res == null) {
+                        $('input[id=IBAN]').addClass("bb-3 border-danger");
+                        $('input[id=IBAN]').removeClass("border-info");
+
+                        $('#bank_logo').attr('src', '');
+                        $('#bank_logo').addClass("d-none");
+                        $('#bank_name').addClass("d-none");
+                    }
+                    else {
+                        $('input[id=IBAN]').addClass("bb-3 border-info");
+                        $('input[id=IBAN]').removeClass("border-danger");
+                        if (res.url == null) {
+                            $('#bank_logo').attr('src', '');
+                            $('#bank_logo').addClass("d-none");
+                            $('#bank_name').removeClass("d-none");
+                            $('#bank_name').html(res.name);
+                        } else {
+                            $('#bank_logo').removeClass("d-none");
+                            $('#bank_name').addClass("d-none");
+                            $('#bank_logo').attr('src', res.url);
+                        }
+
+                    }
+                }
+            });
+
+
+            $('input[id=IBAN]').change(function (ev) {
+                const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
+                const iban = ev.target.value;
+                console.log(bankCode);
+                if (iban.length > 31) {
+                    $.ajax({
+                        url: '/api/getbank/' + bankCode + '/' + iban,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (res) {
+                            //console.log(JSON.stringify(res.url));
+                            if (res == null) {
+                                $('input[id=IBAN]').addClass("bb-3 border-danger");
+                                $('input[id=IBAN]').removeClass("border-info");
+
+                                $('#bank_logo').attr('src', '');
+                                $('#bank_logo').addClass("d-none");
+                                $('#bank_name').addClass("d-none");
+                            }
+                            else {
+                                $('input[id=IBAN]').addClass("bb-3 border-info");
+                                $('input[id=IBAN]').removeClass("border-danger");
+                                if (res.url == null) {
+                                    $('#bank_logo').attr('src', '');
+                                    $('#bank_logo').addClass("d-none");
+                                    $('#bank_name').removeClass("d-none");
+                                    $('#bank_name').html(res.name);
+                                } else {
+                                    $('#bank_logo').removeClass("d-none");
+                                    $('#bank_name').addClass("d-none");
+                                    $('#bank_logo').attr('src', res.url);
+                                }
+
+                            }
+                        }
+                    });
+                }
+
+
+            });
+
 
 
             @*$("#familyMembersFamilyRelationshipId select").val("@Model.BloodTypeId").change();*@

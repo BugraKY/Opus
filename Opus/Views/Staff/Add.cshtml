@@ -674,39 +674,42 @@
             });
             $('input[id=IBAN]').change(function (ev) {
                 const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
+                const iban = ev.target.value;
                 console.log(bankCode);
+                if (iban.length > 31) {
+                    $.ajax({
+                        url: '/api/getbank/' + bankCode + '/' + iban,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (res) {
+                            //console.log(JSON.stringify(res.url));
+                            if (res == null) {
+                                $('input[id=IBAN]').addClass("bb-3 border-danger");
+                                $('input[id=IBAN]').removeClass("border-info");
 
-                $.ajax({
-                    url: '/api/getbank/' + bankCode,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (res) {
-                        //console.log(JSON.stringify(res.url));
-                        if (res == null) {
-                            $('input[id=IBAN]').addClass("bb-3 border-danger");
-                            $('input[id=IBAN]').removeClass("border-info");
-
-                            $('#bank_logo').attr('src', '');
-                            $('#bank_logo').addClass("d-none");
-                            $('#bank_name').addClass("d-none");
-                        }
-                        else {
-                            $('input[id=IBAN]').addClass("bb-3 border-info");
-                            $('input[id=IBAN]').removeClass("border-danger");
-                            if (res.url == null) {
                                 $('#bank_logo').attr('src', '');
                                 $('#bank_logo').addClass("d-none");
-                                $('#bank_name').removeClass("d-none");
-                                $('#bank_name').html(res.name);
-                            } else {
-                                $('#bank_logo').removeClass("d-none");
                                 $('#bank_name').addClass("d-none");
-                                $('#bank_logo').attr('src', res.url);
                             }
+                            else {
+                                $('input[id=IBAN]').addClass("bb-3 border-info");
+                                $('input[id=IBAN]').removeClass("border-danger");
+                                if (res.url == null) {
+                                    $('#bank_logo').attr('src', '');
+                                    $('#bank_logo').addClass("d-none");
+                                    $('#bank_name').removeClass("d-none");
+                                    $('#bank_name').html(res.name);
+                                } else {
+                                    $('#bank_logo').removeClass("d-none");
+                                    $('#bank_name').addClass("d-none");
+                                    $('#bank_logo').attr('src', res.url);
+                                }
 
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
 
             });
             //$('#d2-e').val();

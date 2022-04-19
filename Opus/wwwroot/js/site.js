@@ -72,7 +72,6 @@ $(document).ready(function () {
 
 
     $("#add_Equipment_row").on("click", function (e) {
-        console.log(e);
         const equDelivery_val = $("#equDelivery").val();
         const equReturn_val = $("#equReturn").val();
 
@@ -255,7 +254,7 @@ $(document).ready(function () {
         else {
 
             var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" disabled/>`;
-            var selectedElementVal = `<input type="text" name="FamilyMembers.FamilyRelationshipId" class="form-control d-none" value="` + selectedValue + `" hidden/>`;
+            var selectedElementVal = `<input type="text" class="form-control familyRelationshipId d-none" value="` + selectedValue + `" hidden/>`;
 
             var tbody_fam_item = `
                                                     <tr id='equ' data-id="`+ famTr + `" class="hidden">
@@ -266,26 +265,26 @@ $(document).ready(function () {
                                                         </td>
                                                         <td data-name="quantity">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="text" class="form-control" name="FamilyMembers.FullName" value="`+ familyFullName + `" title="` + familyFullName + `" readonly="readonly"/>
+                                                                <input type="text" class="form-control familyMembersFullName" value="`+ familyFullName + `" title="` + familyFullName + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="number" class="form-control" name="FamilyMembers.IdentityNumber" value=`+ familyIdentityNum + ` title="` + familyIdentityNum + `" readonly="readonly"/>
+                                                                <input type="number" class="form-control familyMembersIdentityNumber" value=`+ familyIdentityNum + ` title="` + familyIdentityNum + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="text" class="form-control" name="FamilyMembers.BirthPlace" value=`+ familyBirthPlace + ` title="` + familyBirthPlace + `" readonly="readonly"/>
+                                                                <input type="text" class="form-control familyMembersBirthPlace" value=`+ familyBirthPlace + ` title="` + familyBirthPlace + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="bg-lightest rounded text-center">
-                                                                <input type="date" class="form-control" name="FamilyMembers.DateOfBirth" value=`+ familyDateofBirth + ` title="` + familyDate + `" readonly="readonly"/>
+                                                                <input type="date" class="form-control familyMembersDateOfBirth" value=`+ familyDateofBirth + ` title="` + familyDate + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="del">
-                                                            <button id="delEqu" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                            <button id="delFam" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
                                                         </td>
                                                     </tr>
 
@@ -298,9 +297,24 @@ $(document).ready(function () {
             $("#familyMembersBirthPlace").val("");
             $("#familyMembersDateOfBirth").val("");
             famTr++;
+
+            $('.familyRelationshipId').each(function (i) {
+                $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].FamilyRelationshipId');
+            });
+            $('.familyMembersFullName').each(function (i) {
+                $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].FullName');
+            });
+            $('.familyMembersIdentityNumber').each(function (i) {
+                $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].IdentityNumber');
+            });
+            $('.familyMembersBirthPlace').each(function (i) {
+                $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].BirthPlace');
+            });
+            $('.familyMembersDateOfBirth').each(function (i) {
+                $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
+            });
+
         }
-
-
     });
     $("#zzzz").on("click", function () {
         // Dynamic Rows Code
@@ -371,6 +385,26 @@ $(document).ready(function () {
         });
         $('.staffequReturn').each(function (i) {
             $(this).attr('name', 'StaffEquipmentEnumerable[' + i + '].ReturnDate');
+        });
+    });
+    $("#myform").on('click', "#delFam", function () {
+        console.log("clicked.");
+        $(this).parent().parent().remove();
+
+        $('.familyRelationshipId').each(function (i) {
+            $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].FamilyRelationshipId');
+        });
+        $('.familyMembersFullName').each(function (i) {
+            $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].FullName');
+        });
+        $('.familyMembersIdentityNumber').each(function (i) {
+            $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].IdentityNumber');
+        });
+        $('.familyMembersBirthPlace').each(function (i) {
+            $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].BirthPlace');
+        });
+        $('.familyMembersDateOfBirth').each(function (i) {
+            $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
         });
     });
 

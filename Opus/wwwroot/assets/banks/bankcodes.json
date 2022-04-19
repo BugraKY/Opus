@@ -85,6 +85,12 @@
     "name": "Türkiye Garanti Bankasý A.Þ.",
     "url": "/assets/banks/logos/garanti.svg"
   },
+/*
+  {
+    "bankCode": 61,
+    "name": "Türkiye Ýþ Bankasý A.Þ.",
+    "url": "/assets/banks/logos/isbank.png"
+  },*/
   {
     "bankCode": 64,
     "name": "Türkiye Ýþ Bankasý A.Þ.",
@@ -182,7 +188,7 @@
     "bankCode": 111,
     "name": "Finansbank A.Þ.",
     "logo": "/assets/banks/logos/finansbank.png"
-    
+
   },
   {
     "bankCode": 113,

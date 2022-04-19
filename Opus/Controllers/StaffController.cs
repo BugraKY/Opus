@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IbanNet;
+using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Extensions;
 using Opus.Models.DbModels;
@@ -26,7 +27,7 @@ namespace Opus.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll().OrderByDescending(o=>o.Status);
+                var staffs = _uow.Staff.GetAll().OrderByDescending(o => o.Status);
                 return View(staffs);
             }
             return NotFound();
@@ -51,17 +52,17 @@ namespace Opus.Controllers
         [HttpGet("staff/edit/{id}")]
         public IActionResult Edit(Guid id)
         {
-            List<StaffEquipment>_staffEquipments = new List<StaffEquipment>();
+            List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             var _staff = _uow.Staff.GetFirstOrDefault(x => x.Guid == id);
             var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == _staff.Id.ToString(), includeProperties: "FamilyRelationship");
             var _staffEquipmentsEnum = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
-            var _documents = _uow.Documents.GetAll(i=>i.StaffId == _staff.Id);
+            var _documents = _uow.Documents.GetAll(i => i.StaffId == _staff.Id);
 
             //we need getdocument Extensions!!
             var getDocuments = GetDocuments.GetByStaff(_documents);
             foreach (var item in _staffEquipmentsEnum)
             {
-                var _product = _uow.Products.GetFirstOrDefault(i=>i.Id == item.ProductId);
+                var _product = _uow.Products.GetFirstOrDefault(i => i.Id == item.ProductId);
                 var eq = new StaffEquipment()
                 {
                     DeliveryDate = item.DeliveryDate,
@@ -91,7 +92,7 @@ namespace Opus.Controllers
                 DateOfEntry = _staff.DateOfEntry,
                 DateOfQuit = _staff.DateOfQuit,
                 Degree = _staff.Degree,
-                DocumentRead=getDocuments,
+                DocumentRead = getDocuments,
                 EducationalStatus = _staff.EducationalStatus,
                 FatherName = _staff.FatherName,
                 FirstName = _staff.FirstName,
@@ -119,7 +120,7 @@ namespace Opus.Controllers
         [HttpPost("staff/updating")]
         public IActionResult Update(StaffVM _staffVM)
         {
-            if(_staffVM.ImageFile != null)
+            if (_staffVM.ImageFile != null)
             {
                 var _staff = new Staff()
                 {
@@ -152,7 +153,7 @@ namespace Opus.Controllers
                     PhoneNumberSec = _staffVM.PhoneNumberSec,
                     RegistrationNumber = _staffVM.RegistrationNumber,
                     TestD2_TNE = _staffVM.TestD2_TNE,
-                    TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.',',')),
+                    TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ',')),
                     WhiteCollarWorker = _staffVM.WhiteCollarWorker
                 };
                 _uow.Staff.Update(_staff);
@@ -197,7 +198,7 @@ namespace Opus.Controllers
                 _uow.Staff.Update(_staff);
             }
 
-            if(_staffVM.StaffEquipmentEnumerable !=null)
+            if (_staffVM.StaffEquipmentEnumerable != null)
             {
                 foreach (var item in _staffVM.StaffEquipmentEnumerable)
                 {
@@ -213,7 +214,7 @@ namespace Opus.Controllers
                     _uow.StaffEquipment.Add(_staffEqu);
                 }
             }
-            if(_staffVM.FamilyMembersEnumerable != null)
+            if (_staffVM.FamilyMembersEnumerable != null)
             {
                 foreach (var item in _staffVM.FamilyMembersEnumerable)
                 {
@@ -227,6 +228,7 @@ namespace Opus.Controllers
                         IdentityNumber = item.IdentityNumber,
                         StaffId = _staffVM.Id.ToString(),
                     };
+                    _uow.FamilyMembers.Add(_staffFamily);
                 }
             }
             _uow.Save();
@@ -403,14 +405,14 @@ namespace Opus.Controllers
                     Icon = Toast.Icon.Success,
                     ShowHideTransition = Toast.ShowHideTransition.Slide
                 };
-                _message=vm;
+                _message = vm;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var vm = new ToastMessageVM()
                 {
                     Header = "Error.",
-                    Message = "Error at remove: "+ex.InnerException.Message+" - <h6>" + _familyMember.FullName + "</h6>",
+                    Message = "Error at remove: " + ex.InnerException.Message + " - <h6>" + _familyMember.FullName + "</h6>",
                     Icon = Toast.Icon.Success,
                     ShowHideTransition = Toast.ShowHideTransition.Slide
                 };
@@ -423,7 +425,7 @@ namespace Opus.Controllers
         {
             ToastMessageVM _message = new ToastMessageVM();
             var _equipment = _uow.StaffEquipment.GetFirstOrDefault(i => i.Id == id);
-            var _product = _uow.Products.GetFirstOrDefault(i=>i.Id == _equipment.ProductId);
+            var _product = _uow.Products.GetFirstOrDefault(i => i.Id == _equipment.ProductId);
             try
             {
                 _uow.StaffEquipment.Remove(_equipment);
@@ -533,12 +535,19 @@ namespace Opus.Controllers
 
             return null;
         }
-        [HttpGet("api/getbank/{bankCode}")]
-        public BankCodesVM GetBank(int bankCode)
+        [HttpGet("api/getbank/{bankCode}/{iban}")]
+        public BankCodesVM GetBank(int bankCode, string iban)
         {
+            IIbanValidator validator = new IbanValidator();
+            ValidationResult validationResult = validator.Validate(iban);
             ValidateBank _validate = new ValidateBank(_hostEnvironment);
-            var bank = _validate.Validate(bankCode);
-            return bank;
+            if (validationResult.IsValid)
+            {
+                var bank = _validate.Validate(bankCode);
+                return bank;
+            }
+            return null;
+
         }
         #endregion API
         public Claim GetClaim()
