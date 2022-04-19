@@ -119,7 +119,6 @@ namespace Opus.Controllers
         [HttpPost("staff/updating")]
         public IActionResult Update(StaffVM _staffVM)
         {
-
             if(_staffVM.ImageFile != null)
             {
                 var _staff = new Staff()
@@ -197,7 +196,42 @@ namespace Opus.Controllers
                 };
                 _uow.Staff.Update(_staff);
             }
+
+            if(_staffVM.StaffEquipmentEnumerable !=null)
+            {
+                foreach (var item in _staffVM.StaffEquipmentEnumerable)
+                {
+                    var _staffEqu = new StaffEquipment()
+                    {
+                        Id = item.Id,
+                        DeliveryDate = item.DeliveryDate,
+                        ProductId = item.ProductId,
+                        StaffId = _staffVM.Id,
+                        Quantity = item.Quantity,
+                        ReturnDate = item.ReturnDate
+                    };
+                    _uow.StaffEquipment.Add(_staffEqu);
+                }
+            }
+            if(_staffVM.FamilyMembersEnumerable != null)
+            {
+                foreach (var item in _staffVM.FamilyMembersEnumerable)
+                {
+                    var _staffFamily = new FamilyMembers()
+                    {
+                        Id = item.Id,
+                        BirthPlace = item.BirthPlace,
+                        DateOfBirth = item.DateOfBirth,
+                        FamilyRelationshipId = item.FamilyRelationshipId,
+                        FullName = item.FullName,
+                        IdentityNumber = item.IdentityNumber,
+                        StaffId = _staffVM.Id.ToString(),
+                    };
+                }
+            }
             _uow.Save();
+
+
             //return NoContent();
             return Redirect("/staff/edit/" + _staffVM.Guid);
         }
@@ -356,53 +390,63 @@ namespace Opus.Controllers
         [HttpGet("api/remove-member/{id}")]
         public ToastMessageVM RemoveMember(int id)
         {
+            ToastMessageVM _message = new ToastMessageVM();
             var _familyMember = _uow.FamilyMembers.GetFirstOrDefault(i => i.Id == id);
-            /*
-            _uow.FamilyMembers.Remove(_familyMember);
-            _uow.Save();*/
-            var _message = new ToastMessageVM()
+            try
             {
-                Header = "Family member has been removed.",
-                Message = " Removed Member: <h6>" + _familyMember.FullName + "</h6>",
-                Icon = Toast.Icon.Success,
-                ShowHideTransition = Toast.ShowHideTransition.Slide
-            };
-            /*
-            var _message = new ToastMessageVM()
+                _uow.FamilyMembers.Remove(_familyMember);
+                _uow.Save();
+                var vm = new ToastMessageVM()
+                {
+                    Header = "Family member has been removed.",
+                    Message = " Removed Member: <h6>" + _familyMember.FullName + "</h6>",
+                    Icon = Toast.Icon.Success,
+                    ShowHideTransition = Toast.ShowHideTransition.Slide
+                };
+                _message=vm;
+            }
+            catch(Exception ex)
             {
-                Header = "Family member cannot removed.",
-                Message = " Remove Error: <h6>" + _familyMember.FullName + "</h6>",
-                HideAfter = Toast.HideAfter.Long,
-                Icon = Toast.Icon.Warning,
-                ShowHideTransition = Toast.ShowHideTransition.Slide
-            };*/
+                var vm = new ToastMessageVM()
+                {
+                    Header = "Error.",
+                    Message = "Error at remove: "+ex.InnerException.Message+" - <h6>" + _familyMember.FullName + "</h6>",
+                    Icon = Toast.Icon.Success,
+                    ShowHideTransition = Toast.ShowHideTransition.Slide
+                };
+                _message = vm;
+            }
             return _message;
         }
         [HttpGet("api/remove-equipment/{id}")]
         public ToastMessageVM RemoveEquipment(int id)
         {
+            ToastMessageVM _message = new ToastMessageVM();
             var _equipment = _uow.StaffEquipment.GetFirstOrDefault(i => i.Id == id);
             var _product = _uow.Products.GetFirstOrDefault(i=>i.Id == _equipment.ProductId);
-
-            /*
-            _uow.FamilyMembers.Remove(_familyMember);
-            _uow.Save();*/
-            var _message = new ToastMessageVM()
+            try
             {
-                Header = "Staff equipment has been removed.",
-                Message = " Removed Equipment: <h6>" + _product.Name + "</h6>",
-                Icon = Toast.Icon.Success,
-                ShowHideTransition = Toast.ShowHideTransition.Slide
-            };
-            /*
-            var _message = new ToastMessageVM()
+                _uow.StaffEquipment.Remove(_equipment);
+                _uow.Save();
+                var vm = new ToastMessageVM()
+                {
+                    Header = "Staff equipment has been removed.",
+                    Message = " Removed Equipment: <h6>" + _product.Name + "</h6>",
+                    Icon = Toast.Icon.Success,
+                    ShowHideTransition = Toast.ShowHideTransition.Slide
+                };
+            }
+            catch (Exception ex)
             {
-                Header = "Family member cannot removed.",
-                Message = " Remove Error: <h6>" + _familyMember.FullName + "</h6>",
-                HideAfter = Toast.HideAfter.Long,
-                Icon = Toast.Icon.Warning,
-                ShowHideTransition = Toast.ShowHideTransition.Slide
-            };*/
+                var vm = new ToastMessageVM()
+                {
+                    Header = "Error.",
+                    Message = "Error at remove: " + ex.InnerException.Message + " - <h6>" + _product.Name + "</h6>",
+                    Icon = Toast.Icon.Success,
+                    ShowHideTransition = Toast.ShowHideTransition.Slide
+                };
+                _message = vm;
+            }
             return _message;
         }
         [HttpPost]
