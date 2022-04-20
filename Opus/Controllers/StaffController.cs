@@ -115,11 +115,17 @@ namespace Opus.Controllers
                 Id = _staff.Id
 
             };
+
+
             return View(staffVM);
         }
         [HttpPost("staff/updating")]
         public IActionResult Update(StaffVM _staffVM)
         {
+            string webRootPath = _hostEnvironment.WebRootPath;
+            CopyFileExtension copyFile = new CopyFileExtension(_uow);
+            copyFile.Upload_UPSERT(_staffVM.Files,_staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id);
+            //return NoContent();
             if (_staffVM.ImageFile != null)
             {
                 var _staff = new Staff()

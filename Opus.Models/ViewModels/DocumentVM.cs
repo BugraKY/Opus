@@ -11,6 +11,7 @@ namespace Opus.Models.ViewModels
     public class DocumentVM
     {
         public IFormFile FormFile { get; set; }
+        public int DocumentId { get; set; }
         public Documents Documents { get; set; }
         public int DocumentTypeId { get; set; }
     }

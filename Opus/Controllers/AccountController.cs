@@ -46,7 +46,7 @@ namespace Opus.Controllers
                     _logger.LogInformation("Kullanıcı bilgisi doğru değil. - Girilen Email :" + Input.Email);
                     //ModelState.AddModelError(string.Empty, "Kullanıcı bilgisi yalnış. Lütfen bilgilerinizi kontrol ediniz.");
                     ModelState.AddModelError(string.Empty, "Giriş bilgilerinden E-posta veya Şifre doğru değil. Lütfen bilgilerinizi kontrol ediniz.");
-                    return Redirect("/signin");
+                    return View("SignIn");
                 }
                 if (result.IsNotAllowed)
                 {
@@ -72,15 +72,21 @@ namespace Opus.Controllers
                 }
             }
 
-            _logger.LogInformation("Error: 'ModelState Invalid' - Girilen Email :" + Input.Email);
+            //_logger.LogInformation("Error: 'ModelState Invalid' - Girilen Email :" + Input.Email);
             //ModelState.AddModelError(string.Empty, "Kullanıcı bilgisi yalnış. Lütfen bilgilerinizi kontrol ediniz.");
-            ModelState.AddModelError(string.Empty, "Giriş bilgilerinden E-posta veya Şifre doğru değil. Lütfen bilgilerinizi kontrol ediniz.");
-            return View("Index");
+            //ModelState.AddModelError(string.Empty, "Giriş bilgilerinden E-posta veya Şifre doğru değil. Lütfen bilgilerinizi kontrol ediniz.");
+            return View("SignIn");
         }
         [Route("signup")]
         public IActionResult SignUp()
         {
             return View();
+        }
+        [Route("logout")]
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect("/");
         }
         /*
         [HttpPost]

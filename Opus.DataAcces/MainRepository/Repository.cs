@@ -40,14 +40,16 @@ namespace Opus.DataAcces.MainRepository
 
             if (filter != null)
             {
-                query = query.Where(filter);
+                //query = query.Where(filter);
+                query = query.Where(filter).AsNoTracking();
             }
 
             if (includeProperties != null)
             {
                 foreach (var item in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    query = query.Include(item);
+                    //query = query.Include(item);
+                    query = query.Include(item).AsNoTracking();
                 }
             }
 
@@ -64,14 +66,16 @@ namespace Opus.DataAcces.MainRepository
 
             if (filter != null)
             {
-                query = query.Where(filter);
+                //query = query.Where(filter);
+                query = query.Where(filter).AsNoTracking();
             }
 
             if (includeProperties != null)
             {
                 foreach (var item in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    query = query.Include(item);
+                    //query = query.Include(item);
+                    query = query.Include(item).AsNoTracking();
                 }
             }
 

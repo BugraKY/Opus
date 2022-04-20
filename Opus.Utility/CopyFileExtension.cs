@@ -22,8 +22,8 @@ namespace Opus.Utility
         public void Upload(DocumentFilesVM Files, string webRootPath, Guid _guid, int staffId)
         {
             List<DocumentVM> _documents = new List<DocumentVM>();
-            var DIR_PerDoc = webRootPath + Personels.Root+ _guid.ToString() + Personels.Documentation ;
-            var DIR_ProfileIMG = webRootPath + Personels.Root+ _guid.ToString() + Personels.ProfileIMG ;
+            var DIR_PerDoc = webRootPath + Personels.Root + _guid.ToString() + Personels.Documentation;
+            var DIR_ProfileIMG = webRootPath + Personels.Root + _guid.ToString() + Personels.ProfileIMG;
             if (!(Directory.Exists(DIR_PerDoc)))
                 Directory.CreateDirectory(DIR_PerDoc);
             if (!(Directory.Exists(DIR_ProfileIMG)))
@@ -330,7 +330,380 @@ namespace Opus.Utility
                 }
                 _uow.Save();
             }
-            if(Files.ImageFile != null)
+            if (Files.ImageFile != null)
+            {
+                var _fileName = Files.ImageFile.FileName;
+                var location = Path.Combine(DIR_ProfileIMG + _fileName);
+
+                using (var fileStream = new FileStream(location, FileMode.Create))
+                {
+                    Files.ImageFile.CopyTo(fileStream);
+                }
+            }
+
+        }
+
+        public void Upload_UPSERT(DocumentFilesVM Files, DocumentFilesReadVM _docs, string webRootPath, Guid _guid, int staffId)
+        {
+            List<DocumentVM> _documents = new List<DocumentVM>();
+            var DIR_PerDoc = webRootPath + Personels.Root + _guid.ToString() + Personels.Documentation;
+            var DIR_ProfileIMG = webRootPath + Personels.Root + _guid.ToString() + Personels.ProfileIMG;
+            if (!(Directory.Exists(DIR_PerDoc)))
+                Directory.CreateDirectory(DIR_PerDoc);
+            if (!(Directory.Exists(DIR_ProfileIMG)))
+                Directory.CreateDirectory(DIR_ProfileIMG);
+
+            //List<string> uploads = new List<string>();
+            List<IFormFile> FileList = new List<IFormFile>();
+            #region Identity
+            if (_docs.Identity != null)
+            {
+                FileList.Add(_docs.Identity.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.Identity.File,
+                    DocumentId = _docs.Identity.Id,
+                    DocumentTypeId = 2
+                };
+                _documents.Add(document);
+            }
+            #endregion Identity
+
+            #region HealthReport
+            if (_docs.HealthReport != null)
+            {
+                FileList.Add(_docs.HealthReport.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.HealthReport.File,
+                    DocumentId = _docs.HealthReport.Id,
+                    DocumentTypeId = 13
+                };
+                _documents.Add(document);
+            }
+            #endregion HealthReport
+
+            #region MilitaryStatus
+            if (_docs.MilitaryStatus != null)
+            {
+                FileList.Add(_docs.MilitaryStatus.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.MilitaryStatus.File,
+                    DocumentId = _docs.MilitaryStatus.Id,
+                    DocumentTypeId = 5
+                };
+                _documents.Add(document);
+            }
+            #endregion MilitaryStatus
+
+            #region Diploma
+            if (_docs.Diploma != null)
+            {
+                FileList.Add(_docs.Diploma.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.Diploma.File,
+                    DocumentId = _docs.Diploma.Id,
+                    DocumentTypeId = 7
+                };
+                _documents.Add(document);
+            }
+            #endregion Diploma
+
+            #region KVKKLaborAgreement
+            if (_docs.KVKKLaborAgreement != null) //KVKK İş Sözleşmesi Ek Metin
+            {
+                FileList.Add(_docs.KVKKLaborAgreement.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.KVKKLaborAgreement.File,
+                    DocumentId= _docs.KVKKLaborAgreement.Id,
+                    DocumentTypeId = 21
+                };
+                _documents.Add(document);
+            }
+            #endregion KVKKLaborAgreement
+
+            #region OHSInstructionCommitmentForm
+            if (_docs.OHSInstructionCommitmentForm != null) //İSG Talimatı ve Taahhüt Formu
+            {
+                FileList.Add(_docs.OHSInstructionCommitmentForm.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.OHSInstructionCommitmentForm.File,
+                    DocumentId=_docs.OHSInstructionCommitmentForm.Id,
+                    DocumentTypeId = 22
+                };
+                _documents.Add(document);
+            }
+            #endregion OHSInstructionCommitmentForm
+
+            #region BloodType
+            if (_docs.BloodType != null)
+            {
+                FileList.Add(_docs.BloodType.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.BloodType.File,
+                    DocumentId = _docs.BloodType.Id,
+                    DocumentTypeId = 12
+                };
+                _documents.Add(document);
+            }
+            #endregion BloodType
+
+            #region DrivingLicence
+            if (_docs.DrivingLicence != null)
+            {
+                FileList.Add(_docs.DrivingLicence.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.DrivingLicence.File,
+                    DocumentId= _docs.DrivingLicence.Id,
+                    DocumentTypeId = 3
+                };
+                _documents.Add(document);
+            }
+            #endregion DrivingLicence
+
+            #region PlaceResidence
+            if (_docs.PlaceResidence != null)
+            {
+                FileList.Add(_docs.PlaceResidence.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.PlaceResidence.File,
+                    DocumentId = _docs.PlaceResidence.Id,
+                    DocumentTypeId = 6
+                };
+                _documents.Add(document);
+            }
+            #endregion PlaceResidence
+
+            #region TetanusVaccine
+            if (_docs.TetanusVaccine != null)
+            {
+                FileList.Add(_docs.TetanusVaccine.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.TetanusVaccine.File,
+                    DocumentId=_docs.TetanusVaccine.Id,
+                    DocumentTypeId = 19
+                };
+                _documents.Add(document);
+            }
+            #endregion TetanusVaccine
+
+            #region KVKKCommitmentReport
+            if (_docs.KVKKCommitmentReport != null) //KVKK Taahhüt Tutanağı
+            {
+                FileList.Add(_docs.KVKKCommitmentReport.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.KVKKCommitmentReport.File,
+                    DocumentId= _docs.KVKKCommitmentReport.Id,
+                    DocumentTypeId = 23
+                };
+                _documents.Add(document);
+            }
+            #endregion KVKKCommitmentReport
+
+            #region InternalRegulation
+            if (_docs.InternalRegulation != null) //İç Yönetmenlik
+            {
+                FileList.Add(_docs.InternalRegulation.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.InternalRegulation.File,
+                    DocumentId = _docs.InternalRegulation.Id,
+                    DocumentTypeId = 24
+                };
+                _documents.Add(document);
+            }
+            #endregion InternalRegulation
+
+            #region Insurance
+            if (_docs.Insurance != null)
+            {
+                FileList.Add(_docs.Insurance.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.Insurance.File,
+                    DocumentId=_docs.Insurance.Id,
+                    DocumentTypeId = 1
+                };
+                _documents.Add(document);
+            }
+            #endregion Insurance
+
+            #region BusinessArrangement
+            if (_docs.BusinessArrangement != null)
+            {
+                FileList.Add(_docs.BusinessArrangement.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.BusinessArrangement.File,
+                    DocumentId = _docs.BusinessArrangement.Id,
+                    DocumentTypeId = 8
+                };
+                _documents.Add(document);
+            }
+            #endregion BusinessArrangement
+
+            #region Overtime
+            if (_docs.Overtime != null)
+            {
+                FileList.Add(_docs.Overtime.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.Overtime.File,
+                    DocumentId= _docs.Overtime.Id,
+                    DocumentTypeId = 10
+                };
+                _documents.Add(document);
+            }
+            #endregion Overtime
+
+            #region CommitmentForm
+            if (_docs.CommitmentForm != null)
+            {
+                FileList.Add(_docs.CommitmentForm.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.CommitmentForm.File,
+                    DocumentId = _docs.CommitmentForm.Id,
+                    DocumentTypeId = 14
+                };
+                _documents.Add(document);
+            }
+            #endregion CommitmentForm
+
+            #region CriminalReport
+            if (_docs.CriminalReport != null)
+            {
+                FileList.Add(_docs.CriminalReport.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.CriminalReport.File,
+                    DocumentId=_docs.CriminalReport.Id,
+                    DocumentTypeId = 4
+                };
+                _documents.Add(document);
+            }
+            #endregion CriminalReport
+
+            #region AgiForm
+            if (_docs.AgiForm != null)
+            {
+                FileList.Add(_docs.AgiForm.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.AgiForm.File,
+                    DocumentId = _docs.AgiForm.Id,
+                    DocumentTypeId = 9
+                };
+                _documents.Add(document);
+            }
+            #endregion AgiForm
+
+            #region WorkSafety
+            if (_docs.WorkSafety != null)
+            {
+                FileList.Add(_docs.WorkSafety.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.WorkSafety.File,
+                    DocumentId= _docs.WorkSafety.Id,
+                    DocumentTypeId = 11
+                };
+                _documents.Add(document);
+            }
+            #endregion WorkSafety
+
+            #region D2Test
+            if (_docs.D2Test != null)
+            {
+                FileList.Add(_docs.D2Test.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.D2Test.File,
+                    DocumentId = _docs.D2Test.Id,
+                    DocumentTypeId = 15
+                };
+                _documents.Add(document);
+            }
+            #endregion D2Test
+
+            #region TaskDefinition
+            if (_docs.TaskDefinition != null)
+            {
+                FileList.Add(_docs.TaskDefinition.File);
+                var document = new DocumentVM()
+                {
+                    FormFile = _docs.TaskDefinition.File,
+                    DocumentId=_docs.TaskDefinition.Id,
+                    DocumentTypeId = 18
+                };
+                _documents.Add(document);
+            }
+            #endregion TaskDefinition
+
+            int i = 0;
+            if (_documents.Count() > 0)
+            {
+                foreach (var item in _documents)
+                {
+                    if(item.FormFile != null)
+                    {
+                        string[] Name = item.FormFile.Name.Split('.');
+                        var _fileName = Name[1] + Path.GetExtension(item.FormFile.FileName);
+                        var location = Path.Combine(DIR_PerDoc + _fileName);
+
+
+                        if (item.DocumentId == 0)
+                        {
+                            var _documentItem = new Documents
+                            {
+                                Id = item.DocumentId,
+                                Active = true,
+                                DocumentTypeId = item.DocumentTypeId,
+                                FileName = _fileName,
+                                StaffId = staffId,
+                                Created = DateTime.Now
+                            };
+                            _uow.Documents.Add(_documentItem);
+                        }
+                        else
+                        {
+                            var _documentItem = new Documents
+                            {
+                                Id = item.DocumentId,
+                                Active = true,
+                                DocumentTypeId = item.DocumentTypeId,
+                                FileName = _fileName,
+                                StaffId = staffId,
+                                Created = DateTime.Now
+                            };
+                            var _filenameget = _uow.Documents.GetFirstOrDefault(i=>i.Id== item.DocumentId).FileName;
+                            var _documentFileLoc= Path.Combine(DIR_PerDoc + _filenameget);
+
+                            if (File.Exists(_documentFileLoc))
+                                File.Delete(_documentFileLoc);
+                            _uow.Documents.Update(_documentItem);
+                        }
+
+                        using (var fileStream = new FileStream(location, FileMode.Create))
+                        {
+                            item.FormFile.CopyTo(fileStream);
+                        }
+                        i++;
+                    }
+
+                }
+                _uow.Save();
+            }
+            if (_docs.ImageFile != null)
             {
                 var _fileName = Files.ImageFile.FileName;
                 var location = Path.Combine(DIR_ProfileIMG + _fileName);

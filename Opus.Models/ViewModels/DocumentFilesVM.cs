@@ -9,6 +9,116 @@ namespace Opus.Models.ViewModels
 {
     public class DocumentFilesVM
     {
+        public class IdentityObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class HealthReportObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class MilitaryStatusObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class DiplomaObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class KVKKLaborAgreementObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class OHSInstructionCommitmentFormObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class BloodTypeObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class DrivingLicenceObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class PlaceResidenceObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class TetanusVaccineObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class KVKKCommitmentReportObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class InternalRegulationObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class InsuranceObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class BusinessArrangementObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class OvertimeObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class CommitmentFormObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class CriminalReportObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class AgiFormObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class WorkSafetyObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class D2TestObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class TaskDefinitionObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
+        public class ImageFileObj
+        {
+            public int Id { get; set; }
+            public IFormFile Name { get; set; }
+        }
         public IFormFile Identity { get; set; }
         public IFormFile HealthReport { get; set; }
         public IFormFile MilitaryStatus { get; set; }
