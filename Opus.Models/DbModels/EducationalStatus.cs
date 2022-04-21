@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.DbModels
 {
-    public class ProductSize
+    public class EducationalStatus
     {
         [Key]
         public int Id { get; set; }
-        public long ProductId { get; set; }
         public string Name { get; set; }
-        public int Stock { get; set; }
-
     }
 }

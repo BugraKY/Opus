@@ -22,6 +22,7 @@ namespace Opus.DataAcces.IMainRepository
         IDocumentTypeRepository DocumentType { get; }
         IDocumentsRepository Documents { get; }
         IMaritalStatusRepository MaritalStatus { get; }
+        IEducationalStatusRepository EducationalStatus { get; }
         void Save();
     }
 }

@@ -198,13 +198,13 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label">IBAN <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
+                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Current Salary</label>
-                                                            <input type="number" class="form-control" placeholder="Güncel Maaş" value="@Model.CurrentSalary" asp-for="CurrentSalary" />
+                                                            <input type="number" class="form-control" placeholder="Güncel Maaş" value="@Model.CurrentSalary" asp-for="CurrentSalary" disabled />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -245,23 +245,23 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Education Status</label>
                                                             <select class="form-select" asp-for="EducationalStatus">
-                                                                @if (Model.EducationalStatus == "Primary School Graduate")
+                                                                @if (Model.EducationalStatus == 1)
                                                                 {
-                                                                    <option value="Primary School Graduate" selected="selected">Primary School Graduate</option>
-                                                                    <option value="High School Graduate">High School Graduate</option>
-                                                                    <option value="Undergraduate Degree">Undergraduate Degree</option>
+                                                                    <option value="1" selected="selected">Primary School Graduate</option>
+                                                                    <option value="2">High School Graduate</option>
+                                                                    <option value="3">Undergraduate Degree</option>
                                                                 }
-                                                                else if (Model.EducationalStatus == "High School Graduate")
+                                                                else if (Model.EducationalStatus == 2)
                                                                 {
-                                                                    <option value="Primary School Graduate">Primary School Graduate</option>
-                                                                    <option value="High School Graduate" selected="selected">High School Graduate</option>
-                                                                    <option value="Undergraduate Degree">Undergraduate Degree</option>
+                                                                    <option value="1">Primary School Graduate</option>
+                                                                    <option value="2" selected="selected">High School Graduate</option>
+                                                                    <option value="3">Undergraduate Degree</option>
                                                                 }
-                                                                else if (Model.EducationalStatus == "Undergraduate Degree")
+                                                                else if (Model.EducationalStatus ==  3)
                                                                 {
-                                                                    <option value="Primary School Graduate">Primary School Graduate</option>
-                                                                    <option value="High School Graduate">High School Graduate</option>
-                                                                    <option value="Undergraduate Degree" selected="selected">Undergraduate Degree</option>
+                                                                    <option value="1">Primary School Graduate</option>
+                                                                    <option value="2">High School Graduate</option>
+                                                                    <option value="3" selected="selected">Undergraduate Degree</option>
                                                                 }
                                                             </select>
                                                         </div>
@@ -1213,7 +1213,62 @@
                 }
             });
 
+            $('input[id=IBAN]').on('input', function (ev) {
+                var countLetters = 0;
+                const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
+                const iban = ev.target.value;
 
+                for (var i = 0; i < iban.length; i++)
+                {
+                    var c = iban.charAt(i);
+                if (c != '_') {
+                    countLetters++;
+                    }
+                }
+                console.log(countLetters);
+                console.log(iban);
+
+                if (countLetters < 32) {
+                    $('input[id=IBAN]').addClass("bb-3 border-danger");
+                    $('input[id=IBAN]').removeClass("border-info");
+                }
+                else {
+                    console.log(iban);
+                    $.ajax({
+                        url: '/api/getbank/' + bankCode + '/' + iban,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res == null) {
+                                $('input[id=IBAN]').addClass("bb-3 border-danger");
+                                $('input[id=IBAN]').removeClass("border-info");
+                                $('#bank_logo').attr('src', '');
+                                $('#bank_logo').addClass("d-none");
+                                $('#bank_name').addClass("d-none");
+                            }
+                            else {
+                                $('input[id=IBAN]').addClass("bb-3 border-info");
+                                $('input[id=IBAN]').removeClass("border-danger");
+                                if (res.url == null) {
+                                    $('#bank_logo').attr('src', '');
+                                    $('#bank_logo').addClass("d-none");
+                                    $('#bank_name').removeClass("d-none");
+                                    $('#bank_name').html(res.name);
+                                } else {
+                                    $('#bank_logo').removeClass("d-none");
+                                    $('#bank_name').addClass("d-none");
+                                    $('#bank_logo').attr('src', res.url);
+                                }
+
+                            }
+                        }
+                    });
+                }
+
+
+            });
+
+            /*
             $('input[id=IBAN]').change(function (ev) {
                 const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
                 const iban = ev.target.value;
@@ -1224,7 +1279,6 @@
                         type: 'GET',
                         dataType: 'json',
                         success: function (res) {
-                            //console.log(JSON.stringify(res.url));
                             if (res == null) {
                                 $('input[id=IBAN]').addClass("bb-3 border-danger");
                                 $('input[id=IBAN]').removeClass("border-info");
@@ -1254,7 +1308,7 @@
 
 
             });
-
+            */
 
 
             @*$("#familyMembersFamilyRelationshipId select").val("@Model.BloodTypeId").change();*@
@@ -1314,46 +1368,14 @@
                     $('#d2-e').removeClass("border-info");
                 }
             });
+            /*
             $('input[id=IBAN]').change(function (ev) {
-                const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
-                const iban = ev.target.value;
-                console.log(bankCode);
-                if (iban.length > 31) {
-                    $.ajax({
-                        url: '/api/getbank/' + bankCode + '/' + iban,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (res) {
-                            //console.log(JSON.stringify(res.url));
-                            if (res == null) {
-                                $('input[id=IBAN]').addClass("bb-3 border-danger");
-                                $('input[id=IBAN]').removeClass("border-info");
-
-                                $('#bank_logo').attr('src', '');
-                                $('#bank_logo').addClass("d-none");
-                                $('#bank_name').addClass("d-none");
-                            }
-                            else {
-                                $('input[id=IBAN]').addClass("bb-3 border-info");
-                                $('input[id=IBAN]').removeClass("border-danger");
-                                if (res.url == null) {
-                                    $('#bank_logo').attr('src', '');
-                                    $('#bank_logo').addClass("d-none");
-                                    $('#bank_name').removeClass("d-none");
-                                    $('#bank_name').html(res.name);
-                                } else {
-                                    $('#bank_logo').removeClass("d-none");
-                                    $('#bank_name').addClass("d-none");
-                                    $('#bank_logo').attr('src', res.url);
-                                }
-
-                            }
-                        }
-                    });
-                }
 
 
-            });
+
+            });*/
+
+
             //$('#d2-e').val();
 
 

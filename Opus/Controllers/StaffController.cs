@@ -42,7 +42,8 @@ namespace Opus.Controllers
                 var _products = _uow.Products.GetAll();
                 var staffVM = new StaffVM()
                 {
-                    Products = _products.ToList()
+                    Products = _products.ToList(),
+                    EducationalStatusEnumerable = _uow.EducationalStatus.GetAll()
                 };
                 return View(staffVM);
             }

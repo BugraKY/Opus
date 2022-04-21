@@ -28,6 +28,7 @@ namespace Opus.DataAcces.Data
         public DbSet<Documents> Documents { get; set; }
         public DbSet<DocumentType> DocumentType { get; set; }
         public DbSet<MaritalStatus> MaritalStatus { get; set; }
+        public DbSet<EducationalStatus> EducationalStatus { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

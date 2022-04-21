@@ -42,7 +42,7 @@ namespace Opus.Models.DbModels
         public string CountryId { get; set; }
         public bool WhiteCollarWorker { get; set; }
         public bool BlackList { get; set; }
-        public string EducationalStatus { get; set; }
+        public int EducationalStatus { get; set; }
         public string ImageFile { get; set; }
         public string Degree { get; set; }
     }
