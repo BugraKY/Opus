@@ -1,4 +1,4 @@
-﻿var Categories = []
+﻿//var Categories = []
 //fetch categories from database
 /*
 function LoadCategory(element) {
@@ -20,7 +20,7 @@ function LoadCategory(element) {
     }
 }
 */
-
+/*
 function renderCategory(element) {
     var $ele = $(element);
     $ele.empty();
@@ -29,6 +29,7 @@ function renderCategory(element) {
         $ele.append($('<option/>').val(val.id).text(val.urunAdi));
     })
 }
+*/
 
 //fetch products
 /*
@@ -46,7 +47,7 @@ function LoadProduct(categoryDD) {
         }
     })
 }*/
-
+/*
 function renderProduct(element, data) {
     //render product
     var $ele = $(element);
@@ -56,7 +57,7 @@ function renderProduct(element, data) {
         $ele.append($('<option/>').val(val.ikUrunlerId).text(val.bedenAdi));
     })
 }
-
+*/
 $(document).ready(function () {
     //Add button click event
     $('#add').click(function () {
@@ -97,9 +98,9 @@ $(document).ready(function () {
         }
         */
         
-
+        /*
         if (isAllValid) {
-            /*
+            
             var $newRow = $('#mainrow').clone().removeAttr('id');
             $('.pc', $newRow).val($('#urunler').val());
             $('.product', $newRow).val($('#bedenler').val());
@@ -117,8 +118,8 @@ $(document).ready(function () {
             $('#urunler,#bedenler').val('0');
             $('#quantity,#rate').val('');
             $('#orderItemError').empty();
-            */
-        }
+            
+        }*/
 
     })
 

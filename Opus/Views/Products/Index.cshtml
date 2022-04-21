@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Opus.Models.DbModels.Products>
 
 @{
-    ViewBag.Title = "AddProduct";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     //Expert.Solution.Models.Ado.ExpertDatabases db = new Expert.Solution.Models.Ado.ExpertDatabases();
@@ -11,10 +10,45 @@
 
     var sizes = new SelectList(db.IkUrunlerBeden, "id", "bedenAdi");
     */
+    int s = 0;
 }
 
+@*
+    <div class="row">
+        <div class="col-4">
+            <input value="col-4" class="form-input"/>
+        </div>
 
-<div class="container-full">
+        <div class="col-8">
+
+            <input value="col-8" class="form-input" />
+        </div>
+
+    </div>
+*@
+<style>
+    .accordion-button {
+        border-bottom-width: 1px !important;
+        border-bottom-right-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+        .accordion-button:focus {
+            box-shadow: none !important;
+        }
+
+    .scrollbar-primary::-webkit-scrollbar {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    .scrollbar-primary::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-color: #4285F4;
+    }
+</style>
+<div class="container-full" style="min-height:100%;">
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="d-flex align-items-center">
@@ -34,6 +68,46 @@
         </div>
     </div>
 
+    @*
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        Accordion Item #1
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="accordion-body">
+                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        Accordion Item #2
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                    <div class="accordion-body">
+                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        Accordion Item #3
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                </div>
+            </div>
+        </div>
+    *@
 
 
     <!-- Main content -->
@@ -46,29 +120,100 @@
                     <div class="box-body">
                         <h4 class="box-title text-info mb-0">Products</h4>
                         <div class="text-end">
-                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-primary">Add New</a>
+                            <div class="row">
+                                <div class="col-8">
+                                    <input id="search-product" class="form-control" placeholder="Search" />
+
+                                </div>
+                                <div class="col-4">
+                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-primary">Add New</a>
+                                </div>
+                            </div>
                         </div>
                         <hr class="my-15">
                         <div class="row">
-                            <div class="tab-content">
-                                <div id="navpills-1" class="tab-pane active">
-                                    <!-- Categroy 1 -->
-                                    <div class=" tab-pane animation-fade active" id="category-1" role="tabpanel">
-                                        <div class="panel-group panel-group-simple panel-group-continuous" id="accordion2" aria-multiselectable="true" role="tablist">
-                                            <!-- Question 1 -->
-                                            @foreach (var item in Model)
-                                            {
-                                                <div class="panel">
-                                                    <div class="panel-heading" id="question-@item.Id" role="tab">
-                                                        <a class="panel-title collapsed" aria-controls="answer-@item.Id" aria-expanded="false" data-bs-toggle="collapse" href="#answer-@item.Id" data-parent="#accordion2">
-                                                            @item.Name
-                                                        </a>
-                                                    </div>
-                                                    <div class="panel-collapse collapse" id="answer-@item.Id" aria-labelledby="question-@item.Id" role="tabpanel" data-bs-parent="#category-@item.Id" style="">
-                                                        <div class="panel-body">
-                                                            @foreach (var sizeItem in item.ProductSize)
-                                                            {
-                                                                if (sizeItem.ProductId == item.Id)
+
+
+                            <div class="accordion scrollbar-primary" id="accordionPanels" style="height: 500px; overflow-y: scroll;">
+                                @foreach (var item in Model)
+                                {
+                                    s++;
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-heading-@s">
+                                            <button class="accordion-button waves-effect waves-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-@s" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                                @item.Name
+                                            </button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapse-@s" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-@s">
+                                            <div class="accordion-body">
+                                                @foreach (var sizeItem in item.ProductSize)
+                                                {
+                                                    <ul class="todo-list ui-sortable">
+                                                        <li class="p-10">
+                                                            <!-- todo text -->
+                                                            <span class="text-line">@sizeItem.Name</span>
+                                                            <!-- Emphasis label -->
+                                                            <small class="badge bg-@(sizeItem.Stock < 5 ? "danger" : "success" ) text-end"> @sizeItem.Stock</small>
+                                                            <!-- General tools such as edit or delete-->
+                                                            <div class="tools">
+                                                                <a onclick="ikBedenGüncelle(@sizeItem.Id)" href="#"><i class="fa fa-edit"></i></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+
+
+                            @*
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    @foreach (var item in Model)
+                                    {
+                                        s++;
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="panelsStayOpen-heading-@s">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-@s" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                                    Accordion Item #1
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapse-@s" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-@s">
+                                                <div class="accordion-body">
+                                                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            *@
+
+
+
+
+
+                            @*
+                                <div class="tab-content">
+                                    <div id="navpills-1" class="tab-pane active">
+                                        <!-- Categroy 1 -->
+                                        <div class=" tab-pane animation-fade active" id="category-1" role="tabpanel">
+                                            <div class="panel-group panel-group-simple panel-group-continuous" id="accordion2" aria-multiselectable="true" role="tablist">
+                                                <!-- Question 1 -->
+                                                @foreach (var item in Model)
+                                                {
+                                                    <div class="panel">
+                                                        <div class="panel-heading" id="question-@item.Id" role="tab">
+                                                            <a class="panel-title collapsed" aria-controls="answer-@item.Id" aria-expanded="false" data-bs-toggle="collapse" href="#answer-@item.Id" data-parent="#accordion2">
+                                                                @item.Name
+                                                            </a>
+                                                        </div>
+                                                        <div class="panel-collapse collapse" id="answer-@item.Id" aria-labelledby="question-@item.Id" role="tabpanel" data-bs-parent="#category-@item.Id" style="">
+                                                            <div class="panel-body">
+                                                                @foreach (var sizeItem in item.ProductSize)
                                                                 {
                                                                     <ul class="todo-list ui-sortable">
                                                                         <li class="p-10">
@@ -83,17 +228,16 @@
                                                                         </li>
                                                                     </ul>
                                                                 }
-                                                            }
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            }
+                                                }
+                                            </div>
                                         </div>
+                                        <!-- End Categroy 1 -->
                                     </div>
-                                    <!-- End Categroy 1 -->
                                 </div>
-                            </div>
-
+                            *@
 
 
                         </div>
@@ -234,5 +378,108 @@
 
     </section>
     <!-- /.content -->
+
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('input[id=search-product]').on('input', function (ev) {
+                const _search = ev.target.value;
+                if (_search.length > 0) {
+                    $.ajax({
+                        url: '/api/product/search/' + _search,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (res) {
+                            $('#accordionPanels').html('');
+                            console.log(res);
+                            $.each(res, function (key, value) {
+                                var pSizehtml = ``;
+                                $.each(value.productSize, function (key, value_size) {
+                                    pSizehtml += `  <ul class='todo-list ui-sortable'>
+                        <li class='p-10'>
+                            <!-- todo text -->
+                            <span class='text-line'>`+ value_size.name + `</span>
+                            <!-- Emphasis label -->
+                            <small class='badge bg-`+ value_size.stock + ` < 5 ? 'danger' : 'success' ) text-end'>`+ value_size.stock + `</small>
+                            <!-- General tools such as edit or delete-->
+                            <div class='tools'>
+                                <a onclick='ikBedenGüncelle(`+ value_size.id + `)' href='#'><i class='fa fa-edit'></i></a>
+                            </div>
+                        </li>
+                    </ul>`
+                                });
+
+                                $('#accordionPanels').append(`
+<div class='accordion-item'>
+        <h2 class='accordion-header' id='panelsStayOpen-heading-`+ key + `'>
+            <button class='accordion-button waves-effect waves-dark collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapse-`+ key + `' aria-expanded='false' aria-controls='panelsStayOpen-collapse-` + key + `'>
+                `+ value.name + `
+            </button>
+        </h2>
+        <div id='panelsStayOpen-collapse-`+ key + `' class='accordion-collapse collapse' aria-labelledby='panelsStayOpen-heading-` + key + `'>
+            <div class='accordion-body'>
+`+ pSizehtml + `
+            </div>
+        </div>
+</div>
+
+
+                                    `);
+                            });
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '/api/product/getAll/',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (res) {
+                            $('#accordionPanels').html('');
+                            console.log(res);
+                            $.each(res, function (key, value) {
+                                var pSizehtml = ``;
+                                $.each(value.productSize, function (key, value_size) {
+                                    pSizehtml += `  <ul class='todo-list ui-sortable'>
+                        <li class='p-10'>
+                            <!-- todo text -->
+                            <span class='text-line'>`+ value_size.name + `</span>
+                            <!-- Emphasis label -->
+                            <small class='badge bg-`+ value_size.stock + ` < 5 ? 'danger' : 'success' ) text-end'>` + value_size.stock + `</small>
+                            <!-- General tools such as edit or delete-->
+                            <div class='tools'>
+                                <a onclick='ikBedenGüncelle(`+ value_size.id + `)' href='#'><i class='fa fa-edit'></i></a>
+                            </div>
+                        </li>
+                    </ul>`
+                                });
+
+                                $('#accordionPanels').append(`
+<div class='accordion-item'>
+        <h2 class='accordion-header' id='panelsStayOpen-heading-`+ key + `'>
+            <button class='accordion-button waves-effect waves-dark collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapse-`+ key + `' aria-expanded='false' aria-controls='panelsStayOpen-collapse-` + key + `'>
+                `+ value.name + `
+            </button>
+        </h2>
+        <div id='panelsStayOpen-collapse-`+ key + `' class='accordion-collapse collapse' aria-labelledby='panelsStayOpen-heading-` + key + `'>
+            <div class='accordion-body'>
+`+ pSizehtml + `
+            </div>
+        </div>
+</div>
+
+
+                                    `);
+                            });
+                        }
+                    });
+                }
+
+            });
+
+        });
+    </script>
+}
 

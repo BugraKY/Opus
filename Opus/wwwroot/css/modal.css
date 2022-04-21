@@ -27,7 +27,7 @@ body {
     display: grid;
     flex-direction: column;
     height: 100vh;
-    place-items: center;
+    /*place-items: center;*/
     line-height: 1.2;
 }
 .heading {

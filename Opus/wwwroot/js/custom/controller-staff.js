@@ -526,7 +526,7 @@ function StaffAdd() {
         });
     }
 }
-
+/*
 $(function () {
 
 
@@ -570,8 +570,8 @@ $(function () {
     });
 
 });
-
-
+*/
+/*
 function ikBedenGüncelle(id) {
     $.ajax({
         url: "/Staff/IkSizeEdit/" + id,
@@ -591,6 +591,7 @@ function ikBedenGüncelle(id) {
     });
     return false;
 }
+*/
 
 // İk Ürünler
 
@@ -615,7 +616,7 @@ function LoadProduct(element) {
     }
 }
 */
-
+/*
 function renderProduct(element) {
     var $ele = $(element);
     $ele.empty();
@@ -626,8 +627,10 @@ function renderProduct(element) {
     })
 
 }
+*/
 
 //bedenleri getir
+/*
 function LoadSize(urunId) {
     $.ajax({
         type: "GET",
@@ -643,7 +646,8 @@ function LoadSize(urunId) {
 
     })
 }
-
+*/
+/*
 function renderSize(element, data) {
     //beden yazdır
     var $ele = $(element);
@@ -656,7 +660,9 @@ function renderSize(element, data) {
 
 
 }
+*/
 
+/*
 $(document).ready(function () {
 
 
@@ -747,7 +753,7 @@ $(document).ready(function () {
 
 
         if (isAllValid) {
-            /*
+            
             var $newRow = $('#mainrow').clone().removeAttr('id');
             $('.urun', $newRow).val($('#urunler').val());
             $('.beden', $newRow).val($('#bedenler').val());
@@ -780,16 +786,18 @@ $(document).ready(function () {
             $('#urunler,#bedenler').val('0');
             $('#adet,#verilisTarihi,#iadeTarihi').val('');
             $('#equipmentItemError').empty();
-            */
+            
 
         }
 
     })
 
     //silme kaldır
+    
     $('#equipmentdetailsItems').on('click', '.remove', function () {
         $(this).parents('tr').remove();
     });
+    
 
 
 
@@ -799,5 +807,6 @@ $(document).ready(function () {
 
 
 });
+*/
 
 //LoadProduct($('#urunler'));

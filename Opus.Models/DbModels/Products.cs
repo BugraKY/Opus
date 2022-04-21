@@ -18,8 +18,10 @@ namespace Opus.Models.DbModels
         [ForeignKey("ProductCategoryId")]
         public int ProductCategoryId { get; set; }
         public ProductCategory ProductCategory { get; set; }
-        [ForeignKey("ProductId")]
-        public int ProductId { get; set; }
+        [NotMapped]
+        [ForeignKey("ProductSizeProductId")]
+        public long ProductSizeProductId { get; set; }
+        [NotMapped]
         public IEnumerable<ProductSize> ProductSize { get; set; }
     }
 }
