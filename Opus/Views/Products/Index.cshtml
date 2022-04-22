@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Opus.Models.DbModels.Products>
-
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     //Expert.Solution.Models.Ado.ExpertDatabases db = new Expert.Solution.Models.Ado.ExpertDatabases();
@@ -59,7 +57,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item" aria-current="page">Forms</li>
-                            <li class="breadcrumb-item active" aria-current="page">I.K. Ürünler</li>
+                            <li class="breadcrumb-item active" aria-current="page">HR Products</li>
                         </ol>
                     </nav>
                 </div>
@@ -135,37 +133,38 @@
 
 
                             <div class="accordion scrollbar-primary" id="accordionPanels" style="height: 500px; overflow-y: scroll;">
-                                @foreach (var item in Model)
-                                {
-                                    s++;
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-heading-@s">
-                                            <button class="accordion-button waves-effect waves-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-@s" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                                                @item.Name
-                                            </button>
-                                        </h2>
-                                        <div id="panelsStayOpen-collapse-@s" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-@s">
-                                            <div class="accordion-body">
-                                                @foreach (var sizeItem in item.ProductSize)
-                                                {
-                                                    <ul class="todo-list ui-sortable">
-                                                        <li class="p-10">
-                                                            <!-- todo text -->
-                                                            <span class="text-line">@sizeItem.Name</span>
-                                                            <!-- Emphasis label -->
-                                                            <small class="badge bg-@(sizeItem.Stock < 5 ? "danger" : "success" ) text-end"> @sizeItem.Stock</small>
-                                                            <!-- General tools such as edit or delete-->
-                                                            <div class="tools">
-                                                                <a onclick="ikBedenGüncelle(@sizeItem.Id)" href="#"><i class="fa fa-edit"></i></a>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                }
+                                @*
+                                    @foreach (var item in Model)
+                                    {
+                                        s++;
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="panelsStayOpen-heading-@s">
+                                                <button class="accordion-button waves-effect waves-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-@s" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                                    @item.Name
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapse-@s" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-@s">
+                                                <div class="accordion-body">
+                                                    @foreach (var sizeItem in item.ProductSize)
+                                                    {
+                                                        <ul class="todo-list ui-sortable">
+                                                            <li class="p-10">
+                                                                <!-- todo text -->
+                                                                <span class="text-line">@sizeItem.Name</span>
+                                                                <!-- Emphasis label -->
+                                                                <small class="badge bg-@(sizeItem.Stock < 5 ? "danger" : "success" ) text-end"> @sizeItem.Stock</small>
+                                                                <!-- General tools such as edit or delete-->
+                                                                <div class="tools">
+                                                                    <a onclick="ikBedenGüncelle(@sizeItem.Id)" href="#"><i class="fa fa-edit"></i></a>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
-
+                                    }
+                                *@
                             </div>
 
 
@@ -241,7 +240,12 @@
 
 
                         </div>
+                        <hr class="my-15">
+                        <div class="row">
+                            <div id="prod_result">
 
+                            </div>
+                        </div>
 
                     </div>
                     <!-- /.box-body -->
@@ -296,22 +300,41 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="form-horizontal" action="~/Staff/AddProduct" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
+                            <div class="form-group">
 
-                                    <label class="col-md-12 form-label">Ürün Adı</label>
-                                    <div class="col-md-12">
-                                        <input type="text" name="urunAdi" class="form-control" placeholder="Ürün Adı" value="">
+                                <label class="col-md-12 form-label">Category</label>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <select id="categoryOptions" class="form-select" name="ProductCategoryId" required>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-success float-end">Add</button>
+                                @*
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Base Unit</label>
+                                        <select class="form-select" id="unit">
+                                            <option value="1">Adet</option>
+                                            <option value="2">Metre</option>
+                                            <option value="3">Beden</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                                *@
+                                <div class="col-12">
+                                    <div class="col-12">
+                                        <label class="form-label">Product Name</label>
+                                        <input type="text" class="form-control" placeholder="Product Name" name="Name" value="" id="prod_name" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
 
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="exitModal">Cancel</button>
+                                <button type="button" class="btn btn-success float-end" id="add_prod">Add</button>
+                            </div>
+
+                        </div>
                     </div>
                     <!-- /.modal-content -->
                 </div>
@@ -322,50 +345,44 @@
                 <div class="box">
 
                     <!-- /.box-header -->
-                    <form class="form-horizontal" action="~/Staff/AddProductSize" method="post" enctype="multipart/form-data">
-                        <div class="box-body">
-                            <h4 class="box-title text-info mb-0"> Add New Product Size</h4>
-                            <hr class="my-15">
-                            <div class="row">
-                                <div class="col-md-4">
-
-                                    <div class="form-group">
-                                        <label class="form-label">Product</label>
-                                        <select name="ikUrunlerId" class="form-select required">
-                                            @foreach (var item in Model)
-                                            {
-                                                <option value="@item.Id">@item.Name</option>
-                                            }
-
-                                        </select>
-
-                                    </div>
+                    <div class="box-body">
+                        <h4 class="box-title text-info mb-0"> Add New Product Size</h4>
+                        <hr class="my-15">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Product</label>
+                                    <select class="form-select" id="onlyProds">
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Size</label>
-                                        <input name="bedenAdi" type="text" class="form-control" placeholder="Product Size">
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="col-md-3">
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Stock</label>
-                                        <input name="stok" type="number" class="form-control" placeholder="Stock">
-                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Size</label>
+                                    <input type="text" class="form-control" placeholder="Product Size" id="size">
                                 </div>
                             </div>
 
-
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Stock</label>
+                                    <input type="number" class="form-control" placeholder="Stock" id="stock">
+                                </div>
+                            </div>
                         </div>
-                        <!-- /.box-body -->
-                        <div class="box-footer text-end">
 
-                            <button type="submit" class="btn btn-primary">
-                                <i class="ti-save-alt"></i> Save
-                            </button>
-                        </div>
-                    </form>
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer text-end">
+
+                        <button type="button" class="btn btn-primary" id="addSize">
+                            <i class="ti-save-alt"></i> Save
+                        </button>
+                    </div>
                 </div>
 
 
@@ -384,102 +401,259 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 500;  //time in ms, 0,5 seconds for example
+
             $('input[id=search-product]').on('input', function (ev) {
-                const _search = ev.target.value;
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                console.log("interval done.");
+
+            });
+            function doneTyping() {
+                onLoad();
+                //const _search = ev.target.value;
+                const _search = $('#search-product').val();
                 if (_search.length > 0) {
                     $.ajax({
                         url: '/api/product/search/' + _search,
                         type: 'GET',
                         dataType: 'json',
+                        async: true,
                         success: function (res) {
                             $('#accordionPanels').html('');
                             console.log(res);
                             $.each(res, function (key, value) {
                                 var pSizehtml = ``;
                                 $.each(value.productSize, function (key, value_size) {
+                                    var badgeState = ``;
+                                    if (value_size.stock < 5)
+                                        badgeState = 'bg-danger'
+                                    else
+                                        badgeState = 'bg-success'
                                     pSizehtml += `  <ul class='todo-list ui-sortable'>
-                        <li class='p-10'>
-                            <!-- todo text -->
-                            <span class='text-line'>`+ value_size.name + `</span>
-                            <!-- Emphasis label -->
-                            <small class='badge bg-`+ value_size.stock + ` < 5 ? 'danger' : 'success' ) text-end'>`+ value_size.stock + `</small>
-                            <!-- General tools such as edit or delete-->
-                            <div class='tools'>
-                                <a onclick='ikBedenGüncelle(`+ value_size.id + `)' href='#'><i class='fa fa-edit'></i></a>
-                            </div>
-                        </li>
-                    </ul>`
+                                                <li class='p-10'>
+                                                    <!-- todo text -->
+                                                    <span class='text-line'>`+ value_size.name + `</span>
+                                                    <!-- Emphasis label -->
+                                                    <small class='badge `+ badgeState + ` text-end'>` + value_size.stock + `</small>
+                                                    <!-- General tools such as edit or delete-->
+                                                    <div class='tools'>
+                                                        <a onclick='ikBedenGüncelle(`+ value_size.id + `)' href='#'><i class='fa fa-edit'></i></a>
+                                                    </div>
+                                                </li>
+                                            </ul>`
                                 });
 
                                 $('#accordionPanels').append(`
 <div class='accordion-item'>
-        <h2 class='accordion-header' id='panelsStayOpen-heading-`+ key + `'>
-            <button class='accordion-button waves-effect waves-dark collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapse-`+ key + `' aria-expanded='false' aria-controls='panelsStayOpen-collapse-` + key + `'>
-                `+ value.name + `
-            </button>
-        </h2>
-        <div id='panelsStayOpen-collapse-`+ key + `' class='accordion-collapse collapse' aria-labelledby='panelsStayOpen-heading-` + key + `'>
-            <div class='accordion-body'>
+                                <h2 class='accordion-header' id='panelsStayOpen-heading-`+ key + `'>
+                                    <button class='accordion-button waves-effect waves-dark collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapse-`+ key + `' aria-expanded='false' aria-controls='panelsStayOpen-collapse-` + key + `'>
+                                        `+ value.name + `
+                                    </button>
+                                </h2>
+                                <div id='panelsStayOpen-collapse-`+ key + `' class='accordion-collapse collapse' aria-labelledby='panelsStayOpen-heading-` + key + `'>
+                                    <div class='accordion-body'>
 `+ pSizehtml + `
-            </div>
-        </div>
+                                    </div>
+                                </div>
 </div>
 
 
-                                    `);
+                                                            `);
                             });
+
+                            if (res.length == 0)
+                                //console.log("No Results");
+                                $('#accordionPanels').html('<div class="d-flex align-items-center justify-content-center mb-4" style="height: 479px;"><h3>No Results.</h></div>');
+
+                            $('#prod_result').html(`<h6>Quantity of result: ` + res.length + `</h6>`)
                         }
                     });
+
                 }
                 else {
-                    $.ajax({
-                        url: '/api/product/getAll/',
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (res) {
-                            $('#accordionPanels').html('');
-                            console.log(res);
-                            $.each(res, function (key, value) {
-                                var pSizehtml = ``;
-                                $.each(value.productSize, function (key, value_size) {
-                                    pSizehtml += `  <ul class='todo-list ui-sortable'>
-                        <li class='p-10'>
-                            <!-- todo text -->
-                            <span class='text-line'>`+ value_size.name + `</span>
-                            <!-- Emphasis label -->
-                            <small class='badge bg-`+ value_size.stock + ` < 5 ? 'danger' : 'success' ) text-end'>` + value_size.stock + `</small>
-                            <!-- General tools such as edit or delete-->
-                            <div class='tools'>
-                                <a onclick='ikBedenGüncelle(`+ value_size.id + `)' href='#'><i class='fa fa-edit'></i></a>
-                            </div>
-                        </li>
-                    </ul>`
-                                });
+                    getAll();
+                }
+            }
 
-                                $('#accordionPanels').append(`
+            getAll();
+            getOnlyProd();
+            getCategory();
+
+            $("#add_prod").click(function () {
+                const data = $('#add_prod_form').serialize();
+                console.log(data);
+                addProd(data);
+            });
+            $("#addSize").click(function () {
+                addSize();
+            });
+
+
+        });
+        function onLoad() {
+            var spinner = `
+                        <div class="d-flex align-items-center justify-content-center mb-4" style="height: 479px;">
+                          <button class='btn btn-primary' type='button' disabled>
+                            <span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>
+                            Loading...
+                          </button>
+                        </div>
+
+`;
+            $('#accordionPanels').html(spinner);
+        }
+        function getAll() {
+            onLoad();
+            $.ajax({
+                url: '/api/product/getAll/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    $('#accordionPanels').html('');
+                    $.each(res, function (key, value) {
+                        var pSizehtml = ``;
+                        $.each(value.productSize, function (key, value_size) {
+                            var badgeState = ``;
+                            if (value_size.stock < 5)
+                                badgeState = 'bg-danger'
+                            else
+                                badgeState = 'bg-success'
+                            pSizehtml += `  <ul class='todo-list ui-sortable'>
+                                                <li class='p-10'>
+                                                    <!-- todo text -->
+                                                    <span class='text-line'>`+ value_size.name + `</span>
+                                                    <!-- Emphasis label -->
+                                                    <small class='badge `+ badgeState + ` text-end'>` + value_size.stock + `</small>
+                                                    <!-- General tools such as edit or delete-->
+                                                    <div class='tools'>
+                                                        <a onclick='ikBedenGüncelle(`+ value_size.id + `)' href='#'><i class='fa fa-edit'></i></a>
+                                                    </div>
+                                                </li>
+                                            </ul>`
+                        });
+
+                        $('#accordionPanels').append(`
 <div class='accordion-item'>
-        <h2 class='accordion-header' id='panelsStayOpen-heading-`+ key + `'>
-            <button class='accordion-button waves-effect waves-dark collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapse-`+ key + `' aria-expanded='false' aria-controls='panelsStayOpen-collapse-` + key + `'>
-                `+ value.name + `
-            </button>
-        </h2>
-        <div id='panelsStayOpen-collapse-`+ key + `' class='accordion-collapse collapse' aria-labelledby='panelsStayOpen-heading-` + key + `'>
-            <div class='accordion-body'>
+                                <h2 class='accordion-header' id='panelsStayOpen-heading-`+ key + `'>
+                                    <button class='accordion-button waves-effect waves-dark collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#panelsStayOpen-collapse-`+ key + `' aria-expanded='false' aria-controls='panelsStayOpen-collapse-` + key + `'>
+                                        <div class="row"><div class="col-11">`+ value.name + `</div> <a href="#remove" class="hidden-href col-1" style="float: right;" onclick="removeProd(` + value.id +`);"><i class="mdi mdi-delete" style="font-size: 1.5em "></i></a></div>
+                                    </button>
+                                </h2>
+                                <div id='panelsStayOpen-collapse-`+ key + `' class='accordion-collapse collapse' aria-labelledby='panelsStayOpen-heading-` + key + `'>
+                                    <div class='accordion-body'>
 `+ pSizehtml + `
-            </div>
-        </div>
+                                    </div>
+                                </div>
+    
 </div>
 
 
-                                    `);
-                            });
-                        }
+                                                            `);
+                    });
+
+                    $('#prod_result').html(`<h6>Quantity of result: ` + res.length + `</h6>`)
+                }
+            });
+        }
+        function addProd(data) {
+
+            const prod_name = $('#prod_name').val();
+            const prod_cat = $('#categoryOptions').val();
+            //const unit = $('#unit').val();
+            //console.log("unit: "+unit);
+            /*console.log('{"id":' + prod_cat + ',' +'"name":'+'"'+ prod_name+'"'+'}');*/
+            $.ajax({
+                type: "POST",
+                url: "/api/product/add-prod",
+                data: {
+                    prod: {
+                        productCategoryId: prod_cat,
+                        name: prod_name
+                        //unitId: unit
+                    }
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#exitModal').trigger('click');
+                    getOnlyProd();
+                    getAll();
+                },
+                failure: function (response) {
+                    console.log("Kayıt başarısız! - Failure response");
+                    $(':a').prop('disabled', true);
+                    $(':button').prop('disabled', true);
+                },
+                error: function (response) {
+                    console.log("Kayıt başarısız! - Error response");
+                }
+            });
+        }
+        function getCategory() {
+            $.ajax({
+                url: '/api/product/getCategory/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    $.each(res, function (key, item) {
+                        $('#categoryOptions').append($('<option>', {
+                            value: item.id,
+                            text: item.name
+                        }));
                     });
                 }
-
             });
+        }
+        function getOnlyProd() {
+            $.ajax({
+                url: '/api/product/getOnlyProd/',
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    $("#onlyProds").empty();
+                    $.each(res, function (key, item) {
+                        $('#onlyProds').append($('<option>', {
+                            value: item.id,
+                            text: item.name
+                        }));
+                    });
+                }
+            });
+        }
+        function addSize() {
+            const productId = $('#onlyProds').val();
+            const size = $('#size').val();
+            const stock = $('#stock').val();
 
-        });
+            $.ajax({
+                type: "POST",
+                url: "/api/product/add-size",
+                data: {
+                    prodSize: {
+                        productId: productId,
+                        name: size,
+                        stock: stock
+                    }
+                },
+                success: function (response) {
+                    console.log(response);
+                    getAll();
+                },
+                failure: function (response) {
+                    console.log("Kayıt başarısız! - Failure response");
+                    $(':a').prop('disabled', true);
+                    $(':button').prop('disabled', true);
+                },
+                error: function (response) {
+                    console.log("Kayıt başarısız! - Error response");
+                }
+            });
+        }
+        function removeProd(id) {
+            console.log("remove: " + id);
+        }
     </script>
 }
 

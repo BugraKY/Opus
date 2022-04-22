@@ -102,6 +102,19 @@ namespace Opus.DataAcces.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EducationalStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EducationalStatus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FamilyRelationship",
                 columns: table => new
                 {
@@ -133,6 +146,20 @@ namespace Opus.DataAcces.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MaritalStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Value = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaritalStatus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCategories",
                 columns: table => new
                 {
@@ -153,7 +180,7 @@ namespace Opus.DataAcces.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Stock = table.Column<int>(type: "int", nullable: false)
                 },
@@ -188,14 +215,14 @@ namespace Opus.DataAcces.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NumberOfChildren = table.Column<int>(type: "int", nullable: false),
                     BloodTypeId = table.Column<int>(type: "int", nullable: false),
-                    TestD2_TNE = table.Column<int>(type: "int", nullable: false),
-                    TestD2_E = table.Column<int>(type: "int", nullable: false),
-                    CurrentSalary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TestD2_TNE = table.Column<float>(type: "real", nullable: false),
+                    TestD2_E = table.Column<float>(type: "real", nullable: false),
+                    CurrentSalary = table.Column<float>(type: "real", nullable: false),
                     IBAN = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CountryId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WhiteCollarWorker = table.Column<bool>(type: "bit", nullable: false),
                     BlackList = table.Column<bool>(type: "bit", nullable: false),
-                    EducationalStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EducationalStatus = table.Column<int>(type: "int", nullable: false),
                     ImageFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Degree = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -472,10 +499,16 @@ namespace Opus.DataAcces.Migrations
                 name: "DocumentType");
 
             migrationBuilder.DropTable(
+                name: "EducationalStatus");
+
+            migrationBuilder.DropTable(
                 name: "FamilyMembers");
 
             migrationBuilder.DropTable(
                 name: "Location");
+
+            migrationBuilder.DropTable(
+                name: "MaritalStatus");
 
             migrationBuilder.DropTable(
                 name: "Products");

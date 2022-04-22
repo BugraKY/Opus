@@ -239,7 +239,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BloodTypes", (string)null);
+                    b.ToTable("BloodTypes");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.Documents", b =>
@@ -267,7 +267,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.DocumentType", b =>
@@ -289,7 +289,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DocumentType", (string)null);
+                    b.ToTable("DocumentType");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.EducationalStatus", b =>
@@ -305,7 +305,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EducationalStatus", (string)null);
+                    b.ToTable("EducationalStatus");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.FamilyMembers", b =>
@@ -338,7 +338,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasIndex("FamilyRelationshipId");
 
-                    b.ToTable("FamilyMembers", (string)null);
+                    b.ToTable("FamilyMembers");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.FamilyRelationship", b =>
@@ -354,7 +354,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FamilyRelationship", (string)null);
+                    b.ToTable("FamilyRelationship");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.Location", b =>
@@ -386,7 +386,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location", (string)null);
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.MaritalStatus", b =>
@@ -405,7 +405,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MaritalStatus", (string)null);
+                    b.ToTable("MaritalStatus");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ProductCategory", b =>
@@ -427,7 +427,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.Products", b =>
@@ -454,7 +454,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasIndex("ProductCategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ProductSize", b =>
@@ -468,15 +468,15 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductSizes", (string)null);
+                    b.ToTable("ProductSizes");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.Staff", b =>
@@ -584,7 +584,7 @@ namespace Opus.DataAcces.Migrations
                         .IsUnique()
                         .HasFilter("[IdentityNumber] IS NOT NULL");
 
-                    b.ToTable("Staff", (string)null);
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.StaffEquipment", b =>
@@ -612,7 +612,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaffEquipment", (string)null);
+                    b.ToTable("StaffEquipment");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.UserLocation", b =>
@@ -635,7 +635,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserLocation", (string)null);
+                    b.ToTable("UserLocation");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ApplicationUser", b =>

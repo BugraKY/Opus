@@ -12,8 +12,8 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220421064052_InitialMigration7")]
-    partial class InitialMigration7
+    [Migration("20220422130335_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -470,8 +470,8 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
