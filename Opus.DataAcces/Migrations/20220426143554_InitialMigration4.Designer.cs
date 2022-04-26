@@ -12,8 +12,8 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220422130335_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220426143554_InitialMigration4")]
+    partial class InitialMigration4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -501,20 +501,23 @@ namespace Opus.DataAcces.Migrations
                     b.Property<int>("BloodTypeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CountryId")
+                    b.Property<string>("ClothingSizes")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<float>("CurrentSalary")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DateOfBirth")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfEntry")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DateOfEntry")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfQuit")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("DateOfQuit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Degree")
                         .HasColumnType("nvarchar(max)");
@@ -528,15 +531,14 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("IBAN")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityNumber")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageFile")
                         .HasColumnType("nvarchar(max)");
@@ -544,7 +546,7 @@ namespace Opus.DataAcces.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaritalStatus")
+                    b.Property<int>("MaritalStatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("MobileNumber")
@@ -582,9 +584,9 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdentityNumber")
+                    b.HasIndex("Guid")
                         .IsUnique()
-                        .HasFilter("[IdentityNumber] IS NOT NULL");
+                        .HasFilter("[Guid] IS NOT NULL");
 
                     b.ToTable("Staff");
                 });

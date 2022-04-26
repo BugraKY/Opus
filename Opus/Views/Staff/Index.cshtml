@@ -89,7 +89,7 @@
                                                     }
                                                     <td>@staff.IdentityNumber</td>
                                                     <td>@staff.MobileNumber</td>
-                                                    <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
+                                                    <td>@DateTime.Parse(staff.DateOfEntry).ToString("dd/MM/yyyy")</td>
                                                     <td>
 
                                                         @switch (staff.Status)

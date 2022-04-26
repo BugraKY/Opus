@@ -124,7 +124,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Birth <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
+                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@DateTime.Parse(Model.DateOfBirth).ToString("yyyy-MM-dd")" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -146,13 +146,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Marital Status <span class="danger">*</span></label>
-                                                            <select class="form-select " asp-for="MaritalStatus">
-                                                                @if (Model.MaritalStatus == 1)
+                                                            <select class="form-select " asp-for="MaritalStatusId">
+                                                                @if (Model.MaritalStatusId == 1)
                                                                 {
                                                                     <option value="1" selected="selected">Married</option>
                                                                     <option value="0">Single</option>
                                                                 }
-                                                                else if (Model.MaritalStatus == 0)
+                                                                else if (Model.MaritalStatusId == 0)
                                                                 {
                                                                     <option value="1">Married</option>
                                                                     <option value="0" selected="selected">Single</option>
@@ -236,7 +236,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Employment <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control " asp-for="DateOfEntry" value="@Model.DateOfEntry.ToString("yyyy-MM-dd")">
+                                                            <input type="date" class="form-control " asp-for="DateOfEntry" value="@DateTime.Parse(Model.DateOfEntry).ToString("yyyy-MM-dd")">
                                                         </div>
                                                     </div>
                                                 </div>

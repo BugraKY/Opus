@@ -24,14 +24,22 @@ namespace Opus.Controllers
         [Route("staff")]
         public IActionResult Index()
         {
-            #region Authentication
+            //var staffs = _uow.Staff.GetAll();
+            /*
+            foreach (var item in staffs)
+            {
+                item.Guid=Guid.NewGuid().ToString();
+                _uow.Staff.Update(item);
+                _uow.Save();
+            }*/
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll().OrderByDescending(o => o.Status);
+                var staffs = _uow.Staff.GetAll().OrderByDescending(o => o.Status==1);
+                //var staffs = _uow.Staff.GetAll();
                 return View(staffs);
             }
             return NotFound();
-            #endregion Authentication
+
         }
         [Route("staff/add")]
         public IActionResult Add()
@@ -51,7 +59,7 @@ namespace Opus.Controllers
             #endregion Authentication
         }
         [HttpGet("staff/edit/{id}")]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(string id)
         {
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             var _staff = _uow.Staff.GetFirstOrDefault(x => x.Guid == id);
@@ -100,7 +108,7 @@ namespace Opus.Controllers
                 LastName = _staff.LastName,
                 IdentityNumber = _staff.IdentityNumber,
                 ImageFile = _staff.ImageFile,
-                MaritalStatus = _staff.MaritalStatus,
+                MaritalStatusId = _staff.MaritalStatusId,
                 MobileNumber = _staff.MobileNumber,
                 MotherName = _staff.MotherName,
                 NumberOfChildren = _staff.NumberOfChildren,
@@ -152,7 +160,7 @@ namespace Opus.Controllers
                     LastName = _staffVM.LastName,
                     IdentityNumber = _staffVM.IdentityNumber,
                     ImageFile = _staffVM.ImageFile,
-                    MaritalStatus = _staffVM.MaritalStatus,
+                    MaritalStatusId = _staffVM.MaritalStatusId,
                     MobileNumber = _staffVM.MobileNumber,
                     NumberOfChildren = _staffVM.NumberOfChildren,
                     Status = _staffVM.Status,
@@ -191,7 +199,7 @@ namespace Opus.Controllers
                     LastName = _staffVM.LastName,
                     IdentityNumber = _staffVM.IdentityNumber,
                     //ImageFile = _uow.Staff.GetFirstOrDefault(i => i.Guid == _staffVM.Guid).ImageFile.ToString(),
-                    MaritalStatus = _staffVM.MaritalStatus,
+                    MaritalStatusId = _staffVM.MaritalStatusId,
                     MobileNumber = _staffVM.MobileNumber,
                     NumberOfChildren = _staffVM.NumberOfChildren,
                     Status = _staffVM.Status,
@@ -288,7 +296,7 @@ namespace Opus.Controllers
                 LastName = staffVm.LastName,
                 IdentityNumber = staffVm.IdentityNumber,
                 ImageFile = staffVm.Files.ImageFile.FileName,
-                MaritalStatus = staffVm.MaritalStatus,
+                MaritalStatusId = staffVm.MaritalStatusId,
                 MobileNumber = staffVm.MobileNumber,
                 MotherName = staffVm.MotherName,
                 NumberOfChildren = staffVm.NumberOfChildren,
@@ -297,7 +305,7 @@ namespace Opus.Controllers
                 RegistrationNumber = staffVm.RegistrationNumber,
                 Status = staffVm.Status,
                 WhiteCollarWorker = staffVm.WhiteCollarWorker,
-                Guid = Guid.NewGuid()
+                Guid = Guid.NewGuid().ToString()
             };
 
             _uow.Staff.Add(_staff);
@@ -373,7 +381,7 @@ namespace Opus.Controllers
             {
                 if (item.Checked)
                 {
-                    var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == item.Guid);
+                    var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == item.Guid.ToString());
                     _staffs.Add(_staff);
                 }
 
@@ -474,8 +482,8 @@ namespace Opus.Controllers
             var quit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();*/
             var _statusofstaff = new StatusOfStaffVM()
             {
-                Active = _uow.Staff.GetAll(i => i.Status == 0).Count(),
-                Passive = _uow.Staff.GetAll(i => i.Status == 1).Count(),
+                Active = _uow.Staff.GetAll(i => i.Status == 1).Count(),
+                Passive = _uow.Staff.GetAll(i => i.Status == 0).Count(),
                 Quit = _uow.Staff.GetAll(i => i.Status == 2).Count()
             };
             return _statusofstaff;
@@ -487,7 +495,7 @@ namespace Opus.Controllers
             if (_staff == null)
                 return null;
 
-            var _marital = _uow.MaritalStatus.GetFirstOrDefault(i => i.Value == _staff.MaritalStatus);
+            var _marital = _uow.MaritalStatus.GetFirstOrDefault(i => i.Value == _staff.MaritalStatusId);
             var _card = new StaffVM()
             {
                 Guid = _staff.Guid,
@@ -495,7 +503,7 @@ namespace Opus.Controllers
                 FirstName = _staff.FirstName,
                 LastName = _staff.LastName,
                 BirthPlace = _staff.BirthPlace,
-                DateOfBirth_STR = _staff.DateOfBirth.ToString("dd/MM/yyyy"),
+                DateOfBirth_STR = DateTime.Parse(_staff.DateOfBirth).ToString("dd/MM/yyyy"),
                 MobileNumber = _staff.MobileNumber,
                 MotherName = _staff.MotherName,
                 FatherName = _staff.FatherName,
@@ -514,7 +522,7 @@ namespace Opus.Controllers
             List<Staff> _staffs = new List<Staff>();
             foreach (var item in upsertobjEnum)
             {
-                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == Guid.Parse(item.Key));
+                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == item.Key);
                 _staff.CurrentSalary = item.Data.CurrentSalary;
                 _staffs.Add(_staff);
             }
@@ -528,7 +536,7 @@ namespace Opus.Controllers
             List<Staff> _staffs = new List<Staff>();
             foreach (var item in upsertobjEnum)
             {
-                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == Guid.Parse(item.Key));
+                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Guid == item.Key);
                 _staff.CurrentSalary = item.CurrentSalary;
                 _staffs.Add(_staff);
             }

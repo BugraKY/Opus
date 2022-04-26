@@ -30,12 +30,20 @@ namespace Opus.DataAcces.Data
         public DbSet<MaritalStatus> MaritalStatus { get; set; }
         public DbSet<EducationalStatus> EducationalStatus { get; set; }
         //public DbSet<Unit> Unit { get; set; }
-        
+
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Staff>()
                         .HasIndex(u => new { u.IdentityNumber }).IsUnique();
+        }
+        */
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Staff>()
+                        .HasIndex(u => new { u.Guid }).IsUnique();
         }
     }
 }
