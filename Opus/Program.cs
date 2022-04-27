@@ -86,7 +86,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseCookiePolicy();
 app.UseSession();
-
+app.UseDeveloperExceptionPage();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

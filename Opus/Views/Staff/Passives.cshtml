@@ -1,0 +1,390 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model IEnumerable<Opus.Models.DbModels.Staff>
+    int s = 0;
+}
+@using static Opus.Utility.Enums
+<style>
+    .box-header {
+        border-bottom: 0 !important;
+    }
+
+    .box-solid .box-body {
+        color: black !important;
+    }
+</style>
+
+<div class="container-full">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Staff List</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item" aria-current="page">Staffs</li>
+                            <li class="breadcrumb-item active" aria-current="page">Staff List</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xl-10 col-lg-9 col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Staff List</h4>
+                        <a href="/staff/add" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="table-responsive">
+
+                            <div id="example_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                                <form method="post" action="/staff/multiple-upsert">
+                                    <table id="example" class="table table-lg invoice-archive dataTable no-footer" role="grid" aria-describedby="example_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;"></th>
+                                                <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;">Resim</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 122px;">Name</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Surname: activate to sort column ascending" style="width: 200px;">Surname</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Identy No: activate to sort column ascending" style="width: 114px;">Identy No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Gsm No: activate to sort column ascending" style="width: 153px;">Gsm No</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 108px;">Start date</th>
+                                                <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 72px;">Status</th>
+                                                <th class="text-center sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 77px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var staff in Model)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    @*
+                                                        <td>
+                                                            <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
+                                                            <label for="@staff.Guid"></label>
+                                                        </td>
+                                                    *@
+                                                    <td><input type="checkbox" id="ChecksVMEnumerable[@s].Checked" class="chk-col-success check-staff" style="" name="ChecksVMEnumerable[@s].Checked" value="false" /> <label for="ChecksVMEnumerable[@s].Checked"></label> <input type="text" name="ChecksVMEnumerable[@s].Guid" value="@staff.Guid" class="guid-staff d-none" hidden /></td>
+                                                    @if (staff.ImageFile == null)
+                                                    {
+                                                        <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/images/avatar/5.jpg" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+
+                                                    }
+                                                    @if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
+                                                    {
+                                                        <td class="text-danger">@staff.FirstName</td>
+                                                        <td class="text-danger">@staff.LastName</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>@staff.FirstName</td>
+                                                        <td>@staff.LastName</td>
+                                                    }
+                                                    <td>@staff.IdentityNumber</td>
+                                                    <td>@staff.MobileNumber</td>
+                                                    <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
+                                                    <td>
+
+                                                        @switch (staff.Status)
+                                                        {
+                                                            case (int)StatusOfStaff.Passive:
+                                                                <span></span>
+                                                                break;
+                                                            case (int)StatusOfStaff.Active:
+                                                                <span></span>
+                                                                break;
+                                                            case (int)StatusOfStaff.Quit:
+                                                                <span></span>
+                                                                break;
+                                                        }
+                                                        <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active && staff.Active==true ? "success" : "")@(@staff.Status == 0 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 1 ? "Active" : "")@(@staff.Status == 0 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        <div class="list-icons d-inline-flex">
+                                                            @*<a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>*@
+                                                            <a href="#modal" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> Card</a>
+                                                            <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                s += 1;
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <button type="submit" class="btn btn-primary">Check</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-3 col-12">
+                <div class="box box-inverse box-success">
+                    <a href="/staff" style="color:white;">
+                        <div class="box-body">
+                            <div class="flexbox">
+                                <h5 class="text-center">Active Staffs</h5>
+
+                            </div>
+                            <div class="text-center my-2">
+                                <div class="fs-60"><span id="active"></span></div>
+                                <span>Total  Active Staff</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="box box-inverse badge-secondary">
+                    <a href="/staff/passives" style="color:white;">
+                        <div class="box-body">
+                            <div class="flexbox">
+                                <h5>Passive Staffs</h5>
+
+                            </div>
+
+                            <div class="text-center my-2">
+                                <div class="fs-60"><span id="passive"></span></div>
+                                <span>Total Passive Staff</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal-wrapper" id="modal">
+    <div class="modal-body">
+        <div class="">
+            <!--modal-header-->
+
+        </div>
+
+
+        <div class="box box-solid bg-info" id="card-header">
+            <div class="box-header">
+                <h4 class="box-title" id="card-fullname"><strong></strong></h4>
+                <div class="float-end">
+                    <a href="#!" role="button" class="close" aria-label="close this modal">
+                        <svg viewBox="0 0 40 40" width="24px" height="24px"><path fill="#dff0fe" d="M21 24.15L8.857 36.293 4.707 32.143 16.85 20 4.707 7.857 8.857 3.707 21 15.85 33.143 3.707 37.293 7.857 25.15 20 37.293 32.143 33.143 36.293z" /><path fill="#4788c7" d="M33.143,4.414l3.443,3.443L25.15,19.293L24.443,20l0.707,0.707l11.436,11.436l-3.443,3.443 L21.707,24.15L21,23.443l-0.707,0.707L8.857,35.586l-3.443-3.443L16.85,20.707L17.557,20l-0.707-0.707L5.414,7.857l3.443-3.443 L20.293,15.85L21,16.557l0.707-0.707L33.143,4.414 M33.143,3L21,15.143L8.857,3L4,7.857L16.143,20L4,32.143L8.857,37L21,24.857 L33.143,37L38,32.143L25.857,20L38,7.857L33.143,3L33.143,3z" /></svg>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="box-body" id="card-body">
+                <h3 class="d-flex justify-content-center align-content-center">Card loading..</h3>
+            </div>
+        </div>
+
+
+    </div>
+    <a href="#!" class="outside-trigger"></a>
+</div>
+
+@section scripts
+{
+
+    <script src="~/lib/vendor_plugins/bootstrap-slider/bootstrap-slider.js"></script>
+    <script src="~/lib/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+    <script src="~/lib/vendor_components/flexslider/jquery.flexslider.js"></script>
+    <script src="~/js/pages/slider.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.card-btn').on('click', function () {
+                var currentRow = $(this).closest("tr");
+                var tcId = currentRow.find("td:eq(4)").text();
+                var d2Section = '';
+                $.ajax({
+                    url: "/api/getcard/" + tcId,
+                    contentType: "application/json; charset=utf-8",
+                    type: "GET",
+                    /*cache: false,*/
+                    beforeSend: function () {
+                        $('#card-body').html(`<h3 class="d-flex justify-content-center align-content-center">Card loading..</h3>`);
+                        $('#card-fullname').html(`<strong></strong>`);
+
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(JSON.stringify(data));
+                        if (data.testD2_TNE < 85) {
+                            d2Section += `<div class="row text-danger"><div class="col-5"><label>D2 (TNE) Test Result:</label></div><div class="col-7"><label>` + data.testD2_TNE + `</label></div></div>`;
+                        }
+                        else {
+                            d2Section += `<div class="row"><div class="col-5"><label>D2 (TNE) Test Result:</label></div><div class="col-7"><label>` + data.testD2_TNE + `</label></div></div>`;
+                        }
+                        if (data.testD2_E > 5) {
+                            d2Section += `<div class="row text-danger"><div class="col-5"><label>D2 (E) Test Result:</label></div><div class="col-7"><label>` + data.testD2_E + `</label></div></div>`;
+                        }
+                        else {
+                            d2Section += `<div class="row"><div class="col-5"><label>D2 (E) Test Result:</label></div><div class="col-7"><label>`+ data.testD2_E + `</label></div></div>`;
+                        }
+                        if (data.testD2_TNE < 85 || data.testD2_E > 5) {
+                            $('div[id=card-header]').addClass("bg-danger");
+                            $('div[id=card-header]').removeClass("bg-info");
+                        }
+                        else {
+                            $('div[id=card-header]').removeClass("bg-danger");
+                            $('div[id=card-header]').addClass("bg-info");
+                        }
+                        console.log(data);
+                        @*
+
+                                            if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
+                                            {
+                                                <td class="text-danger">@staff.FirstName</td>
+                                                <td class="text-danger">@staff.LastName</td>
+                                            }
+
+                            *@
+                        $('#card-body').html(`
+            <div class="row">
+<div class="col-4">
+            <div class="media">
+                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/`+data.guid+`/img/`+ data.imageFile+`">
+            </div>
+</div>
+<div class="col-8">
+<div class="row"><div class="col-5"><label>TC ID:</label></div><div class="col-7"><label>`+ data.identityNumber+`</label></div></div>
+<div class="row"><div class="col-5"><label>Place of Birth:</label></div><div class="col-7"><label>`+ data.birthPlace+`</label></div></div>
+<div class="row"><div class="col-5"><label>Date of Birth:</label></div><div class="col-7"><label>`+ data.dateOfBirth_STR+`</label></div></div>
+<div class="row"><div class="col-5"><label>GSM:</label></div><div class="col-7"><label>`+ data.mobileNumber+`</label></div></div>
+<div class="row"><div class="col-5"><label>Mother Name:</label></div><div class="col-7"><label>`+ data.motherName+`</label></div></div>
+<div class="row"><div class="col-5"><label>Father Name:</label></div><div class="col-7"><label>`+ data.fatherName+`</label></div></div>
+<div class="row"><div class="col-5"><label>Marital Status:</label></div><div class="col-7"><label>`+ data.marital.name+`</label></div></div>
+<div class="row"><div class="col-5"><label>Number of Children:</label></div><div class="col-7"><label>`+ data.numberOfChildren+`</label></div></div>
+`+d2Section+`
+
+</div>
+</div>
+
+
+`);
+
+                        $('#card-fullname').html(`<strong>` + data.firstName+" "+data.lastName + `</strong>`);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#card-body').html(`
+<div class="d-flex justify-content-center align-content-center"><h3>`+ errorThrown + ` - ` + jqXHR.responseText+`</h3></div>
+`);
+                        $('#card-fullname').html(`<strong>` + jqXHR.status + `</strong>`);
+                        console.log(jqXHR);
+                        alert(jqXHR.responseText);
+                        $.toast({
+                            heading: jqXHR.status,
+                            text: jqXHR.responseText,
+                            icon: 'warning',
+                            showHideTransition: 'slide',
+                            loader: false,        // Change it to false to disable loader
+                            loaderBg: '#9EC600',  // To change the background
+                            position: 'top-center',
+                            hideAfter: 30000
+                        });
+                    }
+
+                });
+
+            });
+
+            $('.check-staff').on('click', function () {
+                var degs = $('.check-staff').val;
+                console.log(degs);
+
+                if ($(this).is(':checked')) {
+                    $(this).attr('value', 'true');
+                } else {
+                    $(this).attr('value', 'false');
+                }
+
+                //$('#checkbox-value').text($('#checkbox1').val());
+
+
+            });
+            $.ajax({
+                url: "/api/statusofstaff",
+                type: "GET",
+                cache: false,
+                success: function (data, textStatus, jqXHR) {
+                    $('#active').html(data.active);
+                    $('#passive').html(data.passive);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                }
+
+            });
+            var id = "";
+
+            @*
+
+            $('#card-body').html(`
+						<div id="carousel-example-generic-Indicators" class="carousel slide" data-bs-ride="carousel">
+						  <ol class="carousel-indicators">
+							<li data-bs-target="#carousel-example-generic-Indicators" data-bs-slide-to="0" class="active"></li>
+							<li data-bs-target="#carousel-example-generic-Indicators" data-bs-slide-to="1"></li>
+						  </ol>
+						  <div class="carousel-inner" role="listbox">
+							<div class="carousel-item active">
+            <div class="row">
+<div class="col-4">
+            <div class="media">
+                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/7b8e41ab-9fda-4a18-81b4-c55b8b431694/img/245379770_2076861212468702_7010998333873358262_n.jpg">
+            </div>
+</div>
+<div class="col-8">
+<div class="row"><div class="col-5"><label>TC ID:</label></div><div class="col-7"><label>68465416846</label></div></div>
+<div class="row"><div class="col-5"><label>Place of Birth:</label></div><div class="col-7"><label>Üsküdar</label></div></div>
+<div class="row"><div class="col-5"><label>Date of Birth:</label></div><div class="col-7"><label>07.09.1993</label></div></div>
+<div class="row"><div class="col-5"><label>GSM:</label></div><div class="col-7"><label>(543)778 6715</label></div></div>
+<div class="row"><div class="col-5"><label>Mother Name:</label></div><div class="col-7"><label>Meltem</label></div></div>
+<div class="row"><div class="col-5"><label>Father Name:</label></div><div class="col-7"><label>Kıvanç</label></div></div>
+<div class="row"><div class="col-5"><label>Marital Status:</label></div><div class="col-7"><label>Single</label></div></div>
+<div class="row"><div class="col-5"><label>Number of Children:</label></div><div class="col-7"><label>1</label></div></div>
+
+</div>
+</div>
+</div>
+
+						<div class="carousel-item">
+						  <h1>Sec-2</h1>
+						</div>
+
+
+
+</div>
+</div>
+
+
+`);
+
+            *@
+        });
+    </script>
+}

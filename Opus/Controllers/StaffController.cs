@@ -34,12 +34,32 @@ namespace Opus.Controllers
             }*/
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll().OrderByDescending(o => o.Status==1);
+                var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(s => s.Status == 1).Where(a => a.Active == true);
                 //var staffs = _uow.Staff.GetAll();
                 return View(staffs);
             }
             return NotFound();
 
+        }
+        [Route("staff/passives")]
+        public IActionResult Passives()
+        {
+            //var staffs = _uow.Staff.GetAll();
+            /*
+            foreach (var item in staffs)
+            {
+                item.Guid=Guid.NewGuid().ToString();
+                _uow.Staff.Update(item);
+                _uow.Save();
+            }*/
+            if (GetClaim() != null)
+            {
+                var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
+                var cnt = staffs.Count();
+                //var staffs = _uow.Staff.GetAll();
+                return View(staffs);
+            }
+            return NotFound();
         }
         [Route("staff/add")]
         public IActionResult Add()
@@ -63,7 +83,7 @@ namespace Opus.Controllers
         {
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             var _staff = _uow.Staff.GetFirstOrDefault(x => x.Guid == id);
-            var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == _staff.Id.ToString(), includeProperties: "FamilyRelationship");
+            var _familyMembers = _uow.FamilyMembers.GetAll(x => x.StaffId == _staff.Id, includeProperties: "FamilyRelationship");
             var _staffEquipmentsEnum = _uow.StaffEquipment.GetAll(x => x.StaffId == _staff.Id);
             var _documents = _uow.Documents.GetAll(i => i.StaffId == _staff.Id);
 
@@ -133,7 +153,7 @@ namespace Opus.Controllers
         {
             string webRootPath = _hostEnvironment.WebRootPath;
             CopyFileExtension copyFile = new CopyFileExtension(_uow);
-            copyFile.Upload_UPSERT(_staffVM.Files,_staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id);
+            copyFile.Upload_UPSERT(_staffVM.Files, _staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id);
             //return NoContent();
             if (_staffVM.ImageFile != null)
             {
@@ -167,7 +187,8 @@ namespace Opus.Controllers
                     PhoneNumber = _staffVM.PhoneNumber,
                     PhoneNumberSec = _staffVM.PhoneNumberSec,
                     RegistrationNumber = _staffVM.RegistrationNumber,
-                    TestD2_TNE = _staffVM.TestD2_TNE,
+                    //TestD2_TNE = _staffVM.TestD2_TNE,
+                    TestD2_TNE = float.Parse(_staffVM.TestD2_TNE_STR.Replace('.', ',')),
                     TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ',')),
                     WhiteCollarWorker = _staffVM.WhiteCollarWorker
                 };
@@ -206,7 +227,7 @@ namespace Opus.Controllers
                     PhoneNumber = _staffVM.PhoneNumber,
                     PhoneNumberSec = _staffVM.PhoneNumberSec,
                     RegistrationNumber = _staffVM.RegistrationNumber,
-                    TestD2_TNE = _staffVM.TestD2_TNE,
+                    TestD2_TNE = float.Parse(_staffVM.TestD2_TNE_STR.Replace('.', ',')),
                     TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ',')),
                     WhiteCollarWorker = _staffVM.WhiteCollarWorker
                 };
@@ -241,7 +262,7 @@ namespace Opus.Controllers
                         FamilyRelationshipId = item.FamilyRelationshipId,
                         FullName = item.FullName,
                         IdentityNumber = item.IdentityNumber,
-                        StaffId = _staffVM.Id.ToString(),
+                        StaffId = _staffVM.Id,
                     };
                     _uow.FamilyMembers.Add(_staffFamily);
                 }
@@ -342,7 +363,7 @@ namespace Opus.Controllers
                         FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
                         FullName = staffVm.FamilyMembers.FullName[i],
                         IdentityNumber = item,
-                        StaffId = staffId.ToString()
+                        StaffId = staffId
                     };
                     _uow.FamilyMembers.Add(_familyMember);
 
@@ -476,16 +497,41 @@ namespace Opus.Controllers
         [HttpGet("api/statusofstaff")]
         public StatusOfStaffVM GetActive()
         {
+            var _pass = 0;
             /*var staffs = _uow.Staff.GetAll();
             var active = staffs.Where(x => x.Status == (int)StatusOfStaff.Active).Count();
             var passive = staffs.Where(x => x.Status == (int)StatusOfStaff.Passive).Count();
             var quit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();*/
+            var deg = _uow.Staff.GetAll(i => i.Status == 0);
+            /*
+            foreach (var item in deg)
+            {
+
+                //_pass++;
+                if (item.Status == 0 && item.Active)
+                {
+                    _pass++;
+                }
+                if (item.Status == 1 && item.Active == false)
+                {
+                    _pass++;
+                }
+
+
+            }*/
+
             var _statusofstaff = new StatusOfStaffVM()
             {
-                Active = _uow.Staff.GetAll(i => i.Status == 1).Count(),
-                Passive = _uow.Staff.GetAll(i => i.Status == 0).Count(),
+                Active = _uow.Staff.GetAll(i => i.Status == 1).Where(a => a.Active).Count(),
+                //Passive = _uow.Staff.GetAll(i => i.Status == 0).Count(),
+
+                Passive = _uow.Staff.GetAll().Where(x=>(x.Status==0&&x.Active||x.Status==1&&x.Active==false)).Count(),
+                //Passive = _pass,
                 Quit = _uow.Staff.GetAll(i => i.Status == 2).Count()
             };
+            //var staffs = _uow.Staff.GetAll().OrderByDescending(o => o.Status == 1).OrderBy(n => n.FirstName).Where(s => s.Status == 1).Where(a => a.Active == true).Count();
+            //var Passive = _uow.Staff.GetAll(o => o.Status == 0).Where(a=>a.Active).Count();
+            //var Passive = _uow.Staff.GetAll(o => o.Status == 0).Count();
             return _statusofstaff;
         }
         [HttpGet("api/getcard/{tcid}")]
@@ -503,7 +549,7 @@ namespace Opus.Controllers
                 FirstName = _staff.FirstName,
                 LastName = _staff.LastName,
                 BirthPlace = _staff.BirthPlace,
-                DateOfBirth_STR = DateTime.Parse(_staff.DateOfBirth).ToString("dd/MM/yyyy"),
+                DateOfBirth_STR = _staff.DateOfBirth.ToString("dd/MM/yyyy"),
                 MobileNumber = _staff.MobileNumber,
                 MotherName = _staff.MotherName,
                 FatherName = _staff.FatherName,

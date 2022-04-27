@@ -25,6 +25,7 @@
                 <input type="text" value="@Model.Guid" asp-for="Guid" class="d-none" hidden />
                 <input type="text" value="@Model.Id" asp-for="Id" class="d-none" hidden />
                 <input type="text" value="@Model.ImageFile" asp-for="ImageFile" class="d-none" hidden />
+                <input type="text" value="@Model.Active" asp-for="Active" class="d-none" hidden />
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs nav-fill" role="tablist">
                     <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#infoTab" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">1 Info's</span></a> </li>
@@ -124,7 +125,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Birth <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@DateTime.Parse(Model.DateOfBirth).ToString("yyyy-MM-dd")" />
+                                                            <input type="date" class="form-control required" asp-for="DateOfBirth" value="@Model.DateOfBirth.ToString("yyyy-MM-dd")" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,12 +151,20 @@
                                                                 @if (Model.MaritalStatusId == 1)
                                                                 {
                                                                     <option value="1" selected="selected">Married</option>
-                                                                    <option value="0">Single</option>
+                                                                    <option value="2">Widow</option>
+                                                                    <option value="3">Single</option>
                                                                 }
-                                                                else if (Model.MaritalStatusId == 0)
+                                                                else if (Model.MaritalStatusId == 2)
                                                                 {
                                                                     <option value="1">Married</option>
-                                                                    <option value="0" selected="selected">Single</option>
+                                                                    <option value="2" selected="selected">Widow</option>
+                                                                    <option value="3">Single</option>
+                                                                }
+                                                                else if (Model.MaritalStatusId == 3)
+                                                                {
+                                                                    <option value="1">Married</option>
+                                                                    <option value="2">Widow</option>
+                                                                    <option value="3" selected="selected">Single</option>
                                                                 }
                                                             </select>
                                                         </div>
@@ -175,13 +184,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 (TNE) Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 (TNE) Test Result" asp-for="TestD2_TNE" value="@Model.TestD2_TNE">
+                                                            <input type="number" class="form-control" placeholder="D2 (TNE) Test Result" asp-for="TestD2_TNE_STR" value="@Model.TestD2_TNE.ToString().Replace(',','.')" step="0.01">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 (E) Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 (E) Test Result" asp-for="TestD2_E_STR" value="@Model.TestD2_E.ToString().Replace(',','.')" step="0.1">
+                                                            <input type="number" class="form-control" placeholder="D2 (E) Test Result" asp-for="TestD2_E_STR" value="@Model.TestD2_E.ToString().Replace(',','.')" step="0.01">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -236,7 +245,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Employment <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control " asp-for="DateOfEntry" value="@DateTime.Parse(Model.DateOfEntry).ToString("yyyy-MM-dd")">
+                                                            <input type="date" class="form-control " asp-for="DateOfEntry" value="@Model.DateOfEntry.ToString("yyyy-MM-dd")">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -290,14 +299,14 @@
                                                     <label class="form-label">Blood Group  <span class="danger">*</span></label>
                                                     <select class="form-select " asp-for="BloodTypeId" id="bloodtype">
                                                         <option value="" selected="selected"></option>
-                                                        <option value="0">AB Rh (+)</option>
-                                                        <option value="1">A Rh (+)</option>
-                                                        <option value="2">B Rh (+)</option>
-                                                        <option value="3">0 Rh (+)</option>
-                                                        <option value="4">AB Rh (-)</option>
-                                                        <option value="5">A Rh (-)</option>
-                                                        <option value="6">B Rh (-)</option>
-                                                        <option value="7">0 Rh (-)</option>
+                                                        <option value="1">AB Rh (+)</option>
+                                                        <option value="2">A Rh (+)</option>
+                                                        <option value="3">B Rh (+)</option>
+                                                        <option value="4">0 Rh (+)</option>
+                                                        <option value="5">AB Rh (-)</option>
+                                                        <option value="6">A Rh (-)</option>
+                                                        <option value="7">B Rh (-)</option>
+                                                        <option value="8">0 Rh (-)</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">

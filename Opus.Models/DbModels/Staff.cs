@@ -20,8 +20,8 @@ namespace Opus.Models.DbModels
         public string IdentityNumber { get; set; }
         public int Status { get; set; }
         public bool Active { get; set; }
-        public string DateOfEntry { get; set; }
-        public string DateOfQuit { get; set; }
+        public DateTime DateOfEntry { get; set; }
+        public DateTime DateOfQuit { get; set; }
         public int MaritalStatusId { get; set; } 
         public string MobileNumber { get; set; }
         public string PhoneNumber { get; set; }
@@ -30,7 +30,7 @@ namespace Opus.Models.DbModels
         public string MotherName { get; set; }
         public string FatherName { get; set; }
         public string BirthPlace { get; set; }
-        public string DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public int NumberOfChildren { get; set; }
         //public string BloodType { get; set; }
         public int BloodTypeId { get; set; }

@@ -76,7 +76,16 @@
                                                         </td>
                                                     *@
                                                     <td><input type="checkbox" id="ChecksVMEnumerable[@s].Checked" class="chk-col-success check-staff" style="" name="ChecksVMEnumerable[@s].Checked" value="false" /> <label for="ChecksVMEnumerable[@s].Checked"></label> <input type="text" name="ChecksVMEnumerable[@s].Guid" value="@staff.Guid" class="guid-staff d-none" hidden /></td>
-                                                    <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+                                                    @if (staff.ImageFile == null)
+                                                    {
+                                                        <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/images/avatar/5.jpg" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="sorting_1"><a class="avatar avatar-lg" href="#"><img src="/assets/personels/@staff.Guid/img/@staff.ImageFile" class="bg-success-light" alt="@staff.FirstName @staff.LastName"> </a></td>
+
+                                                    }
                                                     @if (staff.TestD2_TNE < 85 || staff.TestD2_E > 5)
                                                     {
                                                         <td class="text-danger">@staff.FirstName</td>
@@ -89,7 +98,7 @@
                                                     }
                                                     <td>@staff.IdentityNumber</td>
                                                     <td>@staff.MobileNumber</td>
-                                                    <td>@DateTime.Parse(staff.DateOfEntry).ToString("dd/MM/yyyy")</td>
+                                                    <td>@staff.DateOfEntry.ToString("dd/MM/yyyy")</td>
                                                     <td>
 
                                                         @switch (staff.Status)
@@ -104,7 +113,7 @@
                                                                 <span></span>
                                                                 break;
                                                         }
-                                                        <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active ? "success" : "")@(@staff.Status == 0 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 1 ? "Active" : "")@(@staff.Status == 0 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
+                                                        <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active && staff.Active==true ? "success" : "")@(@staff.Status == 0 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 1 ? "Active" : "")@(@staff.Status == 0 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
                                                     </td>
                                                     <td class="text-center">
 
@@ -130,30 +139,33 @@
             </div>
             <div class="col-xl-2 col-lg-3 col-12">
                 <div class="box box-inverse box-success">
-                    <div class="box-body">
-                        <div class="flexbox">
-                            <h5 class="text-center">Active Staffs</h5>
+                    <a href="/staff" style="color:white;">
+                        <div class="box-body">
+                            <div class="flexbox">
+                                <h5 class="text-center">Active Staffs</h5>
 
+                            </div>
+                            <div class="text-center my-2">
+                                <div class="fs-60"><span id="active"></span></div>
+                                <span>Total  Active Staff</span>
+                            </div>
                         </div>
-
-                        <div class="text-center my-2">
-                            <div class="fs-60"><span id="active"></span></div>
-                            <span>Total  Active Staff</span>
-                        </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="box box-inverse badge-secondary">
-                    <div class="box-body">
-                        <div class="flexbox">
-                            <h5>Passive Staffs</h5>
+                    <a href="/staff/passives" style="color:white;">
+                        <div class="box-body">
+                            <div class="flexbox">
+                                <h5>Passive Staffs</h5>
 
-                        </div>
+                            </div>
 
-                        <div class="text-center my-2">
-                            <div class="fs-60"><span id="passive"></span></div>
-                            <span>Total Passive Staff</span>
+                            <div class="text-center my-2">
+                                <div class="fs-60"><span id="passive"></span></div>
+                                <span>Total Passive Staff</span>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
 
