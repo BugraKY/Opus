@@ -29,6 +29,7 @@ namespace Opus.DataAcces.Data
         public DbSet<DocumentType> DocumentType { get; set; }
         public DbSet<MaritalStatus> MaritalStatus { get; set; }
         public DbSet<EducationalStatus> EducationalStatus { get; set; }
+        public DbSet<StaffResignation> StaffResignations { get; set; }
         //public DbSet<Unit> Unit { get; set; }
 
         /*
