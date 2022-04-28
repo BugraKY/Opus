@@ -13,7 +13,7 @@ namespace Opus.Models.DbModels
         public long Id { get; set; }
         public long StaffId { get; set; }
         public long UserId { get; set; }
-        public DateOnly ResignationDate { get; set; }
+        public DateTime ResignationDate { get; set; }
         public string Declaration { get; set; }
         public string Acquittance { get; set; }
         public string ResignationLetter { get; set; }
