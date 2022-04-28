@@ -14,9 +14,9 @@ namespace Opus.Models.DbModels
         public long StaffId { get; set; }
         public long UserId { get; set; }
         public DateTime ResignationDate { get; set; }
-        public string Declaration { get; set; }
-        public string Acquittance { get; set; }
-        public string ResignationLetter { get; set; }
+        public string Declaration { get; set; }//Bildirge
+        public string Acquittance { get; set; }//İbraname
+        public string ResignationLetter { get; set; }//İstifa Mektubu
 
     }
 }

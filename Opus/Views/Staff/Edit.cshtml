@@ -76,7 +76,7 @@
                                                         <div class="form-group">
                                                             <label class="label_email control-label" for="prof_image">Image : </label>
                                                             <input class="form-control" id="file" accept="image/*"  type="file" asp-for="Files.ImageFile">
-                                                            <input type="hidden" name="image" id="image" />
+                                                            <input type="hidden" id="image" asp-for="ImageBase64"/>
                                                             <div class="media">
                                                                 <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
                                                             </div>
@@ -1133,6 +1133,9 @@
                 </div>
 
                 <div class="d-flex align-content-end justify-content-end pt-10">
+                    <button class="btn btn-primary" style="margin-right:30px;" type="button" disabled>
+                        Exit
+                    </button>
                     <button class="btn btn-primary">
                         Update
                     </button>

@@ -39,7 +39,6 @@ namespace Opus.Controllers
                 if (_appUser != null)
                 {
                     var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(s => s.Status == 1).Where(a => a.Active == true);
-                    //var staffs = _uow.Staff.GetAll();
                     return View(staffs);
                 }
 
@@ -63,6 +62,14 @@ namespace Opus.Controllers
                 }
             }
             return Redirect("/");
+        }
+        [Route("staff/exit")]
+        public IActionResult Exits()
+        {
+            //var staffResignation = _uow.StaffResignation.GetAll(includeProperties:ex);
+            //var exitStaffs = _uow.Staff.GetAll(includeProperties: "StaffResignation");
+
+            return View();
         }
         [Route("staff/all")]
         public IActionResult All()
@@ -167,11 +174,17 @@ namespace Opus.Controllers
         [HttpPost("staff/updating")]
         public IActionResult Update(StaffVM _staffVM)
         {
+            //return NoContent();
             string webRootPath = _hostEnvironment.WebRootPath;
+            if(_staffVM.Files != null)
+            {
+                if (_staffVM.Files.ImageFile != null)
+                    _staffVM.ImageFile = _staffVM.Files.ImageFile.FileName;
+            }
+
             //return NoContent();
             CopyFileExtension copyFile = new CopyFileExtension(_uow);
-            copyFile.Upload_UPSERT(_staffVM.Files, _staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id);
-            //return NoContent();
+            copyFile.Upload_UPSERT(_staffVM.Files, _staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id,_staffVM.ImageBase64);
             if (_staffVM.ImageFile != null)
             {
                 var _staff = new Staff()
@@ -407,7 +420,7 @@ namespace Opus.Controllers
             try
             {
                 CopyFileExtension copyFile = new CopyFileExtension(_uow);
-                copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id);
+                copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id,staffVm.ImageBase64);
             }
             catch (Exception)
             {

@@ -8,6 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Opus.Utility.ProjectConstant.Path;
+using static System.Net.Mime.MediaTypeNames;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace Opus.Utility
 {
@@ -19,7 +23,7 @@ namespace Opus.Utility
             _uow = uow;
         }
         //private static readonly List<string> uploads;
-        public void Upload(DocumentFilesVM Files, string webRootPath, string _guid, int staffId)
+        public void Upload(DocumentFilesVM Files, string webRootPath, string _guid, int staffId,string _base64)
         {
             List<DocumentVM> _documents = new List<DocumentVM>();
             var DIR_PerDoc = webRootPath + Personels.Root + _guid.ToString() + Personels.Documentation;
@@ -335,6 +339,8 @@ namespace Opus.Utility
                 var _fileName = Files.ImageFile.FileName;
                 var location = Path.Combine(DIR_ProfileIMG + _fileName);
 
+                Bitmap _image = LoadBase64(_base64);
+
                 using (var fileStream = new FileStream(location, FileMode.Create))
                 {
                     Files.ImageFile.CopyTo(fileStream);
@@ -343,7 +349,7 @@ namespace Opus.Utility
 
         }
 
-        public void Upload_UPSERT(DocumentFilesVM Files, DocumentFilesReadVM _docs, string webRootPath, string _guid, int staffId)
+        public void Upload_UPSERT(DocumentFilesVM Files, DocumentFilesReadVM _docs, string webRootPath, string _guid, int staffId,string _base64)
         {
             List<DocumentVM> _documents = new List<DocumentVM>();
             var DIR_PerDoc = webRootPath + Personels.Root + _guid.ToString() + Personels.Documentation;
@@ -352,7 +358,7 @@ namespace Opus.Utility
                 Directory.CreateDirectory(DIR_PerDoc);
             if (!(Directory.Exists(DIR_ProfileIMG)))
                 Directory.CreateDirectory(DIR_ProfileIMG);
-
+            #region Base
             //List<string> uploads = new List<string>();
             List<IFormFile> FileList = new List<IFormFile>();
             #region Identity
@@ -703,17 +709,37 @@ namespace Opus.Utility
                 }
                 _uow.Save();
             }
-            if (_docs.ImageFile != null)
+            #endregion Base
+            if (Files.ImageFile != null)
             {
                 var _fileName = Files.ImageFile.FileName;
                 var location = Path.Combine(DIR_ProfileIMG + _fileName);
+                var _oldImageFile=_uow.Staff.GetFirstOrDefault(i=>i.Id== staffId).ImageFile;
+                var location_old= Path.Combine(DIR_ProfileIMG + _oldImageFile);
+
+                var _image = LoadBase64(_base64);
+                /*
+                if (File.Exists(location_old))
+                    File.Delete(location_old);
 
                 using (var fileStream = new FileStream(location, FileMode.Create))
                 {
                     Files.ImageFile.CopyTo(fileStream);
-                }
+                }*/
+
             }
 
+        }
+
+        public static Bitmap LoadBase64(string base64)
+        {
+            byte[] bytes = Convert.FromBase64String(base64);
+            Bitmap image;
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                image = (Bitmap)Bitmap.FromStream(ms);
+            }
+            return image;
         }
     }
 }

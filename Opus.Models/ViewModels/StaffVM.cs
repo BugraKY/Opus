@@ -14,6 +14,7 @@ namespace Opus.Models.ViewModels
         public string DateOfBirth_STR { get; set; }
         public string TestD2_TNE_STR { get; set; }
         public string TestD2_E_STR { get; set; }
+        public string ImageBase64 { get; set; }
         public bool AddStamp { get; set; }
         [ForeignKey("FamilyMembersId")]
         public string FamilyMembersId { get; set; }
