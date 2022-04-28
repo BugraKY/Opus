@@ -162,14 +162,13 @@ namespace Opus.Controllers
                 Id = _staff.Id
 
             };
-
-
             return View(staffVM);
         }
         [HttpPost("staff/updating")]
         public IActionResult Update(StaffVM _staffVM)
         {
             string webRootPath = _hostEnvironment.WebRootPath;
+            //return NoContent();
             CopyFileExtension copyFile = new CopyFileExtension(_uow);
             copyFile.Upload_UPSERT(_staffVM.Files, _staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id);
             //return NoContent();
@@ -350,50 +349,72 @@ namespace Opus.Controllers
             _uow.Save();
             var staffId = _staff.Id;
             int i = 0;
-
-            if (staffVm.StaffEquipmentEnumerable != null)
+            try
             {
-                foreach (var item in staffVm.StaffEquipmentEnumerable)
+
+
+                if (staffVm.StaffEquipmentEnumerable != null)
                 {
-                    var _staffEquipment = new StaffEquipment()
+                    foreach (var item in staffVm.StaffEquipmentEnumerable)
                     {
-                        DeliveryDate = item.DeliveryDate,
-                        ProductId = item.ProductId,
-                        Quantity = item.Quantity,
-                        ReturnDate = item.ReturnDate,
-                        StaffId = staffId
-                    };
-                    _uow.StaffEquipment.Add(_staffEquipment);
+                        var _staffEquipment = new StaffEquipment()
+                        {
+                            DeliveryDate = item.DeliveryDate,
+                            ProductId = item.ProductId,
+                            Quantity = item.Quantity,
+                            ReturnDate = item.ReturnDate,
+                            StaffId = staffId
+                        };
+                        _uow.StaffEquipment.Add(_staffEquipment);
+                    }
+                    _uow.Save();
+                    i = 0;
                 }
-                _uow.Save();
-                i = 0;
             }
-            if (staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
+            catch (Exception)
             {
-                foreach (var item in staffVm.FamilyMembers.IdentityNumber)
-                {
-                    var _familyMember = new FamilyMembers()
-                    {
-                        BirthPlace = staffVm.FamilyMembers.BirthPlace[i],
-                        DateOfBirth = DateTime.Parse(staffVm.FamilyMembers.DateOfBirth[i]),
-                        FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
-                        FullName = staffVm.FamilyMembers.FullName[i],
-                        IdentityNumber = item,
-                        StaffId = staffId
-                    };
-                    _uow.FamilyMembers.Add(_familyMember);
-
-                    i++;
-                }
-                _uow.Save();
+                return Redirect("/staff");//Staff için özel bir error Partialview eklenmeli veya toast model de eklenebilir ama eklenmiş olan staff kaydına yönlendilerek!
             }
+            try
+            {
+                if (staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
+                {
+                    foreach (var item in staffVm.FamilyMembers.IdentityNumber)
+                    {
+                        var _familyMember = new FamilyMembers()
+                        {
+                            BirthPlace = staffVm.FamilyMembers.BirthPlace[i],
+                            DateOfBirth = DateTime.Parse(staffVm.FamilyMembers.DateOfBirth[i]),
+                            FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
+                            FullName = staffVm.FamilyMembers.FullName[i],
+                            IdentityNumber = item,
+                            StaffId = staffId
+                        };
+                        _uow.FamilyMembers.Add(_familyMember);
 
+                        i++;
+                    }
+                    _uow.Save();
+                }
+            }
+            catch (Exception)
+            {
+                return Redirect("/staff");//Staff için özel bir error Partialview eklenmeli veya toast model de eklenebilir ama eklenmiş olan staff kaydına yönlendilerek!
+            }
 
             var _bloodtype = _uow.BloodType.GetFirstOrDefault(i => i.Id == staffVm.BloodTypeId);
             staffVm.BloodType = _bloodtype;
+            try
+            {
+                CopyFileExtension copyFile = new CopyFileExtension(_uow);
+                copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id);
+            }
+            catch (Exception)
+            {
 
-            CopyFileExtension copyFile = new CopyFileExtension(_uow);
-            copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id);
+                return View("");
+            }
+
 
             //_uow.StaffEquipment.AddRange(_staffEquipments);
             //_uow.FamilyMembers.AddRange(_familyMembers);
@@ -512,11 +533,16 @@ namespace Opus.Controllers
         [HttpGet("api/statusofstaff")]
         public StatusOfStaffVM GetActive()
         {
+            var _active = _uow.Staff.GetAll().Count(x=>(x.Status==1&&x.Active));
+            var _passive = _uow.Staff.GetAll().Count(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
+            var _Quit = _uow.Staff.GetAll(i => i.Status == 2).Count();
+            var _all = _active + _passive;
             var _statusofstaff = new StatusOfStaffVM()
             {
-                Active = _uow.Staff.GetAll(i => i.Status == 1).Where(a => a.Active).Count(),
-                Passive = _uow.Staff.GetAll().Where(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false)).Count(),
-                Quit = _uow.Staff.GetAll(i => i.Status == 2).Count()
+                Active = _active,
+                Passive = _passive,
+                Quit = _Quit,
+                All= _all
             };
             return _statusofstaff;
         }

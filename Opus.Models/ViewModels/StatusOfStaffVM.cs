@@ -11,5 +11,6 @@ namespace Opus.Models.ViewModels
         public int Active { get; set; }
         public int Passive { get; set; }
         public int Quit { get; set; }
+        public int All {get; set; }
     }
 }

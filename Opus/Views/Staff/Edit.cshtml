@@ -54,14 +54,28 @@
                                                 <hr class="my-15">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="media">
-                                                            <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/@Model.Guid/img/@Model.ImageFile">
+                                                        <div class="media col-md-10">
+                                                            @if (Model.ImageFile == null)
+                                                            {
+                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/images/avatar/5.jpg">
+                                                            }
+                                                            else
+                                                            {
+                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/@Model.Guid/img/@Model.ImageFile">
+                                                            }
+
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-center my-auto">
+                                                            @if (Model.ImageFile != null)
+                                                            {
+                                                                <a class="primary" href="/assets/personels/@Model.Guid/img/@Model.ImageFile" style="cursor: pointer;" download=""><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                            }
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="label_email control-label" for="prof_image">Image : </label>
-                                                            <input class="form-control" id="file" accept="image/*" type="file">
+                                                            <input class="form-control" id="file" accept="image/*"  type="file" asp-for="Files.ImageFile">
                                                             <input type="hidden" name="image" id="image" />
                                                             <div class="media">
                                                                 <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
@@ -207,7 +221,7 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label">IBAN <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN"/>
+                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -266,7 +280,7 @@
                                                                     <option value="2" selected="selected">High School Graduate</option>
                                                                     <option value="3">Undergraduate Degree</option>
                                                                 }
-                                                                else if (Model.EducationalStatus ==  3)
+                                                                else if (Model.EducationalStatus == 3)
                                                                 {
                                                                     <option value="1">Primary School Graduate</option>
                                                                     <option value="2">High School Graduate</option>
@@ -586,7 +600,7 @@
                                                                 <div class="row">
                                                                     <div class="col-10">
                                                                         <input asp-for="DocumentRead.Identity.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.Identity.Id" type="number" value="@Model.DocumentRead.Identity.Id" hidden/>
+                                                                        <input asp-for="DocumentRead.Identity.Id" type="number" value="@Model.DocumentRead.Identity.Id" hidden />
                                                                     </div>
                                                                     <div class="col-2 d-flex justify-content-center my-auto">
                                                                         <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>

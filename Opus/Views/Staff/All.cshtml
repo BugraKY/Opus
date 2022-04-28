@@ -26,7 +26,7 @@
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item" aria-current="page">Staffs</li>
+                            <li class="breadcrumb-item" aria-current="page">Staff</li>
                             <li class="breadcrumb-item active" aria-current="page">Staff List</li>
                         </ol>
                     </nav>
@@ -51,9 +51,7 @@
 
                             <div id="example_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                                 <form method="post" action="/staff/multiple-upsert">
-                                    @*<table id="example" class="table table-lg invoice-archive dataTable no-footer" role="grid" aria-describedby="example_info">*@
-                                    <table id="complex_header" class="table table-striped table-bordered display">
-                                        <!--id="example"-->
+                                    <table id="complex_header" class="table table-striped table-bordered display"><!--id="example"-->
                                         <thead>
                                             <tr role="row">
                                                 <th tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Resim: activate to sort column descending" style="width: 64px;"></th>
@@ -72,10 +70,10 @@
                                             {
                                                 <tr role="row" class="odd">
                                                     @*
-                                                        <td>
-                                                            <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
-                                                            <label for="@staff.Guid"></label>
-                                                        </td>
+                    <td>
+                        <input type="checkbox" id="@staff.Guid" class="chk-col-success check-staff" style="" />
+                        <label for="@staff.Guid"></label>
+                    </td>
                                                     *@
                                                     <td><input type="checkbox" id="ChecksVMEnumerable[@s].Checked" class="chk-col-success check-staff" style="" name="ChecksVMEnumerable[@s].Checked" value="false" /> <label for="ChecksVMEnumerable[@s].Checked"></label> <input type="text" name="ChecksVMEnumerable[@s].Guid" value="@staff.Guid" class="guid-staff d-none" hidden /></td>
                                                     @if (staff.ImageFile == null)
@@ -144,7 +142,7 @@
                     <a href="/staff" style="color:white;">
                         <div class="box-body">
                             <div class="flexbox">
-                                <h5 class="text-center">Active Staffs</h5>
+                                <h5 class="text-center">Active Staff</h5>
 
                             </div>
                             <div class="text-center my-2">
@@ -154,11 +152,11 @@
                         </div>
                     </a>
                 </div>
-                <div class="box box-inverse box-success shadow-selected">
+                <div class="box box-inverse badge-secondary box-hover">
                     <a href="/staff/passives" style="color:white;">
                         <div class="box-body">
                             <div class="flexbox">
-                                <h5>Passive Staffs</h5>
+                                <h5>Passive Staff</h5>
 
                             </div>
 
@@ -169,7 +167,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="box box-inverse badge-secondary box-hover">
+                <div class="box box-inverse box-success shadow-selected">
                     <a href="/staff/all" style="color:white;">
                         <div class="box-body">
                             <div class="flexbox">
@@ -182,6 +180,7 @@
                         </div>
                     </a>
                 </div>
+
 
             </div>
         </div>

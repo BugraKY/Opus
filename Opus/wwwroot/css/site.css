@@ -24,3 +24,17 @@ body {
 #loader {
     background: #fff url(/images/preloaders/1.gif) no-repeat center center!important;
 }
+.shadow-selected {
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+}
+.box-hover:hover {
+    transition-duration: 0.3s;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
+}
+.box-hover {
+    transition-duration: 0.3s;
+}
