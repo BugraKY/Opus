@@ -10,6 +10,5 @@ namespace Opus.DataAcces.IMainRepository
     public interface IStaffResignationRepository : IRepository<StaffResignation>
     {
         void Update(StaffResignation staffResignation);
-        void UpdateRange(IEnumerable<StaffResignation> staffResignation);
     }
 }
