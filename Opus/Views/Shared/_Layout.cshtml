@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using static Opus.Utility.ProjectConstant
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -192,19 +194,23 @@
                         <!-- sidebar menu-->
                         <ul class="sidebar-menu" data-widget="tree">
                             <li class="header">Human Resources</li>
-                            <li class="treeview">
-                                <a href="#">
-                                    <i class="icon-User"><span class="path1"></span><span class="path2"></span></i>
-                                    <span>Staff</span>
-                                    <span class="pull-right-container">
-                                        <i class="fa fa-angle-right pull-right"></i>
-                                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Staff List</a></li>
-                                    @*<li><a href="/staff/add"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Staff</a></li>*@
-                                </ul>
-                            </li>
+                            @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.HR_Responsible))
+                            {
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="icon-User"><span class="path1"></span><span class="path2"></span></i>
+                                        <span>Staff</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-right pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Staff List</a></li>
+                                        @*<li><a href="/staff/add"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Staff</a></li>*@
+                                    </ul>
+                                </li>
+                            }
+
                             <li><a href="/hr-products"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Product</a></li>
 
                             <li class="treeview">

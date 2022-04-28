@@ -46,6 +46,12 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/signin";
+    //options.LogoutPath = $"/Identity/Accout/Logout";
+    options.AccessDeniedPath = $"/";
+});
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -71,21 +77,36 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.Use(async (context, next) =>
+{
+    await next();
+    if (context.Response.StatusCode == 404)
+    {
+        context.Request.Path = "/";
+        await next();
+    }
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-app.UseAuthorization();
 app.UseAuthentication();
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
+app.UseAuthorization();
 app.UseCookiePolicy();
 app.UseSession();
+/*
+app.UseCors(builder =>
+{
+    builder.WithOrigins("https://manypointscreative.com", "http://manypointscreative.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+});*/
+/*
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseCookiePolicy();
+app.UseSession();*/
 app.UseDeveloperExceptionPage();
 app.MapControllerRoute(
     name: "default",

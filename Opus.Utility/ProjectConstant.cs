@@ -10,9 +10,14 @@ namespace Opus.Utility
 {
     public class ProjectConstant
     {
+        public static class Const
+        {
+            public const string OR = ",";
+        }
         public static class UserRoles
         {
             public const string Admin = "Admin";
+            public const string HR_Responsible = "HR_Responsible";
             public const string Accounting = "Accounting";
             public const string QS_Operation = "QS_Operation";//Kalite ve Operasyon Görevlisi
             public const string FieldOfficer = "FieldOfficer";//Saha yetkilisi
@@ -22,6 +27,7 @@ namespace Opus.Utility
         public static class UserRolesEn
         {
             public const string Admin = "Admin";
+            public const string HR_Responsible = "HR_Responsible";
             public const string Accounting = "Accounting";
             public const string QS_Operation = "Quality & Operation";//Kalite ve Operasyon Görevlisi
             public const string FieldOfficer = "Field Officer";//Saha yetkilisi
@@ -31,6 +37,7 @@ namespace Opus.Utility
         public static class UserRolesTr
         {
             public const string Admin = "Yönetici";
+            public const string HR_Responsible = "İnsan Kaynakları";
             public const string Accounting = "Muhasebe";
             public const string QS_Operation = "Kalite ve Operasyon";//Kalite ve Operasyon Görevlisi
             public const string FieldOfficer = "Saha Yetkilisi";//Saha yetkilisi

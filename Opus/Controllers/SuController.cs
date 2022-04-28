@@ -56,6 +56,10 @@ namespace Opus.Controllers
                     {
                         await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
                     }
+                    if (!await _roleManager.RoleExistsAsync(UserRoles.HR_Responsible))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(UserRoles.HR_Responsible));
+                    }
                     if (!await _roleManager.RoleExistsAsync(UserRoles.OperationResponsible))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(UserRoles.OperationResponsible));

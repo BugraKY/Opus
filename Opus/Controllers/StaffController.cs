@@ -1,4 +1,5 @@
 ﻿using IbanNet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Extensions;
@@ -11,7 +12,7 @@ using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
     public class StaffController : Controller
     {
         private readonly IUnitOfWork _uow;
@@ -34,32 +35,49 @@ namespace Opus.Controllers
             }*/
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(s => s.Status == 1).Where(a => a.Active == true);
-                //var staffs = _uow.Staff.GetAll();
-                return View(staffs);
+                var _appUser = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+                if (_appUser != null)
+                {
+                    var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(s => s.Status == 1).Where(a => a.Active == true);
+                    //var staffs = _uow.Staff.GetAll();
+                    return View(staffs);
+                }
+
             }
-            return NotFound();
+            return Redirect("/");
 
         }
         [Route("staff/passives")]
         public IActionResult Passives()
         {
-            //var staffs = _uow.Staff.GetAll();
-            /*
-            foreach (var item in staffs)
-            {
-                item.Guid=Guid.NewGuid().ToString();
-                _uow.Staff.Update(item);
-                _uow.Save();
-            }*/
+
             if (GetClaim() != null)
             {
-                var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
-                var cnt = staffs.Count();
-                //var staffs = _uow.Staff.GetAll();
-                return View(staffs);
+                var _appUser = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+                if (_appUser != null)
+                {
+                    var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
+                    var cnt = staffs.Count();
+                    //var staffs = _uow.Staff.GetAll();
+                    return View(staffs);
+                }
             }
-            return NotFound();
+            return Redirect("/");
+        }
+        [Route("staff/all")]
+        public IActionResult All()
+        {
+            if (GetClaim() != null)
+            {
+                var _appUser = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+                if (_appUser != null)
+                {
+                    var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName);
+                    //var staffs = _uow.Staff.GetAll();
+                    return View(staffs);
+                }
+            }
+            return Redirect("/");
         }
         [Route("staff/add")]
         public IActionResult Add()
@@ -287,7 +305,6 @@ namespace Opus.Controllers
         public async Task<IActionResult> AddAsync(StaffVM staffVm)
         {
             var test = staffVm.TestD2_E;
-            return NoContent();
             //var files = staffVm.Files;
             string webRootPath = _hostEnvironment.WebRootPath;
 
@@ -333,7 +350,6 @@ namespace Opus.Controllers
             _uow.Save();
             var staffId = _staff.Id;
             int i = 0;
-
 
             if (staffVm.StaffEquipmentEnumerable != null)
             {
@@ -385,13 +401,12 @@ namespace Opus.Controllers
             //_uow.Save();
             await Task.Delay(1);
             var StaffEquipment = staffVm.StaffEquipment;
-            return NoContent();
             #region Authentication
             if (GetClaim() != null)
             {
                 return View();//Go Dashboard
             }
-            return NotFound();
+            return Content("ERROR - 500 (AddStaff)");
             #endregion Authentication
         }
         [HttpPost("staff/multiple-upsert")]
@@ -497,41 +512,12 @@ namespace Opus.Controllers
         [HttpGet("api/statusofstaff")]
         public StatusOfStaffVM GetActive()
         {
-            var _pass = 0;
-            /*var staffs = _uow.Staff.GetAll();
-            var active = staffs.Where(x => x.Status == (int)StatusOfStaff.Active).Count();
-            var passive = staffs.Where(x => x.Status == (int)StatusOfStaff.Passive).Count();
-            var quit = staffs.Where(x => x.Status == (int)StatusOfStaff.Quit).Count();*/
-            var deg = _uow.Staff.GetAll(i => i.Status == 0);
-            /*
-            foreach (var item in deg)
-            {
-
-                //_pass++;
-                if (item.Status == 0 && item.Active)
-                {
-                    _pass++;
-                }
-                if (item.Status == 1 && item.Active == false)
-                {
-                    _pass++;
-                }
-
-
-            }*/
-
             var _statusofstaff = new StatusOfStaffVM()
             {
                 Active = _uow.Staff.GetAll(i => i.Status == 1).Where(a => a.Active).Count(),
-                //Passive = _uow.Staff.GetAll(i => i.Status == 0).Count(),
-
-                Passive = _uow.Staff.GetAll().Where(x=>(x.Status==0&&x.Active||x.Status==1&&x.Active==false)).Count(),
-                //Passive = _pass,
+                Passive = _uow.Staff.GetAll().Where(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false)).Count(),
                 Quit = _uow.Staff.GetAll(i => i.Status == 2).Count()
             };
-            //var staffs = _uow.Staff.GetAll().OrderByDescending(o => o.Status == 1).OrderBy(n => n.FirstName).Where(s => s.Status == 1).Where(a => a.Active == true).Count();
-            //var Passive = _uow.Staff.GetAll(o => o.Status == 0).Where(a=>a.Active).Count();
-            //var Passive = _uow.Staff.GetAll(o => o.Status == 0).Count();
             return _statusofstaff;
         }
         [HttpGet("api/getcard/{tcid}")]
