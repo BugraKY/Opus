@@ -8,6 +8,11 @@
         pointer-events: none;
         cursor: default;
     }
+    /*
+    .bank-icon {
+        background: #fff url("../images/search.jpg") no-repeat;
+        background-position: right center!important;
+    }*/
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css" rel="stylesheet" />
 
@@ -75,8 +80,8 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="label_email control-label" for="prof_image">Image : </label>
-                                                            <input class="form-control" id="file" accept="image/*"  type="file" asp-for="Files.ImageFile">
-                                                            <input type="hidden" id="image" asp-for="ImageBase64"/>
+                                                            <input class="form-control" id="file" accept="image/*" type="file" asp-for="Files.ImageFile">
+                                                            <input type="hidden" id="image" asp-for="ImageBase64" />
                                                             <div class="media">
                                                                 <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
                                                             </div>
@@ -220,8 +225,8 @@
                                                     <div class="col-md-6">
 
                                                         <div class="form-group">
-                                                            <label class="form-label">IBAN <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
+                                                            <label class="form-label">IBAN <span class="danger">*</span><span id="bank-name"></span></label>
+                                                            <input type="text" class="form-control bank-icon" placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" asp-for="IBAN" value="@Model.IBAN" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -232,7 +237,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-12">
+                                                    <div class="col-12" hidden>
                                                         <img id="bank_logo" height="100" width="320" />
                                                         <h6 id="bank_name"></h6>
                                                     </div>
@@ -1154,7 +1159,7 @@
         <script src="~/lib/vendor_components/tiny-editable/mindmup-editabletable.js"></script>*@
     <script src="~/lib/vendor_components/datatable/datatables.min.js"></script>
     <script src="~/js/pages/data-table.js"></script>
-    <script src="~/js/pages/editable-tables.js"></script>
+    @*<script src="~/js/pages/editable-tables.js"></script>*@
 
     <script>
         function removeMember(memId) {
@@ -1212,6 +1217,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (res) {
+                    const url_back = `url("` + res.url + `") no-repeat right`;
                     //console.log(JSON.stringify(res.url));
                     if (res == null) {
                         $('input[id=IBAN]').addClass("bb-3 border-danger");
@@ -1220,6 +1226,7 @@
                         $('#bank_logo').attr('src', '');
                         $('#bank_logo').addClass("d-none");
                         $('#bank_name').addClass("d-none");
+                        $('.bank-icon').css('background', 'none');
                     }
                     else {
                         $('input[id=IBAN]').addClass("bb-3 border-info");
@@ -1229,10 +1236,18 @@
                             $('#bank_logo').addClass("d-none");
                             $('#bank_name').removeClass("d-none");
                             $('#bank_name').html(res.name);
+                            $('.bank-icon').css('background', 'none');
                         } else {
                             $('#bank_logo').removeClass("d-none");
                             $('#bank_name').addClass("d-none");
                             $('#bank_logo').attr('src', res.url);
+                            //$('.bank-icon').css('background', 'url(' + res.url + ')');
+                            $('.bank-icon').css('background', url_back);
+                            $('.bank-icon').css('background-position', 'right center!important');
+                            $('.bank-icon').css('background-size', 'auto 25%');
+                            $('.bank-icon').css('background-right', '50px');
+                            $('#bank-name').html(res.name);
+
                         }
 
                     }
@@ -1252,101 +1267,66 @@
                     }
                 }
                 console.log(countLetters);
-                console.log(iban);
 
                 if (countLetters < 32) {
                     $('input[id=IBAN]').addClass("bb-3 border-danger");
                     $('input[id=IBAN]').removeClass("border-info");
+                    $('.bank-icon').css('background', 'none');
+                    $('#bank_name').html("");
                 }
                 else {
-                    console.log(iban);
-                    $.ajax({
-                        url: '/api/getbank/' + bankCode + '/' + iban,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (res) {
-                            if (res == null) {
-                                $('input[id=IBAN]').addClass("bb-3 border-danger");
-                                $('input[id=IBAN]').removeClass("border-info");
-                                $('#bank_logo').attr('src', '');
-                                $('#bank_logo').addClass("d-none");
-                                $('#bank_name').addClass("d-none");
-                            }
-                            else {
-                                $('input[id=IBAN]').addClass("bb-3 border-info");
-                                $('input[id=IBAN]').removeClass("border-danger");
-                                if (res.url == null) {
+                    if (countLetters == 32) {
+                        $.ajax({
+                            url: '/api/getbank/' + bankCode + '/' + iban,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (res) {
+                                var url_back = ``;
+                                if (typeof res.url !== "undefined")
+                                    url_back = `url("` + res.url + `") no-repeat right`;
+
+                                if (res == null) {
+                                    $('input[id=IBAN]').addClass("bb-3 border-danger");
+                                    $('input[id=IBAN]').removeClass("border-info");
+
                                     $('#bank_logo').attr('src', '');
                                     $('#bank_logo').addClass("d-none");
-                                    $('#bank_name').removeClass("d-none");
-                                    $('#bank_name').html(res.name);
-                                } else {
-                                    $('#bank_logo').removeClass("d-none");
                                     $('#bank_name').addClass("d-none");
-                                    $('#bank_logo').attr('src', res.url);
+                                    //$('.bank-icon').css('background', 'none');
                                 }
+                                else {
+                                    console.log(res);
+                                    $('input[id=IBAN]').addClass("bb-3 border-info");
+                                    $('input[id=IBAN]').removeClass("border-danger");
+                                    if (res.url == null || res.url == '' || typeof res.url == "undefined") {
+                                        $('#bank_logo').attr('src', '');
+                                        $('#bank_logo').addClass("d-none");
+                                        $('#bank_name').removeClass("d-none");
+                                        $('#bank_name').html("");
+                                        //$('.bank-icon').css('background', 'none');
+                                    } else {
+                                        $('#bank_logo').removeClass("d-none");
+                                        $('#bank_name').addClass("d-none");
+                                        //$('#bank_logo').attr('src', res.url);
+                                        $('.bank-icon').css('background', url_back);
+                                        $('.bank-icon').css('background-position', 'right center!important');
+                                        $('.bank-icon').css('background-size', 'auto 20%');
+                                        $('.bank-icon').css('background-right', '50px');
+                                        $('#bank-name').html(res.name);
 
+
+                                    }
+
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
 
 
             });
 
-            /*
-            $('input[id=IBAN]').change(function (ev) {
-                const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
-                const iban = ev.target.value;
-                console.log(bankCode);
-                if (iban.length > 31) {
-                    $.ajax({
-                        url: '/api/getbank/' + bankCode + '/' + iban,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (res) {
-                            if (res == null) {
-                                $('input[id=IBAN]').addClass("bb-3 border-danger");
-                                $('input[id=IBAN]').removeClass("border-info");
-
-                                $('#bank_logo').attr('src', '');
-                                $('#bank_logo').addClass("d-none");
-                                $('#bank_name').addClass("d-none");
-                            }
-                            else {
-                                $('input[id=IBAN]').addClass("bb-3 border-info");
-                                $('input[id=IBAN]').removeClass("border-danger");
-                                if (res.url == null) {
-                                    $('#bank_logo').attr('src', '');
-                                    $('#bank_logo').addClass("d-none");
-                                    $('#bank_name').removeClass("d-none");
-                                    $('#bank_name').html(res.name);
-                                } else {
-                                    $('#bank_logo').removeClass("d-none");
-                                    $('#bank_name').addClass("d-none");
-                                    $('#bank_logo').attr('src', res.url);
-                                }
-
-                            }
-                        }
-                    });
-                }
-
-
-            });
-            */
-
-
-            @*$("#familyMembersFamilyRelationshipId select").val("@Model.BloodTypeId").change();*@
-
-
-
-
-
-
-
-
-            /*Validates*/
 
             $("#idnum").on('input', function () {
                 var idval = $("#idnum").val();
@@ -1394,15 +1374,7 @@
                     $('#d2-e').removeClass("border-info");
                 }
             });
-            /*
-            $('input[id=IBAN]').change(function (ev) {
 
-
-
-            });*/
-
-
-            //$('#d2-e').val();
 
 
             $('input[id=Files_Identity]').change(function (ev) {

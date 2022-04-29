@@ -115,11 +115,10 @@
                                                         <span class="badge badge-pill badge-@(@staff.Status == (int)StatusOfStaff.Active && staff.Active==true ? "success" : "")@(@staff.Status == 0 ? "secondary" : "")@(@staff.Status == 2 ? "danger" : "")">@(@staff.Status == 1 ? "Active" : "")@(@staff.Status == 0 ? "Passive" : "")@(@staff.Status == 2 ? "Exit" : "")</span>
                                                     </td>
                                                     <td class="text-center">
-
                                                         <div class="list-icons d-inline-flex">
                                                             @*<a href="/staff/card/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-id-card"></i> Card</a>*@
                                                             <a href="#modal" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> Card</a>
-                                                            <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10"><i class="fa fa-edit"></i> Edit</a>
+                                                            <a href="/staff/edit/@staff.Guid" class="list-icons-item me-10" target="_blank"><i class="fa fa-edit"></i> Edit</a>
                                                         </div>
                                                     </td>
                                                 </tr>

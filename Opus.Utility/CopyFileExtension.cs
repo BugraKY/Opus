@@ -339,7 +339,7 @@ namespace Opus.Utility
                 var _fileName = Files.ImageFile.FileName;
                 var location = Path.Combine(DIR_ProfileIMG + _fileName);
 
-                Bitmap _image = LoadBase64(_base64);
+                Bitmap _image = LoadBase64(_base64,location);
 
                 using (var fileStream = new FileStream(location, FileMode.Create))
                 {
@@ -717,11 +717,12 @@ namespace Opus.Utility
                 var _oldImageFile=_uow.Staff.GetFirstOrDefault(i=>i.Id== staffId).ImageFile;
                 var location_old= Path.Combine(DIR_ProfileIMG + _oldImageFile);
 
-                var _image = LoadBase64(_base64);
-                /*
                 if (File.Exists(location_old))
                     File.Delete(location_old);
 
+                LoadBase64(_base64, location);
+
+                /*
                 using (var fileStream = new FileStream(location, FileMode.Create))
                 {
                     Files.ImageFile.CopyTo(fileStream);
@@ -731,13 +732,15 @@ namespace Opus.Utility
 
         }
 
-        public static Bitmap LoadBase64(string base64)
+        public static Bitmap LoadBase64(string base64,string location)
         {
+            base64=base64.Split(',')[1];
             byte[] bytes = Convert.FromBase64String(base64);
             Bitmap image;
             using (MemoryStream ms = new MemoryStream(bytes))
             {
                 image = (Bitmap)Bitmap.FromStream(ms);
+                image.Save(location);
             }
             return image;
         }
