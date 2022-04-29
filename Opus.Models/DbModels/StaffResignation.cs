@@ -18,5 +18,13 @@ namespace Opus.Models.DbModels
         public string Acquittance { get; set; }//İbraname
         public string ResignationLetter { get; set; }//İstifa Mektubu
 
+
+        /*
+                 [ForeignKey("StaffId")]
+        public long StaffId { get; set; }
+        public Staff Staff { get; set; }
+         
+         */
+
     }
 }

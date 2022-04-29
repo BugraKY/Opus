@@ -69,13 +69,14 @@ namespace Opus.Controllers
             List<Staff> staffs = new List<Staff>();
             /*var staffResignation = _uow.StaffResignation.GetAll(x => (x.Acquittance != "" && x.Declaration != "" && x.ResignationLetter != ""));*/
             var staffResignation = _uow.StaffResignation.GetAll();
+            /*
             foreach (var item in staffResignation)
             {
-                var _staff=_uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status==1));
+                var _staff = _uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status == 1));
                 //var _staff = _uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status == 0 && i.BlackList == false && i.Active == false));
                 if (_staff != null)
                     staffs.Add(_staff);
-            }
+            }*/
 
             //var _staffEnumerable = (IEnumerable<Staff>)staffs.OrderBy(n=>n.FirstName);
             //var orderedstaff= _staffEnumerable
@@ -83,7 +84,23 @@ namespace Opus.Controllers
             */
             //return View((IEnumerable<Staff>)staffs.OrderBy(n => n.FirstName));
 
-            var orn = _uow.Staff.GetAll(i=>(i.Status==0 || i.Active==false)).OrderBy(n=>n.FirstName);
+
+            /*
+            var orn = _uow.Staff.GetAll(i => (i.Active && i.Status == 0) || (i.Active == false && i.Status == 1) && i.BlackList == false)
+                .Join(staffResignation,
+                s => s.Id,
+                r => r.StaffId,
+                (s, r) => new { staffs = s, staffResignation = r });
+            */
+            var orn = _uow.Staff.GetAll()
+                .Join(staffResignation,
+                s => s.Id,
+                r => r.StaffId,
+                (s, r) => new { staffs = s, staffResignation = r })
+                .Where(i => (i.staffs.Active && i.staffs.Status == 0) || (i.staffs.Active == false && i.staffs.Status == 1) && i.staffs.BlackList == false)
+                .Select(s=>s.staffs)
+                .OrderBy(n=>n.FirstName);
+            
             return View(orn);
         }
         [Route("staff/all")]
