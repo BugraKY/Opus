@@ -710,25 +710,29 @@ namespace Opus.Utility
                 _uow.Save();
             }
             #endregion Base
-            if (Files.ImageFile != null)
+            if (Files != null)
             {
-                var _fileName = Files.ImageFile.FileName;
-                var location = Path.Combine(DIR_ProfileIMG + _fileName);
-                var _oldImageFile=_uow.Staff.GetFirstOrDefault(i=>i.Id== staffId).ImageFile;
-                var location_old= Path.Combine(DIR_ProfileIMG + _oldImageFile);
-
-                if (File.Exists(location_old))
-                    File.Delete(location_old);
-
-                LoadBase64(_base64, location);
-
-                /*
-                using (var fileStream = new FileStream(location, FileMode.Create))
+                if (Files.ImageFile != null)
                 {
-                    Files.ImageFile.CopyTo(fileStream);
-                }*/
+                    var _fileName = Files.ImageFile.FileName;
+                    var location = Path.Combine(DIR_ProfileIMG + _fileName);
+                    var _oldImageFile = _uow.Staff.GetFirstOrDefault(i => i.Id == staffId).ImageFile;
+                    var location_old = Path.Combine(DIR_ProfileIMG + _oldImageFile);
 
+                    if (File.Exists(location_old))
+                        File.Delete(location_old);
+
+                    LoadBase64(_base64, location);
+
+                    /*
+                    using (var fileStream = new FileStream(location, FileMode.Create))
+                    {
+                        Files.ImageFile.CopyTo(fileStream);
+                    }*/
+
+                }
             }
+
 
         }
 

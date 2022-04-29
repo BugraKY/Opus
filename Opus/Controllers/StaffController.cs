@@ -66,10 +66,25 @@ namespace Opus.Controllers
         [Route("staff/exit")]
         public IActionResult Exits()
         {
-            //var staffResignation = _uow.StaffResignation.GetAll(includeProperties:ex);
-            //var exitStaffs = _uow.Staff.GetAll(includeProperties: "StaffResignation");
+            List<Staff> staffs = new List<Staff>();
+            /*var staffResignation = _uow.StaffResignation.GetAll(x => (x.Acquittance != "" && x.Declaration != "" && x.ResignationLetter != ""));*/
+            var staffResignation = _uow.StaffResignation.GetAll();
+            foreach (var item in staffResignation)
+            {
+                var _staff=_uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status==1));
+                //var _staff = _uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status == 0 && i.BlackList == false && i.Active == false));
+                if (_staff != null)
+                    staffs.Add(_staff);
+            }
 
-            return View();
+            //var _staffEnumerable = (IEnumerable<Staff>)staffs.OrderBy(n=>n.FirstName);
+            //var orderedstaff= _staffEnumerable
+            /*var exitStaffs = _uow.Staff.GetAll(includeProperties: "StaffResignation");
+            */
+            //return View((IEnumerable<Staff>)staffs.OrderBy(n => n.FirstName));
+
+            var orn = _uow.Staff.GetAll(i=>(i.Status==0 || i.Active==false)).OrderBy(n=>n.FirstName);
+            return View(orn);
         }
         [Route("staff/all")]
         public IActionResult All()
@@ -176,7 +191,7 @@ namespace Opus.Controllers
         {
             //return NoContent();
             string webRootPath = _hostEnvironment.WebRootPath;
-            if(_staffVM.Files != null)
+            if (_staffVM.Files != null)
             {
                 if (_staffVM.Files.ImageFile != null)
                     _staffVM.ImageFile = _staffVM.Files.ImageFile.FileName;
@@ -184,7 +199,7 @@ namespace Opus.Controllers
 
             //return NoContent();
             CopyFileExtension copyFile = new CopyFileExtension(_uow);
-            copyFile.Upload_UPSERT(_staffVM.Files, _staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id,_staffVM.ImageBase64);
+            copyFile.Upload_UPSERT(_staffVM.Files, _staffVM.DocumentRead, webRootPath, _staffVM.Guid, _staffVM.Id, _staffVM.ImageBase64);
             if (_staffVM.ImageFile != null)
             {
                 var _staff = new Staff()
@@ -420,7 +435,7 @@ namespace Opus.Controllers
             try
             {
                 CopyFileExtension copyFile = new CopyFileExtension(_uow);
-                copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id,staffVm.ImageBase64);
+                copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id, staffVm.ImageBase64);
             }
             catch (Exception)
             {
@@ -546,7 +561,7 @@ namespace Opus.Controllers
         [HttpGet("api/statusofstaff")]
         public StatusOfStaffVM GetActive()
         {
-            var _active = _uow.Staff.GetAll().Count(x=>(x.Status==1&&x.Active));
+            var _active = _uow.Staff.GetAll().Count(x => (x.Status == 1 && x.Active));
             var _passive = _uow.Staff.GetAll().Count(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
             var _Quit = _uow.Staff.GetAll(i => i.Status == 2).Count();
             var _all = _active + _passive;
@@ -555,7 +570,7 @@ namespace Opus.Controllers
                 Active = _active,
                 Passive = _passive,
                 Quit = _Quit,
-                All= _all
+                All = _all
             };
             return _statusofstaff;
         }
