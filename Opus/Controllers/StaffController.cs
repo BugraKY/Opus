@@ -630,6 +630,7 @@ namespace Opus.Controllers
                 Exit = _exit,
                 All = _all
             };
+            //Task.Delay(1000);
             return _statusofstaff;
         }
         [HttpGet("api/getcard/{tcid}")]
