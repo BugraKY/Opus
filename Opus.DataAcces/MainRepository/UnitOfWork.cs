@@ -1,5 +1,7 @@
 ﻿using Opus.DataAcces.Data;
 using Opus.DataAcces.IMainRepository;
+using Opus.DataAcces.IMainRepository.IAccountingRepository;
+using Opus.DataAcces.MainRepository.AccountingRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace Opus.DataAcces.MainRepository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _db;
+        private readonly AccountingDbContext _dbAc;
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
@@ -31,6 +34,11 @@ namespace Opus.DataAcces.MainRepository
             EducationalStatus = new EducationalStatusRepository(_db);
             StaffResignation = new StaffResignationRepository(_db);
         }
+        public UnitOfWork(AccountingDbContext dbAc)
+        {
+            _dbAc = dbAc;
+            Company=new CompaniesRepository(_dbAc);
+        }
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public ILocationRepository Location { get; private set; }
         public IUserLocationRepository UserLocation { get; private set; }
@@ -47,6 +55,8 @@ namespace Opus.DataAcces.MainRepository
         public IMaritalStatusRepository MaritalStatus { get; private set; }
         public IEducationalStatusRepository EducationalStatus { get; private set; }
         public IStaffResignationRepository StaffResignation { get; private set; }
+
+        public ICompaniesRepository Company { get; private set; }
         public void Dispose()
         {
             _db.Dispose();
@@ -55,6 +65,10 @@ namespace Opus.DataAcces.MainRepository
         public void Save()
         {
             _db.SaveChanges();
+        }
+        public void SaveAsync()
+        {
+            _db.SaveChangesAsync();
         }
     }
 }

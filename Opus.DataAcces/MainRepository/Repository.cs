@@ -14,12 +14,19 @@ namespace Opus.DataAcces.MainRepository
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly AccountingDbContext _acDb;
         internal DbSet<T> dbSet;
 
         public Repository(ApplicationDbContext db)
         {
             _db = db;
             dbSet = _db.Set<T>();
+        }
+        public Repository(AccountingDbContext acDb)
+        {
+            _acDb=acDb;
+            dbSet = _acDb.Set<T>();
+
         }
         public void Add(T entity)
         {

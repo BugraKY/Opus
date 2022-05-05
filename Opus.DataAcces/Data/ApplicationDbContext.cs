@@ -13,7 +13,6 @@ namespace Opus.DataAcces.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options) { }//14 Model
-
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
         public DbSet<FamilyMembers> FamilyMembers { get; set; }

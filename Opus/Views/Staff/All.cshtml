@@ -167,6 +167,19 @@
                         </div>
                     </a>
                 </div>
+                <div class="box box-inverse badge-secondary box-hover">
+                    <a href="/staff/exit" style="color:white;">
+                        <div class="box-body">
+                            <div class="flexbox">
+                                <h5>Exit Staff</h5>
+                            </div>
+                            <div class="text-center my-2">
+                                <div class="fs-60"><span id="exit"></span></div>
+                                <span>Exit Staff</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
                 <div class="box box-inverse box-success shadow-selected">
                     <a href="/staff/all" style="color:white;">
                         <div class="box-body">
@@ -347,6 +360,7 @@
                 success: function (data, textStatus, jqXHR) {
                     $('#active').html(data.active);
                     $('#passive').html(data.passive);
+                    $('#exit').html(data.exit);
                     $('#all').html(data.all);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

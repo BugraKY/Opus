@@ -339,12 +339,15 @@ namespace Opus.Utility
                 var _fileName = Files.ImageFile.FileName;
                 var location = Path.Combine(DIR_ProfileIMG + _fileName);
 
-                Bitmap _image = LoadBase64(_base64,location);
 
+                LoadBase64(_base64, location);
+
+                //Bitmap _image = LoadBase64(_base64,location);
+                /*
                 using (var fileStream = new FileStream(location, FileMode.Create))
                 {
                     Files.ImageFile.CopyTo(fileStream);
-                }
+                }*/
             }
 
         }

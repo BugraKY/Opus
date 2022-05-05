@@ -24,6 +24,10 @@ namespace Opus.DataAcces.IMainRepository
         IMaritalStatusRepository MaritalStatus { get; }
         IEducationalStatusRepository EducationalStatus { get; }
         IStaffResignationRepository StaffResignation { get; }
+
+        IAccountingRepository.ICompaniesRepository Company { get; }
+
+
         void Save();
     }
 }

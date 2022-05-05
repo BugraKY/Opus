@@ -20,9 +20,11 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
-    .jq-toast-single{
-        box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
-        }
+
+    .jq-toast-single {
+        box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+    }
+
     .theme-primary .border-critical {
         border-color: #c80000 !important;
     }
@@ -68,7 +70,7 @@
                                                 <hr class="my-15">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input type="hidden" name="image" id="image" asp-for="ImageBase64"/>
+                                                        <input type="hidden" id="image" asp-for="ImageBase64" />
                                                         <div class="media">
                                                             <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" style="display:none">
                                                         </div>
@@ -202,7 +204,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <img id="bank_logo" height="100" width="320"/>
+                                                        <img id="bank_logo" height="100" width="320" />
                                                         <h6 id="bank_name"></h6>
                                                     </div>
                                                 </div>
@@ -228,15 +230,22 @@
                                                         <div class="form-group">
                                                             <label class="form-label">Education Status</label>
                                                             <select class="form-select" asp-for="EducationalStatus">
-                                                                @foreach (var item in Model.EducationalStatusEnumerable)
-                                                                {
-                                                                    <option value="@item.Id">@item.Name</option>
-                                                                }
-                                                                @*
-                                                                <option value="Primary School Graduate">Primary School Graduate</option>
-                                                                <option value="High School Graduate">High School Graduate</option>
-                                                                <option value="Undergraduate Degree">Undergraduate Degree</option>*@
+                                                                <option value="1">Primary School Graduate</option>
+                                                                <option value="2">High School Graduate</option>
+                                                                <option value="3">Undergraduate Degree</option>
                                                             </select>
+                                                            @*
+                                                                <select class="form-select" asp-for="EducationalStatus">
+                                                                    foreach (var item in Model.EducationalStatusEnumerable)
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+
+                                                                    <option value="Primary School Graduate">Primary School Graduate</option>
+                                                                    <option value="High School Graduate">High School Graduate</option>
+                                                                    <option value="Undergraduate Degree">Undergraduate Degree</option>
+                                                                </select>
+                                                            *@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -263,14 +272,14 @@
                                                     <label class="form-label">Blood Group  <span class="danger">*</span></label>
                                                     <select class="form-select " asp-for="BloodTypeId" required>
                                                         <option value="" selected="selected"></option>
-                                                        <option value="1" >AB Rh (+)</option>
-                                                        <option value="2" >A Rh (+)</option>
-                                                        <option value="3" >B Rh (+)</option>
-                                                        <option value="4" >0 Rh (+)</option>
-                                                        <option value="5" >AB Rh (-)</option>
-                                                        <option value="6" >A Rh (-)</option>
-                                                        <option value="7" >B Rh (-)</option>
-                                                        <option value="8" >0 Rh (-)</option>
+                                                        <option value="1">AB Rh (+)</option>
+                                                        <option value="2">A Rh (+)</option>
+                                                        <option value="3">B Rh (+)</option>
+                                                        <option value="4">0 Rh (+)</option>
+                                                        <option value="5">AB Rh (-)</option>
+                                                        <option value="6">A Rh (-)</option>
+                                                        <option value="7">B Rh (-)</option>
+                                                        <option value="8">0 Rh (-)</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -311,7 +320,7 @@
                                     <div class="row mt-4 mb-4">
                                         <div class="col">
                                             <div class="bg-lightest rounded text-center">
-                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                <select class="form-select" id="familyMembersFamilyRelationshipId">
                                                     <option value="" selected="selected">Yakınlık</option>
                                                     <option value="1">Eş</option>
                                                     <option value="2">Çocuk</option>
@@ -421,7 +430,7 @@
 
                                                         <div class="form-group">
                                                             <label class="form-label">Kimlik *</label>
-                                                            <input asp-for="Files.Identity" type="file" placeholder="Debit Form" class="input_email form-control" >
+                                                            <input asp-for="Files.Identity" type="file" placeholder="Debit Form" class="input_email form-control">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -435,7 +444,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Sağlık Raporu *</label>
-                                                            <input asp-for="Files.HealthReport" type="file" placeholder="Debit Form" class="form-control" >
+                                                            <input asp-for="Files.HealthReport" type="file" placeholder="Debit Form" class="form-control">
 
 
                                                         </div>
@@ -501,7 +510,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">İSG Talimatı ve Taahhüt Formu *</label>
-                                                            <input asp-for="Files.OHSInstructionCommitmentForm" type="file" placeholder="Debit Form" class="input_email form-control" >
+                                                            <input asp-for="Files.OHSInstructionCommitmentForm" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -527,14 +536,14 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Sigorta Girişi *</label>
-                                                            <input asp-for="Files.Insurance" type="file" placeholder="Debit Form" class="form-control" >
+                                                            <input asp-for="Files.Insurance" type="file" placeholder="Debit Form" class="form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Adli Sicil *</label>
-                                                            <input asp-for="Files.CriminalReport" type="file" placeholder="Debit Form" class="input_email form-control" >
+                                                            <input asp-for="Files.CriminalReport" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
@@ -578,26 +587,26 @@
                                                         <div class="form-group">
 
                                                             <label class="form-label">Zimmet Formu *</label>
-                                                            <input asp-for="Files.CommitmentForm" type="file" placeholder="Debit Form" class="input_email form-control" >
+                                                            <input asp-for="Files.CommitmentForm" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 Testi *</label>
-                                                            <input asp-for="Files.D2Test" type="file" placeholder="Debit Form" class="input_email form-control" >
+                                                            <input asp-for="Files.D2Test" type="file" placeholder="Debit Form" class="input_email form-control">
 
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     @*
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="form-label">Msa Testi <span class="danger">*</span></label>
-                                                            <input asp-for="Files.MSATest" type="file" placeholder="Debit Form" class="input_email form-control">
-                                                        </div>
-                                                    </div>*@
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Msa Testi <span class="danger">*</span></label>
+                                                                <input asp-for="Files.MSATest" type="file" placeholder="Debit Form" class="input_email form-control">
+                                                            </div>
+                                                        </div>*@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Görev Tanımı</label>
@@ -623,14 +632,14 @@
 {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-    <script src="~/js/ajax-requests.js"></script>
+    @*<script src="~/js/ajax-requests.js"></script>*@
     <script>
         $(document).ready(function () {/*
-                    $(':a').prop('disabled', true);
-                    $(':button').prop('disabled', true);
-                    console.log("add Script has been load");
-                    $('.selectpicker').selectpicker();
-                    */
+                        $(':a').prop('disabled', true);
+                        $(':button').prop('disabled', true);
+                        console.log("add Script has been load");
+                        $('.selectpicker').selectpicker();
+                        */
             $("#idnum").on('input', function () {
                 var idval = $("#idnum").val();
                 var _leng = $('#idnum').val().length;
@@ -641,18 +650,18 @@
             });
 
 
-            $('#d2-tne').change(function(val){
+            $('#d2-tne').change(function (val) {
                 console.log("TNE Value: " + val.currentTarget.value);
                 if (val.currentTarget.value > 85) {
                     $('#d2-tne').addClass("bb-5 border-info");
                     $('#d2-tne').removeClass("border-critical");
                     //$('#d2-tne').removeClass("border-warning");
                 }/*
-                else if (val.currentTarget.value < 70) {
-                    $('#d2-tne').addClass("bb-5 border-warning");
-                    $('#d2-tne').removeClass("border-critical");
-                    $('#d2-tne').removeClass("border-info");
-                }*/
+                    else if (val.currentTarget.value < 70) {
+                        $('#d2-tne').addClass("bb-5 border-warning");
+                        $('#d2-tne').removeClass("border-critical");
+                        $('#d2-tne').removeClass("border-info");
+                    }*/
                 else {
                     $('#d2-tne').addClass("bb-5 border-critical");
                     //$('#d2-tne').removeClass("border-warning");
@@ -666,11 +675,11 @@
                     $('#d2-e').removeClass("border-critical");
                     //$('#d2-e').removeClass("border-warning");
                 }/*
-                else if (val.currentTarget.value < 70) {
-                    $('#d2-e').addClass("bb-5 border-warning");
-                    $('#d2-e').removeClass("border-critical");
-                    $('#d2-e').removeClass("border-info");
-                }*/
+                    else if (val.currentTarget.value < 70) {
+                        $('#d2-e').addClass("bb-5 border-warning");
+                        $('#d2-e').removeClass("border-critical");
+                        $('#d2-e').removeClass("border-info");
+                    }*/
                 else {
                     $('#d2-e').addClass("bb-5 border-critical");
                     //$('#d2-e').removeClass("border-warning");
@@ -720,77 +729,77 @@
             //$('#d2-e').val();
 
 
-            $('input[id=Files_Identity]').change(function(ev) {
+            $('input[id=Files_Identity]').change(function (ev) {
                 $('input[id=Files_Identity]').addClass("bb-3 border-info");
                 $('input[id=Files_Identity]').removeClass("border-danger");
             });
-            $('input[id=Files_HealthReport]').change(function(ev) {
+            $('input[id=Files_HealthReport]').change(function (ev) {
                 $('input[id=Files_HealthReport]').addClass("bb-3 border-info");
                 $('input[id=Files_HealthReport]').removeClass("border-danger");
             });
-            $('input[id=Files_MilitaryStatus]').change(function(ev) {
+            $('input[id=Files_MilitaryStatus]').change(function (ev) {
                 $('input[id=Files_MilitaryStatus]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_Diploma]').change(function(ev) {
+            $('input[id=Files_Diploma]').change(function (ev) {
                 $('input[id=Files_Diploma]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_KVKKLaborAgreement]').change(function(ev) {
+            $('input[id=Files_KVKKLaborAgreement]').change(function (ev) {
                 $('input[id=Files_KVKKLaborAgreement]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_OHSInstructionCommitmentForm]').change(function(ev) {
+            $('input[id=Files_OHSInstructionCommitmentForm]').change(function (ev) {
                 $('input[id=Files_OHSInstructionCommitmentForm]').addClass("bb-3 border-info");
                 $('input[id=Files_OHSInstructionCommitmentForm]').removeClass("border-danger");
             });
-            $('input[id=Files_DrivingLicence]').change(function(ev) {
+            $('input[id=Files_DrivingLicence]').change(function (ev) {
                 $('input[id=Files_DrivingLicence]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_PlaceResidence]').change(function(ev) {
+            $('input[id=Files_PlaceResidence]').change(function (ev) {
                 $('input[id=Files_PlaceResidence]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_TetanusVaccine]').change(function(ev) {
+            $('input[id=Files_TetanusVaccine]').change(function (ev) {
                 $('input[id=Files_TetanusVaccine]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_KVKKCommitmentReport]').change(function(ev) {
+            $('input[id=Files_KVKKCommitmentReport]').change(function (ev) {
                 $('input[id=Files_KVKKCommitmentReport]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_InternalRegulation]').change(function(ev) {
+            $('input[id=Files_InternalRegulation]').change(function (ev) {
                 $('input[id=Files_InternalRegulation]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_Insurance]').change(function(ev) {
+            $('input[id=Files_Insurance]').change(function (ev) {
                 $('input[id=Files_Insurance]').addClass("bb-3 border-info");
                 $('input[id=Files_Insurance]').removeClass("border-danger");
             });
-            $('input[id=Files_BusinessArrangement]').change(function(ev) {
+            $('input[id=Files_BusinessArrangement]').change(function (ev) {
                 $('input[id=Files_BusinessArrangement]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_BloodType]').change(function(ev) {
+            $('input[id=Files_BloodType]').change(function (ev) {
                 $('input[id=Files_BloodType]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_Overtime]').change(function(ev) {
+            $('input[id=Files_Overtime]').change(function (ev) {
                 $('input[id=Files_Overtime]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_CommitmentForm]').change(function(ev) {
+            $('input[id=Files_CommitmentForm]').change(function (ev) {
                 $('input[id=Files_CommitmentForm]').addClass("bb-3 border-info");
                 $('input[id=Files_CommitmentForm]').removeClass("border-danger");
             });
-            $('input[id=Files_MSATest]').change(function(ev) {
+            $('input[id=Files_MSATest]').change(function (ev) {
                 $('input[id=Files_MSATest]').addClass("bb-3 border-info");
                 $('input[id=Files_MSATest]').removeClass("border-danger");
             });
-            $('input[id=Files_CriminalReport]').change(function(ev) {
+            $('input[id=Files_CriminalReport]').change(function (ev) {
                 $('input[id=Files_CriminalReport]').addClass("bb-3 border-info");
                 $('input[id=Files_CriminalReport]').removeClass("border-danger");
             });
-            $('input[id=Files_AgiForm]').change(function(ev) {
+            $('input[id=Files_AgiForm]').change(function (ev) {
                 $('input[id=Files_AgiForm]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_WorkSafety]').change(function(ev) {
+            $('input[id=Files_WorkSafety]').change(function (ev) {
                 $('input[id=Files_WorkSafety]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_D2Test]').change(function(ev) {
+            $('input[id=Files_D2Test]').change(function (ev) {
                 $('input[id=Files_D2Test]').addClass("bb-3 border-info");
             });
-            $('input[id=Files_TaskDefinition]').change(function(ev) {
+            $('input[id=Files_TaskDefinition]').change(function (ev) {
                 $('input[id=Files_TaskDefinition]').addClass("bb-3 border-info");
                 $('input[id=Files_TaskDefinition]').removeClass("border-danger");
             });

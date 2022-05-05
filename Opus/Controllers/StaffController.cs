@@ -56,7 +56,6 @@ namespace Opus.Controllers
                 if (_appUser != null)
                 {
                     var staffs = _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
-                    var cnt = staffs.Count();
                     //var staffs = _uow.Staff.GetAll();
                     return View(staffs);
                 }
@@ -67,40 +66,18 @@ namespace Opus.Controllers
         public IActionResult Exits()
         {
             List<Staff> staffs = new List<Staff>();
-            /*var staffResignation = _uow.StaffResignation.GetAll(x => (x.Acquittance != "" && x.Declaration != "" && x.ResignationLetter != ""));*/
             var staffResignation = _uow.StaffResignation.GetAll();
-            /*
-            foreach (var item in staffResignation)
-            {
-                var _staff = _uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status == 1));
-                //var _staff = _uow.Staff.GetFirstOrDefault(i => (i.Id == item.StaffId && i.Status == 0 && i.BlackList == false && i.Active == false));
-                if (_staff != null)
-                    staffs.Add(_staff);
-            }*/
 
-            //var _staffEnumerable = (IEnumerable<Staff>)staffs.OrderBy(n=>n.FirstName);
-            //var orderedstaff= _staffEnumerable
-            /*var exitStaffs = _uow.Staff.GetAll(includeProperties: "StaffResignation");
-            */
-            //return View((IEnumerable<Staff>)staffs.OrderBy(n => n.FirstName));
-
-
-            /*
-            var orn = _uow.Staff.GetAll(i => (i.Active && i.Status == 0) || (i.Active == false && i.Status == 1) && i.BlackList == false)
-                .Join(staffResignation,
-                s => s.Id,
-                r => r.StaffId,
-                (s, r) => new { staffs = s, staffResignation = r });
-            */
             var orn = _uow.Staff.GetAll()
                 .Join(staffResignation,
                 s => s.Id,
                 r => r.StaffId,
                 (s, r) => new { staffs = s, staffResignation = r })
                 .Where(i => (i.staffs.Active && i.staffs.Status == 0) || (i.staffs.Active == false && i.staffs.Status == 1) && i.staffs.BlackList == false)
-                .Select(s=>s.staffs)
-                .OrderBy(n=>n.FirstName);
-            
+                .Select(s => s.staffs)
+                .OrderBy(n => n.FirstName);
+
+
             return View(orn);
         }
         [Route("staff/all")]
@@ -351,48 +328,92 @@ namespace Opus.Controllers
             var test = staffVm.TestD2_E;
             //var files = staffVm.Files;
             string webRootPath = _hostEnvironment.WebRootPath;
-
+            Staff staffItem=new Staff();
+            int staffId = 0;
+            string StaffUid = "";
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             List<FamilyMembers> _familyMembers = new List<FamilyMembers>();
-
-            var _staff = new Staff()
+            //return NoContent ();
+            if(staffVm.Files != null)
             {
-                Active = staffVm.Active,
-                IBAN = staffVm.IBAN,
-                StreetAddress = staffVm.StreetAddress,
-                TestD2_TNE = staffVm.TestD2_TNE,
-                TestD2_E = staffVm.TestD2_E,
-                BirthPlace = staffVm.BirthPlace,
-                BlackList = staffVm.BlackList,
-                BloodTypeId = staffVm.BloodTypeId,
-                CountryId = staffVm.CountryId,
-                CurrentSalary = staffVm.CurrentSalary,
-                DateOfBirth = staffVm.DateOfBirth,
-                DateOfEntry = staffVm.DateOfEntry,
-                DateOfQuit = staffVm.DateOfQuit,
-                Degree = staffVm.Degree,
-                EducationalStatus = staffVm.EducationalStatus,
-                FatherName = staffVm.FatherName,
-                FirstName = staffVm.FirstName,
-                LastName = staffVm.LastName,
-                IdentityNumber = staffVm.IdentityNumber,
-                ImageFile = staffVm.Files.ImageFile.FileName,
-                MaritalStatusId = staffVm.MaritalStatusId,
-                MobileNumber = staffVm.MobileNumber,
-                MotherName = staffVm.MotherName,
-                NumberOfChildren = staffVm.NumberOfChildren,
-                PhoneNumber = staffVm.PhoneNumber,
-                PhoneNumberSec = staffVm.PhoneNumberSec,
-                RegistrationNumber = staffVm.RegistrationNumber,
-                Status = staffVm.Status,
-                WhiteCollarWorker = staffVm.WhiteCollarWorker,
-                Guid = Guid.NewGuid().ToString()
-            };
+                var _staff = new Staff()
+                {
+                    Active = true,
+                    IBAN = staffVm.IBAN,
+                    StreetAddress = staffVm.StreetAddress,
+                    TestD2_TNE = staffVm.TestD2_TNE,
+                    TestD2_E = staffVm.TestD2_E,
+                    BirthPlace = staffVm.BirthPlace,
+                    BlackList = staffVm.BlackList,
+                    BloodTypeId = staffVm.BloodTypeId,
+                    CountryId = staffVm.CountryId,
+                    CurrentSalary = staffVm.CurrentSalary,
+                    DateOfBirth = staffVm.DateOfBirth,
+                    DateOfEntry = staffVm.DateOfEntry,
+                    DateOfQuit = staffVm.DateOfQuit,
+                    Degree = staffVm.Degree,
+                    EducationalStatus = staffVm.EducationalStatus,
+                    FatherName = staffVm.FatherName,
+                    FirstName = staffVm.FirstName,
+                    LastName = staffVm.LastName,
+                    IdentityNumber = staffVm.IdentityNumber,
+                    ImageFile = staffVm.Files.ImageFile.FileName,
+                    MaritalStatusId = staffVm.MaritalStatusId,
+                    MobileNumber = staffVm.MobileNumber,
+                    MotherName = staffVm.MotherName,
+                    NumberOfChildren = staffVm.NumberOfChildren,
+                    PhoneNumber = staffVm.PhoneNumber,
+                    PhoneNumberSec = staffVm.PhoneNumberSec,
+                    RegistrationNumber = staffVm.RegistrationNumber,
+                    Status = staffVm.Status,
+                    WhiteCollarWorker = staffVm.WhiteCollarWorker,
+                    Guid = Guid.NewGuid().ToString()
+                };
+                _uow.Staff.Add(_staff);
+                staffId = _staff.Id;
+                StaffUid = _staff.Guid;
+            }
+            else
+            {
+                var _staff = new Staff()
+                {
+                    Active = true,
+                    IBAN = staffVm.IBAN,
+                    StreetAddress = staffVm.StreetAddress,
+                    TestD2_TNE = staffVm.TestD2_TNE,
+                    TestD2_E = staffVm.TestD2_E,
+                    BirthPlace = staffVm.BirthPlace,
+                    BlackList = staffVm.BlackList,
+                    BloodTypeId = staffVm.BloodTypeId,
+                    CountryId = staffVm.CountryId,
+                    CurrentSalary = staffVm.CurrentSalary,
+                    DateOfBirth = staffVm.DateOfBirth,
+                    DateOfEntry = staffVm.DateOfEntry,
+                    DateOfQuit = staffVm.DateOfQuit,
+                    Degree = staffVm.Degree,
+                    EducationalStatus = staffVm.EducationalStatus,
+                    FatherName = staffVm.FatherName,
+                    FirstName = staffVm.FirstName,
+                    LastName = staffVm.LastName,
+                    IdentityNumber = staffVm.IdentityNumber,
+                    MaritalStatusId = staffVm.MaritalStatusId,
+                    MobileNumber = staffVm.MobileNumber,
+                    MotherName = staffVm.MotherName,
+                    NumberOfChildren = staffVm.NumberOfChildren,
+                    PhoneNumber = staffVm.PhoneNumber,
+                    PhoneNumberSec = staffVm.PhoneNumberSec,
+                    RegistrationNumber = staffVm.RegistrationNumber,
+                    Status = staffVm.Status,
+                    WhiteCollarWorker = staffVm.WhiteCollarWorker,
+                    Guid = Guid.NewGuid().ToString()
+                };
+                _uow.Staff.Add(_staff);
+                staffId = _staff.Id;
+                StaffUid = _staff.Guid;
+            }
 
-            _uow.Staff.Add(_staff);
             _uow.Save();
-            var staffId = _staff.Id;
             int i = 0;
             try
             {
@@ -422,24 +443,27 @@ namespace Opus.Controllers
             }
             try
             {
-                if (staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
+                if (staffVm.FamilyMembers!=null)
                 {
-                    foreach (var item in staffVm.FamilyMembers.IdentityNumber)
+                    if(staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
                     {
-                        var _familyMember = new FamilyMembers()
+                        foreach (var item in staffVm.FamilyMembers.IdentityNumber)
                         {
-                            BirthPlace = staffVm.FamilyMembers.BirthPlace[i],
-                            DateOfBirth = DateTime.Parse(staffVm.FamilyMembers.DateOfBirth[i]),
-                            FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
-                            FullName = staffVm.FamilyMembers.FullName[i],
-                            IdentityNumber = item,
-                            StaffId = staffId
-                        };
-                        _uow.FamilyMembers.Add(_familyMember);
+                            var _familyMember = new FamilyMembers()
+                            {
+                                BirthPlace = staffVm.FamilyMembers.BirthPlace[i],
+                                DateOfBirth = DateTime.Parse(staffVm.FamilyMembers.DateOfBirth[i]),
+                                FamilyRelationshipId = staffVm.FamilyMembers.FamilyRelationshipId[i],
+                                FullName = staffVm.FamilyMembers.FullName[i],
+                                IdentityNumber = item,
+                                StaffId = staffId
+                            };
+                            _uow.FamilyMembers.Add(_familyMember);
 
-                        i++;
+                            i++;
+                        }
+                        _uow.Save();
                     }
-                    _uow.Save();
                 }
             }
             catch (Exception)
@@ -451,8 +475,12 @@ namespace Opus.Controllers
             staffVm.BloodType = _bloodtype;
             try
             {
-                CopyFileExtension copyFile = new CopyFileExtension(_uow);
-                copyFile.Upload(staffVm.Files, webRootPath, _staff.Guid, _staff.Id, staffVm.ImageBase64);
+                if (staffVm.Files != null)
+                {
+                    CopyFileExtension copyFile = new CopyFileExtension(_uow);
+                    copyFile.Upload(staffVm.Files, webRootPath, StaffUid, staffId, staffVm.ImageBase64);
+                }
+
             }
             catch (Exception)
             {
@@ -470,7 +498,7 @@ namespace Opus.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                return View();//Go Dashboard
+                return Redirect("/staff/edit/" +StaffUid);//Go Dashboard
             }
             return Content("ERROR - 500 (AddStaff)");
             #endregion Authentication
@@ -494,11 +522,12 @@ namespace Opus.Controllers
         #region API
         [HttpPost("api/checkid-num")]
         public JsonResult IdNumberIsUnique([FromBody] string identityNumber)
-        {
+        {/*
             var _check = _uow.Staff.GetFirstOrDefault(i => i.IdentityNumber == identityNumber);
             if (_check == null)
                 return Json(true);
-            return Json(false);
+            return Json(false);*/
+            return Json(true);
         }
 
         [HttpDelete("api/checkid-num")]
@@ -578,15 +607,27 @@ namespace Opus.Controllers
         [HttpGet("api/statusofstaff")]
         public StatusOfStaffVM GetActive()
         {
+            List<Staff> staffs = new List<Staff>();
+            var staffResignation = _uow.StaffResignation.GetAll();
+
+            var _exit = _uow.Staff.GetAll()
+                .Join(staffResignation,
+                s => s.Id,
+                r => r.StaffId,
+                (s, r) => new { staffs = s, staffResignation = r })
+                .Where(i => (i.staffs.Active && i.staffs.Status == 0) || (i.staffs.Active == false && i.staffs.Status == 1) && i.staffs.BlackList == false)
+                .Select(s => s.staffs).Count();
+
+
             var _active = _uow.Staff.GetAll().Count(x => (x.Status == 1 && x.Active));
             var _passive = _uow.Staff.GetAll().Count(x => (x.Status == 0 && x.Active || x.Status == 1 && x.Active == false));
-            var _Quit = _uow.Staff.GetAll(i => i.Status == 2).Count();
+            //var _Quit = _uow.Staff.GetAll(i => i.Status == 2).Count();
             var _all = _active + _passive;
             var _statusofstaff = new StatusOfStaffVM()
             {
                 Active = _active,
                 Passive = _passive,
-                Quit = _Quit,
+                Exit = _exit,
                 All = _all
             };
             return _statusofstaff;
