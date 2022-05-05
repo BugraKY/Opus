@@ -14,9 +14,13 @@ namespace Opus.DataAcces.MainRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly AccountingDbContext _dbAc;
-        public UnitOfWork(ApplicationDbContext db)
+        public UnitOfWork(ApplicationDbContext db, AccountingDbContext dbAc)
         {
+            #region Dependency-Injection
             _db = db;
+            _dbAc = dbAc;
+
+            #region Main And HR
             ApplicationUser = new ApplicationUserRepository(_db);
             Location = new LocationRepository(_db);
             UserLocation = new UserLocationRepository(_db);
@@ -33,12 +37,18 @@ namespace Opus.DataAcces.MainRepository
             MaritalStatus = new MaritalStatusRepository(_db);
             EducationalStatus = new EducationalStatusRepository(_db);
             StaffResignation = new StaffResignationRepository(_db);
+            #endregion Main And HR
+
+            #region Accounting
+            Company = new CompaniesRepository(_dbAc);
+            #endregion Accounting
+
+            #endregion Dependency-Injection
         }
-        public UnitOfWork(AccountingDbContext dbAc)
-        {
-            _dbAc = dbAc;
-            Company=new CompaniesRepository(_dbAc);
-        }
+
+        #region Variables
+
+        #region Main And HR
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public ILocationRepository Location { get; private set; }
         public IUserLocationRepository UserLocation { get; private set; }
@@ -55,20 +65,33 @@ namespace Opus.DataAcces.MainRepository
         public IMaritalStatusRepository MaritalStatus { get; private set; }
         public IEducationalStatusRepository EducationalStatus { get; private set; }
         public IStaffResignationRepository StaffResignation { get; private set; }
+        #endregion Main And HR
 
+        #region Accounting
         public ICompaniesRepository Company { get; private set; }
+        #endregion Accounting
+
+        #endregion Variables
+
         public void Dispose()
         {
             _db.Dispose();
+            _dbAc.Dispose();
         }
-
+        public void DisposeAsync()
+        {
+            _db.DisposeAsync();
+            _dbAc.DisposeAsync();
+        }
         public void Save()
         {
             _db.SaveChanges();
+            _dbAc.SaveChanges();
         }
         public void SaveAsync()
         {
             _db.SaveChangesAsync();
+            _dbAc.SaveChangesAsync();
         }
     }
 }

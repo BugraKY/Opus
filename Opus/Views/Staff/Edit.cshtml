@@ -62,18 +62,18 @@
                                                         <div class="media col-md-10">
                                                             @if (Model.ImageFile == null)
                                                             {
-                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/images/avatar/5.jpg">
+                                                            <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/images/avatar/5.jpg">
                                                             }
                                                             else
                                                             {
-                                                                <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/@Model.Guid/img/@Model.ImageFile">
+                                                            <img class="img-bordered-sm rounded-circle" width="150" id="profilepic" src="/assets/personels/@Model.Guid/img/@Model.ImageFile">
                                                             }
 
                                                         </div>
                                                         <div class="col-2 d-flex justify-content-center my-auto">
                                                             @if (Model.ImageFile != null)
                                                             {
-                                                                <a class="primary" href="/assets/personels/@Model.Guid/img/@Model.ImageFile" style="cursor: pointer;" download=""><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                            <a class="primary" href="/assets/personels/@Model.Guid/img/@Model.ImageFile" style="cursor: pointer;" download=""><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
                                                             }
                                                         </div>
                                                     </div>
@@ -169,21 +169,21 @@
                                                             <select class="form-select " asp-for="MaritalStatusId">
                                                                 @if (Model.MaritalStatusId == 1)
                                                                 {
-                                                                    <option value="1" selected="selected">Married</option>
-                                                                    <option value="2">Widow</option>
-                                                                    <option value="3">Single</option>
+                                                                <option value="1" selected="selected">Married</option>
+                                                                <option value="2">Widow</option>
+                                                                <option value="3">Single</option>
                                                                 }
                                                                 else if (Model.MaritalStatusId == 2)
                                                                 {
-                                                                    <option value="1">Married</option>
-                                                                    <option value="2" selected="selected">Widow</option>
-                                                                    <option value="3">Single</option>
+                                                                <option value="1">Married</option>
+                                                                <option value="2" selected="selected">Widow</option>
+                                                                <option value="3">Single</option>
                                                                 }
                                                                 else if (Model.MaritalStatusId == 3)
                                                                 {
-                                                                    <option value="1">Married</option>
-                                                                    <option value="2">Widow</option>
-                                                                    <option value="3" selected="selected">Single</option>
+                                                                <option value="1">Married</option>
+                                                                <option value="2">Widow</option>
+                                                                <option value="3" selected="selected">Single</option>
                                                                 }
                                                             </select>
                                                         </div>
@@ -249,13 +249,13 @@
                                                             <select class="form-select" asp-for="WhiteCollarWorker">
                                                                 @if (Model.WhiteCollarWorker)
                                                                 {
-                                                                    <option value="False">Blue Collar</option>
-                                                                    <option value="True" selected="selected">White Collar</option>
+                                                                <option value="False">Blue Collar</option>
+                                                                <option value="True" selected="selected">White Collar</option>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <option value="False" selected="selected">Blue Collar</option>
-                                                                    <option value="True">White Collar</option>
+                                                                <option value="False" selected="selected">Blue Collar</option>
+                                                                <option value="True">White Collar</option>
                                                                 }
 
                                                             </select>
@@ -275,21 +275,21 @@
                                                             <select class="form-select" asp-for="EducationalStatus">
                                                                 @if (Model.EducationalStatus == 1)
                                                                 {
-                                                                    <option value="1" selected="selected">Primary School Graduate</option>
-                                                                    <option value="2">High School Graduate</option>
-                                                                    <option value="3">Undergraduate Degree</option>
+                                                                <option value="1" selected="selected">Primary School Graduate</option>
+                                                                <option value="2">High School Graduate</option>
+                                                                <option value="3">Undergraduate Degree</option>
                                                                 }
                                                                 else if (Model.EducationalStatus == 2)
                                                                 {
-                                                                    <option value="1">Primary School Graduate</option>
-                                                                    <option value="2" selected="selected">High School Graduate</option>
-                                                                    <option value="3">Undergraduate Degree</option>
+                                                                <option value="1">Primary School Graduate</option>
+                                                                <option value="2" selected="selected">High School Graduate</option>
+                                                                <option value="3">Undergraduate Degree</option>
                                                                 }
                                                                 else if (Model.EducationalStatus == 3)
                                                                 {
-                                                                    <option value="1">Primary School Graduate</option>
-                                                                    <option value="2">High School Graduate</option>
-                                                                    <option value="3" selected="selected">Undergraduate Degree</option>
+                                                                <option value="1">Primary School Graduate</option>
+                                                                <option value="2">High School Graduate</option>
+                                                                <option value="3" selected="selected">Undergraduate Degree</option>
                                                                 }
                                                             </select>
                                                         </div>
@@ -361,32 +361,39 @@
                                         <tbody id="">
                                             @foreach (var item in Model.FamilyMembersEnumerable)
                                             {
-                                                <tr id="fam-tr-@item.Id">
-                                                    <td>
-                                                        @item.FamilyRelationship.Name@*
-                                                            if (item.FamilyRelationship.Id == 1)
-                                                            {
-                                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
-                                                                    <option value="1" selected="selected">Eş</option>
-                                                                    <option value="2">Çocuk</option>
-                                                                </select>
-                                                            }
-                                                            else
-                                                            {
-                                                                <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
-                                                                    <option value="1">Eş</option>
-                                                                    <option value="2" selected="selected">Çocuk</option>
-                                                                </select>
-                                                            }
+                                            <tr id="fam-tr-@item.Id">
+                                                <td>
+                                                    @item.FamilyRelationship.Name@*
+                                                        if (item.FamilyRelationship.Id == 1)
+                                                        {
+                                                            <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                                <option value="1" selected="selected">Eş</option>
+                                                                <option value="2">Çocuk</option>
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            <select class="form-select" id="familyMembersFamilyRelationshipId" name="FamilyMembers.FamilyRelationshipId">
+                                                                <option value="1">Eş</option>
+                                                                <option value="2" selected="selected">Çocuk</option>
+                                                            </select>
+                                                        }
 
-                                                        *@
-                                                    </td>
-                                                    <td>@item.FullName</td>
-                                                    <td>@item.IdentityNumber</td>
-                                                    <td>@item.BirthPlace</td>
-                                                    <td>@item.DateOfBirth.ToString("dd.MM.yyyy")</td>
-                                                    <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeMember(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
-                                                </tr>
+                                                    *@
+                                                </td>
+                                                <td>@item.FullName</td>
+                                                <td>@item.IdentityNumber</td>
+                                                <td>@item.BirthPlace</td>
+                                                @if(item.DateOfBirth.ToString("dd.MM.yyyy") !="01.01.0001")
+                                                {
+                                                <td>@item.DateOfBirth.ToString("dd.MM.yyyy")</td>
+                                                }
+                                                else
+                                                {
+                                                <td></td>
+                                                }
+                                                <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeMember(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
+                                            </tr>
                                             }
 
                                         </tbody>
@@ -485,22 +492,22 @@
                                         <tbody id="">
                                             @foreach (var item in Model.StaffEquipmentEnumerable)
                                             {
-                                                <tr id="eq-tr-@item.Id">
-                                                    <td>
-                                                        @item.Product.Name
-                                                    </td>
-                                                    <td>@item.Quantity</td>
-                                                    <td>@item.DeliveryDate.ToString("dd.MM.yyyy")</td>
-                                                    @if (item.ReturnDate > DateTime.Parse("01.01.2010"))
+                                            <tr id="eq-tr-@item.Id">
+                                                <td>
+                                                    @item.Product.Name
+                                                </td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.DeliveryDate.ToString("dd.MM.yyyy")</td>
+                                                @if (item.ReturnDate > DateTime.Parse("01.01.2010"))
                                                     {
-                                                        <td>@item.ReturnDate.ToString("dd.MM.yyyy")</td>
+                                                <td>@item.ReturnDate.ToString("dd.MM.yyyy")</td>
                                                     }
                                                     else
                                                     {
-                                                        <td>None</td>
+                                                <td>None</td>
                                                     }
-                                                    <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeEq(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
-                                                </tr>
+                                                <td id="remove_@item.Id"><a href="#remove" class="hidden-href" onClick="removeEq(@item.Id);"><i class="mdi mdi-delete" style="font-size: 1.1em "></i> Remove</a></td>
+                                            </tr>
                                             }
 
                                         </tbody>
@@ -548,7 +555,7 @@
                                                     <option value="-1" selected="selected" hidden>Select Product</option>
                                                     @foreach (var item in Model.Products)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                    <option value="@item.Id">@item.Name</option>
                                                     }
                                                 </select>
                                             </div>
@@ -598,20 +605,20 @@
                                                             <label class="form-label">Kimlik</label>
                                                             @if (Model.DocumentRead.Identity == null)
                                                             {
-                                                                <input asp-for="DocumentRead.Identity.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.Identity.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.Identity.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.Identity.Id" type="number" value="@Model.DocumentRead.Identity.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                        @*<a class="primary" onclick='window.open("/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity");return false;' style='cursor: pointer;' target='_blank' oncontextmenu="return false" download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>*@
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.Identity.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.Identity.Id" type="number" value="@Model.DocumentRead.Identity.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                    @*<a class="primary" onclick='window.open("/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Identity");return false;' style='cursor: pointer;' target='_blank' oncontextmenu="return false" download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>*@
+                                                                </div>
+                                                            </div>
                                                             }
                                                         </div>
                                                     </div>
@@ -620,19 +627,19 @@
                                                             <label class="form-label">Kan Grubu</label>
                                                             @if (Model.DocumentRead.BloodType == null)
                                                             {
-                                                                <input asp-for="DocumentRead.BloodType.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.BloodType.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.BloodType.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.BloodType.Id" type="number" value="@Model.DocumentRead.BloodType.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.BloodType.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.BloodType.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.BloodType.Id" type="number" value="@Model.DocumentRead.BloodType.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.BloodType.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -644,19 +651,19 @@
                                                             <label class="form-label">Sağlık Raporu <span class="danger">*</span></label>
                                                             @if (Model.DocumentRead.HealthReport == null)
                                                             {
-                                                                <input asp-for="DocumentRead.HealthReport.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.HealthReport.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.HealthReport.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.HealthReport.Id" type="number" value="@Model.DocumentRead.HealthReport.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.HealthReport.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.HealthReport.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.HealthReport.Id" type="number" value="@Model.DocumentRead.HealthReport.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.HealthReport.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
                                                         </div>
                                                     </div>
@@ -665,19 +672,19 @@
                                                             <label class="form-label">Ehliyet</label>
                                                             @if (Model.DocumentRead.DrivingLicence == null)
                                                             {
-                                                                <input asp-for="DocumentRead.DrivingLicence.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.DrivingLicence.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.DrivingLicence.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.DrivingLicence.Id" type="number" value="@Model.DocumentRead.DrivingLicence.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.DrivingLicence.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.DrivingLicence.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.DrivingLicence.Id" type="number" value="@Model.DocumentRead.DrivingLicence.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.DrivingLicence.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
                                                         </div>
                                                     </div>
@@ -688,19 +695,19 @@
                                                             <label class="form-label">Askerlik Durum Belgesi</label>
                                                             @if (Model.DocumentRead.MilitaryStatus == null)
                                                             {
-                                                                <input asp-for="DocumentRead.MilitaryStatus.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.MilitaryStatus.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.MilitaryStatus.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.MilitaryStatus.Id" type="number" value="@Model.DocumentRead.MilitaryStatus.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.MilitaryStatus.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.MilitaryStatus.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.MilitaryStatus.Id" type="number" value="@Model.DocumentRead.MilitaryStatus.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.MilitaryStatus.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
                                                         </div>
                                                     </div>
@@ -709,19 +716,19 @@
                                                             <label class="form-label">İkametgah</label>
                                                             @if (Model.DocumentRead.PlaceResidence == null)
                                                             {
-                                                                <input asp-for="DocumentRead.PlaceResidence.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.PlaceResidence.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.PlaceResidence.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.PlaceResidence.Id" type="number" value="@Model.DocumentRead.PlaceResidence.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.PlaceResidence.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.PlaceResidence.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.PlaceResidence.Id" type="number" value="@Model.DocumentRead.PlaceResidence.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.PlaceResidence.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
                                                         </div>
                                                     </div>
@@ -732,19 +739,19 @@
                                                             <label class="form-label">Diploma</label>
                                                             @if (Model.DocumentRead.Diploma == null)
                                                             {
-                                                                <input asp-for="DocumentRead.Diploma.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.Diploma.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.Diploma.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.Diploma.Id" type="number" value="@Model.DocumentRead.Diploma.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Diploma.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.Diploma.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.Diploma.Id" type="number" value="@Model.DocumentRead.Diploma.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Diploma.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -754,19 +761,19 @@
                                                             <label class="form-label">Tetanoz Aşısı</label>
                                                             @if (Model.DocumentRead.TetanusVaccine == null)
                                                             {
-                                                                <input asp-for="DocumentRead.TetanusVaccine.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.TetanusVaccine.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.TetanusVaccine.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.TetanusVaccine.Id" type="number" value="@Model.DocumentRead.TetanusVaccine.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.TetanusVaccine.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.TetanusVaccine.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.TetanusVaccine.Id" type="number" value="@Model.DocumentRead.TetanusVaccine.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.TetanusVaccine.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -778,19 +785,19 @@
                                                             <label class="form-label">KVKK İş Sözleşmesi Ek Metin</label>
                                                             @if (Model.DocumentRead.KVKKLaborAgreement == null)
                                                             {
-                                                                <input asp-for="DocumentRead.KVKKLaborAgreement.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.KVKKLaborAgreement.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.KVKKLaborAgreement.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.KVKKLaborAgreement.Id" type="number" value="@Model.DocumentRead.KVKKLaborAgreement.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.KVKKLaborAgreement.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.KVKKLaborAgreement.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.KVKKLaborAgreement.Id" type="number" value="@Model.DocumentRead.KVKKLaborAgreement.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.KVKKLaborAgreement.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -801,19 +808,19 @@
                                                             <label class="form-label">KVKK Taahhüt Tutanağı</label>
                                                             @if (Model.DocumentRead.KVKKCommitmentReport == null)
                                                             {
-                                                                <input asp-for="DocumentRead.KVKKCommitmentReport.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.KVKKCommitmentReport.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.KVKKCommitmentReport.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.KVKKCommitmentReport.Id" type="number" value="@Model.DocumentRead.KVKKCommitmentReport.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.KVKKCommitmentReport.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.KVKKCommitmentReport.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.KVKKCommitmentReport.Id" type="number" value="@Model.DocumentRead.KVKKCommitmentReport.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.KVKKCommitmentReport.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -824,19 +831,19 @@
                                                             <label class="form-label">İSG Talimatı ve Taahhüt Formu</label>
                                                             @if (Model.DocumentRead.OHSInstructionCommitmentForm == null)
                                                             {
-                                                                <input asp-for="DocumentRead.OHSInstructionCommitmentForm.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.OHSInstructionCommitmentForm.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.OHSInstructionCommitmentForm.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.OHSInstructionCommitmentForm.Id" type="number" value="@Model.DocumentRead.OHSInstructionCommitmentForm.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.OHSInstructionCommitmentForm.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.OHSInstructionCommitmentForm.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.OHSInstructionCommitmentForm.Id" type="number" value="@Model.DocumentRead.OHSInstructionCommitmentForm.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.OHSInstructionCommitmentForm.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -847,19 +854,19 @@
                                                             <label class="form-label">İç Yönetmelik</label>
                                                             @if (Model.DocumentRead.InternalRegulation == null)
                                                             {
-                                                                <input asp-for="DocumentRead.InternalRegulation.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.InternalRegulation.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.InternalRegulation.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.InternalRegulation.Id" type="number" value="@Model.DocumentRead.InternalRegulation.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.InternalRegulation.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.InternalRegulation.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.InternalRegulation.Id" type="number" value="@Model.DocumentRead.InternalRegulation.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.InternalRegulation.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -880,19 +887,19 @@
                                                             <label class="form-label">Sigorta Girişi</label>
                                                             @if (Model.DocumentRead.Insurance == null)
                                                             {
-                                                                <input asp-for="DocumentRead.Insurance.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.Insurance.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.Insurance.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.Insurance.Id" type="number" value="@Model.DocumentRead.Insurance.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Insurance.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.Insurance.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.Insurance.Id" type="number" value="@Model.DocumentRead.Insurance.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Insurance.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -902,19 +909,19 @@
                                                             <label class="form-label">Adli Sicil</label>
                                                             @if (Model.DocumentRead.CriminalReport == null)
                                                             {
-                                                                <input asp-for="DocumentRead.CriminalReport.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.CriminalReport.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.CriminalReport.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.CriminalReport.Id" type="number" value="@Model.DocumentRead.CriminalReport.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.CriminalReport.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.CriminalReport.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.CriminalReport.Id" type="number" value="@Model.DocumentRead.CriminalReport.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.CriminalReport.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -927,19 +934,19 @@
                                                             <label class="form-label">İş Sözleşmesi</label>
                                                             @if (Model.DocumentRead.BusinessArrangement == null)
                                                             {
-                                                                <input asp-for="DocumentRead.BusinessArrangement.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.BusinessArrangement.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.BusinessArrangement.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.BusinessArrangement.Id" type="number" value="@Model.DocumentRead.BusinessArrangement.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.BusinessArrangement.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.BusinessArrangement.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.BusinessArrangement.Id" type="number" value="@Model.DocumentRead.BusinessArrangement.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.BusinessArrangement.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -949,19 +956,19 @@
                                                             <label class="form-label">Agi Formu</label>
                                                             @if (Model.DocumentRead.AgiForm == null)
                                                             {
-                                                                <input asp-for="DocumentRead.AgiForm.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.AgiForm.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.AgiForm.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.AgiForm.Id" type="number" value="@Model.DocumentRead.AgiForm.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.AgiForm.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.AgiForm.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.AgiForm.Id" type="number" value="@Model.DocumentRead.AgiForm.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.AgiForm.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -974,19 +981,19 @@
                                                             <label class="form-label">Fazla Mesai</label>
                                                             @if (Model.DocumentRead.Overtime == null)
                                                             {
-                                                                <input asp-for="DocumentRead.Overtime.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.Overtime.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.Overtime.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.Overtime.Id" type="number" value="@Model.DocumentRead.Overtime.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Overtime.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.Overtime.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.Overtime.Id" type="number" value="@Model.DocumentRead.Overtime.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.Overtime.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -996,19 +1003,19 @@
                                                             <label class="form-label">İş Güvenliği</label>
                                                             @if (Model.DocumentRead.WorkSafety == null)
                                                             {
-                                                                <input asp-for="DocumentRead.WorkSafety.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.WorkSafety.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.WorkSafety.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.WorkSafety.Id" type="number" value="@Model.DocumentRead.WorkSafety.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.WorkSafety.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.WorkSafety.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.WorkSafety.Id" type="number" value="@Model.DocumentRead.WorkSafety.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.WorkSafety.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -1021,19 +1028,19 @@
                                                             <label class="form-label">Zimmet Formu</label>
                                                             @if (Model.DocumentRead.CommitmentForm == null)
                                                             {
-                                                                <input asp-for="DocumentRead.CommitmentForm.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.CommitmentForm.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.CommitmentForm.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.CommitmentForm.Id" type="number" value="@Model.DocumentRead.CommitmentForm.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.CommitmentForm.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.CommitmentForm.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.CommitmentForm.Id" type="number" value="@Model.DocumentRead.CommitmentForm.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.CommitmentForm.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -1043,19 +1050,19 @@
                                                             <label class="form-label">D2 Testi</label>
                                                             @if (Model.DocumentRead.D2Test == null)
                                                             {
-                                                                <input asp-for="DocumentRead.D2Test.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.D2Test.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.D2Test.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.D2Test.Id" type="number" value="@Model.DocumentRead.D2Test.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.D2Test.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.D2Test.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.D2Test.Id" type="number" value="@Model.DocumentRead.D2Test.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.D2Test.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
@@ -1067,19 +1074,19 @@
                                                             <label class="form-label">Görev Tanımı</label>
                                                             @if (Model.DocumentRead.TaskDefinition == null)
                                                             {
-                                                                <input asp-for="DocumentRead.TaskDefinition.File" type="file" placeholder="Debit Form" class="form-control">
+                                                            <input asp-for="DocumentRead.TaskDefinition.File" type="file" placeholder="Debit Form" class="form-control">
                                                             }
                                                             else
                                                             {
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input asp-for="DocumentRead.TaskDefinition.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
-                                                                        <input asp-for="DocumentRead.TaskDefinition.Id" type="number" value="@Model.DocumentRead.TaskDefinition.Id" hidden />
-                                                                    </div>
-                                                                    <div class="col-2 d-flex justify-content-center my-auto">
-                                                                        <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.TaskDefinition.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
-                                                                    </div>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <input asp-for="DocumentRead.TaskDefinition.File" type="file" placeholder="Debit Form" class="form-control bb-3 border-info">
+                                                                    <input asp-for="DocumentRead.TaskDefinition.Id" type="number" value="@Model.DocumentRead.TaskDefinition.Id" hidden />
                                                                 </div>
+                                                                <div class="col-2 d-flex justify-content-center my-auto">
+                                                                    <a class="primary" href="/assets/personels/@Model.Guid/doc/@Model.DocumentRead.TaskDefinition.FileName" style='cursor: pointer;' download><i class="fa fa-cloud-download fa-lg" aria-hidden="true"></i></a>
+                                                                </div>
+                                                            </div>
                                                             }
 
                                                         </div>
