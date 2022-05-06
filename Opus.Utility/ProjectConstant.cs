@@ -108,6 +108,14 @@ namespace Opus.Utility
                 public const string Documentation = @"\doc\";
                 public const string ProfileIMG = @"\img\";
             }
+            public static class AccountingPath
+            {
+                public static class Company
+                {
+                    public const string Root = @"\assets\accounting\company\";
+                    public const string ProfileIMG = @"\img\";
+                }
+            }
         }
 
         public class BankAuth

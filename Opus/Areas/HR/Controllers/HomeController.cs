@@ -5,8 +5,9 @@ using Opus.Extensions;
 using static Opus.Utility.ProjectConstant;
 using Microsoft.AspNetCore.Identity;
 
-namespace Opus.Controllers
+namespace Opus.Areas.HR.Controllers
 {
+    [Area("HR")]
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _uow;
@@ -18,9 +19,9 @@ namespace Opus.Controllers
             _hostEnvironment = hostEnvironment;
             _roleManager = roleManager;
         }
+        [Route("/")]
         public IActionResult Index()
         {
-
             #region Authentication Index
             if (GetClaim() != null)
             {

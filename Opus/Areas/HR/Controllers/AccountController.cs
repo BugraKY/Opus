@@ -4,8 +4,9 @@ using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 
-namespace Opus.Controllers
+namespace Opus.Areas.HR.Controllers
 {
+    [Area("HR")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

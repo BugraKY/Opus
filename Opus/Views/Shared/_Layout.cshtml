@@ -35,7 +35,7 @@
                     <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
                 </a>
                 <!-- Logo -->
-                <a href="/" class="logo">
+                <a asp-area="HR" asp-controller="Home" asp-action="Dashboard" class="logo">
                     <!-- logo-->
                     <div class="logo-lg">
                         <span class="light-logo"><img src="~/images/logo-light-text.png" alt="logo"></span>
@@ -515,6 +515,9 @@
 
                             <li>
                                 <a href="#" ><i class="si-notebook si"></i>Currents</a>
+                            </li>
+                            <li>
+                                <a asp-area="Accounting" asp-controller="Company" asp-action="Index"><i class="si-notebook si"></i>Companies</a>
                             </li>
 
                             }

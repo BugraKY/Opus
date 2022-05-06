@@ -10,8 +10,9 @@ using System.Security.Claims;
 using static Opus.Utility.Enums;
 using static Opus.Utility.ProjectConstant;
 
-namespace Opus.Controllers
+namespace Opus.Areas.HR.Controllers
 {
+    [Area("HR")]
     [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
     public class StaffController : Controller
     {

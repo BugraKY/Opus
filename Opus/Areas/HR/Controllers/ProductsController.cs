@@ -3,8 +3,9 @@ using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using System.Linq;
 
-namespace Opus.Controllers
+namespace Opus.Areas.HR.Controllers
 {
+    [Area("HR")]
     public class ProductsController : Controller
     {
         private readonly IUnitOfWork _uow;

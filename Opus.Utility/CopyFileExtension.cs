@@ -751,5 +751,26 @@ namespace Opus.Utility
             }
             return image;
         }
+
+        public void Upload_CompLogo(IFormFile ImageFile,Guid _guid, string webRootPath)
+        {
+            var DIR_ProfileIMG = webRootPath + AccountingPath.Company.Root + _guid.ToString() + AccountingPath.Company.ProfileIMG;
+
+            if (!(Directory.Exists(DIR_ProfileIMG)))
+                Directory.CreateDirectory(DIR_ProfileIMG);
+
+            string[] Name = ImageFile.Name.Split('.');
+            var _fileName = Name[1] + Path.GetExtension(ImageFile.FileName);
+
+            var location = Path.Combine(DIR_ProfileIMG + _fileName);
+
+
+            using (var fileStream = new FileStream(location, FileMode.Create))
+            {
+                ImageFile.CopyTo(fileStream);
+            }
+
+
+        }
     }
 }

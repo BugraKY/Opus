@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 
-namespace Opus.Controllers
+namespace Opus.Areas.HR.Controllers
 {
+    [Area("HR")]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase

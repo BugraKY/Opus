@@ -40,7 +40,7 @@ namespace Opus.DataAcces.MainRepository
             #endregion Main And HR
 
             #region Accounting
-            Company = new CompaniesRepository(_dbAc);
+            Accounting_Company = new CompaniesRepository(_dbAc);
             #endregion Accounting
 
             #endregion Dependency-Injection
@@ -68,7 +68,7 @@ namespace Opus.DataAcces.MainRepository
         #endregion Main And HR
 
         #region Accounting
-        public ICompaniesRepository Company { get; private set; }
+        public ICompaniesRepository Accounting_Company { get; private set; }
         #endregion Accounting
 
         #endregion Variables

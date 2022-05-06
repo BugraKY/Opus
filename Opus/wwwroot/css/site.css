@@ -18,6 +18,10 @@ body {
   margin-bottom: 60px;
 }
 */
+.center {
+    display: flex;
+    align-items: center;
+}
 .danger {
     color: #ff0000 !important;
 }
@@ -38,8 +42,11 @@ body {
 .box-hover {
     transition-duration: 0.3s;
 }
-
-
+.box-comp{
+    min-width:100px;
+    max-width:300px;
+    height:200px;
+}
 /*temporary*/
 table {
     border: 1px solid green;

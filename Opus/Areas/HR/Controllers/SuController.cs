@@ -5,8 +5,9 @@ using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 using static Opus.Utility.ProjectConstant;
 
-namespace Opus.Controllers
+namespace Opus.Areas.HR.Controllers
 {
+    [Area("HR")]
     public class SuController : Controller//Super User Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
