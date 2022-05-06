@@ -23,7 +23,8 @@ namespace Opus.Areas.Accounting.Controllers
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accounting)]
         public IActionResult Index()
         {
-            return View();
+            var companies = _uow.Accounting_Company.GetAll();
+            return View(companies);
         }
         [Route("accounting/add-comp")]
         [Authorize(Roles = UserRoles.Admin)]
@@ -35,21 +36,34 @@ namespace Opus.Areas.Accounting.Controllers
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Upsert(CompanyVM comp)
         {
-            var _company = new Company()
+            var _result=_uow.Accounting_Company.GetFirstOrDefault(n=>n.Name==comp.Name);
+            if(_result==null)
             {
-                Description=comp.Description,
-                ImageFile=comp.ImageFile.FileName,
-                Name=comp.Name,
-                TaxNo=comp.TaxNo,
-            };
-            _uow.Accounting_Company.Add(_company);
+                
+                var _company = new Company()
+                {
+                    Description = comp.Description,
+                    ImageFile = comp.ImageFile.FileName,
+                    Name = comp.Name,
+                    TaxNo = comp.TaxNo,
+                    TaxAuthority = comp.TaxAuthority,
+                };
+                _uow.Accounting_Company.Add(_company);
 
-            if (comp.ImageFile != null)
-            {
-                CopyFileExtension copyFile = new CopyFileExtension(_uow);
-                copyFile.Upload(staffVm.Files, webRootPath, StaffUid, staffId, staffVm.ImageBase64);
+                if (comp.ImageFile != null)
+                {
+                    CopyFileExtension copyFile = new CopyFileExtension(_uow);
+                    copyFile.Upload_CompLogo(comp.ImageFile, _company.Id, _hostEnvironment.WebRootPath);
+                }
+                _uow.Save();
+                return RedirectToAction("Index", "Company");
             }
-            return NoContent();
+            else
+            {
+                return NoContent();
+            }
+
+            //return NoContent();
             return View();
         }
         [Authorize(Roles = UserRoles.Admin)]

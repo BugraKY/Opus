@@ -759,17 +759,16 @@ namespace Opus.Utility
             if (!(Directory.Exists(DIR_ProfileIMG)))
                 Directory.CreateDirectory(DIR_ProfileIMG);
 
-            string[] Name = ImageFile.Name.Split('.');
-            var _fileName = Name[1] + Path.GetExtension(ImageFile.FileName);
+            //string[] Name = ImageFile.Name.Split('.');
+            var _fileName = Path.GetFileName(ImageFile.FileName);
 
             var location = Path.Combine(DIR_ProfileIMG + _fileName);
-
-
+            
             using (var fileStream = new FileStream(location, FileMode.Create))
             {
                 ImageFile.CopyTo(fileStream);
             }
-
+            
 
         }
     }

@@ -9,51 +9,59 @@ File: scss
 @import 'responsive';
 
 /*---light skin---*/
- 
-.light-skin{
-    .main-header{
-        li{
-            &.user-header{
+
+.light-skin {
+    .main-header {
+        li {
+            &.user-header {
                 background-color: $white;
-            } 
-        }
-        .navbar{
-            .sidebar-toggle{
-                color: $white; 
             }
-            .res-only-view{
+        }
+
+        .navbar {
+            .sidebar-toggle {
                 color: $white;
             }
-            .nav{
-                >li{
-                    >a{
+
+            .res-only-view {
+                color: $white;
+            }
+
+            .nav {
+                > li {
+                    > a {
                         color: $icon-lite-color;
-                        @include hover-state{
+
+                        @include hover-state {
                             background-color: rgba($black, 0.03);
                             color: $primary;
                         }
                     }
                 }
-                .open{
-                    > a{
+
+                .open {
+                    > a {
                         background-color: rgba($black, 0.05);
-                        @include hover-focus-state{
+
+                        @include hover-focus-state {
                             background-color: rgba($black, 0.05);
                         }
                     }
                 }
-                >.active{
-                    >a{
-                       background-color: rgba($black, 0.05); 
+
+                > .active {
+                    > a {
+                        background-color: rgba($black, 0.05);
                     }
                 }
             }
         }
-        .app-menu{
-            .dropdown-mega-menu{
-                .nav{
-                    >li{
-                        >a{
+
+        .app-menu {
+            .dropdown-mega-menu {
+                .nav {
+                    > li {
+                        > a {
                             color: lighten($dark, 30%);
                         }
                     }
@@ -61,33 +69,41 @@ File: scss
             }
         }
     }
-    .main-sidebar{
+
+    .main-sidebar {
         border-right: 0px solid rgba($dx-blue,0.16);
-        background-color: $dark; 
+        /*background-color: $dark; */
+        background-image: url('/images/sidebar.png') !important;
     }
-    .user-panel{
-        >.info{
-          color: $white;  
-            >a{
+
+    .user-panel {
+        > .info {
+            color: $white;
+
+            > a {
                 color: $white;
             }
         }
     }
-    .sidebar-menu{
-        >li{
-            @include hover-active-state{
-                >a{
-                   color: $dark; 
+
+    .sidebar-menu {
+        > li {
+            @include hover-active-state {
+                > a {
+                    color: $dark;
                 }
             }
-            &.active{
-                >a{
+
+            &.active {
+                > a {
                     background-color: $dark;
                     color: $white;
-                    > i{
-                       color: $white; 
+
+                    > i {
+                        color: $white;
                     }
-                    &:after{
+
+                    &:after {
                         content: " ";
                         position: absolute;
                         right: 0;
@@ -101,44 +117,50 @@ File: scss
                     }
                 }
             }
-            &.menu-open{
-                >a{
-                   color: $dark;  
+
+            &.menu-open {
+                > a {
+                    color: $dark;
                 }
             }
-            >.treeview-menu{
+
+            > .treeview-menu {
                 margin: 0 0px;
             }
-        } 
+        }
     }
-    &.sidebar-collapse{
-        .sidebar-menu{
-            >li{
-                >.treeview-menu{
-                    background-color: $dark;    
+
+    &.sidebar-collapse {
+        .sidebar-menu {
+            > li {
+                > .treeview-menu {
+                    background-color: $dark;
                     box-shadow: 5px 8px 10px 0px rgba(0, 0, 0, 0.1);
-                    > .treeview .treeview-menu{
-                        background-color: $dark;    
+
+                    > .treeview .treeview-menu {
+                        background-color: $dark;
                         box-shadow: 5px 8px 10px 0px rgba(0, 0, 0, 0.1);
                     }
                 }
             }
-        } 
+        }
     }
-    &.sidebar-mini{
-        &.sidebar-collapse{
-            .sidebar-menu{
-                >li{
-                    >a{
-                        >span{
+
+    &.sidebar-mini {
+        &.sidebar-collapse {
+            .sidebar-menu {
+                > li {
+                    > a {
+                        > span {
                             background-color: $dark !important;
                             box-shadow: 5px 8px 10px 0px rgba(0, 0, 0, 0.1);
                         }
                     }
                 }
-                >li.active{
-                    >a{
-                        >span{
+
+                > li.active {
+                    > a {
+                        > span {
                             background: $dark !important;
                             color: $white;
                         }
@@ -147,18 +169,22 @@ File: scss
             }
         }
     }
-    .sidebar{
-        a{
-          color: $light5;  
-            &:hover{
-               text-decoration: none; 
+
+    .sidebar {
+        a {
+            color: $light5;
+
+            &:hover {
+                text-decoration: none;
             }
         }
     }
-    .sidebar-form{
+
+    .sidebar-form {
         border-radius: 3px;
-        border: 1px solid lighten($black, 50%); 
-        input[type="text"]{
+        border: 1px solid lighten($black, 50%);
+
+        input[type="text"] {
             box-shadow: none;
             background-color: rgba($black, 0.59);
             border: 1px solid rgba($black, 0.59);
@@ -168,16 +194,19 @@ File: scss
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
             border-bottom-left-radius: 2px;
-            &:focus{
-               color: $white; 
-                + .input-group-btn{
-                    .btn{
-                       color: $white; 
+
+            &:focus {
+                color: $white;
+
+                + .input-group-btn {
+                    .btn {
+                        color: $white;
                     }
                 }
             }
         }
-        .btn{
+
+        .btn {
             box-shadow: none;
             background-color: rgba($black, 0.59);
             border: 1px solid rgba($black, 0.59);
@@ -189,55 +218,66 @@ File: scss
             border-bottom-left-radius: 0;
         }
     }
-    .control-sidebar{
+
+    .control-sidebar {
         color: $dark;
         background-color: $white;
-        +.control-sidebar-bg{
+
+        + .control-sidebar-bg {
             -webkit-box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2);
             -moz-box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2);
-            box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2); 
+            box-shadow: 0px 5px 10px 1px rgba(lighten($black, 30%), 0.2);
         }
-        .nav-tabs{
-            &.control-sidebar-tabs{
+
+        .nav-tabs {
+            &.control-sidebar-tabs {
                 border-bottom: 1px solid lighten($black, 80%);
-                >li{
-                    >a{
-                       color: $dark;
+
+                > li {
+                    > a {
+                        color: $dark;
                         border-bottom-color: lighten($black, 80%);
-                        @include hover-state{
+
+                        @include hover-state {
                             border-bottom-color: lighten($black, 80%);
                             background-color: transparent;
-                            
                         }
-                        &.active{
+
+                        &.active {
                             background-color: transparent;
-                            @include hover-state{
-                              background-color: transparent;  
+
+                            @include hover-state {
+                                background-color: transparent;
                             }
                         }
                     }
                 }
             }
         }
-        .control-sidebar-heading{
+
+        .control-sidebar-heading {
             color: $dark;
         }
-        .control-sidebar-subheading{
+
+        .control-sidebar-subheading {
             color: $dark;
         }
-        .control-sidebar-menu{
+
+        .control-sidebar-menu {
             margin-left: -14px;
-            >li{
-                >a{
-                    &:hover{
-                       background-color: $light; 
+
+            > li {
+                > a {
+                    &:hover {
+                        background-color: $light;
                     }
-                    .menu-info{
-                        >p{
-                           color: lighten($black, 40%); 
+
+                    .menu-info {
+                        > p {
+                            color: lighten($black, 40%);
                         }
                     }
-                } 
+                }
             }
         }
     }

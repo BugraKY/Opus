@@ -18,6 +18,17 @@ body {
   margin-bottom: 60px;
 }
 */
+/*Sidebar*/
+.opus-sidebar {
+    border-right: 0px solid rgba(72, 94, 144, 0.16);
+    /*background-color: #172b4c;*/
+    background-image: url('/images/sidebar.png') !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+/*Sidebar*/
+
 .center {
     display: flex;
     align-items: center;
