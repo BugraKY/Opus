@@ -1,0 +1,7 @@
+﻿==Migration commands for multiple context==
+
+1 - add-migration InitialMigration -Context AccountingDbContext
+2 - update-database -Context "AccountingDbContext"
+
+_____________________________________________________________________
+
