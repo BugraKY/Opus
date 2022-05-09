@@ -84,4 +84,12 @@ thead {
 tbody {
     font-size: 12px;
 }
+.theme-primary.light-skin .sidebar-menu > li.active {
+    background-color: rgba(0, 82, 204, 0) !important;
+    color: white !important;
+    border-left: 5px solid #2aa377 !important;
+}
+.box {
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,.21) !important;
+}
 /*temporary*/

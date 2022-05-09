@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    int s = 0;
+}
+@model IEnumerable<Opus.Models.DbModels.Accounting.Company>
+@using static Opus.Utility.ProjectConstant.Path
+@using static Opus.Utility.ProjectConstant
+
+<style>
+    @@keyframes bounceInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-2000px);
+        }
+
+        60% {
+            opacity: 1;
+            transform: translateY(30px);
+        }
+
+        80% {
+            transform: translateY(-10px);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes bounceOutUp {
+        0% {
+            transform: translateY(0);
+        }
+
+        20% {
+            opacity: 1;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(-2000px);
+        }
+    }
+
+    div.dropdown-menu.dropdown-grid {
+        transition: 0.5s;
+        animation-name: bounceOutUp
+    }
+
+        div.dropdown-menu.dropdown-grid.show {
+            transition: 0.5s;
+            animation-name: bounceInDown
+        }
+
+    .dropdown-toggle::after {
+        border-top: 0 !important;
+    }
+</style>
+<div class="container-full">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Accounting</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item" aria-current="page">Currents</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pb-10"></div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    @if (User.IsInRole(UserRoles.Admin))
+                    {
+                        <div class="box-header with-border">
+                            <h4 class="box-title">Add Company</h4>
+                            <a asp-area="Accounting" asp-controller="Company" asp-action="Add" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                        </div>
+                    }
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            s++;
+                            string DropdownStr = "dropdown" + s.ToString();
+                            var _logo = AccountingPath.Company.Root + item.Id.ToString() + AccountingPath.Company.ProfileIMG + item.ImageFile;
+                            <div class="col-3">
+                                <div class="box-body">
+                                    <div class="dropdown" style="height:100%;">
+                                        <div class="box box-inverse box-comp box-outline-success">
+                                            <a class="dropdown-toggle waves-effect waves-dark" id="@DropdownStr" style="color: white; height: 100%;z-index:999;" data-bs-toggle="dropdown">
+                                                <div class="box-body d-flex justify-content-center align-items-center" style="height:100%;">
+                                                    @*<span>@item.Name</span>*@
+                                                    <img src="@_logo" style='height: 100%; width: 100%; object-fit: contain' />
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-grid" style="margin: 20px; width:400px;" aria-labelledby="@DropdownStr">
+                                                <div class="dropdown dropdown-toggle">
+                                                    <a class="dropdown-item">
+                                                        <span class="icon fa fa-plus"></span> New Invoice
+                                                    </a>
+                                                    <div class="dropdown-menu" style="margin: 20px; width:400px;" aria-labelledby="@DropdownStr">
+                                                        <a class="dropdown-item">
+                                                            <span class="icon fa fa-plus"></span> Item-1
+                                                        </a>
+                                                        <a class="dropdown-item">
+                                                            <span class="icon fa fa-plus"></span> Item-2
+                                                        </a>
+                                                        <a class="dropdown-item">
+                                                            <span class="icon fa fa-plus"></span> Item-3
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <a class="dropdown-item">
+                                                    <span class="icon fa fa-google-wallet"></span> Current Statement
+                                                </a>
+                                                <a class="dropdown-item">
+                                                    <span class="icon fa fa-table"></span> Weekly Payments
+                                                </a>
+                                                <a class="dropdown-item" href="#@item.Id-identification">
+                                                    <span class="icon fa fa-id-card"></span> Identification
+                                                </a>
+                                                <a class="dropdown-item" href="#@item.Id-settings">
+                                                    <span class="icon fa fa-gear"></span> Settings
+                                                </a>
+                                                @*
+                                                    <a class="dropdown-item" href="#">
+                                                        <span class="icon fa fa-music"></span>
+                                                    </a>
+                                                    <a class="dropdown-item" href="#">
+                                                        <span class="icon fa fa-newspaper-o"></span>
+                                                    </a>
+                                                    <a class="dropdown-item" href="#">
+                                                        <span class="icon fa fa-book"></span>
+                                                    </a>
+                                                    <a class="dropdown-item" href="#">
+                                                        <span class="icon fa fa-download"></span>
+                                                    </a>
+                                                    <a class="dropdown-item" href="#">
+                                                        <span class="icon fa fa-gear"></span>
+                                                    </a>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+
+        });
+    </script>
+}

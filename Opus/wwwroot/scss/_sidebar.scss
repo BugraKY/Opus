@@ -4,7 +4,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding-top: $main-hed-nav;
+    /*padding-top: $main-hed-nav;*/
     min-height: 100%;
     width: $sid-bar-w;
     z-index: 810;
@@ -44,7 +44,7 @@
 }
 @include screen-md-max {
     .main-sidebar {
-        padding-top: $main-hed-nav;
+        /*padding-top: $main-hed-nav;*/
     }
 }
 @include screen-sm-max {

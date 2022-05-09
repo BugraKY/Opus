@@ -14,7 +14,9 @@ namespace Opus.Models.DbModels.Accounting
         public string Name { get; set; }
         public string TaxNo { get; set; }
         public string TaxAuthority { get; set; }
+        public string StreetAddress { get; set; }
         public string ImageFile { get; set; }
         public string Description { get; set; }
+        public int Sorting { get; set; }
     }
 }

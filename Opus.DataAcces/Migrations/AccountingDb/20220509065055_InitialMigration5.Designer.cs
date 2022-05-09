@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Opus.DataAcces.Data;
 
@@ -11,9 +12,10 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations.AccountingDb
 {
     [DbContext(typeof(AccountingDbContext))]
-    partial class AccountingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220509065055_InitialMigration5")]
+    partial class InitialMigration5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +41,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
                     b.Property<int>("Sorting")
                         .HasColumnType("int");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxAuthority")
                         .HasColumnType("nvarchar(max)");

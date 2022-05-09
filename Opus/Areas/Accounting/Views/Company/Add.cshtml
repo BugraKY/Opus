@@ -36,17 +36,24 @@
                             <hr class="my-15">
                             <div class="form-group">
                                 <label class="form-label">Company <span class="danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Company Name" asp-for="Name" required >
+                                <input type="text" class="form-control" placeholder="Company Name" asp-for="Name" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Tax Authority <span class="danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Company Name" asp-for="TaxAuthority" required >
+                                <input type="text" class="form-control" placeholder="Tax Authority" asp-for="TaxAuthority" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Tax <span class="danger">*</span></label>
                                 <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" class="form-control" placeholder="Tax Number" asp-for="TaxNo" required>
                             </div>
-
+                            <div class="form-group">
+                                <label class="form-label">Street Address <span class="danger">*</span></label>
+                                <textarea rows="5" class="form-control" placeholder="Street Address" style="height: 111px;" asp-for="StreetAddress" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea rows="5" class="form-control" placeholder="Description" style="height: 111px;" asp-for="Description"></textarea>
+                            </div>
                             <div class="form-group">
                                 <div class="mb-3">
                                     <label for="logo_comp" class="form-label">Company Logo <span class="danger">*</span></label>
@@ -56,14 +63,10 @@
                                     <img id="img_comp" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Description</label>
-                                <textarea rows="5" class="form-control" placeholder="Description" style="height: 111px;" asp-for="Description"></textarea>
-                            </div>
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            <a type="button" class="btn btn-warning me-1" asp-area="Accounting" asp-controller="Company" asp-action="Index">
+                            <a type="button" class="btn btn-warning me-1" asp-area="Accounting" asp-controller="Current" asp-action="Index">
                                 <i class="ti-trash"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary">

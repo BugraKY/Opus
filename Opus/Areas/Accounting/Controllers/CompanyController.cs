@@ -23,7 +23,7 @@ namespace Opus.Areas.Accounting.Controllers
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accounting)]
         public IActionResult Index()
         {
-            var companies = _uow.Accounting_Company.GetAll();
+            var companies = _uow.Accounting_Company.GetAll().OrderBy(s=>s.Sorting);
             return View(companies);
         }
         [Route("accounting/add-comp")]
@@ -47,6 +47,7 @@ namespace Opus.Areas.Accounting.Controllers
                     Name = comp.Name,
                     TaxNo = comp.TaxNo,
                     TaxAuthority = comp.TaxAuthority,
+                    Sorting=0
                 };
                 _uow.Accounting_Company.Add(_company);
 
