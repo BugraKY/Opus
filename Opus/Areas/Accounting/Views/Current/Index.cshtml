@@ -57,8 +57,23 @@
     .dropdown-toggle::after {
         border-top: 0 !important;
     }
+
+    .dropdown-submenu {
+        position: absolute;
+    }
+    a:hover {
+        color:#2aa377 !important;
+    }
+    a.dropdown-item {
+        transition: 1s !important;
+    }
+        a.dropdown-item:hover {
+            transition: 1s !important;
+            background: #e8e8e8 !important;
+            box-shadow: 0 1px 5px 0 rgb(0 0 0 / 21%) !important;
+        }
 </style>
-<div class="container-full">
+<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onmousedown='return false;' onselectstart='return false;' style="white-space:nowrap">
     <!-- Content Header (Page header) -->
     <div class="content-header">
 
@@ -108,33 +123,31 @@
                                                 </div>
                                             </a>
                                             <div class="dropdown-menu dropdown-grid" style="margin: 20px; width:400px;" aria-labelledby="@DropdownStr">
-                                                <div class="dropdown dropdown-toggle">
-                                                    <a class="dropdown-item">
-                                                        <span class="icon fa fa-plus"></span> New Invoice
-                                                    </a>
-                                                    <div class="dropdown-menu" style="margin: 20px; width:400px;" aria-labelledby="@DropdownStr">
-                                                        <a class="dropdown-item">
-                                                            <span class="icon fa fa-plus"></span> Item-1
+                                                <div class="dropdown-item" id="submenu">
+                                                    <span class="icon fa fa-plus"></span> <label>New Invoice</label>
+                                                    <div class="dropdown-menu dropdown-submenu" style="margin-top: -100px; width:100px;" aria-labelledby="@DropdownStr">
+                                                        <a class="dropdown-item" href="#@item.Id-buying">
+                                                            <span class="icon fa fa-plus"></span> Buying
                                                         </a>
-                                                        <a class="dropdown-item">
-                                                            <span class="icon fa fa-plus"></span> Item-2
+                                                        <a class="dropdown-item" href="#@item.Id-sales">
+                                                            <span class="icon fa fa-plus"></span> Sales
                                                         </a>
-                                                        <a class="dropdown-item">
-                                                            <span class="icon fa fa-plus"></span> Item-3
+                                                        <a class="dropdown-item" href="#@item.Id-payment">
+                                                            <span class="icon fa fa-plus"></span> Payment
                                                         </a>
                                                     </div>
                                                 </div>
-                                                <a class="dropdown-item">
+                                                <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-current">
                                                     <span class="icon fa fa-google-wallet"></span> Current Statement
                                                 </a>
-                                                <a class="dropdown-item">
+                                                <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-payments-report">
                                                     <span class="icon fa fa-table"></span> Weekly Payments
                                                 </a>
-                                                <a class="dropdown-item" href="#@item.Id-identification">
+                                                <a class="dropdown-item waves-effect waves-dark" href="/accounting/ids/@item.Id">
                                                     <span class="icon fa fa-id-card"></span> Identification
                                                 </a>
-                                                <a class="dropdown-item" href="#@item.Id-settings">
-                                                    <span class="icon fa fa-gear"></span> Settings
+                                                <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-settings">
+                                                    <span class="icon fa fa-info"></span> Information
                                                 </a>
                                                 @*
                                                     <a class="dropdown-item" href="#">
@@ -170,6 +183,18 @@
     <script>
         $(document).ready(function () {
 
+            $(".dropdown-toggle").click(function () {
+                $('#div#submenu').show("slide", { direction: "right" }, 1000);
+            });
+            
+            $("div#submenu").hover(function (e) {
+                e.stopPropagation();
+                /*$(this).fadeOut(100);
+                $(this).fadeIn(500);*/
+                console.log("hovered");
+                $(this).parent().find(".dropdown-menu").toggle();
+
+            });
 
         });
     </script>

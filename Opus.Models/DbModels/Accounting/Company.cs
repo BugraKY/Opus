@@ -18,5 +18,6 @@ namespace Opus.Models.DbModels.Accounting
         public string ImageFile { get; set; }
         public string Description { get; set; }
         public int Sorting { get; set; }
+        //public bool Active { get; set; }
     }
 }
