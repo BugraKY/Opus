@@ -26,14 +26,6 @@ namespace Opus.Areas.HR.Controllers
         [Route("staff")]
         public IActionResult Index()
         {
-            //var staffs = _uow.Staff.GetAll();
-            /*
-            foreach (var item in staffs)
-            {
-                item.Guid=Guid.NewGuid().ToString();
-                _uow.Staff.Update(item);
-                _uow.Save();
-            }*/
             if (GetClaim() != null)
             {
                 var _appUser = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
@@ -77,6 +69,8 @@ namespace Opus.Areas.HR.Controllers
                 .Where(i => (i.staffs.Active && i.staffs.Status == 0) || (i.staffs.Active == false && i.staffs.Status == 1) && i.staffs.BlackList == false)
                 .Select(s => s.staffs)
                 .OrderBy(n => n.FirstName);
+
+
 
 
             return View(orn);
@@ -284,7 +278,6 @@ namespace Opus.Areas.HR.Controllers
                 };
                 _uow.Staff.Update(_staff);
             }
-
             if (_staffVM.StaffEquipmentEnumerable != null)
             {
                 foreach (var item in _staffVM.StaffEquipmentEnumerable)

@@ -8,6 +8,14 @@
         pointer-events: none;
         cursor: default;
     }
+    .modal.modal-fill {
+        background: none !important;
+        -webkit-backdrop-filter: blur(5px);
+        backdrop-filter: blur(5px);
+    }
+    .modal-content {
+        border-radius: 10px;
+    }
     /*
     .bank-icon {
         background: #fff url("../images/search.jpg") no-repeat;
@@ -308,11 +316,11 @@
                                                 <hr class="my-15">
                                                 <div class="form-group">
                                                     <label class="form-label">Contact Number 2:</label>
-                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumber">
+                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" asp-for="PhoneNumber">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Contact Number 3:</label>
-                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="PhoneNumberSec">
+                                                    <input type="text" class="form-control" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" asp-for="PhoneNumberSec">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Blood Group  <span class="danger">*</span></label>
@@ -1145,7 +1153,7 @@
                 </div>
 
                 <div class="d-flex align-content-end justify-content-end pt-10">
-                    <button class="btn btn-primary" style="margin-right:30px;" type="button" disabled>
+                    <button class="btn btn-primary" style="margin-right:30px;" type="button" data-bs-toggle="modal" data-bs-target="#modal-fill">
                         Exit
                     </button>
                     <button class="btn btn-primary">
@@ -1159,6 +1167,29 @@
     <!-- /.box -->
 </div>
 <!-- /.col -->
+
+
+<!-- Modal -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-fill" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Exit - @Model.FirstName @Model.LastName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Your content comes here</p>
+                <br><br><br><br><br><br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary float-end">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+
 
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
