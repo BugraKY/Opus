@@ -85,13 +85,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Name <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Name" asp-for="FirstName" value="Ahmet">
+                                                            <input type="text" class="form-control " placeholder="Name" asp-for="FirstName">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Surname <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Surname" asp-for="LastName" value="Karaca">
+                                                            <input type="text" class="form-control " placeholder="Surname" asp-for="LastName">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -99,7 +99,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">GSM <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber" value="5356541452">
+                                                            <input type="text" class="form-control" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="'mask':[ '(999) 999-9999']" asp-for="MobileNumber">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -169,13 +169,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 (TN-E) Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" id="d2-tne" step="1" asp-for="TestD2_TNE" value="2">
+                                                            <input type="number" class="form-control" placeholder="D2 Test Sonucu" id="d2-tne" asp-for="TestD2_TNE_STR" max="100" step="0.01" value="0">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 (E) Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" id="d2-e" step="0.1" asp-for="TestD2_E" value="3">
+                                                            <input type="number" class="form-control" placeholder="MSA Test Sonucu" id="d2-e" asp-for="TestD2_E_STR" max="100" step="0.01" value="0">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,7 +198,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Current Salary</label>
-                                                            <input type="number" class="form-control" placeholder="Güncel Maaş" value="2800.00" asp-for="CurrentSalary">
+                                                            <input type="number" class="form-control" placeholder="Güncel Maaş" value="0" asp-for="CurrentSalary" disabled>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -387,7 +387,7 @@
                                                     <option value="-1" selected="selected" hidden>Select Product</option>
                                                     @foreach (var item in Model.Products)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                    <option value="@item.Id">@item.Name</option>
                                                     }
                                                 </select>
                                             </div>
@@ -635,11 +635,11 @@
     @*<script src="~/js/ajax-requests.js"></script>*@
     <script>
         $(document).ready(function () {/*
-                        $(':a').prop('disabled', true);
-                        $(':button').prop('disabled', true);
-                        console.log("add Script has been load");
-                        $('.selectpicker').selectpicker();
-                        */
+                            $(':a').prop('disabled', true);
+                            $(':button').prop('disabled', true);
+                            console.log("add Script has been load");
+                            $('.selectpicker').selectpicker();
+                            */
             $("#idnum").on('input', function () {
                 var idval = $("#idnum").val();
                 var _leng = $('#idnum').val().length;
@@ -649,19 +649,23 @@
                 }
             });
 
-
             $('#d2-tne').change(function (val) {
-                console.log("TNE Value: " + val.currentTarget.value);
+
+
+                if (val.currentTarget.value > 100)
+                    $(this).val(100);
+
+
                 if (val.currentTarget.value > 85) {
                     $('#d2-tne').addClass("bb-5 border-info");
                     $('#d2-tne').removeClass("border-critical");
                     //$('#d2-tne').removeClass("border-warning");
                 }/*
-                    else if (val.currentTarget.value < 70) {
-                        $('#d2-tne').addClass("bb-5 border-warning");
-                        $('#d2-tne').removeClass("border-critical");
-                        $('#d2-tne').removeClass("border-info");
-                    }*/
+                        else if (val.currentTarget.value < 70) {
+                            $('#d2-tne').addClass("bb-5 border-warning");
+                            $('#d2-tne').removeClass("border-critical");
+                            $('#d2-tne').removeClass("border-info");
+                        }*/
                 else {
                     $('#d2-tne').addClass("bb-5 border-critical");
                     //$('#d2-tne').removeClass("border-warning");
@@ -669,64 +673,96 @@
                 }
             });
             $('#d2-e').change(function (val) {
+                if (val.currentTarget.value > 100)
+                    $(this).val(100);
                 console.log("E Value: " + val.currentTarget.value);
                 if (val.currentTarget.value < 5) {
                     $('#d2-e').addClass("bb-5 border-info");
                     $('#d2-e').removeClass("border-critical");
                     //$('#d2-e').removeClass("border-warning");
                 }/*
-                    else if (val.currentTarget.value < 70) {
-                        $('#d2-e').addClass("bb-5 border-warning");
-                        $('#d2-e').removeClass("border-critical");
-                        $('#d2-e').removeClass("border-info");
-                    }*/
+                        else if (val.currentTarget.value < 70) {
+                            $('#d2-e').addClass("bb-5 border-warning");
+                            $('#d2-e').removeClass("border-critical");
+                            $('#d2-e').removeClass("border-info");
+                        }*/
                 else {
                     $('#d2-e').addClass("bb-5 border-critical");
                     //$('#d2-e').removeClass("border-warning");
                     $('#d2-e').removeClass("border-info");
                 }
             });
-            $('input[id=IBAN]').change(function (ev) {
+            $('input[id=IBAN]').on('input', function (ev) {
+                var countLetters = 0;
                 const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
                 const iban = ev.target.value;
-                console.log(bankCode);
-                if (iban.length > 31) {
-                    $.ajax({
-                        url: '/api/getbank/' + bankCode + '/' + iban,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (res) {
-                            //console.log(JSON.stringify(res.url));
-                            if (res == null) {
-                                $('input[id=IBAN]').addClass("bb-3 border-danger");
-                                $('input[id=IBAN]').removeClass("border-info");
 
-                                $('#bank_logo').attr('src', '');
-                                $('#bank_logo').addClass("d-none");
-                                $('#bank_name').addClass("d-none");
-                            }
-                            else {
-                                $('input[id=IBAN]').addClass("bb-3 border-info");
-                                $('input[id=IBAN]').removeClass("border-danger");
-                                if (res.url == null) {
+                for (var i = 0; i < iban.length; i++) {
+                    var c = iban.charAt(i);
+                    if (c != '_') {
+                        countLetters++;
+                    }
+                }
+                console.log(countLetters);
+
+                if (countLetters < 32) {
+                    $('input[id=IBAN]').addClass("bb-3 border-danger");
+                    $('input[id=IBAN]').removeClass("border-info");
+                    $('.bank-icon').css('background', 'none');
+                    $('#bank_name').html("");
+                }
+                else {
+                    if (countLetters == 32) {
+                        $.ajax({
+                            url: '/api/getbank/' + bankCode + '/' + iban,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function (res) {
+                                var url_back = ``;
+                                if (typeof res.url !== "undefined")
+                                    url_back = `url("` + res.url + `") no-repeat right`;
+
+                                if (res == null) {
+                                    $('input[id=IBAN]').addClass("bb-3 border-danger");
+                                    $('input[id=IBAN]').removeClass("border-info");
+
                                     $('#bank_logo').attr('src', '');
                                     $('#bank_logo').addClass("d-none");
-                                    $('#bank_name').removeClass("d-none");
-                                    $('#bank_name').html(res.name);
-                                } else {
-                                    $('#bank_logo').removeClass("d-none");
                                     $('#bank_name').addClass("d-none");
-                                    $('#bank_logo').attr('src', res.url);
+                                    //$('.bank-icon').css('background', 'none');
                                 }
+                                else {
+                                    console.log(res);
+                                    $('input[id=IBAN]').addClass("bb-3 border-info");
+                                    $('input[id=IBAN]').removeClass("border-danger");
+                                    if (res.url == null || res.url == '' || typeof res.url == "undefined") {
+                                        $('#bank_logo').attr('src', '');
+                                        $('#bank_logo').addClass("d-none");
+                                        $('#bank_name').removeClass("d-none");
+                                        $('#bank_name').html("");
+                                        //$('.bank-icon').css('background', 'none');
+                                    } else {
+                                        $('#bank_logo').removeClass("d-none");
+                                        $('#bank_name').addClass("d-none");
+                                        //$('#bank_logo').attr('src', res.url);
+                                        $('.bank-icon').css('background', url_back);
+                                        $('.bank-icon').css('background-position', 'right center!important');
+                                        $('.bank-icon').css('background-size', 'auto 20%');
+                                        $('.bank-icon').css('background-right', '50px');
+                                        $('#bank-name').html(res.name);
 
+
+                                    }
+
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+
                 }
 
 
             });
-            //$('#d2-e').val();
 
 
             $('input[id=Files_Identity]').change(function (ev) {

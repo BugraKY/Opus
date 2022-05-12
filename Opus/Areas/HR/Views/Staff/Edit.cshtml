@@ -105,7 +105,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">GSM <span class="danger">*</span></label>
-                                                            <input data-rule-minlength="2" type="text" class="form-control" data-inputmask="'mask':[ '(999) 999-9999']" data-mask="" asp-for="MobileNumber" value="@Model.MobileNumber">
+                                                            <input data-rule-minlength="2" type="text" class="form-control" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" asp-for="MobileNumber" value="@Model.MobileNumber">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -202,14 +202,14 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="form-label">D2 (TNE) Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 (TNE) Test Result" asp-for="TestD2_TNE_STR" value="@Model.TestD2_TNE.ToString().Replace(',','.')" step="0.01">
+                                                            <label class="form-label">D2 (TN-E) Test Result</label>
+                                                            <input type="number" class="form-control" placeholder="D2 (TNE) Test Result" asp-for="TestD2_TNE_STR" value="@Model.TestD2_TNE.ToString().Replace(',','.')" max="100" step="0.01">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">D2 (E) Test Result</label>
-                                                            <input type="number" class="form-control" placeholder="D2 (E) Test Result" asp-for="TestD2_E_STR" value="@Model.TestD2_E.ToString().Replace(',','.')" step="0.01">
+                                                            <input type="number" class="form-control" placeholder="D2 (E) Test Result" asp-for="TestD2_E_STR" value="@Model.TestD2_E.ToString().Replace(',','.')" max="100" step="0.01">
                                                         </div>
                                                     </div>
                                                 </div>

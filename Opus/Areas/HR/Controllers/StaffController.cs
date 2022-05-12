@@ -184,6 +184,17 @@ namespace Opus.Areas.HR.Controllers
         [HttpPost("staff/updating")]
         public IActionResult Update(StaffVM _staffVM)
         {
+
+            if (_staffVM.TestD2_TNE_STR == null)
+                _staffVM.TestD2_E = 0;
+            else
+                _staffVM.TestD2_TNE = float.Parse(_staffVM.TestD2_TNE_STR.Replace('.', ','));
+            if (_staffVM.TestD2_E_STR == null)
+                _staffVM.TestD2_E = 0;
+            else
+                _staffVM.TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ','));
+
+
             //return NoContent();
             string webRootPath = _hostEnvironment.WebRootPath;
             if (_staffVM.Files != null)
@@ -228,15 +239,15 @@ namespace Opus.Areas.HR.Controllers
                     PhoneNumberSec = _staffVM.PhoneNumberSec,
                     RegistrationNumber = _staffVM.RegistrationNumber,
                     //TestD2_TNE = _staffVM.TestD2_TNE,
-                    TestD2_TNE = float.Parse(_staffVM.TestD2_TNE_STR.Replace('.', ',')),
-                    TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ',')),
+                    TestD2_TNE = _staffVM.TestD2_TNE,
+                    TestD2_E = _staffVM.TestD2_E,
                     WhiteCollarWorker = _staffVM.WhiteCollarWorker
                 };
                 _uow.Staff.Update(_staff);
             }
             else
             {
-                var imageFıle = _uow.Staff.GetFirstOrDefault(i => i.Guid == _staffVM.Guid).ImageFile;
+                var imageFile = _uow.Staff.GetFirstOrDefault(i => i.Guid == _staffVM.Guid).ImageFile;
                 var _staff = new Staff()
                 {
                     Id = _staffVM.Id,
@@ -267,8 +278,8 @@ namespace Opus.Areas.HR.Controllers
                     PhoneNumber = _staffVM.PhoneNumber,
                     PhoneNumberSec = _staffVM.PhoneNumberSec,
                     RegistrationNumber = _staffVM.RegistrationNumber,
-                    TestD2_TNE = float.Parse(_staffVM.TestD2_TNE_STR.Replace('.', ',')),
-                    TestD2_E = float.Parse(_staffVM.TestD2_E_STR.Replace('.', ',')),
+                    TestD2_TNE = _staffVM.TestD2_TNE,
+                    TestD2_E = _staffVM.TestD2_E,
                     WhiteCollarWorker = _staffVM.WhiteCollarWorker
                 };
                 _uow.Staff.Update(_staff);
@@ -326,54 +337,105 @@ namespace Opus.Areas.HR.Controllers
         [HttpPost("staff/add")]
         public async Task<IActionResult> AddAsync(StaffVM staffVm)
         {
-            var test = staffVm.TestD2_E;
-            //var files = staffVm.Files;
+            if (staffVm.TestD2_TNE_STR == null)
+                staffVm.TestD2_E = 0;
+            else
+                staffVm.TestD2_TNE = float.Parse(staffVm.TestD2_TNE_STR.Replace('.', ','));
+            if (staffVm.TestD2_E_STR == null)
+                staffVm.TestD2_E = 0;
+            else
+                staffVm.TestD2_E = float.Parse(staffVm.TestD2_E_STR.Replace('.', ','));
+
+            return NoContent();
             string webRootPath = _hostEnvironment.WebRootPath;
-            Staff staffItem=new Staff();
+            Staff staffItem = new Staff();
             int staffId = 0;
             string StaffUid = "";
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             List<FamilyMembers> _familyMembers = new List<FamilyMembers>();
-            //return NoContent ();
-            if(staffVm.Files != null)
+
+            if (staffVm.Files != null)
             {
-                var _staff = new Staff()
+                if (staffVm.Files.ImageFile == null)
                 {
-                    Active = true,
-                    IBAN = staffVm.IBAN,
-                    StreetAddress = staffVm.StreetAddress,
-                    TestD2_TNE = staffVm.TestD2_TNE,
-                    TestD2_E = staffVm.TestD2_E,
-                    BirthPlace = staffVm.BirthPlace,
-                    BlackList = staffVm.BlackList,
-                    BloodTypeId = staffVm.BloodTypeId,
-                    CountryId = staffVm.CountryId,
-                    CurrentSalary = staffVm.CurrentSalary,
-                    DateOfBirth = staffVm.DateOfBirth,
-                    DateOfEntry = staffVm.DateOfEntry,
-                    DateOfQuit = staffVm.DateOfQuit,
-                    Degree = staffVm.Degree,
-                    EducationalStatus = staffVm.EducationalStatus,
-                    FatherName = staffVm.FatherName,
-                    FirstName = staffVm.FirstName,
-                    LastName = staffVm.LastName,
-                    IdentityNumber = staffVm.IdentityNumber,
-                    ImageFile = staffVm.Files.ImageFile.FileName,
-                    MaritalStatusId = staffVm.MaritalStatusId,
-                    MobileNumber = staffVm.MobileNumber,
-                    MotherName = staffVm.MotherName,
-                    NumberOfChildren = staffVm.NumberOfChildren,
-                    PhoneNumber = staffVm.PhoneNumber,
-                    PhoneNumberSec = staffVm.PhoneNumberSec,
-                    RegistrationNumber = staffVm.RegistrationNumber,
-                    Status = staffVm.Status,
-                    WhiteCollarWorker = staffVm.WhiteCollarWorker,
-                    Guid = Guid.NewGuid().ToString()
-                };
-                _uow.Staff.Add(_staff);
-                staffId = _staff.Id;
-                StaffUid = _staff.Guid;
+                    var _staff = new Staff()
+                    {
+                        Active = true,
+                        IBAN = staffVm.IBAN,
+                        StreetAddress = staffVm.StreetAddress,
+                        TestD2_TNE = staffVm.TestD2_TNE,
+                        TestD2_E = staffVm.TestD2_E,
+                        BirthPlace = staffVm.BirthPlace,
+                        BlackList = staffVm.BlackList,
+                        BloodTypeId = staffVm.BloodTypeId,
+                        CountryId = staffVm.CountryId,
+                        CurrentSalary = staffVm.CurrentSalary,
+                        DateOfBirth = staffVm.DateOfBirth,
+                        DateOfEntry = staffVm.DateOfEntry,
+                        DateOfQuit = staffVm.DateOfQuit,
+                        Degree = staffVm.Degree,
+                        EducationalStatus = staffVm.EducationalStatus,
+                        FatherName = staffVm.FatherName,
+                        FirstName = staffVm.FirstName,
+                        LastName = staffVm.LastName,
+                        IdentityNumber = staffVm.IdentityNumber,
+                        MaritalStatusId = staffVm.MaritalStatusId,
+                        MobileNumber = staffVm.MobileNumber,
+                        MotherName = staffVm.MotherName,
+                        NumberOfChildren = staffVm.NumberOfChildren,
+                        PhoneNumber = staffVm.PhoneNumber,
+                        PhoneNumberSec = staffVm.PhoneNumberSec,
+                        RegistrationNumber = staffVm.RegistrationNumber,
+                        Status = staffVm.Status,
+                        WhiteCollarWorker = staffVm.WhiteCollarWorker,
+                        Guid = Guid.NewGuid().ToString()
+                    };
+                    _uow.Staff.Add(_staff);
+                    _uow.Save();
+                    staffId = _staff.Id;
+                    StaffUid = _staff.Guid;
+                }
+                else
+                {
+                    var _staff = new Staff()
+                    {
+                        Active = true,
+                        IBAN = staffVm.IBAN,
+                        StreetAddress = staffVm.StreetAddress,
+                        TestD2_TNE = staffVm.TestD2_TNE,
+                        TestD2_E = staffVm.TestD2_E,
+                        BirthPlace = staffVm.BirthPlace,
+                        BlackList = staffVm.BlackList,
+                        BloodTypeId = staffVm.BloodTypeId,
+                        CountryId = staffVm.CountryId,
+                        CurrentSalary = staffVm.CurrentSalary,
+                        DateOfBirth = staffVm.DateOfBirth,
+                        DateOfEntry = staffVm.DateOfEntry,
+                        DateOfQuit = staffVm.DateOfQuit,
+                        Degree = staffVm.Degree,
+                        EducationalStatus = staffVm.EducationalStatus,
+                        FatherName = staffVm.FatherName,
+                        FirstName = staffVm.FirstName,
+                        LastName = staffVm.LastName,
+                        IdentityNumber = staffVm.IdentityNumber,
+                        ImageFile = staffVm.Files.ImageFile.FileName,
+                        MaritalStatusId = staffVm.MaritalStatusId,
+                        MobileNumber = staffVm.MobileNumber,
+                        MotherName = staffVm.MotherName,
+                        NumberOfChildren = staffVm.NumberOfChildren,
+                        PhoneNumber = staffVm.PhoneNumber,
+                        PhoneNumberSec = staffVm.PhoneNumberSec,
+                        RegistrationNumber = staffVm.RegistrationNumber,
+                        Status = staffVm.Status,
+                        WhiteCollarWorker = staffVm.WhiteCollarWorker,
+                        Guid = Guid.NewGuid().ToString()
+                    };
+                    _uow.Staff.Add(_staff);
+                    _uow.Save();
+                    staffId = _staff.Id;
+                    StaffUid = _staff.Guid;
+                }
             }
             else
             {
@@ -410,11 +472,10 @@ namespace Opus.Areas.HR.Controllers
                     Guid = Guid.NewGuid().ToString()
                 };
                 _uow.Staff.Add(_staff);
+                _uow.Save();
                 staffId = _staff.Id;
                 StaffUid = _staff.Guid;
             }
-
-            _uow.Save();
             int i = 0;
             try
             {
@@ -444,9 +505,9 @@ namespace Opus.Areas.HR.Controllers
             }
             try
             {
-                if (staffVm.FamilyMembers!=null)
+                if (staffVm.FamilyMembers != null)
                 {
-                    if(staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
+                    if (staffVm.FamilyMembers.FamilyRelationshipId.Count() > 0)
                     {
                         foreach (var item in staffVm.FamilyMembers.IdentityNumber)
                         {
@@ -499,7 +560,7 @@ namespace Opus.Areas.HR.Controllers
             #region Authentication
             if (GetClaim() != null)
             {
-                return Redirect("/staff/edit/" +StaffUid);//Go Dashboard
+                return Redirect("/staff/edit/" + StaffUid);//Go Dashboard
             }
             return Content("ERROR - 500 (AddStaff)");
             #endregion Authentication
