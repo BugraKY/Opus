@@ -119,13 +119,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Place of Birth  <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace" value="Üsküdar">
+                                                            <input type="text" class="form-control " placeholder="Doğum Yeri" asp-for="BirthPlace" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Date of Birth <span class="danger">*</span></label>
-                                                            <input type="date" class="form-control" asp-for="DateOfBirth" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                                            <input type="date" class="form-control" asp-for="DateOfBirth" value="DD/MM/YYYY" required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -133,13 +133,13 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Mother Name <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName" value="mother-name">
+                                                            <input type="text" class="form-control " placeholder="Mother Name" asp-for="MotherName" required />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Fathers Name <span class="danger">*</span></label>
-                                                            <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName" value="father-name">
+                                                            <input type="text" class="form-control " placeholder="Fathers Name" asp-for="FatherName" required />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,23 +147,23 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Marital Status <span class="danger">*</span></label>
-                                                            <select class="form-select " asp-for="MaritalStatusId">
-                                                                <option value="" selected="selected">Select</option>
-                                                                <option value="1">Married</option>
+                                                            <select class="form-select " asp-for="MaritalStatusId" required>
+                                                                @*<option selected>Select</option>*@
                                                                 <option value="0">Single</option>
+                                                                <option value="1">Married</option>
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label class="form-label">Identity Number <span class="danger">*</span></label>
-                                                            <input id="idnum" type="number" class="form-control " placeholder="Kimlik" asp-for="IdentityNumber" value="68465416846" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" />
+                                                            <input id="idnum" type="number" class="form-control " placeholder="Identity Number" asp-for="IdentityNumber" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="11" required/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label">Number of Children <span class="danger">*</span></label>
-                                                    <input type="number" class="form-control " placeholder="Çocuk Sayısı" asp-for="NumberOfChildren" value="1">
+                                                    <input type="number" class="form-control " placeholder="Number of children" asp-for="NumberOfChildren" value="0">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -283,8 +283,8 @@
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label">Address <span class="danger">*</span></label>
-                                                    <textarea rows="4" class="form-control " placeholder="Address" asp-for="StreetAddress"></textarea>
+                                                    <label class="form-label">Street Address <span class="danger">*</span></label>
+                                                    <textarea rows="4" class="form-control " placeholder="Street Address" asp-for="StreetAddress" required></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -387,7 +387,7 @@
                                                     <option value="-1" selected="selected" hidden>Select Product</option>
                                                     @foreach (var item in Model.Products)
                                                     {
-                                                    <option value="@item.Id">@item.Name</option>
+                                                        <option value="@item.Id">@item.Name</option>
                                                     }
                                                 </select>
                                             </div>
@@ -635,11 +635,11 @@
     @*<script src="~/js/ajax-requests.js"></script>*@
     <script>
         $(document).ready(function () {/*
-                            $(':a').prop('disabled', true);
-                            $(':button').prop('disabled', true);
-                            console.log("add Script has been load");
-                            $('.selectpicker').selectpicker();
-                            */
+                                $(':a').prop('disabled', true);
+                                $(':button').prop('disabled', true);
+                                console.log("add Script has been load");
+                                $('.selectpicker').selectpicker();
+                                */
             $("#idnum").on('input', function () {
                 var idval = $("#idnum").val();
                 var _leng = $('#idnum').val().length;
@@ -661,11 +661,11 @@
                     $('#d2-tne').removeClass("border-critical");
                     //$('#d2-tne').removeClass("border-warning");
                 }/*
-                        else if (val.currentTarget.value < 70) {
-                            $('#d2-tne').addClass("bb-5 border-warning");
-                            $('#d2-tne').removeClass("border-critical");
-                            $('#d2-tne').removeClass("border-info");
-                        }*/
+                            else if (val.currentTarget.value < 70) {
+                                $('#d2-tne').addClass("bb-5 border-warning");
+                                $('#d2-tne').removeClass("border-critical");
+                                $('#d2-tne').removeClass("border-info");
+                            }*/
                 else {
                     $('#d2-tne').addClass("bb-5 border-critical");
                     //$('#d2-tne').removeClass("border-warning");
@@ -681,11 +681,11 @@
                     $('#d2-e').removeClass("border-critical");
                     //$('#d2-e').removeClass("border-warning");
                 }/*
-                        else if (val.currentTarget.value < 70) {
-                            $('#d2-e').addClass("bb-5 border-warning");
-                            $('#d2-e').removeClass("border-critical");
-                            $('#d2-e').removeClass("border-info");
-                        }*/
+                            else if (val.currentTarget.value < 70) {
+                                $('#d2-e').addClass("bb-5 border-warning");
+                                $('#d2-e').removeClass("border-critical");
+                                $('#d2-e').removeClass("border-info");
+                            }*/
                 else {
                     $('#d2-e').addClass("bb-5 border-critical");
                     //$('#d2-e').removeClass("border-warning");
