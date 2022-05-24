@@ -11,7 +11,7 @@ namespace Opus.Models.DbModels.Accounting
     {
         [Key]
         public Guid Id { get; set; }
-        public string Identity { get; set; }//exm: supp
+        public string Identity { get; set; }//exm: supp-en0005871
         public string Name { get; set; }//exm: Supplier - Customer
     }
 }

@@ -3,78 +3,257 @@
 *@
 @{
 }
-@model Opus.Models.DbModels.Accounting.Company
+@model Opus.Models.ViewModels.Accounting.IdentificatiınIndexVM
 <style>
     div.btn-group.bootstrap-select.mb-20.me-10 {
         max-width: 400px;
     }
+
+    .form-select {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 1rem;
+        font-size: 1rem;
+        max-width: 400px;
+        background-color: #2aa377;
+        color: white;
+        border: 1px solid #ccc !important;
+        text-indent: 5px !important;
+        /*box-shadow: 0 1px 5px 0 rgba(0,0,0,.21) !important;*/
+    }
+
+        .form-select:hover {
+            transition: 1s;
+        }
+
+        .form-select option {
+            background-color: rebeccapurple;
+            height: 40px !important;
+        }
+
+    option.selected {
+        background-color: red !important;
+        margin: 15px !important;
+    }
+
+    .sel-img {
+        height: 20px;
+        object-fit: cover;
+    }
+
+    .input-col {
+        max-width: 400px;
+    }
 </style>
 <div class="container-full">
-    <div class="content-header">
-        <div class="d-flex align-items-center">
-            <div class="me-auto">
-                <h3 class="page-title">Identifications</h3>
-                <div class="d-inline-block align-items-center">
-                    <nav>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item"><a asp-controller="Current" asp-action="Index">Companies</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">@Model.Name - Identification</li>
-                        </ol>
-                    </nav>
+    <form method="get">
+        <div class="content-header">
+            <div class="d-flex align-items-center">
+                <div class="me-auto">
+                    <h3 class="page-title">Identifications</h3>
+                    <div class="d-inline-block align-items-center">
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item"><a asp-controller="Current" asp-action="Index">Companies</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@Model.CompanyItem.Name - Identification</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
+
             </div>
-
         </div>
-    </div>
-    <section class="content">
+        <section class="content">
 
-        <div class="box">
-            <div class="box-header">
-                <div class="row">
+            <div class="box">
+                <div class="box-header">
                     <div class="row">
-                        <div class="col-2">
-                            <h5 class="my-10">Company</h5>
-                        </div>
-                        <div class="col-10">
-                            
-                            <div id="companies">
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Company</h5>
+                            </div>
+                            <div class="col-10">
+                                @*
+                                    <div id="companies">
+
+                                    </div>*@
+                                <div id="select-comp">
+                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="company">
+                                        <!--selectpicker-->
+                                        @*
+                                            <option data-tokens="Lorem">Sed posuere metus vel maximus fringilla.</option>
+                                            <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
+                                            <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
+                                        *@
+                                        @foreach (var item in Model.Companies)
+                                        {
+                                            if (item.Id == Model.CompanyItem.Id)
+                                            {
+                                                <option data-content="<img class='sel-img' src='/assets/accounting/company/@item.Id/img/@item.ImageFile'></img> @item.Name" value="@item.Id" selected></option>
+                                            }
+                                            else
+                                            {
+                                                <option data-content="<img class='sel-img' src='/assets/accounting/company/@item.Id/img/@item.ImageFile'></img> @item.Name" value="@item.Id"></option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
 
                             </div>
-                            @*
-                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="comps">
-
-                                <option data-tokens="Lorem">Sed posuere metus vel maximus fringilla.</option>
-                                <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
-                                <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
-                            </select>*@
-                            
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-2">
-                        <h5 class="my-10">Definition</h5>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <h5 class="my-10">Definition</h5>
+                        </div>
+                        <div class="col-10">
+                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition" required>
+                                <option value="" selected disabled class="d-none">Select</option>
+                                <option value="1">Supplier</option>
+                                <option value="2">Customer</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-10">
+                    <div class="row pb-20">
+                        <div class="col-2">
+                            <h5 class="my-10">Code: </h5>
+                        </div>
+                        <div class="col-10">
+                            <input class="form-control input-col" id="code" type="text" disabled />
+                        </div>
+                    </div>
 
-                        <select class="selectpicker mb-20 me-10" data-style="btn-white">
-                            <option data-tokens="1">Supplier</option>
-                            <option data-tokens="2">Customer</option>
-                        </select>
 
+                    <div class="row">
+                        <div class="col-2">
+                            <h5 class="my-10">Commercial Title: </h5>
+                        </div>
+                        <div class="col-10">
+                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
+                                <option value="" selected disabled class="d-none">Select</option>
+                                <option value="1">Şahıs</option>
+                                <option value="2">LTD</option>
+                                <option value="3">AŞ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row pb-20">
+                        <div class="col-2">
+                            <h5 class="my-10">Street Address: </h5>
+                        </div>
+                        <div class="col-10">
+                            <textarea class="form-control input-col" placeholder="Street Address"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row pb-15">
+                        <div class="col-2">
+                            <h5 class="my-10">Tax Authority: </h5>
+                        </div>
+                        <div class="col-10">
+                            <input class="form-control input-col" type="text" placeholder="Tax Authority" />
+                        </div>
+                    </div>
+
+                    <div class="row pb-15">
+                        <div class="col-2">
+                            <h5 class="my-10">Tax No: </h5>
+                        </div>
+                        <div class="col-10">
+                            <input class="form-control input-col" type="text" placeholder="Tax No" />
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-2">
+                            <h5 class="my-10">Bank: </h5>
+                        </div>
+                        <div class="col-10">
+                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
+                                <option value="" selected disabled class="d-none">Select</option>
+                                <option value="1">Akbank</option>
+                                <option value="2">TC Ziraat Bankası</option>
+                                <option value="3">Türkiye İş Bankası</option>
+                            </select>
+                            <a href="#add-bank" class="btn btn-success" style="margin-top:-20px;"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="row pb-15">
+                        <div class="col-2">
+                            <h5 class="my-10">IBAN: </h5>
+                        </div>
+                        <div class="col-10">
+                            <input class="form-control input-col" type="text" placeholder="IBAN" />
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-2">
+                            <h5 class="my-10">Payment Terms: </h5>
+                        </div>
+                        <div class="col-10">
+                            <div class="form-check">
+                                <input type="checkbox" id="term30" class="filled-in chk-col-success" checked="">
+                                <label for="term30">30</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="term60" class="filled-in chk-col-success" checked="">
+                                <label for="term60">60</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" id="term90" class="filled-in chk-col-success" checked="">
+                                <label for="term90">90</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+
+
+                    <div class="row">
+                        <div class="col-2">
+
+                        </div>
+                        <div class="col-10">
+                            <button class="btn btn-primary input-col">Submit</button>
+                        </div>
                     </div>
                 </div>
+
+
             </div>
+        </section>
+    </form>
 
-
-        </div>
-    </section>
 </div>
+<form id="companyfrm" method="get"></form>
 @section Scripts
 {
+    <script src="~/js/select-thumbnail.js"></script>
     <script>
         $(document).ready(function () {
             var test = `<div class="btn-group bootstrap-select mb-20 me-10"><button type="button" class="btn dropdown-toggle btn-white show" data-bs-toggle="dropdown" role="button" data-id="comps" title="Sed posuere metus vel maximus fringilla." aria-expanded="true"><span class="filter-option pull-left">Sed posuere metus vel maximus fringilla.</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open show" role="combobox" style="margin: 0px; position: absolute; inset: 0px auto auto 0px; transform: translate(0px, 36px);" data-popper-placement="bottom-start">
@@ -108,12 +287,12 @@
 
             var options = ``;
             var selectopts = ``;
-            var button = `<button type="button" class="btn dropdown-toggle btn-white" data-bs-toggle="dropdown" role="button" data-id="comps" title="`+'@Model.Name'+`"><span class="filter-option pull-left">`+'@Model.Name'+`</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>`;
+            var button = `<button type="button" class="btn dropdown-toggle btn-white" data-bs-toggle="dropdown" role="button" data-id="comps" title="`+'@Model.CompanyItem.Name'+`"><span class="filter-option pull-left">`+'@Model.CompanyItem.Name'+`</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>`;
             $.ajax({
                 url: '/api/accounting/get-comps',
                 success: function (data) {
                     $.each(data, function (i, val) {
-                        if (val.id == '@Model.Id') {
+                        if (val.id == '@Model.CompanyItem.Id.ToString()') {
                             options += `<li data-original-index="`+i+`" class="selected">
                                 <a tabindex="0" class="" data-tokens="`+val.id+`" role="option" aria-disabled="false" aria-selected="true">
                                     <span class="text">`+val.name+`</span><span class="glyphicon glyphicon-ok check-mark">
@@ -147,6 +326,43 @@
                 }
             });
 
+
+            /*
+            $('[data-id="CompanyItem_Id"]').click(function () {
+                console.log("select changed");
+
+                var deg2 = $('select[name=CompanyItem.Id]').val();
+                var deg = $('.select-comp div#bootstrap-select div#dropdown-menu ul#dropdown-menu li#selected').html();
+
+                $('select[name=CompanyItem.Id]').val(1);
+                $('select[name=CompanyItem.Id]').change();
+
+                console.log(deg);
+                console.log(deg2);
+
+            });
+            */
+            $('#company').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                var val=$(this).val();
+                $('#companyfrm').attr('action', "/accounting/ids/" + val).submit();
+            });
+            $('#definition').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                var val = $(this).val();
+                $.ajax({
+                    url: "/api/accounting/getDefCode/" + val,
+                    success: function (data) {
+                        $("#code").val(data);
+                    }
+                });
+            });
+
         });
+
+        /*
+        $(document).on('click', '[data-id="comps"]', function () {
+            console.log("Comp select clicked");
+            var deg = $('.select-comp div#bootstrap-select div#dropdown-menu ul#dropdown-menu li#selected').html();
+            console.log(deg);
+        });*/
     </script>
 }

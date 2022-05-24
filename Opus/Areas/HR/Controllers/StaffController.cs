@@ -339,7 +339,7 @@ namespace Opus.Areas.HR.Controllers
             else
                 staffVm.TestD2_E = float.Parse(staffVm.TestD2_E_STR.Replace('.', ','));
 
-            return NoContent();
+            //return NoContent();
             string webRootPath = _hostEnvironment.WebRootPath;
             Staff staffItem = new Staff();
             int staffId = 0;
