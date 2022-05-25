@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model Opus.Models.ViewModels.Accounting.IdentificatiınIndexVM
+@model Opus.Models.ViewModels.Accounting.IdentificationIndexVM
 <style>
     div.btn-group.bootstrap-select.mb-20.me-10 {
         max-width: 400px;
@@ -27,7 +27,8 @@
         }
 
         .form-select option {
-            background-color: rebeccapurple;
+            background-color: mintcream;
+            color: black;
             height: 40px !important;
         }
 
@@ -44,29 +45,51 @@
     .input-col {
         max-width: 400px;
     }
+
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #FFFFFF;
+        opacity: 1;
+    }
+
+    .box {
+        transition: 0.5s linear all;
+    }
+
+    .theme-primary .nav-tabs .nav-link.active {
+        border-bottom-color: #2aa377 !important;
+        background-color: #2aa377 !important;
+        color: #ffffff;
+    }
+    .zmdi-border-inner {
+        border-color: #2aa377!important;
+    }
 </style>
+
+
+
 <div class="container-full">
-    <form method="get">
-        <div class="content-header">
-            <div class="d-flex align-items-center">
-                <div class="me-auto">
-                    <h3 class="page-title">Identifications</h3>
-                    <div class="d-inline-block align-items-center">
-                        <nav>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                                <li class="breadcrumb-item"><a asp-controller="Current" asp-action="Index">Companies</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">@Model.CompanyItem.Name - Identification</li>
-                            </ol>
-                        </nav>
-                    </div>
+
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Identifications</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item"><a asp-controller="Current" asp-action="Index">Companies</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.CompanyItem.Name - Identification</li>
+                        </ol>
+                    </nav>
                 </div>
-
             </div>
-        </div>
-        <section class="content">
 
-            <div class="box">
+        </div>
+    </div>
+    <section class="content">
+
+        <div class="">
+            @*
                 <div class="box-header">
                     <div class="row">
                         <div class="row">
@@ -74,18 +97,10 @@
                                 <h5 class="my-10">Company</h5>
                             </div>
                             <div class="col-10">
-                                @*
-                                    <div id="companies">
 
-                                    </div>*@
                                 <div id="select-comp">
                                     <select class="selectpicker mb-20 me-10" data-style="btn-white" id="company">
-                                        <!--selectpicker-->
-                                        @*
-                                            <option data-tokens="Lorem">Sed posuere metus vel maximus fringilla.</option>
-                                            <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
-                                            <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
-                                        *@
+
                                         @foreach (var item in Model.Companies)
                                         {
                                             if (item.Id == Model.CompanyItem.Id)
@@ -105,156 +120,664 @@
                         </div>
                     </div>
                 </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-2">
-                            <h5 class="my-10">Definition</h5>
-                        </div>
-                        <div class="col-10">
-                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition" required>
-                                <option value="" selected disabled class="d-none">Select</option>
-                                <option value="1">Supplier</option>
-                                <option value="2">Customer</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row pb-20">
-                        <div class="col-2">
-                            <h5 class="my-10">Code: </h5>
-                        </div>
-                        <div class="col-10">
-                            <input class="form-control input-col" id="code" type="text" disabled />
-                        </div>
-                    </div>
+            *@
+            <div class="col-12">
+                <div class="box">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#bankTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Banks</span></a> </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
 
 
-                    <div class="row">
-                        <div class="col-2">
-                            <h5 class="my-10">Commercial Title: </h5>
-                        </div>
-                        <div class="col-10">
-                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
-                                <option value="" selected disabled class="d-none">Select</option>
-                                <option value="1">Şahıs</option>
-                                <option value="2">LTD</option>
-                                <option value="3">AŞ</option>
-                            </select>
-                        </div>
-                    </div>
+                            <div class="tab-pane active" id="defTab" role="tabpanel">
+                                <div class="p-15">
+                                    <form method="get" id="idsForm">
 
-                    <div class="row pb-20">
-                        <div class="col-2">
-                            <h5 class="my-10">Street Address: </h5>
-                        </div>
-                        <div class="col-10">
-                            <textarea class="form-control input-col" placeholder="Street Address"></textarea>
-                        </div>
-                    </div>
-
-
-                    <div class="row pb-15">
-                        <div class="col-2">
-                            <h5 class="my-10">Tax Authority: </h5>
-                        </div>
-                        <div class="col-10">
-                            <input class="form-control input-col" type="text" placeholder="Tax Authority" />
-                        </div>
-                    </div>
-
-                    <div class="row pb-15">
-                        <div class="col-2">
-                            <h5 class="my-10">Tax No: </h5>
-                        </div>
-                        <div class="col-10">
-                            <input class="form-control input-col" type="text" placeholder="Tax No" />
-                        </div>
-                    </div>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Definition</h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition" required>
+                                                    <option value="" selected disabled class="d-none">Select</option>
+                                                    <option value="1">Supplier</option>
+                                                    <option value="2">Customer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row pb-20">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Code: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" id="code" type="text" disabled />
+                                            </div>
+                                        </div>
 
 
-                    <div class="row">
-                        <div class="col-2">
-                            <h5 class="my-10">Bank: </h5>
-                        </div>
-                        <div class="col-10">
-                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
-                                <option value="" selected disabled class="d-none">Select</option>
-                                <option value="1">Akbank</option>
-                                <option value="2">TC Ziraat Bankası</option>
-                                <option value="3">Türkiye İş Bankası</option>
-                            </select>
-                            <a href="#add-bank" class="btn btn-success" style="margin-top:-20px;"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Commercial Title: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
+                                                    <option value="" selected disabled class="d-none">Select</option>
+                                                    <option value="1">Şahıs</option>
+                                                    <option value="2">LTD</option>
+                                                    <option value="3">AŞ</option>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                    <div class="row pb-15">
-                        <div class="col-2">
-                            <h5 class="my-10">IBAN: </h5>
-                        </div>
-                        <div class="col-10">
-                            <input class="form-control input-col" type="text" placeholder="IBAN" />
-                        </div>
-                    </div>
+                                        <div class="row pb-20">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Street Address: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <textarea class="form-control input-col" placeholder="Street Address"></textarea>
+                                            </div>
+                                        </div>
 
 
-                    <div class="row">
-                        <div class="col-2">
-                            <h5 class="my-10">Payment Terms: </h5>
-                        </div>
-                        <div class="col-10">
-                            <div class="form-check">
-                                <input type="checkbox" id="term30" class="filled-in chk-col-success" checked="">
-                                <label for="term30">30</label>
+                                        <div class="row pb-15">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Tax Authority: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" type="text" placeholder="Tax Authority" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row pb-15">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Tax No: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" type="text" placeholder="Tax No" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Bank: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
+                                                    <option value="" selected disabled class="d-none">Select</option>
+                                                    <option value="1">Akbank</option>
+                                                    <option value="2">TC Ziraat Bankası</option>
+                                                    <option value="3">Türkiye İş Bankası</option>
+                                                </select>
+                                                <buttom class="btn btn-success" style="margin-top:-20px;" data-bs-toggle="modal" data-bs-target="#modal-fill"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
+                                            </div>
+                                        </div>
+
+                                        <div class="row pb-15">
+                                            <div class="col-2">
+                                                <h5 class="my-10">IBAN: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" type="text" placeholder="IBAN" />
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Payment Terms: </h5>
+                                            </div>
+                                            <div class="col-10 my-10">
+                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" />
+                                                <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" />
+                                                <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" />
+                                                <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+
+                                            </div>
+                                        </div>
+
+                                        <section class="mb-20">
+                                            <div class="box-body py-0">
+                                                <div id="boxstate">
+                                                    <div class="table-responsive">
+                                                        <table class="table no-border" id="tab_def">
+                                                            <thead>
+                                                                <tr class="text-start">
+                                                                    <th class="pt-10"> </th>
+                                                                    <th class="pt-10"> </th>
+                                                                    <th class="pt-10"> </th>
+                                                                    <th class="pt-10"> </th>
+                                                                    <th class="pt-10"> </th>
+                                                                    <th class="pt-10"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="tbody_def">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="border-top border-bottom">
+                                                <div class="row mt-4 mb-4">
+                                                    <div class="col-2">
+                                                        <h5 class="my-10">Contact: </h5>
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <div class="row">
+                                                            <div class="col-xl-11 col-12">
+                                                                <div class="row">
+                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                        <div class="rounded text-center">
+                                                                            <input type="text" id="fullname" placeholder='Full Name' class="form-control input-col" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                        <div class="rounded text-center">
+                                                                            <select class="form-select input-col" id="departmantid">
+                                                                                <option value="" selected="selected" disabled class="d-none">Departmant</option>
+                                                                                <option value="1">HR</option>
+                                                                                <option value="2">Accounting</option>
+                                                                                <option value="3">Management</option>
+                                                                                <option value="4">Quality Control Manager</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                        <div class="rounded text-center">
+                                                                            <input type="text" id="mobileNumber" class="form-control input-col" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" placeholder="Mobile Number">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                        <div class="rounded text-center">
+                                                                            <input type="email" id="email" placeholder='E-mail' class="form-control input-col" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-1 col-12">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <button id="add_defContact_row" type="button" class="btn btn-primary mb-10"><i class="fa fa-plus"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </section>
+
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+
+
+                                        <div class="row pt-50">
+                                            <div class="col-12">
+                                                <div style="float:right;">
+                                                    <button class="btn btn-primary input-col">Submit</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </form>
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input type="checkbox" id="term60" class="filled-in chk-col-success" checked="">
-                                <label for="term60">60</label>
+
+                            <div class="tab-pane" id="categoriesTab" role="tabpanel">
+                                <div class="p-15">
+
+                                    <div class="row">
+                                        <div class="col-xl-4 col-12">
+                                            <div class="box">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">Main Category</h4>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="inner-content-div">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-12">
+                                            <div class="box">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">Sub Category</h4>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="inner-content-div">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-4 col-12">
+                                            <div class="box">
+                                                <div class="box-header with-border">
+                                                    <h4 class="box-title">Tags</h4>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="inner-content-div">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
-                            <div class="form-check">
-                                <input type="checkbox" id="term90" class="filled-in chk-col-success" checked="">
-                                <label for="term90">90</label>
+
+                            <div id="depTab" class="tab-pane">
+                                <div class="p-15">
+                                    <div class="row">
+                                        <div class="col-xl-2 col-12">
+                                            <h5 class="my-10">Departmant: </h5>
+                                        </div>
+                                        <div class="col-xl-10 col-12">
+                                            <input class="form-control input-col" type="text" placeholder="Departmant" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-20">
+                                        <div class="col-xl-2 col-12">
+                                            <h5 class="my-10">Departmant List: </h5>
+                                        </div>
+                                        <div class="col-xl-10 col-12 input-col">
+                                            @*<input class="form-control input-col" type="text" placeholder="Departmant" />*@
+                                            <div class="inner-content-div border zmdi-border-inner">
+
+
+
+
+
+                                                <div class="table-responsive">
+                                                    <table id="complex_header" class="table table-striped table-bordered display" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th rowspan="2">Name</th>
+                                                                <th colspan="2">HR Information</th>
+                                                                <th colspan="3">Contact</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Position</th>
+                                                                <th>Salary</th>
+                                                                <th>Office</th>
+                                                                <th>Extn.</th>
+                                                                <th>E-mail</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Tiger Nixon</td>
+                                                                <td>System Architect</td>
+                                                                <td>Edinburgh</td>
+                                                                <td>61</td>
+                                                                <td>2011/04/25</td>
+                                                                <td>$320,800</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Garrett Winters</td>
+                                                                <td>Accountant</td>
+                                                                <td>Tokyo</td>
+                                                                <td>63</td>
+                                                                <td>2011/07/25</td>
+                                                                <td>$170,750</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Ashton Cox</td>
+                                                                <td>Junior Technical Author</td>
+                                                                <td>San Francisco</td>
+                                                                <td>66</td>
+                                                                <td>2009/01/12</td>
+                                                                <td>$86,000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Cedric Kelly</td>
+                                                                <td>Senior Javascript Developer</td>
+                                                                <td>Edinburgh</td>
+                                                                <td>22</td>
+                                                                <td>2012/03/29</td>
+                                                                <td>$433,060</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Airi Satou</td>
+                                                                <td>Accountant</td>
+                                                                <td>Tokyo</td>
+                                                                <td>33</td>
+                                                                <td>2008/11/28</td>
+                                                                <td>$162,700</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Brielle Williamson</td>
+                                                                <td>Integration Specialist</td>
+                                                                <td>New York</td>
+                                                                <td>61</td>
+                                                                <td>2012/12/02</td>
+                                                                <td>$372,000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Herrod Chandler</td>
+                                                                <td>Sales Assistant</td>
+                                                                <td>San Francisco</td>
+                                                                <td>59</td>
+                                                                <td>2012/08/06</td>
+                                                                <td>$137,500</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Rhona Davidson</td>
+                                                                <td>Integration Specialist</td>
+                                                                <td>Tokyo</td>
+                                                                <td>55</td>
+                                                                <td>2010/10/14</td>
+                                                                <td>$327,900</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Colleen Hurst</td>
+                                                                <td>Javascript Developer</td>
+                                                                <td>San Francisco</td>
+                                                                <td>39</td>
+                                                                <td>2009/09/15</td>
+                                                                <td>$205,500</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sonya Frost</td>
+                                                                <td>Software Engineer</td>
+                                                                <td>Edinburgh</td>
+                                                                <td>23</td>
+                                                                <td>2008/12/13</td>
+                                                                <td>$103,600</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jena Gaines</td>
+                                                                <td>Office Manager</td>
+                                                                <td>London</td>
+                                                                <td>30</td>
+                                                                <td>2008/12/19</td>
+                                                                <td>$90,560</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Quinn Flynn</td>
+                                                                <td>Support Lead</td>
+                                                                <td>Edinburgh</td>
+                                                                <td>22</td>
+                                                                <td>2013/03/03</td>
+                                                                <td>$342,000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Charde Marshall</td>
+                                                                <td>Regional Director</td>
+                                                                <td>San Francisco</td>
+                                                                <td>36</td>
+                                                                <td>2008/10/16</td>
+                                                                <td>$470,600</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Haley Kennedy</td>
+                                                                <td>Senior Marketing Designer</td>
+                                                                <td>London</td>
+                                                                <td>43</td>
+                                                                <td>2012/12/18</td>
+                                                                <td>$313,500</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tatyana Fitzpatrick</td>
+                                                                <td>Regional Director</td>
+                                                                <td>London</td>
+                                                                <td>19</td>
+                                                                <td>2010/03/17</td>
+                                                                <td>$385,750</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Michael Silva</td>
+                                                                <td>Marketing Designer</td>
+                                                                <td>London</td>
+                                                                <td>66</td>
+                                                                <td>2012/11/27</td>
+                                                                <td>$198,500</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Paul Byrd</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Gloria Little</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Bradley Greer</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Dai Rios</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jenette Caldwell</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Yuri Berry</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Caesar Vance</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Doris Wilder</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Angelica Ramos</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Gavin Joyce</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jennifer Chang</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Brenden Wagner</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Fiona Green</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Shou Itou</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Michelle House</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Suki Burks</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Prescott Bartlett</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Gavin Cortez</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Martena Mccray</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Unity Butler</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Howard Hatfield</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hope Fuentes</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Vivian Harrell</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Timothy Mooney</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jackson Bradshaw</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Olivia Liang</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Bruno Nash</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sakura Yamamoto</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Thor Walton</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Finn Camacho</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Serge Baldwin</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Zenaida Frank</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Zorita Serrano</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jennifer Acosta</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Cara Stevens</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Hermione Butler</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Lael Greer</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Jonas Alexander</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Shad Decker</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Michael Bruce</td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Donna Snider</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="bankTab" class="tab-pane">
+                                <div class="p-15">
+                                    <div class="row">
+                                        <div class="col-xl-2 col-12">
+                                            <h5 class="my-10">Bank: </h5>
+                                        </div>
+                                        <div class="col-xl-10 col-12">
+                                            <input class="form-control input-col" type="text" placeholder="Bank" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-
-
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                    <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-
-
-                    <div class="row">
-                        <div class="col-2">
-
-                        </div>
-                        <div class="col-10">
-                            <button class="btn btn-primary input-col">Submit</button>
-                        </div>
-                    </div>
+                    <!-- /.box-body -->
                 </div>
-
-
+                <!-- /.box -->
             </div>
-        </section>
-    </form>
+
+
+
+
+        </div>
+    </section>
+
 
 </div>
+
 <form id="companyfrm" method="get"></form>
+
+<!-- Modal -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-fill" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add a bank</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Bank Definition (Bank Name): </label>
+                    <input type="text" id="bankinp" placeholder='AKBANK' class="form-control" />
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary float-end" id="add_bank_act" onclick=AddBank()>Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
 @section Scripts
 {
     <script src="~/js/select-thumbnail.js"></script>
     <script>
+        function AddBank() {
+            var def = $('#bankinp').val();
+            if (def == null || def === 'null' || def === '' || def.length === 0 || def === 'undefined' || def === '{}' || def.match(/^ *$/) !== null) {
+                alert("bank name field is required.");
+            }
+            else
+                alert("add bank func triggerd. Definition: " + def);
+
+        }
+
         $(document).ready(function () {
             var test = `<div class="btn-group bootstrap-select mb-20 me-10"><button type="button" class="btn dropdown-toggle btn-white show" data-bs-toggle="dropdown" role="button" data-id="comps" title="Sed posuere metus vel maximus fringilla." aria-expanded="true"><span class="filter-option pull-left">Sed posuere metus vel maximus fringilla.</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open show" role="combobox" style="margin: 0px; position: absolute; inset: 0px auto auto 0px; transform: translate(0px, 36px);" data-popper-placement="bottom-start">
                     <ul class="dropdown-menu inner" role="listbox" aria-expanded="true">
@@ -355,7 +878,6 @@
                     }
                 });
             });
-
         });
 
         /*

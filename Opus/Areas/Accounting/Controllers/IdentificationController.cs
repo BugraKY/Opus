@@ -15,7 +15,7 @@ namespace Opus.Areas.Accounting.Controllers
         [Route("accounting/ids/{id}")]
         public IActionResult Index(string id)
         {
-            IdentificatiınIndexVM identificationIndex = new IdentificatiınIndexVM();
+            IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
             identificationIndex.CompanyItem = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
             identificationIndex.Companies = _uow.Accounting_Company.GetAll();
 

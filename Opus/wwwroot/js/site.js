@@ -6,6 +6,7 @@
 var countSelect = 0;
 var equTr = 0;
 var famTr = 0;
+var defTr = 0;
 
 $(document).ready(function () {
 
@@ -316,6 +317,150 @@ $(document).ready(function () {
 
         }
     });
+
+    $("#add_defContact_row").on("click", function () {
+        const fullName = $("#fullname").val();
+        const departmantid = $("#departmantid").val();
+        const mobilenumber = $("#mobileNumber").val();
+        const email = $("#email").val();
+
+        /*const familyDate = familyDateofBirth.toString('dd-MM-yy');*/
+
+        const selectedText = $("#departmantid option:selected").text();
+        const selectedValue = $("#departmantid option:selected").val();
+
+        if (selectedValue == -1) {
+            $.toast({
+                heading: 'Required family member selection',
+                text: 'Please select a family member.',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (fullName == "" || fullName == null) {
+            $.toast({
+                heading: 'Required Full Name',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (departmantid == "" || departmantid == null) {
+            $.toast({
+                heading: 'Required Departmant field',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (mobilenumber == "" || mobilenumber == null) {
+            $.toast({
+                heading: 'Required Mobile number',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else if (email == "" || email == null) {
+            $.toast({
+                heading: 'Required Email',
+                text: '',
+                icon: 'warning',
+                showHideTransition: 'slide',
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#9EC600',  // To change the background
+                position: 'top-right',
+                hideAfter: 5000
+            });
+        }
+        else {
+            var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" readonly="readonly" />`;
+            var selectedElementVal = `<input type="text" class="form-control departmantid d-none" value="` + selectedValue + `" hidden/>`;
+
+            var tbody_def_item = `
+                                                    <tr id='equ' data-id="`+ defTr + `" class="hidden">
+
+                                                        <td data-name="quantity">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="text" class="form-control fullname" value="`+ fullName + `" title="` + fullName + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="products">
+                                                            <div class="rounded text-center">
+                                                                `+ selectedElementTxt + selectedElementVal + `
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="text" class="form-control mobileNumber" value="`+ mobilenumber + `" title="` + mobilenumber + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="text" class="form-control email" value=`+ email + ` title="` + email + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <!--
+                                                        <td data-name="deliveryDate">
+                                                            <div class="bg-lightest rounded text-center">
+                                                                <input type="date" class="form-control familyMembersDateOfBirth" value=`+ 'familyDateofBirth' + ` title="` + 'familyDate' + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>-->
+                                                        <td data-name="del">
+                                                            <button id="delCont" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                        </td>
+                                                    </tr>
+
+`;
+            $(".tbody_def").append(tbody_def_item);
+            //console.log("Selected: " + selectedElement);
+            $("#fullname").val("");
+            $("#mobileNumber").val("");
+            $("#email").val("");
+            $("#departmantid").val("");
+            defTr++;
+
+            $('.fullname').each(function (i) {
+                $(this).attr('name', 'ContactEnumerable[' + i + '].FullName');
+            });
+            $('.departmantid').each(function (i) {
+                $(this).attr('name', 'ContactEnumerable[' + i + '].DepartmantId');
+            });
+            $('.mobileNumber').each(function (i) {
+                $(this).attr('name', 'ContactEnumerable[' + i + '].MobileNumber');
+            });
+            $('.email').each(function (i) {
+                $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+            });
+            /*
+            $('.familyMembersDateOfBirth').each(function (i) {
+                $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
+            });*/
+
+
+
+            $("#boxstate").addClass("box");
+            $("#boxstate").addClass("mb-20");
+            $("#boxstate").addClass("mt-20");
+        }
+    });
+
     $("#zzzz").on("click", function () {
         // Dynamic Rows Code
 
@@ -406,6 +551,31 @@ $(document).ready(function () {
         $('.familyMembersDateOfBirth').each(function (i) {
             $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
         });
+    });
+    $("#idsForm").on('click', "#delCont", function () {
+        var contLength = 0;
+        console.log("remove clicked.");
+        $(this).parent().parent().remove();
+
+        $('.fullname').each(function (i) {
+            $(this).attr('name', 'ContactEnumerable[' + i + '].FullName');
+            contLength++;
+        });
+        $('.departmantid').each(function (i) {
+            $(this).attr('name', 'ContactEnumerable[' + i + '].DepartmantId');
+        });
+        $('.mobileNumber').each(function (i) {
+            $(this).attr('name', 'ContactEnumerable[' + i + '].MobileNumber');
+        });
+        $('.email').each(function (i) {
+            $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+        });
+        if (contLength < 1) {
+            console.log("all deleted");
+            $("#boxstate").removeClass("box");
+            $("#boxstate").removeClass("mb-20");
+            $("#boxstate").removeClass("mt-20");
+        }
     });
 
     // İk Ürünler

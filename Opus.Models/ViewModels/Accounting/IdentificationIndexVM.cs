@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.ViewModels.Accounting
 {
-    public class IdentificatiınIndexVM
+    public class IdentificationIndexVM : IdentificationVM
     {
         public Company CompanyItem { get; set; }
         public IEnumerable<Company> Companies { get; set; }
+        public IList<Contact> ContactEnumerable { get; set; }
 
     }
 }
