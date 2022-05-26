@@ -11,10 +11,9 @@ namespace Opus.DataAcces.Data
     public class AccountingDbContext:DbContext
     {
         public AccountingDbContext(DbContextOptions<AccountingDbContext> options)
-            : base(options) { }//10 Model
+            : base(options) { }//12 Model
         public DbSet<Company> Company { get; set; }
         public DbSet<IdentificationType> IdentificationType { get; set; }
-        public DbSet<Identification> Identification { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<CommercialTitle> CommercialTitle { get; set; }
         public DbSet<CompanyDepartmants> CompanyDepartments { get; set; }
@@ -23,5 +22,8 @@ namespace Opus.DataAcces.Data
         public DbSet<SubCategory> SubCategory { get; set; }
         public DbSet<Tag> Tas { get; set; }
         public DbSet<Bank> Bank { get; set; }
+        public DbSet<Identification> Identification { get; set; }
+        public DbSet<ContactDefinitions> ContactDefinitions { get; set; }
+
     }
 }
