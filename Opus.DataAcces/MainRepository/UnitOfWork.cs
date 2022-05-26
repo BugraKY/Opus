@@ -1,7 +1,6 @@
 ﻿using Opus.DataAcces.Data;
 using Opus.DataAcces.IMainRepository;
-using Opus.DataAcces.IMainRepository.IAccountingRepository;
-using Opus.DataAcces.MainRepository.AccountingRepository;
+using Opus.DataAcces.MainRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +39,15 @@ namespace Opus.DataAcces.MainRepository
             #endregion Main And HR
 
             #region Accounting
-            Accounting_Company = new CompaniesRepository(_dbAc);
+            Accounting_Company = new AccountingRepository.CompaniesRepository(_dbAc);
+            Accounting_Identificationtype = new AccountingRepository.IdentificationtypeRepository(_dbAc);
+            Accounting_Category = new AccountingRepository.CategoryRepository(_dbAc);
+            Accounting_Commercialtitle = new AccountingRepository.CommercialtitleRepository(_dbAc);
+            Accounting_Companydepartmant = new AccountingRepository.CompanydepartmantRepository(_dbAc);
+            Accounting_Contact = new AccountingRepository.ContactRepository(_dbAc);
+            Accounting_Departmant = new AccountingRepository.DepartmantRepository(_dbAc);
+            Accounting_Subcategory = new AccountingRepository.SubcategoryRepository(_dbAc);
+            Accounting_Tag = new AccountingRepository.TagRepository(_dbAc);
             #endregion Accounting
 
             #endregion Dependency-Injection
@@ -68,7 +75,16 @@ namespace Opus.DataAcces.MainRepository
         #endregion Main And HR
 
         #region Accounting
-        public ICompaniesRepository Accounting_Company { get; private set; }
+        public IMainRepository.IAccountingRepository.ICompaniesRepository Accounting_Company { get; private set; }
+        public IMainRepository.IAccountingRepository.IIdentificationtypeRepository Accounting_Identificationtype { get; private set; }
+        public IMainRepository.IAccountingRepository.ICategoryRepository Accounting_Category { get; private set; }
+        public IMainRepository.IAccountingRepository.ICommercialtitleRepository Accounting_Commercialtitle { get; private set; }
+        public IMainRepository.IAccountingRepository.ICompanydepartmantRepository Accounting_Companydepartmant { get; private set;}
+        public IMainRepository.IAccountingRepository.IContactRepository Accounting_Contact { get; private set; }
+        public IMainRepository.IAccountingRepository.IDepartmantRepository Accounting_Departmant { get; private set; }
+        public IMainRepository.IAccountingRepository.ISubcategoryRepository Accounting_Subcategory { get; private set; }
+        public IMainRepository.IAccountingRepository.ITagRepository Accounting_Tag { get; private set; }
+
         #endregion Accounting
 
         #endregion Variables
