@@ -34,6 +34,7 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.IDepartmantRepository Accounting_Departmant { get; }
         IAccountingRepository.ISubcategoryRepository Accounting_Subcategory { get; }
         IAccountingRepository.ITagRepository Accounting_Tag { get; }
+        IAccountingRepository.IBankRepository Accounting_Bank { get; }
         void Save();
     }
 }

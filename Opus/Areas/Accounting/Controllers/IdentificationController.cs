@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
+using Opus.Models.DbModels.Accounting;
 using Opus.Models.ViewModels.Accounting;
 
 namespace Opus.Areas.Accounting.Controllers
@@ -27,16 +28,40 @@ namespace Opus.Areas.Accounting.Controllers
         {
             return View();
         }
+
+
+
+
+
+        #region API
+        [HttpPost("api/accounting/add-dep")]
+        public string AddDepartmant([FromBody]string name)
+        {
+            var _departmant = new Departmant(){Name=name};
+            _uow.Accounting_Departmant.Add(_departmant);
+            return name;
+        }
+
+        [HttpPost("api/accounting/add-bank")]
+        public string AddBank([FromBody] string name)
+        {
+            var _bank = new Bank() { Name=name};
+            _uow.Accounting_Bank.Add(_bank);
+            return name;
+        }
+
         [HttpGet("api/accounting/getDefCode/{code}")]
         public JsonResult GetCode(string code)
         {
-            if(code == null)
+            if (code == null)
                 return Json("null");
-            if(code == "1")
+            if (code == "1")
                 return Json("sup-001");
             if (code == "2")
                 return Json("cus-001");
             return Json("unexpected Code");
         }
+        #endregion API
+
     }
 }

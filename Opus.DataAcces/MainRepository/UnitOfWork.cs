@@ -48,6 +48,7 @@ namespace Opus.DataAcces.MainRepository
             Accounting_Departmant = new AccountingRepository.DepartmantRepository(_dbAc);
             Accounting_Subcategory = new AccountingRepository.SubcategoryRepository(_dbAc);
             Accounting_Tag = new AccountingRepository.TagRepository(_dbAc);
+            Accounting_Bank = new AccountingRepository.BankRepository(_dbAc);
             #endregion Accounting
 
             #endregion Dependency-Injection
@@ -84,6 +85,7 @@ namespace Opus.DataAcces.MainRepository
         public IMainRepository.IAccountingRepository.IDepartmantRepository Accounting_Departmant { get; private set; }
         public IMainRepository.IAccountingRepository.ISubcategoryRepository Accounting_Subcategory { get; private set; }
         public IMainRepository.IAccountingRepository.ITagRepository Accounting_Tag { get; private set; }
+        public IMainRepository.IAccountingRepository.IBankRepository Accounting_Bank { get; private set; }
 
         #endregion Accounting
 

@@ -815,7 +815,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Departmant: </label>
-                    <input type="text" id="bankinp" placeholder='HR' class="form-control" />
+                    <input type="text" id="depinp" placeholder='HR' class="form-control" />
                     <div class="col-2">
 
                     </div>
@@ -826,7 +826,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary float-end" id="add_bank_act" onclick=AddBank()>Add</button>
+                <button type="button" class="btn btn-primary float-end" id="add_bank_act" onclick=addDepFunc()>Add</button>
             </div>
         </div>
     </div>
@@ -855,7 +855,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary float-end" id="add_bank_act" onclick=AddBank()>Add</button>
+                <button type="button" class="btn btn-primary float-end" id="add_bank_act" onclick=addBankFunc()>Add</button>
             </div>
         </div>
     </div>
@@ -864,14 +864,28 @@
 @section Scripts
 {
     <script src="~/js/select-thumbnail.js"></script>
+    <script src="~/js/ajax/accounting.js"></script>
+
     <script>
-        function AddBank() {
+        function addBankFunc() {
             var def = $('#bankinp').val();
             if (def == null || def === 'null' || def === '' || def.length === 0 || def === 'undefined' || def === '{}' || def.match(/^ *$/) !== null) {
                 alert("bank name field is required.");
             }
-            else
-                alert("add bank func triggerd. Definition: " + def);
+            else {
+                addBank(def);
+            }
+
+        }
+
+        function addDepFunc() {
+            var def = $('#depinp').val();
+            if (def == null || def === 'null' || def === '' || def.length === 0 || def === 'undefined' || def === '{}' || def.match(/^ *$/) !== null) {
+                alert("bank name field is required.");
+            }
+            else {
+                addDepartmant(def);
+            }
 
         }
         function searchDepFunc() {
