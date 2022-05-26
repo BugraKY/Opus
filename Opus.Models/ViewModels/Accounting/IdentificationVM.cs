@@ -33,6 +33,5 @@ namespace Opus.Models.ViewModels.Accounting
         [ForeignKey("LabCategoryId")]
         public string LabCategoryId { get; set; }
         public Tag LabCategory { get; set; } //Name - CategoryId - SubCategory
-
     }
 }

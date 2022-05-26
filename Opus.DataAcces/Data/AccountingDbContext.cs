@@ -14,6 +14,7 @@ namespace Opus.DataAcces.Data
             : base(options) { }//10 Model
         public DbSet<Company> Company { get; set; }
         public DbSet<IdentificationType> IdentificationType { get; set; }
+        public DbSet<Identification> Identification { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<CommercialTitle> CommercialTitle { get; set; }
         public DbSet<CompanyDepartmants> CompanyDepartments { get; set; }

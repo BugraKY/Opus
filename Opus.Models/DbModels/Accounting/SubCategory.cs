@@ -15,7 +15,6 @@ namespace Opus.Models.DbModels.Accounting
         public string Name { get; set; }
         [ForeignKey("CategoryId")]
         public string CategoryId { get; set; }
-        public Category Category { get; set; }
         public bool Active { get; set; }
     }
 }

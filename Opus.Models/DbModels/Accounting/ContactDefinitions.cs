@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.DbModels.Accounting
 {
-    public class CompanyDepartmants
+    public class ContactDefinitions
     {
         [Key]
         public Guid Id { get; set; }
-        [ForeignKey("DepartmantId")]
-        public string DepartmantId { get; set; }
-        [ForeignKey("CompanyId")]
-        public string CompanyId { get; set; }
+        [ForeignKey("ContactId")]
+        public string ContactId { get; set; }
+        [ForeignKey("IdentificationId")]
+        public string IdentificationId { get; set; }
+
     }
 }
