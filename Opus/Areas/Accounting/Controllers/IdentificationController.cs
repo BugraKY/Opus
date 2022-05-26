@@ -22,6 +22,11 @@ namespace Opus.Areas.Accounting.Controllers
            // var _comp = _uow.Accounting_Company.GetFirstOrDefault(i=>i.Id==Guid.Parse(id));
             return View(identificationIndex);
         }
+        [Route("accounting/identifications")]
+        public IActionResult Identifications()
+        {
+            return View();
+        }
         [HttpGet("api/accounting/getDefCode/{code}")]
         public JsonResult GetCode(string code)
         {

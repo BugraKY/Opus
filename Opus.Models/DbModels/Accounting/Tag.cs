@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.DbModels.Accounting
 {
-    public class LabCategory
+    public class Tag
     {
         [Key]
         public Guid Id { get; set; }

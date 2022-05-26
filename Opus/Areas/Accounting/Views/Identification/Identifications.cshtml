@@ -1,9 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "Identifications";
 }
 @model Opus.Models.ViewModels.Accounting.IdentificationIndexVM
+
+
 <style>
     div.btn-group.bootstrap-select.mb-20.me-10 {
         max-width: 400px;
@@ -82,8 +83,7 @@
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item"><a asp-controller="Current" asp-action="Index">Companies</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">@Model.CompanyItem.Name - Identification</li>
+                            <li class="breadcrumb-item active" aria-current="page">Identifications</li>
                         </ol>
                     </nav>
                 </div>
@@ -94,38 +94,6 @@
     <section class="content">
 
         <div class="">
-            @*
-                <div class="box-header">
-                    <div class="row">
-                        <div class="row">
-                            <div class="col-2">
-                                <h5 class="my-10">Company</h5>
-                            </div>
-                            <div class="col-10">
-
-                                <div id="select-comp">
-                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="company">
-
-                                        @foreach (var item in Model.Companies)
-                                        {
-                                            if (item.Id == Model.CompanyItem.Id)
-                                            {
-                                                <option data-content="<img class='sel-img' src='/assets/accounting/company/@item.Id/img/@item.ImageFile'></img> @item.Name" value="@item.Id" selected></option>
-                                            }
-                                            else
-                                            {
-                                                <option data-content="<img class='sel-img' src='/assets/accounting/company/@item.Id/img/@item.ImageFile'></img> @item.Name" value="@item.Id"></option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            *@
             <div class="col-12">
                 <div class="box">
 
@@ -133,292 +101,292 @@
                     <div class="box-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs customtab" role="tablist">
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
                             @*
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>*@
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
                             <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#bankTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Banks</span></a> </li>
-                            *@
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
 
+                            @*
+                                <div class="tab-pane active" id="defTab" role="tabpanel">
+                                    <div class="p-15">
+                                        <form method="get" id="idsForm">
 
-                            <div class="tab-pane active" id="defTab" role="tabpanel">
-                                <div class="p-15">
-                                    <form method="get" id="idsForm">
-
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Definition</h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition" required>
-                                                    <option value="" selected disabled class="d-none">Select</option>
-                                                    <option value="1">Supplier</option>
-                                                    <option value="2">Customer</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row pb-20">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Code: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" id="code" type="text" disabled />
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Commercial Title: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
-                                                    <option value="" selected disabled class="d-none">Select</option>
-                                                    <option value="1">Şahıs</option>
-                                                    <option value="2">LTD</option>
-                                                    <option value="3">AŞ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row pb-20">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Street Address: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <textarea class="form-control input-col" placeholder="Street Address"></textarea>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row pb-15">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Tax Authority: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" type="text" placeholder="Tax Authority" />
-                                            </div>
-                                        </div>
-
-                                        <div class="row pb-15">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Tax No: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" type="text" placeholder="Tax No" />
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Bank: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
-                                                    <option value="" selected disabled class="d-none">Select</option>
-                                                    <option value="1">Akbank</option>
-                                                    <option value="2">TC Ziraat Bankası</option>
-                                                    <option value="3">Türkiye İş Bankası</option>
-                                                </select>
-                                                <buttom class="btn btn-success" style="margin-top:-20px;" data-bs-toggle="modal" data-bs-target="#modal-fill"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
-                                            </div>
-                                        </div>
-
-                                        <div class="row pb-15">
-                                            <div class="col-2">
-                                                <h5 class="my-10">IBAN: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" type="text" placeholder="IBAN" />
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Payment Terms: </h5>
-                                            </div>
-                                            <div class="col-10 my-10">
-                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" />
-                                                <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" />
-                                                <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" />
-                                                <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-12">
-
-                                            </div>
-                                        </div>
-
-                                        <section class="mb-20">
-                                            <div class="box-body py-0">
-                                                <div id="boxstate">
-                                                    <div class="table-responsive">
-                                                        <table class="table no-border" id="tab_def">
-                                                            <thead>
-                                                                <tr class="text-start">
-                                                                    <th class="pt-10"> </th>
-                                                                    <th class="pt-10"> </th>
-                                                                    <th class="pt-10"> </th>
-                                                                    <th class="pt-10"> </th>
-                                                                    <th class="pt-10"> </th>
-                                                                    <th class="pt-10"></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="tbody_def">
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Definition</h5>
                                                 </div>
-
+                                                <div class="col-10">
+                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition" required>
+                                                        <option value="" selected disabled class="d-none">Select</option>
+                                                        <option value="1">Supplier</option>
+                                                        <option value="2">Customer</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="border-top border-bottom">
-                                                <div class="row mt-4 mb-4">
-                                                    <div class="col-2">
-                                                        <h5 class="my-10">Contact: </h5>
+                                            <div class="row pb-20">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Code: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <input class="form-control input-col" id="code" type="text" disabled />
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Commercial Title: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
+                                                        <option value="" selected disabled class="d-none">Select</option>
+                                                        <option value="1">Şahıs</option>
+                                                        <option value="2">LTD</option>
+                                                        <option value="3">AŞ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pb-20">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Street Address: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <textarea class="form-control input-col" placeholder="Street Address"></textarea>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row pb-15">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Tax Authority: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <input class="form-control input-col" type="text" placeholder="Tax Authority" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row pb-15">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Tax No: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <input class="form-control input-col" type="text" placeholder="Tax No" />
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Bank: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" required>
+                                                        <option value="" selected disabled class="d-none">Select</option>
+                                                        <option value="1">Akbank</option>
+                                                        <option value="2">TC Ziraat Bankası</option>
+                                                        <option value="3">Türkiye İş Bankası</option>
+                                                    </select>
+                                                    <buttom class="btn btn-success" style="margin-top:-20px;" data-bs-toggle="modal" data-bs-target="#modal-fill"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pb-15">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">IBAN: </h5>
+                                                </div>
+                                                <div class="col-10">
+                                                    <input class="form-control input-col" type="text" placeholder="IBAN" />
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <h5 class="my-10">Payment Terms: </h5>
+                                                </div>
+                                                <div class="col-10 my-10">
+                                                    <input type="checkbox" id="term30" class="filled-in chk-col-success" />
+                                                    <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                                    <input type="checkbox" id="term60" class="filled-in chk-col-success" />
+                                                    <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                                    <input type="checkbox" id="term90" class="filled-in chk-col-success" />
+                                                    <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12">
+
+                                                </div>
+                                            </div>
+
+                                            <section class="mb-20">
+                                                <div class="box-body py-0">
+                                                    <div id="boxstate">
+                                                        <div class="table-responsive">
+                                                            <table class="table no-border" id="tab_def">
+                                                                <thead>
+                                                                    <tr class="text-start">
+                                                                        <th class="pt-10"> </th>
+                                                                        <th class="pt-10"> </th>
+                                                                        <th class="pt-10"> </th>
+                                                                        <th class="pt-10"> </th>
+                                                                        <th class="pt-10"> </th>
+                                                                        <th class="pt-10"></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="tbody_def">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-10">
-                                                        <div class="row">
-                                                            <div class="col-xl-11 col-12">
-                                                                <div class="row">
-                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
-                                                                        <div class="rounded text-center">
-                                                                            <input type="text" id="fullname" placeholder='Full Name' class="form-control input-col" />
+
+                                                </div>
+                                                <div class="border-top border-bottom">
+                                                    <div class="row mt-4 mb-4">
+                                                        <div class="col-2">
+                                                            <h5 class="my-10">Contact: </h5>
+                                                        </div>
+                                                        <div class="col-10">
+                                                            <div class="row">
+                                                                <div class="col-xl-11 col-12">
+                                                                    <div class="row">
+                                                                        <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                            <div class="rounded text-center">
+                                                                                <input type="text" id="fullname" placeholder='Full Name' class="form-control input-col" />
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
-                                                                        <div class="rounded text-center">
-                                                                            <select class="form-select input-col" id="departmantid">
-                                                                                <option value="" selected="selected" disabled class="d-none">Departmant</option>
-                                                                                <option value="1">HR</option>
-                                                                                <option value="2">Accounting</option>
-                                                                                <option value="3">Management</option>
-                                                                                <option value="4">Quality Control Manager</option>
-                                                                            </select>
+                                                                        <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                            <div class="rounded text-center">
+                                                                                <select class="form-select input-col" id="departmantid">
+                                                                                    <option value="" selected="selected" disabled class="d-none">Departmant</option>
+                                                                                    <option value="1">HR</option>
+                                                                                    <option value="2">Accounting</option>
+                                                                                    <option value="3">Management</option>
+                                                                                    <option value="4">Quality Control Manager</option>
+                                                                                </select>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
-                                                                        <div class="rounded text-center">
-                                                                            <input type="text" id="mobileNumber" class="form-control input-col" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" placeholder="Mobile Number">
+                                                                        <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                            <div class="rounded text-center">
+                                                                                <input type="text" id="mobileNumber" class="form-control input-col" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" placeholder="Mobile Number">
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
-                                                                        <div class="rounded text-center">
-                                                                            <input type="email" id="email" placeholder='E-mail' class="form-control input-col" />
+                                                                        <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                                                            <div class="rounded text-center">
+                                                                                <input type="email" id="email" placeholder='E-mail' class="form-control input-col" />
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-xl-1 col-12">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <button id="add_defContact_row" type="button" class="btn btn-primary mb-10"><i class="fa fa-plus"></i></button>
+                                                                <div class="col-xl-1 col-12">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <button id="add_defContact_row" type="button" class="btn btn-primary mb-10"><i class="fa fa-plus"></i></button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
+                                            </section>
 
-                                            </div>
-                                        </section>
-
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
-                                        <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
+                                            <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
 
 
-                                        <div class="row pt-50">
-                                            <div class="col-12">
-                                                <div style="float:right;">
-                                                    <button class="btn btn-primary input-col">Submit</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-
-                                    </form>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane" id="categoriesTab" role="tabpanel">
-                                <div class="p-15">
-
-                                    <div class="row">
-                                        <div class="col-xl-4 col-12">
-                                            <div class="box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">Main Category</h4>
-                                                </div>
-                                                <div class="box-body">
-                                                    <div class="inner-content-div">
-
-
+                                            <div class="row pt-50">
+                                                <div class="col-12">
+                                                    <div style="float:right;">
+                                                        <button class="btn btn-primary input-col">Submit</button>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                        </div>
-                                        <div class="col-xl-4 col-12">
-                                            <div class="box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">Sub Category</h4>
-                                                </div>
-                                                <div class="box-body">
-                                                    <div class="inner-content-div">
 
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-4 col-12">
-                                            <div class="box">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">Tags</h4>
-                                                </div>
-                                                <div class="box-body">
-                                                    <div class="inner-content-div">
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
-
-
                                 </div>
-                            </div>
 
-                            <div id="depTab" class="tab-pane">
+                                <div class="tab-pane" id="categoriesTab" role="tabpanel">
+                                    <div class="p-15">
+
+                                        <div class="row">
+                                            <div class="col-xl-4 col-12">
+                                                <div class="box">
+                                                    <div class="box-header with-border">
+                                                        <h4 class="box-title">Main Category</h4>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="inner-content-div">
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-12">
+                                                <div class="box">
+                                                    <div class="box-header with-border">
+                                                        <h4 class="box-title">Sub Category</h4>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="inner-content-div">
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4 col-12">
+                                                <div class="box">
+                                                    <div class="box-header with-border">
+                                                        <h4 class="box-title">Tags</h4>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="inner-content-div">
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            *@
+                            <div id="depTab" class="tab-pane active">
                                 <div class="p-15">
                                     <div class="row">
                                         <div class="col-xl-2 col-12">
                                             <h5 class="my-10">Search: </h5>
                                         </div>
                                         <div class="col-xl-10 col-12">
-                                            <input class="form-control input-col" type="text" placeholder="Search Departmant" id="search_deplist" onkeyup="searchDepFunc()" />
+                                            <input class="form-control input-col mb-20 me-10" type="text" placeholder="Search Departmant" id="search_deplist" onkeyup="searchDepFunc()" style="display: inline-block;" />
+                                            <buttom class="btn btn-success waves-effect waves-light" style="" data-bs-toggle="modal" data-bs-target="#modal-dep"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
                                         </div>
                                     </div>
 
@@ -622,7 +590,8 @@
                                             <h5 class="my-10">Search: </h5>
                                         </div>
                                         <div class="col-xl-10 col-12">
-                                            <input class="form-control input-col" type="text" placeholder="Bank" id="search_banklist" onkeyup="searchBankFunc()" />
+                                            <input class="form-control input-col mb-20 me-10" type="text" placeholder="Search Bank" id="search_banklist" onkeyup="searchBankFunc()" style="display: inline-block;" />
+                                            <buttom class="btn btn-success waves-effect waves-light" style="" data-bs-toggle="modal" data-bs-target="#modal-bank"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
                                         </div>
                                     </div>
                                     <div class="row mt-20">
@@ -835,8 +804,37 @@
 
 <form id="companyfrm" method="get"></form>
 
-<!-- Modal -->
-<div class="modal modal-fill fade" data-backdrop="false" id="modal-fill" tabindex="-1">
+<!-- Modal Departmant -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-dep" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add a departmant</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Departmant: </label>
+                    <input type="text" id="bankinp" placeholder='HR' class="form-control" />
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary float-end" id="add_bank_act" onclick=AddBank()>Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal Departmant-->
+
+<!-- Modal Bank -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-bank" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -862,7 +860,7 @@
         </div>
     </div>
 </div>
-<!-- /.modal -->
+<!-- /.modal Bank-->
 @section Scripts
 {
     <script src="~/js/select-thumbnail.js"></script>
@@ -891,7 +889,7 @@
                 if (filter.length < 1)
                     $('#search_deplist').removeClass('border-danger');
                 else
-                $('#search_deplist').addClass('border-danger');
+                    $('#search_deplist').addClass('border-danger');
 
             }
             else {
@@ -943,94 +941,10 @@
             }
         }
         $(document).ready(function () {
-            var test = `<div class="btn-group bootstrap-select mb-20 me-10"><button type="button" class="btn dropdown-toggle btn-white show" data-bs-toggle="dropdown" role="button" data-id="comps" title="Sed posuere metus vel maximus fringilla." aria-expanded="true"><span class="filter-option pull-left">Sed posuere metus vel maximus fringilla.</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open show" role="combobox" style="margin: 0px; position: absolute; inset: 0px auto auto 0px; transform: translate(0px, 36px);" data-popper-placement="bottom-start">
-                    <ul class="dropdown-menu inner" role="listbox" aria-expanded="true">
-                            <li data-original-index="0" class="selected">
-                                <a tabindex="0" class="" data-tokens="Lorem" role="option" aria-disabled="false" aria-selected="true">
-                                    <span class="text">Sed posuere metus vel maximus fringilla.</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li data-original-index="1">
-                                <a tabindex="0" class="" data-tokens="ipsum" role="option" aria-disabled="false" aria-selected="false">
-                                    <span class="text">Nam in nisl a ligula semper euismod.</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li data-original-index="2">
-                                <a tabindex="0" class="" data-tokens="dolor" role="option" aria-disabled="false" aria-selected="false">
-                                    <span class="text">Ut rhoncus diam et elit tristique venenatis.</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>
-                    </ul></div><select class="selectpicker mb-20 me-10" data-style="btn-white" id="comps" tabindex="-98">
-
-                                <option data-tokens="Lorem">Sed posuere metus vel maximus fringilla.</option>
-                                <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
-                                <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
-                            <option data-tokens="4955e8b7-33ad-429e-107c-08da2f601faa">Many Points</option><option data-tokens="22bdc8ad-1fbe-437d-3486-08da2f638e84">Expert Quality Services</option></select></div>`;
-
-            var options = ``;
-            var selectopts = ``;
-            var button = `<button type="button" class="btn dropdown-toggle btn-white" data-bs-toggle="dropdown" role="button" data-id="comps" title="`+'@Model.CompanyItem.Name'+`"><span class="filter-option pull-left">`+'@Model.CompanyItem.Name'+`</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>`;
-            $.ajax({
-                url: '/api/accounting/get-comps',
-                success: function (data) {
-                    $.each(data, function (i, val) {
-                        if (val.id == '@Model.CompanyItem.Id.ToString()') {
-                            options += `<li data-original-index="`+i+`" class="selected">
-                                <a tabindex="0" class="" data-tokens="`+val.id+`" role="option" aria-disabled="false" aria-selected="true">
-                                    <span class="text">`+val.name+`</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>`;
-                            selectopts += `<option data-tokens="` + val.id + `">` + val.name + `</option>`;
-                        }
-                        else {
-                            options += `<li data-original-index="` + i + `">
-                                <a tabindex="0" class="" data-tokens="`+ val.id + `" role="option" aria-disabled="false" aria-selected="false">
-                                    <span class="text">`+ val.name + `</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>`;
-                            selectopts += `<option data-tokens="` + val.id + `">` + val.name + `</option>`;
-                        }
-
-                        /*options += `<option data-tokens=" + val.id + ">" + val.name + "</option>"`;*/
-                        /*
-                        $("#comps").after()
-                        $("#comps").append("<option data-tokens=" + val.id + ">" + val.name + "</option>");*/
-                    });
-                    var compHtlm = `<div class="btn-group bootstrap-select mb-20 me-10">`+button+`
-                                        <div class="dropdown-menu open" role="combobox">
-                    <ul class="dropdown-menu inner" role="listbox" aria-expanded="false">
-`+options+`
-                    </ul></div><select class="selectpicker mb-20 me-10" data-style="btn-white" id="comps" tabindex="-98">`+selectopts+`</select></div>`;
-
-                    $("#companies").html(compHtlm);
-                }
-            });
 
 
-            /*
-            $('[data-id="CompanyItem_Id"]').click(function () {
-                console.log("select changed");
-
-                var deg2 = $('select[name=CompanyItem.Id]').val();
-                var deg = $('.select-comp div#bootstrap-select div#dropdown-menu ul#dropdown-menu li#selected').html();
-
-                $('select[name=CompanyItem.Id]').val(1);
-                $('select[name=CompanyItem.Id]').change();
-
-                console.log(deg);
-                console.log(deg2);
-
-            });
-            */
             $('#company').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-                var val=$(this).val();
+                var val = $(this).val();
                 $('#companyfrm').attr('action', "/accounting/ids/" + val).submit();
             });
             $('#definition').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
@@ -1044,12 +958,5 @@
             });
 
         });
-
-        /*
-        $(document).on('click', '[data-id="comps"]', function () {
-            console.log("Comp select clicked");
-            var deg = $('.select-comp div#bootstrap-select div#dropdown-menu ul#dropdown-menu li#selected').html();
-            console.log(deg);
-        });*/
     </script>
 }

@@ -104,6 +104,17 @@
                         <div class="box-header with-border">
                             <h4 class="box-title">Add Company</h4>
                             <a asp-area="Accounting" asp-controller="Company" asp-action="Add" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                            <ul class="box-controls pull-right">
+                                <li class="dropdown">
+                                    <a class="waves-effect waves-dark" data-bs-toggle="dropdown" href="#"><i class="ti-more-alt rotate-90 text-dark" style="font-size:large"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" asp-action="Identifications" asp-controller="Identification" asp-area="Accounting"><i class="ti-cart"></i> Identifications</a>
+                                        @*
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>*@
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     }
                     <div class="row">
