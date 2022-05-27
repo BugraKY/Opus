@@ -8,6 +8,7 @@ namespace Opus.DataAcces.IMainRepository
 {
     public interface IUnitOfWork:IDisposable
     {
+        #region Main And HR
         IApplicationUserRepository ApplicationUser { get; }
         ILocationRepository Location { get; }
         IUserLocationRepository UserLocation { get; }
@@ -24,7 +25,10 @@ namespace Opus.DataAcces.IMainRepository
         IMaritalStatusRepository MaritalStatus { get; }
         IEducationalStatusRepository EducationalStatus { get; }
         IStaffResignationRepository StaffResignation { get; }
+        #endregion Main And HR
 
+
+        #region Accounting
         IAccountingRepository.ICompaniesRepository Accounting_Company { get; }
         IAccountingRepository.IIdentificationtypeRepository Accounting_Identificationtype { get; }
         IAccountingRepository.ICategoryRepository Accounting_Category { get; }
@@ -37,6 +41,8 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.IBankRepository Accounting_Bank { get; }
         IAccountingRepository.IIdentificationRepository Accounting_Identification { get; }
         IAccountingRepository.IContactDefinitionsRepository Accounting_ContactDefinitions { get; }
+        #endregion Accounting
+
         void Save();
     }
 }

@@ -5,3 +5,12 @@
 
 _____________________________________________________________________
 
+== E Fatura Entegresi için yapılabilir.
+
+ 1 - Gib resmi forum sitesindeki bir yoruma yanıt
+
+ "Örnek bir uygulama bulunmamaktadır. http://efatura.gov.tr [^] adresinde yer alan
+ Kılavuzlar bölümünde entegrasyon yöntemiinin kullanılabilmesi için
+ gereken açıklamalar ve örnek dosyalar mevcuttur."
+
+ Resmi entegre için gib e başvuru şart!

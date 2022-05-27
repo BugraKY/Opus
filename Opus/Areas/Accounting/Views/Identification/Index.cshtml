@@ -68,6 +68,26 @@
     .zmdi-border-col {
         max-width: 424px;
     }
+
+    .inner-content-div {
+        max-height: 400px !important;
+        height: 400px !important;
+    }
+
+    .slimScrollDiv {
+        max-height: 400px !important;
+        height: 400px !important;
+    }
+
+    .table {
+        --bs-table-hover-bg: rgba(41, 163, 119, 0.25);
+        cursor: pointer;
+        user-select: none; /* supported by Chrome and Opera */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+    }
 </style>
 
 
@@ -133,16 +153,15 @@
                     <div class="box-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs customtab" role="tablist">
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab" aria-controls="defTab" draggable="false"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab" aria-controls="categoriesTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
                             @*
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#bankTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Banks</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#bankTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Banks</span></a> </li>
                             *@
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
-
 
                             <div class="tab-pane active" id="defTab" role="tabpanel">
                                 <div class="p-15">
@@ -367,13 +386,143 @@
 
                                     <div class="row">
                                         <div class="col-xl-4 col-12">
-                                            <div class="box">
+                                            <div class="box h-600">
                                                 <div class="box-header with-border">
-                                                    <h4 class="box-title">Main Category</h4>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h4 class="box-title">Main Category</h4>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control input-col mb-20 me-10" type="text" placeholder="Search" id="search_catlist" onkeyup="searchCat()" style="display: inline-block;" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <buttom class="btn btn-success waves-effect waves-light" style="" data-bs-toggle="modal" data-bs-target="#modal-setcat"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="box-body">
-                                                    <div class="inner-content-div">
+                                                    <div class="inner-content-div" style="max-height:420px!important; height:420px!important;">
+                                                        <div class="table-responsive">
+                                                            <table id="cat_table" class="table table-hover table-bordered display" style="width:100%">
+                                                                @*table table-striped table-bordered display*@
 
+                                                                
+                                                                <thead class="d-none">
+                                                                    <tr>
+                                                                        <th>title-1</th>
+                                                                        <th style="width:0;">title-2</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                @*
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>Tiger Nixon</td>
+                                                                        <td class="d-none">1</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Garrett Winters</td>
+                                                                        <td class="d-none">2</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Ashton Cox</td>
+                                                                        <td class="d-none">3</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Cedric Kelly</td>
+                                                                        <td class="d-none">4</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Airi Satou</td>
+                                                                        <td class="d-none">5</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Brielle Williamson</td>
+                                                                        <td class="d-none">6</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Herrod Chandler</td>
+                                                                        <td class="d-none">7</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Rhona Davidson</td>
+                                                                        <td class="d-none">8</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Colleen Hurst</td>
+                                                                        <td class="d-none">9</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Sonya Frost</td>
+                                                                        <td class="d-none">10</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Jena Gaines</td>
+                                                                        <td class="d-none">11</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Quinn Flynn</td>
+                                                                        <td class="d-none">12</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Charde Marshall</td>
+                                                                        <td class="d-none">13</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Haley Kennedy</td>
+                                                                        <td class="d-none">14</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Tatyana Fitzpatrick</td>
+                                                                        <td class="d-none">15</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Buğra Kaya</td>
+                                                                        <td class="d-none">16</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Paul Byrd</td>
+                                                                        <td class="d-none">17</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Gloria Little</td>
+                                                                        <td class="d-none">17</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Bradley Greer</td>
+                                                                        <td class="d-none">19</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Dai Rios</td>
+                                                                        <td class="d-none">20</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Jenette Caldwell</td>
+                                                                        <td class="d-none">21</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Yuri Berry</td>
+                                                                        <td class="d-none">22</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Caesar Vance</td>
+                                                                        <td class="d-none">23</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Doris Wilder</td>
+                                                                        <td class="d-none">24</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Angelica Ramos</td>
+                                                                        <td class="d-none">25</td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                                *@
+                                                            </table>
+                                                        </div>
 
                                                     </div>
                                                 </div>
@@ -863,10 +1012,59 @@
     </div>
 </div>
 <!-- /.modal -->
+<!-- Modal -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-setcat" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add a category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Bank Definition (Bank Name): </label>
+                    <input type="text" id="setcatinp" placeholder='Category' class="form-control" />
+                    <div class="col-2">
+
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary float-end" onclick=setCat()>Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
 @section Scripts
 {
     <script src="~/js/select-thumbnail.js"></script>
+    <script src="~/js/ajax/accounting.js"></script>
     <script>
+        /*var catTable = $('#cat_table').DataTable({ searching: false, paging: false, info: false });*/
+
+
+        var catTable = $('#cat_table').DataTable({
+            "ajax": {
+                "url": "/api/accounting/getCat",
+                dataSrc: ""
+            },
+            "columns": [
+                { "data": "name", "width": "100%"},
+                { "data": "id", "class": "d-none" }
+            ],
+            processing: true,
+            serverSide: true,
+            searching: false,
+            paging: false,
+            info: false
+
+        });
+        
         function AddBank() {
             var def = $('#bankinp').val();
             if (def == null || def === 'null' || def === '' || def.length === 0 || def === 'undefined' || def === '{}' || def.match(/^ *$/) !== null) {
@@ -874,7 +1072,6 @@
             }
             else
                 alert("add bank func triggerd. Definition: " + def);
-
         }
         function searchDepFunc() {
 
@@ -1043,8 +1240,65 @@
                 });
             });
 
+            selectCategory();
+            $('table').removeClass("dataTable");
         });
+        function selectCategory() {/*
+            $("#cat_table > tbody > tr").each(function () {
+                if ($(this).hasClass("highlight")) {
+                    console.log($(this).attr("id"));
+                }
+            });*/
 
+
+
+
+            $('#cat_table tbody').on('click', 'tr', function () {
+                console.clear();
+                console.log(catTable.row(this).data());
+                /*
+                console.log(catTable.row(this).data()[1]);
+                const data = catTable.row(this).data()[1];
+                getSubcat(data);*/
+            });
+
+
+        }
+
+        function searchCat() {
+
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search_catlist");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("cat_table");
+            tr = table.getElementsByTagName("tr");
+            if (filter == null || filter === 'null' || filter === '' || filter.length === 0 || filter === 'undefined' || filter === '{}' || filter.match(/^ *$/) !== null) {
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    tr[i].style.display = "";
+                }
+                if (filter.length < 1)
+                    $('#search_catlist').removeClass('border-danger');
+                else
+                    $('#search_catlist').addClass('border-danger');
+
+            }
+            else {
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+
+
+        }
         /*
         $(document).on('click', '[data-id="comps"]', function () {
             console.log("Comp select clicked");

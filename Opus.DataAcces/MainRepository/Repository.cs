@@ -32,9 +32,17 @@ namespace Opus.DataAcces.MainRepository
         {
             dbSet.Add(entity);
         }
+        public void AddAsync(T entity)
+        {
+            dbSet.AddAsync(entity);
+        }
         public void AddRange(IEnumerable<T> entities)
         {
             dbSet.AddRange(entities);
+        }
+        public void AddRangeAsync(IEnumerable<T> entities)
+        {
+            dbSet.AddRangeAsync(entities);
         }
         public T Get(int id)
         {

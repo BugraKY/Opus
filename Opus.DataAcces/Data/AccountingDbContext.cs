@@ -20,7 +20,7 @@ namespace Opus.DataAcces.Data
         public DbSet<Contact> Contact { get; set; }
         public DbSet<Departmant> Departmant { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }
-        public DbSet<Tag> Tas { get; set; }
+        public DbSet<Tag> Tag { get; set; }
         public DbSet<Bank> Bank { get; set; }
         public DbSet<Identification> Identification { get; set; }
         public DbSet<ContactDefinitions> ContactDefinitions { get; set; }

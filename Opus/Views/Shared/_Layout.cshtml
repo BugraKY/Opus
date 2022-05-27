@@ -25,6 +25,23 @@
     <link href="~/lib/devextreme/css/dx.light.css" rel="stylesheet" />
 
     <title>Opus - </title>
+
+    <style>
+        @*
+        .main-header div.logo-box {
+            background: none!important;
+        }*@
+        aside .main-sidebar {
+            top: 0 !important;
+            z-index: 99999!important;
+        }
+        .sidebar {
+            padding-bottom:0!important;
+        }
+        .main-sidebar{
+            z-index:9999!important;
+        }
+    </style>
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
     <div class="wrapper">
@@ -39,8 +56,8 @@
                 <a asp-area="HR" asp-controller="Home" asp-action="Dashboard" class="logo">
                     <!-- logo-->
                     <div class="logo-lg">
-                        <span class="light-logo"><img src="~/images/logo-light-text.png" alt="logo"></span>
-                        <span class="dark-logo"><img src="~/images/logo-dark-text.png" alt="logo"></span>
+                        <span class="light-logo"><img src="~/images/logo-light-text.png" alt="logo" style="z-index:9999;"></span>
+                        <span class="dark-logo"><img src="~/images/logo-dark-text.png" alt="logo" style="z-index:9999;"></span>
                     </div>
                 </a>
             </div>
@@ -933,6 +950,12 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+
+
+
+
+
+
     @*<link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />*@
 
     @*<script src=https://code.jquery.com/jquery-2.2.4.min.js></script>*@
@@ -943,7 +966,9 @@
     <script src="~/js/vendors.min.js"></script>
     <script src="~/js/pages/chat-popup.js"></script>
     <script src="~/lib/icons/feather-icons/feather.min.js"></script>
+
     <script src="~/lib/vendor_components/datatable/datatables.min.js"></script>
+
     <script src="~/lib/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 
     <script src="~/lib/vendor_components/perfect-scrollbar-master/perfect-scrollbar.jquery.min.js"></script>

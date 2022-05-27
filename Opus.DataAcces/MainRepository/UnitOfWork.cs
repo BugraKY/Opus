@@ -100,20 +100,10 @@ namespace Opus.DataAcces.MainRepository
             _db.Dispose();
             _dbAc.Dispose();
         }
-        public void DisposeAsync()
-        {
-            _db.DisposeAsync();
-            _dbAc.DisposeAsync();
-        }
         public void Save()
         {
             _db.SaveChanges();
             _dbAc.SaveChanges();
-        }
-        public void SaveAsync()
-        {
-            _db.SaveChangesAsync();
-            _dbAc.SaveChangesAsync();
         }
     }
 }

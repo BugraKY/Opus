@@ -21,7 +21,9 @@ namespace Opus.DataAcces.IMainRepository
             string includeProperties = null);
 
         void Add(T entity);
+        void AddAsync(T entity);
         void AddRange(IEnumerable<T> entities);
+        void AddRangeAsync(IEnumerable<T> entities);
         void Remove(int id);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);
