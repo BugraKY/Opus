@@ -29,10 +29,6 @@ namespace Opus.Areas.Accounting.Controllers
             return View();
         }
 
-
-
-
-
         #region API
         [HttpPost("api/accounting/add-dep")]
         public string AddDepartmant([FromBody] string name)
@@ -64,50 +60,62 @@ namespace Opus.Areas.Accounting.Controllers
             return Json("unexpected Code");
         }
         [HttpPost("api/accounting/setCat")]
-        public List<Category> SetCategory([FromBody] string name)
+        public Category SetCategory([FromBody] string name)
         {
-            var categories = new List<Category>();
+            var _category = new Category() { Name = name, Active = true };
+            _uow.Accounting_Category.Add(_category);
+            _uow.Save();
 
-            var _cat1 = new Category() { Name = "Araba", Id = Guid.NewGuid() };
-            var _cat2 = new Category() { Name = "Çanta", Id = Guid.NewGuid() };
-            var _cat3 = new Category() { Name = "Masa", Id = Guid.NewGuid() };
-
-            categories.Add(_cat1);
-            categories.Add(_cat2);
-            categories.Add(_cat3);
-
-            var _category = new Category() { Name = name, Id = Guid.NewGuid(), Active = true };
-
-
-
-            categories.Add(_category);
-            return categories;
+            return _category;
         }
         [Route("api/accounting/getCat")]
-        public JsonResult GetCategories()// public List<Category> GetCategories()
+        public IEnumerable<Category> GetCategories()
         {
-            var categories = new List<Category>();
-
-            var _cat1 = new Category() { Name = "Araba", Id = Guid.NewGuid() };
-            var _cat2 = new Category() { Name = "Çanta", Id = Guid.NewGuid() };
-            var _cat3 = new Category() { Name = "Masa", Id = Guid.NewGuid() };
-
-            categories.Add(_cat1);
-            categories.Add(_cat2);
-            categories.Add(_cat3);
-
-            /*var _category = new Category() { Name = name, Id = Guid.NewGuid(), Active = true };
-
-
-
-            categories.Add(_category);*/
-            return Json(categories);
+            return _uow.Accounting_Category.GetAll().Where(i => i.Active);
         }
-        [HttpPost("api/accounting/getsubcat")]
-        public string GetSubcat([FromBody] string name)
-        {
 
-            return name;
+        [HttpPost("api/accounting/setSubCat")]
+        public bool SetSubCat([FromBody] SubCategory sub)
+        {
+            var _substate = _uow.Accounting_Subcategory.GetFirstOrDefault(n => n.Name == sub.Name);
+            if (_substate == null)
+            {
+                _uow.Accounting_Subcategory.Add(sub);
+                _uow.Save();
+            }
+            else
+                return false;
+            return true;
+        }
+        [Route("api/accounting/getsubcat/{id}")]
+        public IEnumerable<SubCategory> GetSubcat(string id)
+        {
+            //Thread.Sleep(1000);
+            //var test= _uow.Accounting_Subcategory.GetAll(i => i.CategoryId == id, includeProperties: "Category");
+            var subs = _uow.Accounting_Subcategory.GetAll(i => i.CategoryId == Guid.Parse(id));
+            return subs;
+        }
+
+
+
+        [HttpPost("api/accounting/setTag")]
+        public bool SetTag([FromBody] Tag tag)
+        {
+            var _tag = _uow.Accounting_Tag.GetFirstOrDefault(n => n.Name == tag.Name);
+            if (_tag == null)
+            {
+                _uow.Accounting_Tag.Add(tag);
+                _uow.Save();
+            }
+            else
+                return false;
+            return true;
+        }
+        [Route("api/accounting/gettags/{id}")]
+        public IEnumerable<Tag> GetTags(string id)
+        {
+            var tags = _uow.Accounting_Tag.GetAll(i => i.SubCategoryId == Guid.Parse(id),includeProperties:"Category,SubCategory");
+            return tags;
         }
         #endregion API
 

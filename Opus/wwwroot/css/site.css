@@ -39,6 +39,21 @@ body {
 #loader {
     background: #fff url(/images/preloaders/1.gif) no-repeat center center!important;
 }
+.shadow-1-strong {
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,.21) !important;
+}
+.shadow-2-strong {
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,.21) !important;
+}
+.shadow-3-strong {
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,.21) !important;
+}
+.shadow-4-strong {
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,.21) !important;
+}
+.shadow-5-strong {
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,.21) !important;
+}
 .shadow-selected {
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);

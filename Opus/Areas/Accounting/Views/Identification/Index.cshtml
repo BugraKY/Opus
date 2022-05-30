@@ -88,6 +88,11 @@
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
     }
+
+    .selected {
+        background-color: #2aa377 !important;
+        color: white !important;
+    }
 </style>
 
 
@@ -383,7 +388,8 @@
 
                             <div class="tab-pane" id="categoriesTab" role="tabpanel">
                                 <div class="p-15">
-
+                                    <div id="categories-alert">
+                                    </div>
                                     <div class="row">
                                         <div class="col-xl-4 col-12">
                                             <div class="box h-600">
@@ -407,123 +413,14 @@
                                                     <div class="inner-content-div" style="max-height:420px!important; height:420px!important;">
                                                         <div class="table-responsive">
                                                             <table id="cat_table" class="table table-hover table-bordered display" style="width:100%">
-                                                                @*table table-striped table-bordered display*@
-
-                                                                
                                                                 <thead class="d-none">
                                                                     <tr>
                                                                         <th>title-1</th>
                                                                         <th style="width:0;">title-2</th>
                                                                     </tr>
                                                                 </thead>
-                                                                @*
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Tiger Nixon</td>
-                                                                        <td class="d-none">1</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Garrett Winters</td>
-                                                                        <td class="d-none">2</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Ashton Cox</td>
-                                                                        <td class="d-none">3</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Cedric Kelly</td>
-                                                                        <td class="d-none">4</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Airi Satou</td>
-                                                                        <td class="d-none">5</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Brielle Williamson</td>
-                                                                        <td class="d-none">6</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Herrod Chandler</td>
-                                                                        <td class="d-none">7</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Rhona Davidson</td>
-                                                                        <td class="d-none">8</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Colleen Hurst</td>
-                                                                        <td class="d-none">9</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Sonya Frost</td>
-                                                                        <td class="d-none">10</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Jena Gaines</td>
-                                                                        <td class="d-none">11</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Quinn Flynn</td>
-                                                                        <td class="d-none">12</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Charde Marshall</td>
-                                                                        <td class="d-none">13</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Haley Kennedy</td>
-                                                                        <td class="d-none">14</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Tatyana Fitzpatrick</td>
-                                                                        <td class="d-none">15</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Buğra Kaya</td>
-                                                                        <td class="d-none">16</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Paul Byrd</td>
-                                                                        <td class="d-none">17</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Gloria Little</td>
-                                                                        <td class="d-none">17</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Bradley Greer</td>
-                                                                        <td class="d-none">19</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Dai Rios</td>
-                                                                        <td class="d-none">20</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Jenette Caldwell</td>
-                                                                        <td class="d-none">21</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Yuri Berry</td>
-                                                                        <td class="d-none">22</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Caesar Vance</td>
-                                                                        <td class="d-none">23</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Doris Wilder</td>
-                                                                        <td class="d-none">24</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Angelica Ramos</td>
-                                                                        <td class="d-none">25</td>
-                                                                    </tr>
-
-                                                                </tbody>
-                                                                *@
                                                             </table>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -531,12 +428,35 @@
                                         <div class="col-xl-4 col-12">
                                             <div class="box">
                                                 <div class="box-header with-border">
-                                                    <h4 class="box-title">Sub Category</h4>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <h4 class="box-title" id="subcategory-title">Sub Category</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control input-col mb-20 me-10" type="text" placeholder="Search" id="search_subCatlist" onkeyup="searchSubCat()" style="display: inline-block;" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <buttom class="btn btn-success waves-effect waves-light" style="" data-bs-toggle="modal" data-bs-target="#modal-setsubCat"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                                 <div class="box-body">
                                                     <div class="inner-content-div">
-
-
+                                                        <div class="table-responsive">
+                                                            <table id="subCat_table" class="table table-hover table-bordered display" style="width:100%">
+                                                                <thead class="d-none">
+                                                                    <tr>
+                                                                        <th>title-1</th>
+                                                                        <th style="width:0;">title-2</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="sub_tbody">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -544,12 +464,34 @@
                                         <div class="col-xl-4 col-12">
                                             <div class="box">
                                                 <div class="box-header with-border">
-                                                    <h4 class="box-title">Tags</h4>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <h4 class="box-title">Tags</h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control input-col mb-20 me-10" type="text" placeholder="Search" id="search_taglist" onkeyup="searchTag()" style="display: inline-block;" />
+                                                        </div>
+                                                        <div class="col">
+                                                            <buttom class="btn btn-success waves-effect waves-light" style="" data-bs-toggle="modal" data-bs-target="#modal-settag"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="box-body">
                                                     <div class="inner-content-div">
-
-
+                                                        <div class="table-responsive">
+                                                            <table id="tags_table" class="table table-hover table-bordered display" style="width:100%">
+                                                                <thead class="d-none">
+                                                                    <tr>
+                                                                        <th>title-1</th>
+                                                                        <th style="width:0;">title-2</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tags_tbody">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1022,7 +964,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">Bank Definition (Bank Name): </label>
+                    <label class="form-label">Category: </label>
                     <input type="text" id="setcatinp" placeholder='Category' class="form-control" />
                     <div class="col-2">
 
@@ -1034,12 +976,75 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary float-end" onclick=setCat()>Add</button>
+                <button type="button" class="btn btn-primary float-end" onclick="setCat()">Add</button>
             </div>
         </div>
     </div>
 </div>
 <!-- /.modal -->
+<!-- Modal -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-setsubCat" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subcatmodal-title">Add a Sub-Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Sub-Category: </label>
+                    <input type="text" id="setsubcatinp" placeholder='Sub-Category' class="form-control" />
+                    <div class="col-2">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="submodal-alert"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary float-end" onclick="setSubCat()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<!-- Modal -->
+<div class="modal modal-fill fade" data-backdrop="false" id="modal-settag" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subcatmodal-title">Add a Tag</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Tag: </label>
+                    <input type="text" id="settaginp" placeholder='Tag' class="form-control" />
+                    <div class="col-2">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="tagmodal-alert"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary float-end" onclick="setTag()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+
+
+
 @section Scripts
 {
     <script src="~/js/select-thumbnail.js"></script>
@@ -1047,24 +1052,220 @@
     <script>
         /*var catTable = $('#cat_table').DataTable({ searching: false, paging: false, info: false });*/
 
+        var catId = '';
+        var catName = '';
+
+        var subId = '';
+        var subName = '';
+
+        var tagId = "";
+        var tagName = "";
+
 
         var catTable = $('#cat_table').DataTable({
-            "ajax": {
-                "url": "/api/accounting/getCat",
-                dataSrc: ""
-            },
-            "columns": [
-                { "data": "name", "width": "100%"},
-                { "data": "id", "class": "d-none" }
-            ],
-            processing: true,
-            serverSide: true,
+                "ajax": {
+                    "url": "/api/accounting/getCat",
+                    dataSrc: ""
+                },
+                "columns": [
+                    { "data": "name", "width": "100%" },
+                    { "data": "id", "class": "d-none" }
+                ],
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false
+
+            });
+        var subCatTable = $('#subCat_table').DataTable({
             searching: false,
             paging: false,
-            info: false
+            info: false,
 
         });
-        
+
+        var tagTable = $('#tags_table').DataTable({
+            searching: false,
+            paging: false,
+            info: false,
+
+        });
+
+        function setCat() {
+            console.log("setcat triggerd");
+            var category = $('#setcatinp').val();
+
+            $.ajax({
+                url: "/api/accounting/setCat",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(category),
+                success: function (received) {
+                    catTable.ajax.reload();
+                    console.log("category success.");
+                    $('#modal-setcat').modal('toggle');
+                    $('#setcatinp').val('');
+
+                }
+            });
+
+        }
+
+        function setSubCat() {
+            console.log("category name:" + catName);
+            if (catName == null || catName == '') {
+                /*
+                $('#modal-setsubCat').modal('toggle');
+                $('#setcatinp').val('');*/
+
+                /*$('#categories-alert').removeClass('d-none');*/
+                $('#submodal-alert').html(`<div class="alert alert-warning alert-dismissible shadow-2-strong mt-20">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <h4><i class="icon fa fa-ban"></i><label>Alert!</label> </h4>
+                                        <label>You should select the main catergory first.</label>
+                                    </div>`);
+            }
+            else {
+                var subcat = $('#setsubcatinp').val();
+
+                /*
+                var model = {
+                    name: "Shyju",
+                    categoryId: "Detroit",
+                    Interests: ["Code", "Coffee", "Stackoverflow"]
+                };
+                */
+                var model = {
+                    name: subcat,
+                    categoryId: catId,
+                    active:true
+                };
+
+                $.ajax({
+                    url: "/api/accounting/setSubCat",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(model),
+                    success: function (received) {
+                        if (received) {
+                            console.log("category success.");
+                            $('#modal-setsubCat').modal('toggle');
+                            $('#setsubcatinp').val('');
+
+                            subCatTable=$('#subCat_table').DataTable({
+                                "ajax": {
+                                    "url": "/api/accounting/getsubcat/" + catId,
+                                    dataSrc: '',
+                                },
+                                "columns": [
+                                    { "data": "name", "width": "100%" },
+                                    { "data": "id", "class": "d-none" }
+                                ],
+                                processing: true,
+                                serverSide: true,
+                                searching: false,
+                                paging: false,
+                                info: false,
+                                destroy: true,
+
+                            });
+                        }
+                        else {
+                            $('#submodal-alert').html(`<div class="alert alert-warning alert-dismissible shadow-2-strong mt-20">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <h4><i class="icon fa fa-ban"></i><label>Fail!</label> </h4>
+                                        <label>'`+ subcat +`' already been added before.</label>
+                                    </div>`);
+                        }
+
+
+                    }
+                });
+            }
+
+        }
+
+        function setTag() {
+
+            if (subName == null || subName == '') {
+                /*
+                $('#modal-setsubCat').modal('toggle');
+                $('#setcatinp').val('');*/
+
+                /*$('#categories-alert').removeClass('d-none');*/
+                $('#tagmodal-alert').html(`<div class="alert alert-warning alert-dismissible shadow-2-strong mt-20">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <h4><i class="icon fa fa-ban"></i><label>Alert!</label> </h4>
+                                        <label>You should select the main catergory first.</label>
+                                    </div>`);
+            }
+            else {
+                var tag = $('#settaginp').val();
+
+                /*
+                var model = {
+                    name: "Shyju",
+                    categoryId: "Detroit",
+                    Interests: ["Code", "Coffee", "Stackoverflow"]
+                };
+                */
+                var model = {
+                    name: tag,
+                    categoryId: catId,
+                    subCategoryId: subId,
+                    active: true
+                };
+
+                $.ajax({
+                    url: "/api/accounting/setTag",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(model),
+                    success: function (received) {
+                        if (received) {
+                            console.log("category success.");
+                            $('#modal-settag').modal('toggle');
+                            $('#setsubcatinp').val('');
+
+                            tagTable = $('#tags_table').DataTable({
+                                "ajax": {
+                                    "url": "/api/accounting/gettags/" + subId,
+                                    dataSrc: '',
+                                },
+                                "columns": [
+                                    { "data": "name", "width": "100%" },
+                                    { "data": "id", "class": "d-none" }
+                                ],
+                                processing: true,
+                                serverSide: true,
+                                searching: false,
+                                paging: false,
+                                info: false,
+                                destroy: true,
+
+                            });
+
+                            $('#tags_table').removeClass("dataTable");
+                        }
+                        else {
+                            $('#tagmodal-alert').html(`<div class="alert alert-warning alert-dismissible shadow-2-strong mt-20">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <h4><i class="icon fa fa-ban"></i><label>Fail!</label> </h4>
+                                        <label>'`+ tag + `' already been added before.</label>
+                                    </div>`);
+                        }
+
+
+                    }
+                });
+            }
+
+        }
+
+
+
+
         function AddBank() {
             var def = $('#bankinp').val();
             if (def == null || def === 'null' || def === '' || def.length === 0 || def === 'undefined' || def === '{}' || def.match(/^ *$/) !== null) {
@@ -1073,6 +1274,7 @@
             else
                 alert("add bank func triggerd. Definition: " + def);
         }
+
         function searchDepFunc() {
 
             var input, filter, table, tr, td, i, txtValue;
@@ -1107,6 +1309,7 @@
 
 
         }
+
         function searchBankFunc() {
 
             var input, filter, table, tr, td, i, txtValue;
@@ -1139,6 +1342,7 @@
                 }
             }
         }
+
         $(document).ready(function () {
             var test = `<div class="btn-group bootstrap-select mb-20 me-10"><button type="button" class="btn dropdown-toggle btn-white show" data-bs-toggle="dropdown" role="button" data-id="comps" title="Sed posuere metus vel maximus fringilla." aria-expanded="true"><span class="filter-option pull-left">Sed posuere metus vel maximus fringilla.</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open show" role="combobox" style="margin: 0px; position: absolute; inset: 0px auto auto 0px; transform: translate(0px, 36px);" data-popper-placement="bottom-start">
                     <ul class="dropdown-menu inner" role="listbox" aria-expanded="true">
@@ -1168,7 +1372,10 @@
                                 <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
                                 <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
                             <option data-tokens="4955e8b7-33ad-429e-107c-08da2f601faa">Many Points</option><option data-tokens="22bdc8ad-1fbe-437d-3486-08da2f638e84">Expert Quality Services</option></select></div>`;
-
+            $('#search_subCatlist').attr('disabled', 'disabled');
+            //$('#subcat-toggle').attr('disabled', 'disabled');
+            $('#subcat-toggle').attr("disabled", true);
+            $('#subcategory-title').html("Sub Category - (Main was not selected)");
             var options = ``;
             var selectopts = ``;
             var button = `<button type="button" class="btn dropdown-toggle btn-white" data-bs-toggle="dropdown" role="button" data-id="comps" title="`+'@Model.CompanyItem.Name'+`"><span class="filter-option pull-left">`+'@Model.CompanyItem.Name'+`</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>`;
@@ -1210,22 +1417,6 @@
                 }
             });
 
-
-            /*
-            $('[data-id="CompanyItem_Id"]').click(function () {
-                console.log("select changed");
-
-                var deg2 = $('select[name=CompanyItem.Id]').val();
-                var deg = $('.select-comp div#bootstrap-select div#dropdown-menu ul#dropdown-menu li#selected').html();
-
-                $('select[name=CompanyItem.Id]').val(1);
-                $('select[name=CompanyItem.Id]').change();
-
-                console.log(deg);
-                console.log(deg2);
-
-            });
-            */
             $('#company').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                 var val=$(this).val();
                 $('#companyfrm').attr('action', "/accounting/ids/" + val).submit();
@@ -1241,29 +1432,112 @@
             });
 
             selectCategory();
-            $('table').removeClass("dataTable");
+            $('#cat_table').removeClass("dataTable");
         });
-        function selectCategory() {/*
-            $("#cat_table > tbody > tr").each(function () {
-                if ($(this).hasClass("highlight")) {
-                    console.log($(this).attr("id"));
-                }
-            });*/
-
-
-
-
+        function selectCategory() {
+            $('#sub_tbody').html('');
+            $('#tags_tbody').html('');
+            $('#subCat_table').removeClass("dataTable");
+            $('#tags_table').removeClass("dataTable");
             $('#cat_table tbody').on('click', 'tr', function () {
+                $('#tags_tbody').html('');
+                $('#tags_table').removeClass("dataTable");
                 console.clear();
-                console.log(catTable.row(this).data());
-                /*
-                console.log(catTable.row(this).data()[1]);
-                const data = catTable.row(this).data()[1];
-                getSubcat(data);*/
+                console.log(JSON.stringify(catTable.row(this).data().id));
+                /*subCat_table*/
+                /*modal-setsubCat*/
+                /*setSubCat()*/
+                catId = catTable.row(this).data().id;
+                catName=catTable.row(this).data().name;
+                subCatTable = $('#subCat_table').DataTable({
+                    "ajax": {
+                        "url": "/api/accounting/getsubcat/" + catId,
+                        dataSrc: '',
+                    },
+                    "columns": [
+                        { "data": "name", "width": "100%" },
+                        { "data": "id", "class": "d-none" }
+                    ],
+                    processing: true,
+                    serverSide: true,
+                    searching: false,
+                    paging: false,
+                    info: false,
+                    destroy:true,
+
+                });
+
+                $('#search_subCatlist').removeAttr('disabled');
+                $('#subCat_table').removeClass("dataTable");
+                $('#subcategory-title').html("Sub Category - (" + catName + ")");
+                $('#categories-alert').html('');
+                $('#submodal-alert').html('');
+                $('#subcatmodal-title').html('Add a Sub-Category under '+catName);
+                /*$(this).find(".selected td:first").html();*/
+
+
+                var row = $(this);                 //cache the row
+
+                if (!row.hasClass('selected')){
+                    row.addClass('selected')       //add class to clicked row
+                        .siblings()                //get the other rows
+                        .removeClass('selected');  //remove their classes
+                    /*gridClickHandler(row);*/
+                }
             });
 
 
         }
+
+
+        $('#subCat_table tbody').on('click', 'tr', function () {
+            console.clear();
+
+
+            subId = subCatTable.row(this).data().id;
+            subName = subCatTable.row(this).data().name;
+
+            console.log(JSON.stringify(subId));
+
+            $('#tags_table').DataTable({
+                "ajax": {
+                    "url": "/api/accounting/gettags/" + subId,
+                    dataSrc: '',
+                },
+                "columns": [
+                    { "data": "name", "width": "100%" },
+                    { "data": "id", "class": "d-none" }
+                ],
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+                destroy: true,
+
+            });
+
+            $('#search_subCatlist').removeAttr('disabled');
+            $('#subCat_table').removeClass("dataTable");
+            $('#tags_table').removeClass("dataTable");
+            $('#subcategory-title').html("Sub Category - (" + catName + ")");
+            $('#categories-alert').html('');
+            $('#submodal-alert').html('');
+            $('#subcatmodal-title').html('Add a Sub-Category under ' + catName);
+            /*$(this).find(".selected td:first").html();*/
+
+
+            var row = $(this);                 //cache the row
+
+            if (!row.hasClass('selected')) {
+                row.addClass('selected')       //add class to clicked row
+                    .siblings()                //get the other rows
+                    .removeClass('selected');  //remove their classes
+                /*gridClickHandler(row);*/
+            }
+        });
+
+
 
         function searchCat() {
 
@@ -1299,6 +1573,75 @@
 
 
         }
+        function searchSubCat() {
+
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search_subCatlist");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("subCat_table");
+            tr = table.getElementsByTagName("tr");
+            if (filter == null || filter === 'null' || filter === '' || filter.length === 0 || filter === 'undefined' || filter === '{}' || filter.match(/^ *$/) !== null) {
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    tr[i].style.display = "";
+                }
+                if (filter.length < 1)
+                    $('#search_subCatlist').removeClass('border-danger');
+                else
+                    $('#search_subCatlist').addClass('border-danger');
+
+            }
+            else {
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+
+
+        }
+        function searchTag() {
+
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("search_taglist");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tags_table");
+            tr = table.getElementsByTagName("tr");
+            if (filter == null || filter === 'null' || filter === '' || filter.length === 0 || filter === 'undefined' || filter === '{}' || filter.match(/^ *$/) !== null) {
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    tr[i].style.display = "";
+                }
+                if (filter.length < 1)
+                    $('#search_taglist').removeClass('border-danger');
+                else
+                    $('#search_taglist').addClass('border-danger');
+
+            }
+            else {
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+
+
+        }
+
         /*
         $(document).on('click', '[data-id="comps"]', function () {
             console.log("Comp select clicked");

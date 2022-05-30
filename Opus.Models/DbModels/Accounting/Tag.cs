@@ -13,10 +13,12 @@ namespace Opus.Models.DbModels.Accounting
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        public string CategoryId { get; set; }
+        public Category Category { get; set; }
+        public Guid? SubCategoryId { get; set; }
         [ForeignKey("SubCategoryId")]
-        public string SubCategoryId { get; set; }
+        public SubCategory SubCategory { get; set; }
         public bool Active { get; set; }
     }
 }

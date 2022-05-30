@@ -37,21 +37,5 @@ function getSubcat(data) {
     });
 }
 
-function setCat() {
-    
-    var category = $('#setcatinp').val();
-
-    $.ajax({
-        url: "/api/accounting/setCat",
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(category),
-        success: function (received) {
-            /*catTable();*/
-        }
-    });
-
-}
-
 
 
