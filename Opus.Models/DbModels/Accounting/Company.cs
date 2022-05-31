@@ -12,6 +12,7 @@ namespace Opus.Models.DbModels.Accounting
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public string DefinitionCode { get; set; }
         public string TaxNo { get; set; }
         public string TaxAuthority { get; set; }
         public string StreetAddress { get; set; }

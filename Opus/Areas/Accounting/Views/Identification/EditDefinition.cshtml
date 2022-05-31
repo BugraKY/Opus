@@ -1,8 +1,8 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "EditDefinition";
 }
+
 @model Opus.Models.ViewModels.Accounting.IdentificationIndexVM
 <style>
     div.btn-group.bootstrap-select.mb-20.me-10 {
@@ -182,7 +182,15 @@
                                                     <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.IdentificationType_Enumerable)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                        if (Model.Identification_Item.IdentificationTypeId == item.Id)
+                                                        {
+                                                            <option value="@item.Id" selected="selected">@item.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+
                                                     }
                                                     @*
                                                         <option value="1">Supplier</option>
@@ -196,7 +204,7 @@
                                                 <h5 class="my-10">Code: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <input class="form-control input-col" id="code" type="text" asp-for="IdentityCode" readonly="readonly" required />
+                                                <input class="form-control input-col" id="code" type="text" asp-for="IdentityCode" value="@Model.Identification_Item.IdentityCode" readonly="readonly" required />
                                                 <input class="form-control d-none" id="idnum" type="text" asp-for="IdNumber" readonly="readonly" hidden />
                                                 <input class="form-control d-none" type="text" asp-for="CompanyId" value="@Model.CompanyItem.Id" readonly="readonly" hidden />
                                             </div>
@@ -209,15 +217,18 @@
                                             </div>
                                             <div class="col-10">
                                                 <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" asp-for="CommercialTitleId" required>
-                                                    <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.CommercialTitle_Enumerable)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                        if (Model.Identification_Item.CommercialTitleId == item.Id)
+                                                        {
+                                                            <option value="@item.Id" selected="selected">@item.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+
                                                     }
-                                                    @*
-                                                        <option value="1">Şahıs</option>
-                                                        <option value="2">LTD</option>
-                                                        <option value="3">AŞ</option>*@
                                                 </select>
                                             </div>
                                         </div>
@@ -227,7 +238,7 @@
                                                 <h5 class="my-10">Street Address: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <textarea class="form-control input-col" placeholder="Street Address" asp-for="StreetAddress" required></textarea>
+                                                <textarea class="form-control input-col" placeholder="Street Address" asp-for="StreetAddress" required>@Model.Identification_Item.StreetAddress</textarea>
                                             </div>
                                         </div>
 
@@ -237,7 +248,7 @@
                                                 <h5 class="my-10">Tax Authority: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <input class="form-control input-col" type="text" placeholder="Tax Authority" asp-for="TaxAuthority" required />
+                                                <input class="form-control input-col" type="text" placeholder="Tax Authority" asp-for="TaxAuthority" value="@Model.Identification_Item.TaxAuthority" required />
                                             </div>
                                         </div>
 
@@ -246,7 +257,7 @@
                                                 <h5 class="my-10">Tax No: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <input class="form-control input-col" type="text" placeholder="Tax No" asp-for="TaxNo" required />
+                                                <input class="form-control input-col" type="text" placeholder="Tax No" asp-for="TaxNo" value="@Model.Identification_Item.TaxNo" required />
                                             </div>
                                         </div>
 
@@ -260,7 +271,15 @@
                                                     <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.Bank_Enumerable)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                        if (Model.Identification_Item.BankId == item.Id)
+                                                        {
+                                                            <option value="@item.Id" selected="selected">@item.Name</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id">@item.Name</option>
+                                                        }
+
                                                     }
                                                     @*
                                                         <option value="1">Akbank</option>
@@ -276,7 +295,7 @@
                                                 <h5 class="my-10">IBAN: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <input class="form-control input-col" type="text" placeholder="IBAN" asp-for="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" required />@*data-inputmask="'mask':['AA99 9999 9999 9999 9999 9999 99']"*@
+                                                <input class="form-control input-col" type="text" placeholder="IBAN" asp-for="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" value="@Model.Identification_Item.IBAN" required />@*data-inputmask="'mask':['AA99 9999 9999 9999 9999 9999 99']"*@
                                             </div>
                                         </div>
 
@@ -286,13 +305,13 @@
                                                 <h5 class="my-10">Payment Terms: </h5>
                                             </div>
                                             <div class="col-10 my-10">
-                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="PaymentTerm30" />
+                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="PaymentTerm30" value="@Model.Identification_Item.PaymentTerm30" />
                                                 <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="PaymentTerm60" />
+                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="PaymentTerm60" value="@Model.Identification_Item.PaymentTerm60" />
                                                 <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="PaymentTerm90" />
+                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="PaymentTerm90" value="@Model.Identification_Item.PaymentTerm90" />
                                                 <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
                                             </div>
                                         </div>
@@ -398,7 +417,7 @@
                                                             <th class="pt-10">IBAN</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody >
+                                                    <tbody>
                                                         @foreach (var item in Model.Identification_Enumerable)
                                                         {
                                                             <tr>
@@ -1642,11 +1661,9 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (received) {
                     console.log(received);
-                    location.href = '/accounting/edit-def/' + received.id +'/comp-id/'+'@Model.CompanyItem.Id';
-                    //console.log('/accounting/edit-def/' + received.id +'/comp-id/'+'@Model.CompanyItem.Id');
                 }
             });
-
+            /*location.href = 'newPage.html';*/
         });
 
         function searchCat() {
