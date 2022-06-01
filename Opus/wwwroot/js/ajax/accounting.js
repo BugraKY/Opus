@@ -8,7 +8,26 @@ function addDepartmant(name) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(name),
         success: function (data) {
-            alert(data);
+            $('#modal-dep').modal('toggle');
+            $('#depinp').val('');
+            //#deps_table
+            $('#deps_table').DataTable({
+                "ajax": {
+                    "url": "/api/accounting/getalldep/",
+                    dataSrc: '',
+                },
+                "columns": [
+                    { "data": "name", "width": "100%" },
+                    { "data": "id", "class": "d-none" }
+                ],
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+                destroy: true,
+
+            });
         }
     });
 };
@@ -20,7 +39,29 @@ function addBank(name) {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(name),
         success: function (data) {
-            alert(data);
+
+
+            $('#modal-bank').modal('toggle');
+            $('#bankinp').val('');
+
+            $('#banks_table').DataTable({
+                "ajax": {
+                    "url": "/api/accounting/getallbank/",
+                    dataSrc: '',
+                },
+                "columns": [
+                    { "data": "name", "width": "100%" },
+                    { "data": "id", "class": "d-none" }
+                ],
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+                destroy: true,
+                
+
+            });
         }
     });
 };

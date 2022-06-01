@@ -9,7 +9,7 @@ using static Opus.Utility.ProjectConstant;
 namespace Opus.Areas.Accounting.Controllers
 {
     [Area("Accounting")]
-    
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accounting)]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _uow;

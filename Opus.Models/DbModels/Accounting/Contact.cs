@@ -13,7 +13,7 @@ namespace Opus.Models.DbModels.Accounting
         [Key]
         public Guid Id { get; set; }
         public string FullName { get; set; }
-        public Guid? DepartmantId { get; set; }
+        public Guid DepartmantId { get; set; }
         [ForeignKey("DepartmantId")]
         public Departmant Departmant { get; set; }
         public string MobileNumber { get; set; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
@@ -8,6 +9,7 @@ using static Opus.Utility.ProjectConstant;
 namespace Opus.Areas.HR.Controllers
 {
     [Area("HR")]
+    [Authorize(Roles = UserRoles.Admin)]
     public class SuController : Controller//Super User Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels.Accounting;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.Accounting.Controllers
 {
     [Area("Accounting")]
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accounting)]
     public class CurrentController : Controller
     {
         private readonly IUnitOfWork _uow;

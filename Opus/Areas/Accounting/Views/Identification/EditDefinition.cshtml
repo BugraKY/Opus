@@ -193,8 +193,8 @@
 
                                                     }
                                                     @*
-                                                        <option value="1">Supplier</option>
-                                                        <option value="2">Customer</option>
+                    <option value="1">Supplier</option>
+                    <option value="2">Customer</option>
                                                     *@
                                                 </select>
                                             </div>
@@ -238,10 +238,10 @@
                                                 <h5 class="my-10">Street Address: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <textarea class="form-control input-col" placeholder="Street Address" asp-for="StreetAddress" required>@Model.Identification_Item.StreetAddress</textarea>
+                                                <textarea class="form-control input-col" placeholder="Street Address" asp-for="StreetAddress" required></textarea>
                                             </div>
                                         </div>
-
+                                        
 
                                         <div class="row pb-15">
                                             <div class="col-2">
@@ -282,9 +282,9 @@
 
                                                     }
                                                     @*
-                                                        <option value="1">Akbank</option>
-                                                        <option value="2">TC Ziraat Bankası</option>
-                                                        <option value="3">Türkiye İş Bankası</option>*@
+                    <option value="1">Akbank</option>
+                    <option value="2">TC Ziraat Bankası</option>
+                    <option value="3">Türkiye İş Bankası</option>*@
                                                 </select>
                                                 <buttom class="btn btn-success" style="margin-top:-20px;" data-bs-toggle="modal" data-bs-target="#modal-fill"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
                                             </div>
@@ -367,10 +367,10 @@
                                                                                     <option value="@item.Id">@item.Name</option>
                                                                                 }
                                                                                 @*
-                                                                                    <option value="1">HR</option>
-                                                                                    <option value="2">Accounting</option>
-                                                                                    <option value="3">Management</option>
-                                                                                    <option value="4">Quality Control Manager</option>*@
+                                                <option value="1">HR</option>
+                                                <option value="2">Accounting</option>
+                                                <option value="3">Management</option>
+                                                <option value="4">Quality Control Manager</option>*@
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -456,7 +456,7 @@
                                         <div class="row pt-50">
                                             <div class="col-12">
                                                 <div style="float:right;">
-                                                    <button class="btn btn-primary input-col">Submit</button>
+                                                    <button class="btn btn-primary input-col">Update</button>
                                                 </div>
                                             </div>
 
@@ -1453,6 +1453,8 @@
                                 <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
                                 <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
                             <option data-tokens="4955e8b7-33ad-429e-107c-08da2f601faa">Many Points</option><option data-tokens="22bdc8ad-1fbe-437d-3486-08da2f638e84">Expert Quality Services</option></select></div>`;
+            var streetadd = '@Model.Identification_Item.StreetAddress.ToString()';
+            $('#StreetAddress').html(streetadd);
             $('#search_subCatlist').attr('disabled', 'disabled');
             //$('#subcat-toggle').attr('disabled', 'disabled');
             $('#subcat-toggle').attr("disabled", true);

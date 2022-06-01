@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels.Accounting;
 using Opus.Models.ViewModels.Accounting;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.Accounting.Controllers
 {
     [Area("Accounting")]
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accounting)]
     public class IdentificationController : Controller
     {
         private readonly IUnitOfWork _uow;
@@ -13,6 +16,7 @@ namespace Opus.Areas.Accounting.Controllers
         {
             _uow = uow;
         }
+        #region ACTION
         [Route("accounting/ids/{id}")]
         public IActionResult Index(string id)
         {
@@ -31,7 +35,7 @@ namespace Opus.Areas.Accounting.Controllers
                 {
                     return Redirect("/accounting/identifications");
                 }
-                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id),includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
 
             }
             catch (Exception ex)
@@ -44,10 +48,13 @@ namespace Opus.Areas.Accounting.Controllers
         [Route("accounting/identifications")]
         public IActionResult Identifications()
         {
-            return View();
+            IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
+            identificationIndex.Departmant_Enumerable = _uow.Accounting_Departmant.GetAll().OrderBy(n => n.Name);
+            identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll().OrderBy(n => n.Name);
+            return View(identificationIndex);
         }
         [Route("accounting/edit-def/{id}/comp-id/{compid}")]
-        public IActionResult EditDefinition(string id,string compid)
+        public IActionResult EditDefinition(string id, string compid)
         {
             IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
             try
@@ -58,14 +65,17 @@ namespace Opus.Areas.Accounting.Controllers
                 identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll();
                 identificationIndex.CommercialTitle_Enumerable = _uow.Accounting_Commercialtitle.GetAll();
                 identificationIndex.Departmant_Enumerable = _uow.Accounting_Departmant.GetAll();
-                if (identificationIndex.CompanyItem == null || identificationIndex.Companies.Count() == 0 ||
-                    identificationIndex.IdentificationType_Enumerable.Count() == 0 || identificationIndex.Bank_Enumerable.Count() == 0 ||
-                    identificationIndex.CommercialTitle_Enumerable.Count() == 0 || identificationIndex.Departmant_Enumerable.Count() == 0)
+                if (identificationIndex.CompanyItem == null || !identificationIndex.Companies.Any() ||
+                    !identificationIndex.IdentificationType_Enumerable.Any() || !identificationIndex.Bank_Enumerable.Any() ||
+                    !identificationIndex.CommercialTitle_Enumerable.Any() || !identificationIndex.Departmant_Enumerable.Any())
                 {
                     return Redirect("/accounting/identifications");
                 }
                 identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
                 identificationIndex.Identification_Item = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
+
+                if (identificationIndex.Identification_Item == null)
+                    return Content("OPUS SYSTEM - Definition was not found from this id='" + id + "'");
 
             }
             catch (Exception ex)
@@ -75,31 +85,53 @@ namespace Opus.Areas.Accounting.Controllers
 
             return View(identificationIndex);
         }
+        [HttpGet("accounting/ids/{compid}/definition-remove/{id}")]
+        public IActionResult RemoveDefinition(string id, string compid)
+        {
+            try
+            {
+                var _definition = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+                if (_definition == null)
+                    return Content("OPUS SYSTEM - Definition was not found from this id='" + id + "'");
+                else
+                {
+                    _uow.Accounting_Identification.Remove(_definition);
+                    _uow.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.InnerException.Message.ToString());
+            }
+
+            return Redirect("/accounting/ids/" + compid);
+        }
         [HttpPost("accounting/definitionpost")]
-        public IActionResult DefinitionPost(IdentificationIndexVM Id)
+        public IActionResult DefinitionPost(IdentificationIndexVM Ids)
         {
             var _identification = new Identification()
             {
-                BankId = Id.BankId,
-                CommercialTitleId = Id.CommercialTitleId,
-                IdentificationTypeId = Id.IdentificationTypeId,
-                CompanyId = Guid.Parse(Id.CompanyId),
-                IdentityCode = Id.IdentityCode,
-                IdNumber = Id.IdNumber,
-                IBAN = Id.IBAN,
-                StreetAddress = Id.StreetAddress,
-                TaxAuthority = Id.TaxAuthority,
-                TaxNo = Id.TaxNo,
-                PaymentTerm30 = Id.PaymentTerm30,
-                PaymentTerm60 = Id.PaymentTerm60,
-                PaymentTerm90 = Id.PaymentTerm90
+                BankId = Ids.BankId,
+                CommercialTitleId = Ids.CommercialTitleId,
+                IdentificationTypeId = Ids.IdentificationTypeId,
+                CompanyId = Guid.Parse(Ids.CompanyId),
+                IdentityCode = Ids.IdentityCode,
+                IdNumber = Ids.IdNumber,
+                IBAN = Ids.IBAN,
+                StreetAddress = Ids.StreetAddress,
+                TaxAuthority = Ids.TaxAuthority,
+                TaxNo = Ids.TaxNo,
+                PaymentTerm30 = Ids.PaymentTerm30,
+                PaymentTerm60 = Ids.PaymentTerm60,
+                PaymentTerm90 = Ids.PaymentTerm90
             };
             _uow.Accounting_Identification.Add(_identification);
-            _uow.Accounting_Contact.AddRange(Id.ContactEnumerable);
+            _uow.Accounting_Contact.AddRange(Ids.ContactEnumerable);
             _uow.Save();
             //return NoContent();
-            return Redirect("/accounting/ids/"+Id.CompanyId);
+            return Redirect("/accounting/ids/" + Ids.CompanyId);
         }
+        #endregion ACTION
 
 
         #region API
@@ -218,6 +250,16 @@ namespace Opus.Areas.Accounting.Controllers
         {
             var _def = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
             return Json(_def);
+        }
+        [Route("api/accounting/getalldep")]
+        public IEnumerable<Departmant> GetDepartmants()
+        {
+            return _uow.Accounting_Departmant.GetAll();
+        }
+        [Route("api/accounting/getallbank")]
+        public IEnumerable<Bank> GetBanks()
+        {
+            return _uow.Accounting_Bank.GetAll();
         }
         #endregion API
 

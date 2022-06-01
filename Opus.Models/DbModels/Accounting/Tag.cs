@@ -16,7 +16,7 @@ namespace Opus.Models.DbModels.Accounting
         public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
-        public Guid? SubCategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         [ForeignKey("SubCategoryId")]
         public SubCategory SubCategory { get; set; }
         public bool Active { get; set; }

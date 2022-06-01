@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using System.Linq;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.HR.Controllers
 {
     [Area("HR")]
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
     public class ProductsController : Controller
     {
         private readonly IUnitOfWork _uow;

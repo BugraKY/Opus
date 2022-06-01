@@ -23,7 +23,7 @@ namespace Opus.Models.DbModels.Accounting
         public Guid CommercialTitleId { get; set; }
         [ForeignKey("CommercialTitleId")]
         public CommercialTitle CommercialTitle { get; set; }
-        public Guid? CompanyId { get; set; }
+        public Guid CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }
         public string StreetAddress { get; set; }// ???

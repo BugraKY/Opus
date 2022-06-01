@@ -80,13 +80,13 @@
     }
 
     .table {
-        --bs-table-hover-bg: rgba(41, 163, 119, 0.25);
-        cursor: pointer;
-        user-select: none; /* supported by Chrome and Opera */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
+        --bs-table-hover-bg: rgba(41, 163, 119, 0.25) !important;
+        cursor: pointer !important;
+        user-select: none !important; /* supported by Chrome and Opera */
+        -webkit-user-select: none !important; /* Safari */
+        -khtml-user-select: none !important; /* Konqueror HTML */
+        -moz-user-select: none !important; /* Firefox */
+        -ms-user-select: none !important; /* Internet Explorer/Edge */
     }
 
     .selected {
@@ -384,7 +384,7 @@
                                         <!--Definition List Section-->
                                         <section>
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-striped dataTables" id="deflist_table">
+                                                <table class="table table-hover table-bordered table-striped dataTables" id="deflist_table">
                                                     <thead>
                                                         <tr class="text-start">
                                                             <th class="d-none"></th>
@@ -396,6 +396,7 @@
                                                             <th class="pt-10">Tax No</th>
                                                             <th class="pt-10">Bank</th>
                                                             <th class="pt-10">IBAN</th>
+                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody >
@@ -411,6 +412,7 @@
                                                                 <td>@item.TaxNo</td>
                                                                 <td>@item.Bank.Name</td>
                                                                 <td>@item.IBAN</td>
+                                                                <td><a href="/accounting/ids/@Model.CompanyItem.Id/definition-remove/@item.Id" class="btn button" style="z-index:9999;">Remove</a></td>
                                                             </tr>
                                                         }
                                                     </tbody>
@@ -1642,8 +1644,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (received) {
                     console.log(received);
-                    location.href = '/accounting/edit-def/' + received.id +'/comp-id/'+'@Model.CompanyItem.Id';
-                    //console.log('/accounting/edit-def/' + received.id +'/comp-id/'+'@Model.CompanyItem.Id');
+                    //location.href = '/accounting/edit-def/' + received.id +'/comp-id/'+'@Model.CompanyItem.Id';
                 }
             });
 
