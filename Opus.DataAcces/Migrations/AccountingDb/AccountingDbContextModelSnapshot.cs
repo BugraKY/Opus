@@ -129,7 +129,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DepartmantId")
+                    b.Property<Guid>("DepartmantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -195,7 +195,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                     b.Property<Guid>("CommercialTitleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CompanyId")
+                    b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("IBAN")
@@ -330,7 +330,9 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                 {
                     b.HasOne("Opus.Models.DbModels.Accounting.Departmant", "Departmant")
                         .WithMany()
-                        .HasForeignKey("DepartmantId");
+                        .HasForeignKey("DepartmantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Departmant");
                 });
@@ -370,7 +372,9 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
                     b.HasOne("Opus.Models.DbModels.Accounting.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Opus.Models.DbModels.Accounting.IdentificationType", "IdentificationType")
                         .WithMany()

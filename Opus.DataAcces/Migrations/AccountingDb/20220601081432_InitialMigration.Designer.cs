@@ -12,8 +12,8 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations.AccountingDb
 {
     [DbContext(typeof(AccountingDbContext))]
-    [Migration("20220531065136_InitialMigration12")]
-    partial class InitialMigration12
+    [Migration("20220601081432_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,7 +131,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CompanyDepartmantsId")
+                    b.Property<Guid>("DepartmantId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -145,7 +145,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyDepartmantsId");
+                    b.HasIndex("DepartmantId");
 
                     b.ToTable("Contact");
                 });
@@ -191,14 +191,20 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BankName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("BankId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CommercialTitleId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("CommercialTitleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("IBAN")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("IdNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("IdentificationTypeId")
                         .HasColumnType("uniqueidentifier");
@@ -225,6 +231,12 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BankId");
+
+                    b.HasIndex("CommercialTitleId");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("IdentificationTypeId");
 
@@ -318,13 +330,13 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
             modelBuilder.Entity("Opus.Models.DbModels.Accounting.Contact", b =>
                 {
-                    b.HasOne("Opus.Models.DbModels.Accounting.CompanyDepartmants", "CompanyDepartmants")
+                    b.HasOne("Opus.Models.DbModels.Accounting.Departmant", "Departmant")
                         .WithMany()
-                        .HasForeignKey("CompanyDepartmantsId")
+                        .HasForeignKey("DepartmantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CompanyDepartmants");
+                    b.Navigation("Departmant");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.Accounting.ContactDefinitions", b =>
@@ -348,11 +360,35 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
             modelBuilder.Entity("Opus.Models.DbModels.Accounting.Identification", b =>
                 {
+                    b.HasOne("Opus.Models.DbModels.Accounting.Bank", "Bank")
+                        .WithMany()
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Opus.Models.DbModels.Accounting.CommercialTitle", "CommercialTitle")
+                        .WithMany()
+                        .HasForeignKey("CommercialTitleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Opus.Models.DbModels.Accounting.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Opus.Models.DbModels.Accounting.IdentificationType", "IdentificationType")
                         .WithMany()
                         .HasForeignKey("IdentificationTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Bank");
+
+                    b.Navigation("CommercialTitle");
+
+                    b.Navigation("Company");
 
                     b.Navigation("IdentificationType");
                 });
