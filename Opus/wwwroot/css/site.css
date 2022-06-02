@@ -28,7 +28,19 @@ body {
     background-repeat: no-repeat;
 }
 /*Sidebar*/
+.rotate {
+    
+}
 
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
 .center {
     display: flex;
     align-items: center;
@@ -36,8 +48,15 @@ body {
 .danger {
     color: #ff0000 !important;
 }
+
 #loader {
-    background: #fff url(/images/preloaders/1.gif) no-repeat center center!important;
+    /*background: #fff url(/images/preloaders/1.gif) no-repeat center center!important;*/
+    /*background: #fff url(/loader.png) no-repeat center center !important;*/
+    /*background-image:url(/loader.png);*/
+}
+
+.loader-anim {
+    animation: rotation 2s infinite linear;
 }
 .shadow-1-strong {
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.21) !important;

@@ -35,18 +35,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "CommercialTitle",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommercialTitle", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Company",
                 columns: table => new
                 {
@@ -164,7 +152,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                     IdentificationTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IdentityCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdNumber = table.Column<long>(type: "bigint", nullable: false),
-                    CommercialTitleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommercialTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TaxAuthority = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -182,12 +170,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         name: "FK_Identification_Bank_BankId",
                         column: x => x.BankId,
                         principalTable: "Bank",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Identification_CommercialTitle_CommercialTitleId",
-                        column: x => x.CommercialTitleId,
-                        principalTable: "CommercialTitle",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -286,11 +268,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                 column: "BankId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Identification_CommercialTitleId",
-                table: "Identification",
-                column: "CommercialTitleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Identification_CompanyId",
                 table: "Identification",
                 column: "CompanyId");
@@ -341,9 +318,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
             migrationBuilder.DropTable(
                 name: "Bank");
-
-            migrationBuilder.DropTable(
-                name: "CommercialTitle");
 
             migrationBuilder.DropTable(
                 name: "Company");

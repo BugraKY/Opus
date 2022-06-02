@@ -85,7 +85,7 @@ namespace Opus.Areas.HR.Controllers
                     }
                     
                     _logger.LogInformation("Admin account creating by 'Super Admin'");
-                    await _userManager.AddToRoleAsync(_user, UserRoles.Admin);
+                    await _userManager.AddToRoleAsync(_user, UserRoles.Accounting);
 
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

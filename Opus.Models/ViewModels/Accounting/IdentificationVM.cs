@@ -14,7 +14,6 @@ namespace Opus.Models.ViewModels.Accounting
         public string IdentificationTypeId { get; set; }
         public IdentificationType IdentificationType { get; set; }// Tedarikçi - Müşteri ==> IdentificationType
         public string CommercialTitleId { get; set; }
-        public CommercialTitle CommercialTitle { get; set; }// Ticari Ünvan
         public string StreetAddress { get; set; }// ???
         public string TaxAuthority { get; set; }
         public string TaxNo { get; set; }

@@ -15,7 +15,6 @@ namespace Opus.DataAcces.Data
         public DbSet<Company> Company { get; set; }
         public DbSet<IdentificationType> IdentificationType { get; set; }
         public DbSet<Category> Category { get; set; }
-        public DbSet<CommercialTitle> CommercialTitle { get; set; }
         public DbSet<CompanyDepartmants> CompanyDepartments { get; set; }
         public DbSet<Contact> Contact { get; set; }
         public DbSet<Departmant> Departmant { get; set; }

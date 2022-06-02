@@ -25,7 +25,7 @@ namespace Opus.Areas.HR.Controllers
             #region Authentication Index
             if (GetClaim() != null)
             {
-                return Redirect("/staff");//Go Dashboard
+                return Redirect("/dashboard");//Go Dashboard
             }
             return Redirect("/signin");
             #endregion Authentication Index

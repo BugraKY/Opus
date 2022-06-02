@@ -216,20 +216,7 @@
                                                 <h5 class="my-10">Commercial Title: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" asp-for="CommercialTitleId" required>
-                                                    @foreach (var item in Model.CommercialTitle_Enumerable)
-                                                    {
-                                                        if (Model.Identification_Item.CommercialTitleId == item.Id)
-                                                        {
-                                                            <option value="@item.Id" selected="selected">@item.Name</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@item.Id">@item.Name</option>
-                                                        }
-
-                                                    }
-                                                </select>
+                                                <input class="form-control input-col" asp-for="CommercialTitle" value="@Model.Identification_Item.CommercialTitle" required />
                                             </div>
                                         </div>
 
@@ -424,7 +411,7 @@
                                                                 <td class="d-none">@item.Id</td>
                                                                 <td>@item.IdentificationType.Name</td>
                                                                 <td>@item.IdentityCode</td>
-                                                                <td>@item.CommercialTitle.Name</td>
+                                                                <td>@item.CommercialTitle</td>
                                                                 <td>@item.StreetAddress</td>
                                                                 <td>@item.TaxAuthority</td>
                                                                 <td>@item.TaxNo</td>

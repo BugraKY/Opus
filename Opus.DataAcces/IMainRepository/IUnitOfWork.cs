@@ -32,7 +32,6 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.ICompaniesRepository Accounting_Company { get; }
         IAccountingRepository.IIdentificationtypeRepository Accounting_Identificationtype { get; }
         IAccountingRepository.ICategoryRepository Accounting_Category { get; }
-        IAccountingRepository.ICommercialtitleRepository Accounting_Commercialtitle { get; }
         IAccountingRepository.ICompanydepartmantRepository Accounting_Companydepartmant { get; }
         IAccountingRepository.IContactRepository Accounting_Contact { get; }
         IAccountingRepository.IDepartmantRepository Accounting_Departmant { get; }

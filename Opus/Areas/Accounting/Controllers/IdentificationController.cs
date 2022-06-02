@@ -27,20 +27,22 @@ namespace Opus.Areas.Accounting.Controllers
                 identificationIndex.Companies = _uow.Accounting_Company.GetAll();
                 identificationIndex.IdentificationType_Enumerable = _uow.Accounting_Identificationtype.GetAll();
                 identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll();
-                identificationIndex.CommercialTitle_Enumerable = _uow.Accounting_Commercialtitle.GetAll();
                 identificationIndex.Departmant_Enumerable = _uow.Accounting_Departmant.GetAll();
                 if (identificationIndex.CompanyItem == null || identificationIndex.Companies.Count() == 0 ||
                     identificationIndex.IdentificationType_Enumerable.Count() == 0 || identificationIndex.Bank_Enumerable.Count() == 0 ||
-                    identificationIndex.CommercialTitle_Enumerable.Count() == 0 || identificationIndex.Departmant_Enumerable.Count() == 0)
+                    identificationIndex.Departmant_Enumerable.Count() == 0)
                 {
                     return Redirect("/accounting/identifications");
                 }
-                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
 
             }
             catch (Exception ex)
             {
-                return Content(ex.InnerException.Message);
+                if(ex.InnerException!=null)
+                    return Content(ex.InnerException.Message);
+                else
+                    return Content(ex.Message);
             }
 
             return View(identificationIndex);
@@ -63,16 +65,15 @@ namespace Opus.Areas.Accounting.Controllers
                 identificationIndex.Companies = _uow.Accounting_Company.GetAll();
                 identificationIndex.IdentificationType_Enumerable = _uow.Accounting_Identificationtype.GetAll();
                 identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll();
-                identificationIndex.CommercialTitle_Enumerable = _uow.Accounting_Commercialtitle.GetAll();
                 identificationIndex.Departmant_Enumerable = _uow.Accounting_Departmant.GetAll();
                 if (identificationIndex.CompanyItem == null || !identificationIndex.Companies.Any() ||
                     !identificationIndex.IdentificationType_Enumerable.Any() || !identificationIndex.Bank_Enumerable.Any() ||
-                    !identificationIndex.CommercialTitle_Enumerable.Any() || !identificationIndex.Departmant_Enumerable.Any())
+                    !identificationIndex.Departmant_Enumerable.Any())
                 {
                     return Redirect("/accounting/identifications");
                 }
-                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
-                identificationIndex.Identification_Item = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
+                identificationIndex.Identification_Item = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
 
                 if (identificationIndex.Identification_Item == null)
                     return Content("OPUS SYSTEM - Definition was not found from this id='" + id + "'");
@@ -80,7 +81,10 @@ namespace Opus.Areas.Accounting.Controllers
             }
             catch (Exception ex)
             {
-                return Content(ex.InnerException.Message);
+                if (ex.InnerException != null)
+                    return Content(ex.InnerException.Message);
+                else
+                    return Content(ex.Message);
             }
 
             return View(identificationIndex);
@@ -112,7 +116,7 @@ namespace Opus.Areas.Accounting.Controllers
             var _identification = new Identification()
             {
                 BankId = Ids.BankId,
-                CommercialTitleId = Ids.CommercialTitleId,
+                CommercialTitle = Ids.CommercialTitle,
                 IdentificationTypeId = Ids.IdentificationTypeId,
                 CompanyId = Guid.Parse(Ids.CompanyId),
                 IdentityCode = Ids.IdentityCode,
@@ -248,18 +252,18 @@ namespace Opus.Areas.Accounting.Controllers
         [HttpGet("api/accounting/getDef/{id}")]
         public JsonResult GetDefinition(string id)
         {
-            var _def = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,CommercialTitle,Company,Bank");
+            var _def = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
             return Json(_def);
         }
         [Route("api/accounting/getalldep")]
         public IEnumerable<Departmant> GetDepartmants()
         {
-            return _uow.Accounting_Departmant.GetAll();
+            return _uow.Accounting_Departmant.GetAll().OrderBy(n=>n.Name);
         }
         [Route("api/accounting/getallbank")]
         public IEnumerable<Bank> GetBanks()
         {
-            return _uow.Accounting_Bank.GetAll();
+            return _uow.Accounting_Bank.GetAll().OrderBy(n => n.Name);
         }
         #endregion API
 

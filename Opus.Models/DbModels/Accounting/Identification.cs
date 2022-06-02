@@ -20,9 +20,7 @@ namespace Opus.Models.DbModels.Accounting
         public string IdentityCode { get; set; }//exm: supp-mp0005871
         [DefaultValue(0)]
         public long IdNumber { get; set; }
-        public Guid CommercialTitleId { get; set; }
-        [ForeignKey("CommercialTitleId")]
-        public CommercialTitle CommercialTitle { get; set; }
+        public string CommercialTitle { get; set; }
         public Guid CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }

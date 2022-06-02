@@ -53,20 +53,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("Opus.Models.DbModels.Accounting.CommercialTitle", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommercialTitle");
-                });
-
             modelBuilder.Entity("Opus.Models.DbModels.Accounting.Company", b =>
                 {
                     b.Property<Guid>("Id")
@@ -192,8 +178,8 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                     b.Property<Guid>("BankId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CommercialTitleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("CommercialTitle")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
@@ -231,8 +217,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                     b.HasKey("Id");
 
                     b.HasIndex("BankId");
-
-                    b.HasIndex("CommercialTitleId");
 
                     b.HasIndex("CompanyId");
 
@@ -364,12 +348,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Opus.Models.DbModels.Accounting.CommercialTitle", "CommercialTitle")
-                        .WithMany()
-                        .HasForeignKey("CommercialTitleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Opus.Models.DbModels.Accounting.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId")
@@ -383,8 +361,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .IsRequired();
 
                     b.Navigation("Bank");
-
-                    b.Navigation("CommercialTitle");
 
                     b.Navigation("Company");
 

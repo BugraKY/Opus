@@ -208,17 +208,7 @@
                                                 <h5 class="my-10">Commercial Title: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="commercial" asp-for="CommercialTitleId" required>
-                                                    <option value="" selected disabled class="d-none">Select</option>
-                                                    @foreach (var item in Model.CommercialTitle_Enumerable)
-                                                    {
-                                                        <option value="@item.Id">@item.Name</option>
-                                                    }
-                                                    @*
-                                                        <option value="1">Şahıs</option>
-                                                        <option value="2">LTD</option>
-                                                        <option value="3">AŞ</option>*@
-                                                </select>
+                                                <input class="form-control input-col" asp-for="CommercialTitle" required/>
                                             </div>
                                         </div>
 
@@ -406,7 +396,7 @@
                                                                 <td class="d-none">@item.Id</td>
                                                                 <td>@item.IdentificationType.Name</td>
                                                                 <td>@item.IdentityCode</td>
-                                                                <td>@item.CommercialTitle.Name</td>
+                                                                <td>@item.CommercialTitle</td>
                                                                 <td>@item.StreetAddress</td>
                                                                 <td>@item.TaxAuthority</td>
                                                                 <td>@item.TaxNo</td>
