@@ -1,0 +1,169 @@
+﻿@model Opus.Models.ViewModels.UserVM
+<!-- Content Wrapper. Contains page content -->
+
+<div class="container-full">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Profile</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row">
+            <div class="col-12 col-lg-7 col-xl-8">
+
+
+                <div class="tab-pane" id="settings">
+
+                    <div class="box p-20">
+                        <form class="form-horizontal col-12">
+                            @*form-horizontal form-element col-12*@
+                            <div class="form-group row">
+                                <label for="inputPass" class="col-sm-2 form-label">Change Password</label>
+
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" id="inputPass" placeholder="">
+                                </div>
+                            </div>
+                            @*
+                            <div class="form-group row">
+                                <div class="ms-auto col-sm-10">
+                                    <div class="checkbox">
+                                        <input type="checkbox" id="basic_checkbox_1" checked="">
+                                        <label for="basic_checkbox_1"> I agree to the</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Terms and Conditions</a>
+                                    </div>
+                                </div>
+                            </div>
+                            *@
+                            <div class="form-group row">
+                                <div class="ms-auto col-sm-10">
+                                    <button type="button" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="row p-10">
+                            <div class="badge badge-warning shadow-2-strong">This section not ready yet.</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- /.nav-tabs-custom -->
+            </div>
+            <!-- /.col -->
+
+            <div class="col-12 col-lg-5 col-xl-4">
+                <div class="box box-widget widget-user">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-img bbsr-0 bber-0" style="background: url('../images/gallery/full/10.jpg') center center;" data-overlay="5">
+                        <h3 class="widget-user-username text-white">@Model.FirstName @Model.LastName</h3>
+                        <h6 class="widget-user-desc text-white">
+
+                            @foreach (var item in Model.UserRoles)
+                            {
+                                if (Model.UserRoles.Count > 1)
+                                {
+                                    @item <a>-</a>
+                                }
+
+                                else
+                                {
+                                    @item
+                                }
+
+                            }
+
+                        </h6>
+                    </div>
+                    <div class="widget-user-image">
+                        <img class="rounded-circle" src="../images/user3-128x128.jpg" alt="User Avatar">
+                    </div>
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="description-block">
+                                    <h5 class="description-header">12K</h5>
+                                    <span class="description-text">FOLLOWERS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 be-1 bs-1">
+                                <div class="description-block">
+                                    <h5 class="description-header">550</h5>
+                                    <span class="description-text">FOLLOWERS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4">
+                                <div class="description-block">
+                                    <h5 class="description-header">158</h5>
+                                    <span class="description-text">TWEETS</span>
+                                </div>
+                                <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-body box-profile">
+                        <div class="row">
+                            <div class="col-12">
+                                <div>
+                                    <p>Email :<span class="text-gray ps-10">@Model.Email</span> </p>
+                                    <p>Mobile :<span class="text-gray ps-10">@Model.PhoneNumber</span></p>
+                                    @*<p>Address :<span class="text-gray ps-10">123, Lorem Ipsum, Florida, USA</span></p>*@
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="pb-15">
+                                    <p class="mb-10">Social Profile</p>
+                                    <div class="user-social-acount">
+                                        <button class="btn btn-circle btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></button>
+                                        <button class="btn btn-circle btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></button>
+                                        <button class="btn btn-circle btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div>
+                                    <div class="map-box">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12178.78607637423!2d28.9509075!3d40.2602754!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x75d10780a5c28366!2sExpert%20Quality%20Services!5e0!3m2!1str!2str!4v1654181139598!5m2!1str!2str" width="100%" height="100" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+</div>
+
+<!-- /.content-wrapper -->

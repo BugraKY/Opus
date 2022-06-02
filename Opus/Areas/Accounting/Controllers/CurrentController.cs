@@ -24,9 +24,7 @@ namespace Opus.Areas.Accounting.Controllers
         [Route("accounting/curr/{id}")]
         public IActionResult SelectFunc(string id)
         {
-
             return View(id);
-                
         }
         [HttpGet("api/accounting/get-comps")]
         public IEnumerable<Company> Companies()
@@ -43,6 +41,12 @@ namespace Opus.Areas.Accounting.Controllers
                 companies.Add(companyItem);
             }
             return companies;
+        }
+        [Route("accounting/curr/buying/{id}")]
+        public IActionResult Buying(string id)
+        {
+            var comp = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+            return View(comp);
         }
     }
 }

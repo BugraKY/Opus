@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
+using System.Security.Claims;
 
 namespace Opus.Areas.HR.Controllers
 {
     [Area("HR")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -95,5 +98,32 @@ namespace Opus.Areas.HR.Controllers
         {
             return View();
         }*/
+        [Route("account/profile")]
+        public async Task<IActionResult> Profile()
+        {
+            
+            var _user = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+            var userRoles = await _userManager.GetRolesAsync(_user);
+            var _uservm = new UserVM()
+            {
+                FirstName=_user.FirstName,
+                LastName=_user.LastName,
+                UserRoles = userRoles,
+                Email = _user.Email,
+                PhoneNumber = _user.PhoneNumber,
+            };
+
+            return View(_uservm);
+        }
+        public Claim GetClaim()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var Claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (Claims != null)
+            {
+                return Claims;
+            }
+            return null;
+        }
     }
 }
