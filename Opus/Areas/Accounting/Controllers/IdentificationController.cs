@@ -130,7 +130,8 @@ namespace Opus.Areas.Accounting.Controllers
                 PaymentTerm90 = Ids.PaymentTerm90
             };
             _uow.Accounting_Identification.Add(_identification);
-            _uow.Accounting_Contact.AddRange(Ids.ContactEnumerable);
+            if(Ids.ContactEnumerable!=null)
+                _uow.Accounting_Contact.AddRange(Ids.ContactEnumerable);
             _uow.Save();
             //return NoContent();
             return Redirect("/accounting/ids/" + Ids.CompanyId);
@@ -152,7 +153,7 @@ namespace Opus.Areas.Accounting.Controllers
         public string AddBank([FromBody] string name)
         {
             var _bank = new Bank() { Name = name };
-            _uow.Accounting_Bank.AddAsync(_bank);
+            _uow.Accounting_Bank.Add(_bank);
             _uow.Save();
             return name;
         }

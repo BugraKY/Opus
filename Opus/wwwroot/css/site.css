@@ -29,7 +29,6 @@ body {
 }
 /*Sidebar*/
 .rotate {
-    
 }
 
 @keyframes rotation {
@@ -41,10 +40,12 @@ body {
         transform: rotate(359deg);
     }
 }
+
 .center {
     display: flex;
     align-items: center;
 }
+
 .danger {
     color: #ff0000 !important;
 }
@@ -58,39 +59,62 @@ body {
 .loader-anim {
     animation: rotation 2s infinite linear;
 }
+
 .shadow-1-strong {
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.21) !important;
 }
+
 .shadow-2-strong {
     box-shadow: 0 2px 10px 0 rgba(0,0,0,.21) !important;
 }
+
 .shadow-3-strong {
     box-shadow: 0 5px 15px 0 rgba(0,0,0,.21) !important;
 }
+
 .shadow-4-strong {
     box-shadow: 0 10px 20px 0 rgba(0,0,0,.21) !important;
 }
+
 .shadow-5-strong {
     box-shadow: 0 15px 30px 0 rgba(0,0,0,.21) !important;
 }
+
 .shadow-selected {
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
 }
+
 .box-hover:hover {
     transition-duration: 0.3s;
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75);
 }
+
 .box-hover {
     transition-duration: 0.3s;
 }
-.box-comp{
-    min-width:100px;
-    max-width:300px;
-    height:200px;
+
+.box-comp {
+    min-width: 100px;
+    max-width: 300px;
+    height: 200px;
+}
+
+.input-col {
+    max-width: 400px;
+}
+
+.select2-container {
+    max-width: 400px !important;
+    min-width: 90px !important;
+    width: 400px!important;
+}
+
+.select2-dropdown.select2-dropdown--below {
+    box-shadow: 0 15px 30px 0 rgba(0,0,0,.21) !important;
 }
 /*temporary*/
 table {
@@ -118,30 +142,36 @@ thead {
 tbody {
     font-size: 12px;
 }
+
 .theme-primary.light-skin .sidebar-menu > li.active {
     background-color: rgba(0, 82, 204, 0) !important;
     color: white !important;
     border-left: 5px solid #2aa377 !important;
 }
+
 .box {
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.21) !important;
 }
+
 .btn-opus {
     background-color: #2aa377 !important;
     border-color: #2aa377 !important;
     color: #ffffff !important;
 }
+
 .btn-white {
     background-color: #f8f8f8 !important;
     border-color: #e8e8e8 !important;
     color: #000000 !important;
 }
+
 .bootstrap-select .dropdown-toggle:focus {
     outline: none !important;
     outline: none !important;
     outline-offset: 0 !important;
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.30) !important;
 }
+
 .theme-primary .form-control:focus {
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
     -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;

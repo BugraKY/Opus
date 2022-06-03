@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace Opus.Areas.HR.Controllers
 {
     [Area("HR")]
-    [Authorize]
+
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -23,6 +23,7 @@ namespace Opus.Areas.HR.Controllers
             _uow=uow;
             _logger=logger;
         }
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -86,6 +87,7 @@ namespace Opus.Areas.HR.Controllers
         {
             return View();
         }
+        [Authorize]
         [Route("logout")]
         public async Task<IActionResult> LogOut()
         {
@@ -98,6 +100,7 @@ namespace Opus.Areas.HR.Controllers
         {
             return View();
         }*/
+        [Authorize]
         [Route("account/profile")]
         public async Task<IActionResult> Profile()
         {

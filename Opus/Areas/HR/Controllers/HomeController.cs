@@ -28,6 +28,7 @@ namespace Opus.Areas.HR.Controllers
                 return Redirect("/dashboard");//Go Dashboard
             }
             return Redirect("/signin");
+            //return RedirectToAction("SignIn", "Account")
             #endregion Authentication Index
         }
         [Route("dashboard")]
