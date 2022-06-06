@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Opus.DataAcces.IMainRepository;
+using Opus.Models.DbModels;
 using Opus.Models.DbModels.Accounting;
 using Opus.Models.ViewModels.Accounting;
+using System.Security.Claims;
 using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.Accounting.Controllers
@@ -12,9 +15,13 @@ namespace Opus.Areas.Accounting.Controllers
     public class IdentificationController : Controller
     {
         private readonly IUnitOfWork _uow;
-        public IdentificationController(IUnitOfWork uow)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IdentificationController(IUnitOfWork uow, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _uow = uow;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
         #region ACTION
         [Route("accounting/ids/{id}")]
@@ -39,7 +46,7 @@ namespace Opus.Areas.Accounting.Controllers
             }
             catch (Exception ex)
             {
-                if(ex.InnerException!=null)
+                if (ex.InnerException != null)
                     return Content(ex.InnerException.Message);
                 else
                     return Content(ex.Message);
@@ -90,23 +97,34 @@ namespace Opus.Areas.Accounting.Controllers
             return View(identificationIndex);
         }
         [HttpGet("accounting/ids/{compid}/definition-remove/{id}")]
-        public IActionResult RemoveDefinition(string id, string compid)
+        public async Task<IActionResult> RemoveDefinition(string id, string compid)
         {
-            try
+            #region CheckAuth
+            var user = await _userManager.GetUsersInRoleAsync(UserRoles.Admin);
+            var _claim = user.FirstOrDefault(i => i.Id == AppUser().Id);
+            #endregion CheckAuth
+
+            if (_claim != null)
             {
-                var _definition = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
-                if (_definition == null)
-                    return Content("OPUS SYSTEM - Definition was not found from this id='" + id + "'");
-                else
+                try
                 {
-                    _uow.Accounting_Identification.Remove(_definition);
-                    _uow.Save();
+                    var _definition = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+                    if (_definition == null)
+                        return Content("OPUS SYSTEM - Definition was not found from this id='" + id + "'");
+                    else
+                    {
+                        _uow.Accounting_Identification.Remove(_definition);
+                        _uow.Save();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Content(ex.InnerException.Message.ToString());
                 }
             }
-            catch (Exception ex)
-            {
-                return Content(ex.InnerException.Message.ToString());
-            }
+            else
+                return Content("OPUS SYSTEM - You are not authorized to remove.");
+
 
             return Redirect("/accounting/ids/" + compid);
         }
@@ -130,7 +148,7 @@ namespace Opus.Areas.Accounting.Controllers
                 PaymentTerm90 = Ids.PaymentTerm90
             };
             _uow.Accounting_Identification.Add(_identification);
-            if(Ids.ContactEnumerable!=null)
+            if (Ids.ContactEnumerable != null)
                 _uow.Accounting_Contact.AddRange(Ids.ContactEnumerable);
             _uow.Save();
             //return NoContent();
@@ -228,9 +246,6 @@ namespace Opus.Areas.Accounting.Controllers
             var subs = _uow.Accounting_Subcategory.GetAll(i => i.CategoryId == Guid.Parse(id));
             return subs;
         }
-
-
-
         [HttpPost("api/accounting/setTag")]
         public bool SetTag([FromBody] Tag tag)
         {
@@ -259,7 +274,7 @@ namespace Opus.Areas.Accounting.Controllers
         [Route("api/accounting/getalldep")]
         public IEnumerable<Departmant> GetDepartmants()
         {
-            return _uow.Accounting_Departmant.GetAll().OrderBy(n=>n.Name);
+            return _uow.Accounting_Departmant.GetAll().OrderBy(n => n.Name);
         }
         [Route("api/accounting/getallbank")]
         public IEnumerable<Bank> GetBanks()
@@ -267,6 +282,21 @@ namespace Opus.Areas.Accounting.Controllers
             return _uow.Accounting_Bank.GetAll().OrderBy(n => n.Name);
         }
         #endregion API
+
+        #region Extensions
+        public ApplicationUser AppUser()
+        {
+            return _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+        }
+        public Claim GetClaim()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var Claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (Claims != null)
+                return Claims;
+            return null;
+        }
+        #endregion Extensions
 
     }
 }
