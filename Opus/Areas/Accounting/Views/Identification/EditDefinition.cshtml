@@ -193,8 +193,8 @@
 
                                                     }
                                                     @*
-                    <option value="1">Supplier</option>
-                    <option value="2">Customer</option>
+                                                        <option value="1">Supplier</option>
+                                                        <option value="2">Customer</option>
                                                     *@
                                                 </select>
                                             </div>
@@ -228,7 +228,7 @@
                                                 <textarea class="form-control input-col" placeholder="Street Address" asp-for="StreetAddress" required></textarea>
                                             </div>
                                         </div>
-                                        
+
 
                                         <div class="row pb-15">
                                             <div class="col-2">
@@ -269,9 +269,9 @@
 
                                                     }
                                                     @*
-                    <option value="1">Akbank</option>
-                    <option value="2">TC Ziraat Bankası</option>
-                    <option value="3">Türkiye İş Bankası</option>*@
+                                                        <option value="1">Akbank</option>
+                                                        <option value="2">TC Ziraat Bankası</option>
+                                                        <option value="3">Türkiye İş Bankası</option>*@
                                                 </select>
                                                 <buttom class="btn btn-success" style="margin-top:-20px;" data-bs-toggle="modal" data-bs-target="#modal-fill"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
                                             </div>
@@ -292,14 +292,40 @@
                                                 <h5 class="my-10">Payment Terms: </h5>
                                             </div>
                                             <div class="col-10 my-10">
-                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="PaymentTerm" />
-                                                <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                @if (Model.Identification_Item.PaymentTerm==30)
+                                                {
+                                                    <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" checked />
+                                                    <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" />
+                                                    <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                }
+                                                @if (Model.Identification_Item.PaymentTerm == 60)
+                                                {
+                                                    <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" checked/>
+                                                    <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" />
+                                                    <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                }
+                                                @if (Model.Identification_Item.PaymentTerm == 90)
+                                                {
+                                                    <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="Term90" checked/>
+                                                    <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="Term90" />
+                                                    <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                                }
 
-                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="PaymentTerm" />
-                                                <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="PaymentTerm" />
-                                                <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+
                                             </div>
                                         </div>
 
@@ -354,10 +380,10 @@
                                                                                     <option value="@item.Id">@item.Name</option>
                                                                                 }
                                                                                 @*
-                                                <option value="1">HR</option>
-                                                <option value="2">Accounting</option>
-                                                <option value="3">Management</option>
-                                                <option value="4">Quality Control Manager</option>*@
+                                                                                    <option value="1">HR</option>
+                                                                                    <option value="2">Accounting</option>
+                                                                                    <option value="3">Management</option>
+                                                                                    <option value="4">Quality Control Manager</option>*@
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -1654,6 +1680,39 @@
             });
             /*location.href = 'newPage.html';*/
         });
+
+
+        $('#term30').click(function () {
+            console.clear();
+            console.log("term30");
+            if ($(this).is(':checked')) {
+                $('#term60').prop('checked', false);
+                $('#term90').prop('checked', false);
+            }
+            else
+                $('#term30').prop('checked', true);
+        });
+        $('#term60').click(function () {
+            console.clear();
+            console.log("term60");
+            if ($(this).is(':checked')) {
+                $('#term30').prop('checked', false);
+                $('#term90').prop('checked', false);
+            }
+            else
+                $('#term60').prop('checked', true);
+        });
+        $('#term90').click(function () {
+            console.clear();
+            console.log("term90");
+            if ($(this).is(':checked')) {
+                $('#term30').prop('checked', false);
+                $('#term60').prop('checked', false);
+            }
+            else
+                $('#term90').prop('checked', true);
+        });
+
 
         function searchCat() {
 

@@ -62,8 +62,8 @@ namespace Opus.Areas.Accounting.Controllers
             identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll().OrderBy(n => n.Name);
             return View(identificationIndex);
         }
-        [Route("accounting/edit-def/{id}/comp-id/{compid}")]
-        public IActionResult EditDefinition(string id, string compid)
+        [Route("accounting/ids/{compid}/edit-def/{id}")]
+        public IActionResult EditDefinition(string compid, string id)
         {
             IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
             try
@@ -96,7 +96,7 @@ namespace Opus.Areas.Accounting.Controllers
 
             return View(identificationIndex);
         }
-        [HttpGet("accounting/ids/{compid}/definition-remove/{id}")]
+        [HttpGet("accounting/ids/{compid}/remove-def/{id}")]
         public async Task<IActionResult> RemoveDefinition(string id, string compid)
         {
             #region CheckAuth

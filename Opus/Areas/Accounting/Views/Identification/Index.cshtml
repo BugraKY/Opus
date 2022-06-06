@@ -89,6 +89,24 @@
         background-color: #2aa377 !important;
         color: white !important;
     }
+
+    .fa-exp-font {
+        font-size: 21px;
+        text-align: center;
+        z-index: 9999;
+    }
+
+        .fa-exp-font:hover {
+            transition: 0.5s;
+            color: #35A7FF;
+        }
+
+        .fa-exp-font {
+            transition: 0.5s;
+            color: black;
+        }
+
+    
 </style>
 
 
@@ -178,7 +196,7 @@
                                                     <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.IdentificationType_Enumerable)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                    <option value="@item.Id">@item.Name</option>
                                                     }
                                                     @*
                                                         <option value="1">Supplier</option>
@@ -204,7 +222,7 @@
                                                 <h5 class="my-10">Commercial Title: </h5>
                                             </div>
                                             <div class="col-10">
-                                                <input class="form-control input-col" asp-for="CommercialTitle" required/>
+                                                <input class="form-control input-col" asp-for="CommercialTitle" required />
                                             </div>
                                         </div>
 
@@ -246,7 +264,7 @@
                                                     <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.Bank_Enumerable)
                                                     {
-                                                        <option value="@item.Id">@item.Name</option>
+                                                    <option value="@item.Id">@item.Name</option>
                                                     }
                                                     @*
                                                         <option value="1">Akbank</option>
@@ -331,7 +349,7 @@
                                                                                 <option value="" selected="selected" disabled class="d-none">Departmant</option>
                                                                                 @foreach (var item in Model.Departmant_Enumerable)
                                                                                 {
-                                                                                    <option value="@item.Id">@item.Name</option>
+                                                                                <option value="@item.Id">@item.Name</option>
                                                                                 }
                                                                                 @*
                                                                                     <option value="1">HR</option>
@@ -370,38 +388,40 @@
                                         <!--Definition List Section-->
                                         <section>
                                             <div class="table-responsive">
-                                                <table class="table table-hover table-bordered table-striped dataTables" id="deflist_table">
+                                                <table class="table table-hover table-bordered table-striped dataTables" width="100%" id="deflist_table">
                                                     <thead>
                                                         <tr class="text-start">
                                                             <th class="d-none"></th>
                                                             <th class="d-none"></th>
-                                                            <th class="pt-10">Definition</th>
-                                                            <th class="pt-10">Code</th>
-                                                            <th class="pt-10">Commercial Title</th>
-                                                            <th class="pt-10">Street Address</th>
-                                                            <th class="pt-10">Tax Authority</th>
-                                                            <th class="pt-10">Tax No</th>
-                                                            <th class="pt-10">Bank</th>
-                                                            <th class="pt-10">IBAN</th>
+                                                            <th>Definition</th>
+                                                            <th>Code</th>
+                                                            <th>Commercial Title</th>
+                                                            <th>Street Address</th>
+                                                            <th>Tax Authority</th>
+                                                            <th>Tax No</th>
+                                                            <th>Bank</th>
+                                                            <th>IBAN</th>
+                                                            <th></th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody >
+                                                    <tbody>
                                                         @foreach (var item in Model.Identification_Enumerable)
                                                         {
-                                                            <tr>
-                                                                <td class="d-none">@item.Id</td>
-                                                                <td class="d-none">@item.IdNumber</td>
-                                                                <td>@item.IdentificationType.Name</td>
-                                                                <td>@item.IdentityCode</td>
-                                                                <td>@item.CommercialTitle</td>
-                                                                <td>@item.StreetAddress</td>
-                                                                <td>@item.TaxAuthority</td>
-                                                                <td>@item.TaxNo</td>
-                                                                <td>@item.Bank.Name</td>
-                                                                <td>@item.IBAN</td>
-                                                                <td><a href="/accounting/ids/@Model.CompanyItem.Id/definition-remove/@item.Id" class="btn button" style="z-index:9999;">Remove</a></td>
-                                                            </tr>
+                                                        <tr>
+                                                            <td class="d-none">@item.Id</td>
+                                                            <td class="d-none">@item.IdNumber</td>
+                                                            <td>@item.IdentificationType.Name</td>
+                                                            <td>@item.IdentityCode</td>
+                                                            <td>@item.CommercialTitle</td>
+                                                            <td>@item.StreetAddress</td>
+                                                            <td>@item.TaxAuthority</td>
+                                                            <td>@item.TaxNo</td>
+                                                            <td>@item.Bank.Name</td>
+                                                            <td>@item.IBAN</td>
+                                                            <td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                                            <td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>
+                                                        </tr>
                                                         }
                                                     </tbody>
                                                 </table>
