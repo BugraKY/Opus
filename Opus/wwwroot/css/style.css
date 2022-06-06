@@ -21357,7 +21357,8 @@ body .main-header .navbar .nav > li.search-box > a:hover, body .main-header .nav
         text-align: center;
         border-radius: 10px;
         margin-right: 20px;
-        background-color: transparent; }
+        background-color: transparent; 
+        padding-right:40px;}
       .sidebar-menu > li > a > svg {
         width: 24px;
         display: inline-block;

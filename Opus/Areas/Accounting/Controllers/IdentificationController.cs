@@ -41,8 +41,8 @@ namespace Opus.Areas.Accounting.Controllers
                 {
                     return Redirect("/accounting/identifications");
                 }
-                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
-
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank")
+                    .Where(a=>a.Active).OrderBy(i=>i.IdNumber);
             }
             catch (Exception ex)
             {
@@ -131,6 +131,15 @@ namespace Opus.Areas.Accounting.Controllers
         [HttpPost("accounting/definitionpost")]
         public IActionResult DefinitionPost(IdentificationIndexVM Ids)
         {
+            if (Ids.Term30)
+                Ids.PaymentTerm = 30;
+            else if (Ids.Term60)
+                Ids.PaymentTerm = 60;
+            else if (Ids.Term90)
+                Ids.PaymentTerm = 90;
+            else
+                Ids.PaymentTerm = 30;
+
             var _identification = new Identification()
             {
                 BankId = Ids.BankId,
@@ -143,9 +152,8 @@ namespace Opus.Areas.Accounting.Controllers
                 StreetAddress = Ids.StreetAddress,
                 TaxAuthority = Ids.TaxAuthority,
                 TaxNo = Ids.TaxNo,
-                PaymentTerm30 = Ids.PaymentTerm30,
-                PaymentTerm60 = Ids.PaymentTerm60,
-                PaymentTerm90 = Ids.PaymentTerm90
+                PaymentTerm = Ids.PaymentTerm,
+                Active=true
             };
             _uow.Accounting_Identification.Add(_identification);
             if (Ids.ContactEnumerable != null)

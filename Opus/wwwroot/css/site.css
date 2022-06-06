@@ -177,10 +177,33 @@ tbody {
     -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
 }
-/*
+.sidebar-collapse > .sidebar-title {
+    transition:2s;
+    font-size: 0 !important;
+    
+}
+.sidebar-collapse > waves-ripple {
+    font-size: 0 !important;
+}
+.sidebar-collapse > .main-sidebar > img {
+    max-width: 0 !important;
+    z-index:-1;
+}
+table.dataTable {
+    border-collapse: collapse !important;
+}
+    /*border-collapse: separate !important;*/
+    /*
+.sidebar-collapse div.wrapper .main-sidebar .light-skin.sidebar a {
+    color: none;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}*/
+    /*
 .btn-dark {
     background-color: #2aa377 !important;
     border-color: #2aa377 !important;
     color: #ffffff !important;
 }*/
-/*temporary*/
+    /*temporary*/

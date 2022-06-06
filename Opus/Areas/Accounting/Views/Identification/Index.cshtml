@@ -272,13 +272,13 @@
                                                 <h5 class="my-10">Payment Terms: </h5>
                                             </div>
                                             <div class="col-10 my-10">
-                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="PaymentTerm30" />
+                                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" />
                                                 <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="PaymentTerm60" />
+                                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" />
                                                 <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="PaymentTerm90" />
+                                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="Term90" />
                                                 <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
                                             </div>
                                         </div>
@@ -374,6 +374,7 @@
                                                     <thead>
                                                         <tr class="text-start">
                                                             <th class="d-none"></th>
+                                                            <th class="d-none"></th>
                                                             <th class="pt-10">Definition</th>
                                                             <th class="pt-10">Code</th>
                                                             <th class="pt-10">Commercial Title</th>
@@ -390,6 +391,7 @@
                                                         {
                                                             <tr>
                                                                 <td class="d-none">@item.Id</td>
+                                                                <td class="d-none">@item.IdNumber</td>
                                                                 <td>@item.IdentificationType.Name</td>
                                                                 <td>@item.IdentityCode</td>
                                                                 <td>@item.CommercialTitle</td>
@@ -1484,10 +1486,12 @@
 
             selectCategory();
             $('#cat_table').removeClass("dataTable");
-            $('#deflist').DataTable({
+            $('#deflist_table').DataTable({
                 searching: true,
                 paging: true,
                 info: true,
+                ordering: true,
+                order: [[1, 'asc']],
             });
         });
         function selectCategory() {
@@ -1634,6 +1638,37 @@
                 }
             });
 
+        });
+
+        $('#term30').click(function () {
+            console.clear();
+            console.log("term30");
+            if ($(this).is(':checked')) {
+                $('#term60').prop('checked', false);
+                $('#term90').prop('checked', false);
+            }
+            else
+                $('#term30').prop('checked', true);
+        });
+        $('#term60').click(function () {
+            console.clear();
+            console.log("term60");
+            if ($(this).is(':checked')) {
+                $('#term30').prop('checked', false);
+                $('#term90').prop('checked', false);
+            }
+            else
+                $('#term60').prop('checked', true);
+        });
+        $('#term90').click(function () {
+            console.clear();
+            console.log("term90");
+            if ($(this).is(':checked')) {
+                $('#term30').prop('checked', false);
+                $('#term60').prop('checked', false);
+            }
+            else
+                $('#term90').prop('checked', true);
         });
 
         function searchCat() {

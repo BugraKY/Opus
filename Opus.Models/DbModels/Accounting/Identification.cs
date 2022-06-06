@@ -31,8 +31,7 @@ namespace Opus.Models.DbModels.Accounting
         [ForeignKey("BankId")]
         public Bank Bank { get; set; }
         public string IBAN { get; set; }
-        public bool PaymentTerm30 { get; set; }
-        public bool PaymentTerm60 { get; set; }
-        public bool PaymentTerm90 { get; set; }
+        public int PaymentTerm { get; set; }
+        public bool Active { get; set; }
     }
 }

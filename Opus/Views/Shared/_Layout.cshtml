@@ -250,7 +250,7 @@
                                 @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.HR_Responsible))
                                 {
                                     <li class="header">Human Resources</li>
-                                    <li class="@Html.ActiveClass("Staff")"><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Staff</a></li>
+                                    <li class="@Html.ActiveClass("Staff")"><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Staff</span></a></li>
                                     @*
                                         <li class="treeview">
                                             <a href="#">
@@ -267,25 +267,25 @@
                                         </li>
                                     *@
 
-                                    <li class="@Html.ActiveClass("Products")"><a href="/hr-products"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Product</a></li>
+                                    <li class="@Html.ActiveClass("Products")"><a href="/hr-products"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Products</span></a></li>
 
                                     <li class="treeview">
                                         <a href="#">
                                             <i span class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i>
-                                            <span>Training</span>
+                                            <span class="sidebar-title">Training</span>
                                             <span class="pull-right-container">
                                                 <i class="fa fa-angle-right pull-right"></i>
                                             </span>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="~/Training/AddTraining"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Training</a></li>
-                                            <li><a href="~/Training/AddTrainingAuthorized"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Authorized</a></li>
-                                            <li><a href="~/Training/AddTrainingPlan"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Training Plan</a></li>
-                                            <li><a href="~/Training/TrainingPlans"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Training Plans</a></li>
+                                            <li><a href="~/Training/AddTraining"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Training</span></a></li>
+                                            <li><a href="~/Training/AddTrainingAuthorized"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Authorized</span></a></li>
+                                            <li><a href="~/Training/AddTrainingPlan"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Training Plan</span></a></li>
+                                            <li><a href="~/Training/TrainingPlans"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Training Plans</span></a></li>
                                         </ul>
                                     </li>
 
-                                    <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Time Keeping</a></li>
+                                    <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>
 
 
                                     <li class="treeview">
@@ -297,8 +297,8 @@
                                             </span>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="~/Location/Index"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Locations</a></li>
-                                            <li><a href="~/Location/Add"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Add Location</a></li>
+                                            <li><a href="~/Location/Index"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Locations</span></a></li>
+                                            <li><a href="~/Location/Add"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Location</span></a></li>
                                         </ul>
                                     </li>
                                     <li class="treeview">
@@ -310,12 +310,12 @@
                                             </span>
                                         </a>
                                         <ul class="treeview-menu">
-                                            <li><a href="~/User/Index"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Users</a></li>
+                                            <li><a href="~/User/Index"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Users</span></a></li>
                                         </ul>
 
                                     </li>
-                                    <li><a href="~/Personmotion"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Person Motion</a></li>
-                                    <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Time Keeping</a></li>
+                                    <li><a href="~/Personmotion"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Person Motion</span></a></li>
+                                    <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>
                                 }
                                 @*
                                         <li class="header">Components & UI </li>
@@ -570,7 +570,7 @@
                                     <li class="header">Accounting</li>
 
                                     <li class="@Html.ActiveClass("Current")">
-                                        <a asp-area="Accounting" asp-controller="Current" asp-action="Index"><i class="si-notebook si"></i>Current</a>
+                                        <a asp-area="Accounting" asp-controller="Current" asp-action="Index"><i class="si-notebook si"></i><span class="sidebar-title">Current</span></a>
                                     </li>
                                     @*
                                         <li>

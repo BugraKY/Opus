@@ -541,7 +541,7 @@ Theme Primary Color
   color: white;
   border-left: 5px solid rgba(0, 82, 204, 0); }
   .theme-primary.light-skin .sidebar-menu > li:hover a, .theme-primary.light-skin .sidebar-menu > li:active a, .theme-primary.light-skin .sidebar-menu > li.active a {
-    color: white; }
+    color: white; }/*Text color*/
     .theme-primary.light-skin .sidebar-menu > li:hover a > i, .theme-primary.light-skin .sidebar-menu > li:active a > i, .theme-primary.light-skin .sidebar-menu > li.active a > i {
       color: #ffffff;
       background-color: rgba(0, 82, 204, 0); }
