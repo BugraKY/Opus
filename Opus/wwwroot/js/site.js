@@ -9,6 +9,7 @@ var famTr = 0;
 var defTr = 0;
 
 $(document).ready(function () {
+    getFullName();
 
     $("#add_row").on("click", function () {
         // Dynamic Rows Code

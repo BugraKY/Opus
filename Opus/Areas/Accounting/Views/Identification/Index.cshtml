@@ -101,12 +101,10 @@
             color: #35A7FF;
         }
 
-        .fa-exp-font {
-            transition: 0.5s;
-            color: black;
-        }
-
-    
+    .fa-exp-font {
+        transition: 0.5s;
+        color: black;
+    }
 </style>
 
 
@@ -196,7 +194,7 @@
                                                     <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.IdentificationType_Enumerable)
                                                     {
-                                                    <option value="@item.Id">@item.Name</option>
+                                                        <option value="@item.Id">@item.Name</option>
                                                     }
                                                     @*
                                                         <option value="1">Supplier</option>
@@ -264,7 +262,7 @@
                                                     <option value="" selected disabled class="d-none">Select</option>
                                                     @foreach (var item in Model.Bank_Enumerable)
                                                     {
-                                                    <option value="@item.Id">@item.Name</option>
+                                                        <option value="@item.Id">@item.Name</option>
                                                     }
                                                     @*
                                                         <option value="1">Akbank</option>
@@ -349,7 +347,7 @@
                                                                                 <option value="" selected="selected" disabled class="d-none">Departmant</option>
                                                                                 @foreach (var item in Model.Departmant_Enumerable)
                                                                                 {
-                                                                                <option value="@item.Id">@item.Name</option>
+                                                                                    <option value="@item.Id">@item.Name</option>
                                                                                 }
                                                                                 @*
                                                                                     <option value="1">HR</option>
@@ -401,6 +399,7 @@
                                                             <th>Tax No</th>
                                                             <th>Bank</th>
                                                             <th>IBAN</th>
+                                                            <th style="width: 84px;">Payment Term</th>
                                                             <th></th>
                                                             <th></th>
                                                         </tr>
@@ -408,20 +407,22 @@
                                                     <tbody>
                                                         @foreach (var item in Model.Identification_Enumerable)
                                                         {
-                                                        <tr>
-                                                            <td class="d-none">@item.Id</td>
-                                                            <td class="d-none">@item.IdNumber</td>
-                                                            <td>@item.IdentificationType.Name</td>
-                                                            <td>@item.IdentityCode</td>
-                                                            <td>@item.CommercialTitle</td>
-                                                            <td>@item.StreetAddress</td>
-                                                            <td>@item.TaxAuthority</td>
-                                                            <td>@item.TaxNo</td>
-                                                            <td>@item.Bank.Name</td>
-                                                            <td>@item.IBAN</td>
-                                                            <td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
-                                                            <td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>
-                                                        </tr>
+                                                            <tr>
+                                                                <td class="d-none">@item.Id</td>
+                                                                <td class="d-none">@item.IdNumber</td>
+                                                                <td>@item.IdentificationType.Name</td>
+                                                                <td>@item.IdentityCode</td>
+                                                                <td>@item.CommercialTitle</td>
+                                                                <td>@item.StreetAddress</td>
+                                                                <td>@item.TaxAuthority</td>
+                                                                <td>@item.TaxNo</td>
+                                                                <td>@item.Bank.Name</td>
+                                                                <td>@item.IBAN</td>
+                                                                <td class="text-center">@item.PaymentTerm</td>
+                                                                @*<td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>*@
+                                                                <td class="text-center"><a onclick="getDef('@item.Id')" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                                                <td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>
+                                                            </tr>
                                                         }
                                                     </tbody>
                                                 </table>
@@ -1116,6 +1117,133 @@
 <!-- /.modal -->
 
 
+<div class="main-window" style="display: none;">
+    <!-- Draggable DIV -->
+    <div id="dragabble-window" style="top: 25%; left: 40%; ">
+        <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
+        <div id="windowHeader">
+            <div class="row">
+                <div class="col-11"></div>
+                <div class="col-1"><a onclick="toggleWindow()" class="toggle-wind-header float-right"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Definition</h5>
+            </div>
+            <div class="col-10">
+                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition_edit">
+                    <option value="" selected disabled class="d-none">Select</option>
+                    @foreach (var item in Model.IdentificationType_Enumerable)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row pb-20">
+            <div class="col-2">
+                <h5 class="my-10">Code: </h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" id="code_edit" type="text" readonly="readonly" />
+                <input class="form-control d-none" id="idnum_edit" type="text" readonly="readonly" hidden />
+                <input class="form-control d-none" id="compid_edit" type="text" readonly="readonly" hidden />
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Commercial Title: </h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" id="commercialTitle_edit" />
+            </div>
+        </div>
+
+        <div class="row pb-20">
+            <div class="col-2">
+                <h5 class="my-10">Street Address: </h5>
+            </div>
+            <div class="col-10">
+                <textarea class="form-control input-col" placeholder="Street Address" id="streetAddress_edit"></textarea>
+            </div>
+        </div>
+
+
+        <div class="row pb-15">
+            <div class="col-2">
+                <h5 class="my-10">Tax Authority: </h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Tax Authority" id="taxAuthority_edit" />
+            </div>
+        </div>
+
+        <div class="row pb-15">
+            <div class="col-2">
+                <h5 class="my-10">Tax No: </h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Tax No" id="taxNo_edit" />
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Bank: </h5>
+            </div>
+            <div class="col-10">
+                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="bank_edit">
+                    <option value="" selected disabled class="d-none">Select</option>
+                    @foreach (var item in Model.Bank_Enumerable)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="row pb-15">
+            <div class="col-2">
+                <h5 class="my-10">IBAN: </h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" id="iban_edit" />
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Payment Terms: </h5>
+            </div>
+            <div class="col-10 my-10">
+
+                <input type="checkbox" id="term30_edit" class="filled-in chk-col-success" />
+                <label for="term30_edit">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                <input type="checkbox" id="term60_edit" class="filled-in chk-col-success" />
+                <label for="term60_edit">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                <input type="checkbox" id="term90_edit" class="filled-in chk-col-success" />
+                <label for="term90_edit">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+            </div>
+        </div>
+        <div class="row pb-10" style="margin:-5px;">
+            <div class="col-12">
+                <button class="btn btn-info waves-effect waves-dark" type="button" style="float:right;">Save</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 @section Scripts
 {
@@ -1165,7 +1293,6 @@
         });
 
         function setCat() {
-            console.log("setcat triggerd");
             var category = $('#setcatinp').val();
 
             $.ajax({
@@ -1175,7 +1302,7 @@
                 data: JSON.stringify(category),
                 success: function (received) {
                     catTable.ajax.reload();
-                    console.log("category success.");
+
                     $('#modal-setcat').modal('toggle');
                     $('#setcatinp').val('');
 
@@ -1185,7 +1312,6 @@
         }
 
         function setSubCat() {
-            console.log("category name:" + catName);
             if (catName == null || catName == '') {
                 /*
                 $('#modal-setsubCat').modal('toggle');
@@ -1221,7 +1347,6 @@
                     data: JSON.stringify(model),
                     success: function (received) {
                         if (received) {
-                            console.log("category success.");
                             $('#modal-setsubCat').modal('toggle');
                             $('#setsubcatinp').val('');
 
@@ -1296,7 +1421,6 @@
                     data: JSON.stringify(model),
                     success: function (received) {
                         if (received) {
-                            console.log("category success.");
                             $('#modal-settag').modal('toggle');
                             $('#setsubcatinp').val('');
 
@@ -1504,6 +1628,24 @@
                 });
             });
 
+            $('#definition_edit').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                var val = $(this).val();
+                /*var idNum = $('#idnum_edit').val();*/
+                var idNum = $('#definition_edit').selectpicker('val', val);
+                /*console.log(idNum);*/
+                $.ajax({
+                    url: "/api/accounting/getDefCode/" + val + "/compCode/" + '@Model.CompanyItem.Id',
+                    success: function (data) {
+                        /*
+                        $("#code").val(data.identityCode);
+                        $("#idnum").val(JSON.stringify(data.idNumber));*/
+                        console.log(data);
+                        /*DEVELOPING!!!*/
+                    }
+                });
+
+            });
+
             selectCategory();
             $('#cat_table').removeClass("dataTable");
             $('#deflist_table').DataTable({
@@ -1522,8 +1664,7 @@
             $('#cat_table tbody').on('click', 'tr', function () {
                 $('#tags_tbody').html('');
                 $('#tags_table').removeClass("dataTable");
-                console.clear();
-                console.log(JSON.stringify(catTable.row(this).data().id));
+
                 /*subCat_table*/
                 /*modal-setsubCat*/
                 /*setSubCat()*/
@@ -1571,13 +1712,11 @@
 
 
         $('#subCat_table tbody').on('click', 'tr', function () {
-            console.clear();
 
 
             subId = subCatTable.row(this).data().id;
             subName = subCatTable.row(this).data().name;
 
-            console.log(JSON.stringify(subId));
 
             $('#tags_table').DataTable({
                 "ajax": {
@@ -1618,7 +1757,6 @@
         });
 
         $('#deflist_table tbody').on('click', 'tr', function () {
-            console.clear();
             /*
 
             subId = subCatTable.row(this).data().id;
@@ -1645,24 +1783,22 @@
                     .removeClass('selected');  //remove their classes
                 /*gridClickHandler(row);*/
             }
-            console.log(row[0].cells[0].innerText);
 
             var defId = row[0].cells[0].innerText;
+            /*
             $.ajax({
                 url: "/api/accounting/getDef/" + defId,
                 type: "get",
                 contentType: "application/json; charset=utf-8",
                 success: function (received) {
                     console.log(received);
-                    //location.href = '/accounting/edit-def/' + received.id +'/comp-id/'+'@Model.CompanyItem.Id';
                 }
             });
-
+            */
         });
 
         $('#term30').click(function () {
-            console.clear();
-            console.log("term30");
+
             if ($(this).is(':checked')) {
                 $('#term60').prop('checked', false);
                 $('#term90').prop('checked', false);
@@ -1671,8 +1807,7 @@
                 $('#term30').prop('checked', true);
         });
         $('#term60').click(function () {
-            console.clear();
-            console.log("term60");
+
             if ($(this).is(':checked')) {
                 $('#term30').prop('checked', false);
                 $('#term90').prop('checked', false);
@@ -1681,14 +1816,41 @@
                 $('#term60').prop('checked', true);
         });
         $('#term90').click(function () {
-            console.clear();
-            console.log("term90");
+
             if ($(this).is(':checked')) {
                 $('#term30').prop('checked', false);
                 $('#term60').prop('checked', false);
             }
             else
                 $('#term90').prop('checked', true);
+        });
+
+        $('#term30_edit').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#term60_edit').prop('checked', false);
+                $('#term90_edit').prop('checked', false);
+            }
+            else
+                $('#term30_edit').prop('checked', true);
+        });
+        $('#term60_edit').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#term30_edit').prop('checked', false);
+                $('#term90_edit').prop('checked', false);
+            }
+            else
+                $('#term60_edit').prop('checked', true);
+        });
+        $('#term90_edit').click(function () {
+
+            if ($(this).is(':checked')) {
+                $('#term30_edit').prop('checked', false);
+                $('#term60_edit').prop('checked', false);
+            }
+            else
+                $('#term90_edit').prop('checked', true);
         });
 
         function searchCat() {

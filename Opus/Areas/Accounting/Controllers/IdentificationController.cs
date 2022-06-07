@@ -166,6 +166,20 @@ namespace Opus.Areas.Accounting.Controllers
 
 
         #region API
+        [HttpPost("api/edit-def")]
+        public string EditDefApi([FromBody] Identification identification)
+        {
+            try
+            {
+                var deg = identification;
+                return "success";
+            }
+            catch (Exception ex)
+            {
+                return ex.InnerException.Message;
+            }
+            
+        }
         [HttpPost("api/accounting/add-dep")]
         public string AddDepartmant([FromBody] string name)
         {
@@ -249,10 +263,7 @@ namespace Opus.Areas.Accounting.Controllers
         [Route("api/accounting/getsubcat/{id}")]
         public IEnumerable<SubCategory> GetSubcat(string id)
         {
-            //Thread.Sleep(1000);
-            //var test= _uow.Accounting_Subcategory.GetAll(i => i.CategoryId == id, includeProperties: "Category");
-            var subs = _uow.Accounting_Subcategory.GetAll(i => i.CategoryId == Guid.Parse(id));
-            return subs;
+            return _uow.Accounting_Subcategory.GetAll(i => i.CategoryId == Guid.Parse(id));
         }
         [HttpPost("api/accounting/setTag")]
         public bool SetTag([FromBody] Tag tag)
@@ -274,10 +285,9 @@ namespace Opus.Areas.Accounting.Controllers
             return tags;
         }
         [HttpGet("api/accounting/getDef/{id}")]
-        public JsonResult GetDefinition(string id)
+        public Identification GetDefinition(string id)
         {
-            var _def = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
-            return Json(_def);
+            return _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
         }
         [Route("api/accounting/getalldep")]
         public IEnumerable<Departmant> GetDepartmants()

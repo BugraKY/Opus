@@ -1,0 +1,47 @@
+﻿
+.main-window {
+    z-index: 9999;
+    /*background-color: rgba(0, 0, 0,0.25);*/
+    background-color: rgba(0, 0, 0,0.2);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+
+}
+
+#dragabble-window {
+    position: absolute;
+    z-index: 9;
+    background-color: #f1f1f1;
+    border: 1px solid #d3d3d3;
+    text-align: center;
+    margin: 0 !important;
+}
+    #dragabble-window:after {
+        filter: blur(10px);
+    }
+
+#windowHeader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    /*background-color: #2196F3;*/
+    background-color: #2aa377;
+    color: #fff;
+    padding:5px 20px 5px 20px;
+    margin-bottom:15px;
+    min-width:550px;
+}
+
+.toggle-wind-header {
+    cursor: pointer;
+    padding-left: 15px;
+    color: white !important;
+}
+
+    .toggle-wind-header:hover {
+        color: mediumvioletred !important;
+    }

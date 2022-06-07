@@ -118,6 +118,16 @@ namespace Opus.Areas.HR.Controllers
 
             return View(_uservm);
         }
+
+        #region API
+        [HttpPost("/api/account/get-fullname")]
+        public string GetFullName()
+        {
+            var _user= _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+            var FullName = _user.FirstName + " " + _user.LastName;
+            return FullName;
+        }
+        #endregion API
         public Claim GetClaim()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
