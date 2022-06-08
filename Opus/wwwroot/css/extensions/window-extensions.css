@@ -1,6 +1,6 @@
 ﻿
 .main-window {
-    z-index: 9999;
+    z-index: 1000;
     /*background-color: rgba(0, 0, 0,0.25);*/
     background-color: rgba(0, 0, 0,0.2);
     width: 100vw;
@@ -8,17 +8,17 @@
     position: fixed;
     top: 0;
     left: 0;
-
-
 }
 
 #dragabble-window {
     position: absolute;
-    z-index: 9;
+    z-index: 999;
     background-color: #f1f1f1;
     border: 1px solid #d3d3d3;
-    text-align: center;
+    /*text-align: center;*/
     margin: 0 !important;
+    max-width: 800px;
+    max-height:915px;
 }
     #dragabble-window:after {
         filter: blur(10px);
@@ -33,7 +33,7 @@
     color: #fff;
     padding:5px 20px 5px 20px;
     margin-bottom:15px;
-    min-width:550px;
+
 }
 
 .toggle-wind-header {

@@ -31,7 +31,7 @@ function dragElement(elmnt) {
         pos3 = e.clientX;
         pos4 = e.clientY;
         // set the element's new position:
-        if ((elmnt.offsetTop - pos2) > 80 && (elmnt.offsetLeft - pos1) > 269) {
+        if ((elmnt.offsetTop - pos2) > 0 && (elmnt.offsetLeft - pos1) > 269) {
             elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
             elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
         }
@@ -42,10 +42,14 @@ function dragElement(elmnt) {
         // stop moving when mouse button is released:
         document.onmouseup = null;
         document.onmousemove = null;
+
     }
 }
 
 function toggleWindow() {
+    $('body').css('overflow', 'visible');
+    $('nav').css('display', 'block');
+    $('')
     $('.main-window').toggle();
-    $('#dragabble-window').css({ top: '25%', left: '40%', margin: '-' + ($('#dragabble-window').height() / 2) + 'px 0 0 -' + ($('#dragabble-window').width() / 2) + 'px' });
+    $('#dragabble-window').css({ top: '1px', left: '40%', margin: '-' + ($('#dragabble-window').height() / 2) + 'px 0 0 -' + ($('#dragabble-window').width() / 2) + 'px' });
 }

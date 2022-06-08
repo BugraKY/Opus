@@ -192,6 +192,17 @@ tbody {
 table.dataTable {
     border-collapse: collapse !important;
 }
+.blurarea {
+    filter: blur(1px);
+    backdrop-filter:blur(1px);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    /*z-index:2;*/
+    top:0;
+    left:0;
+}
+
     /*border-collapse: separate !important;*/
     /*
 .sidebar-collapse div.wrapper .main-sidebar .light-skin.sidebar a {

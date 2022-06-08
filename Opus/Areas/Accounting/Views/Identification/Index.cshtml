@@ -69,12 +69,12 @@
         max-height: 400px !important;
         height: 400px !important;
     }
-
+    
     .slimScrollDiv {
         max-height: 400px !important;
-        height: 400px !important;
+        height: auto !important;
     }
-
+    
     .table {
         --bs-table-hover-bg: rgba(41, 163, 119, 0.25) !important;
         cursor: pointer !important;
@@ -499,7 +499,7 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-12">
-                                            <div class="box">
+                                            <div class="box h-600">
                                                 <div class="box-header with-border">
                                                     <div class="row">
                                                         <div class="col">
@@ -535,7 +535,7 @@
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-12">
-                                            <div class="box">
+                                            <div class="box h-600">
                                                 <div class="box-header with-border">
                                                     <div class="row">
                                                         <div class="col-12">
@@ -1118,8 +1118,9 @@
 
 
 <div class="main-window" style="display: none;">
+    <div class="blurarea"></div>
     <!-- Draggable DIV -->
-    <div id="dragabble-window" style="top: 25%; left: 40%; ">
+    <div id="dragabble-window" style="top: 1px; left: 40%; ">
         <!-- Include a header DIV with the same name as the draggable DIV, followed by "header" -->
         <div id="windowHeader">
             <div class="row">
@@ -1127,115 +1128,201 @@
                 <div class="col-1"><a onclick="toggleWindow()" class="toggle-wind-header float-right"><i class="fa fa-times" aria-hidden="true"></i></a></div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Definition</h5>
-            </div>
-            <div class="col-10">
-                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition_edit">
-                    <option value="" selected disabled class="d-none">Select</option>
-                    @foreach (var item in Model.IdentificationType_Enumerable)
-                    {
+        <div class="p-10">
+            <div class="row">
+                <div class="col-2">
+                    <h5 class="my-10">Definition</h5>
+                </div>
+                <div class="col-10" style="max-width:430px;">
+                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="definition_edit">
+                        <option value="" selected disabled class="d-none">Select</option>
+                        @foreach (var item in Model.IdentificationType_Enumerable)
+                        {
                         <option value="@item.Id">@item.Name</option>
-                    }
-                </select>
+                        }
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="row pb-20">
-            <div class="col-2">
-                <h5 class="my-10">Code: </h5>
+            <div class="row pb-20">
+                <div class="col-2">
+                    <h5 class="my-10">Code: </h5>
+                </div>
+                <div class="col-10">
+                    <input class="form-control input-col" id="code_edit" type="text" readonly="readonly" />
+                    <input class="form-control d-none" id="idnum_edit" type="text" readonly="readonly" hidden />
+                    <input class="form-control d-none" id="compid_edit" type="text" readonly="readonly" hidden />
+                </div>
             </div>
-            <div class="col-10">
-                <input class="form-control input-col" id="code_edit" type="text" readonly="readonly" />
-                <input class="form-control d-none" id="idnum_edit" type="text" readonly="readonly" hidden />
-                <input class="form-control d-none" id="compid_edit" type="text" readonly="readonly" hidden />
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Commercial Title: </h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" id="commercialTitle_edit" />
-            </div>
-        </div>
-
-        <div class="row pb-20">
-            <div class="col-2">
-                <h5 class="my-10">Street Address: </h5>
-            </div>
-            <div class="col-10">
-                <textarea class="form-control input-col" placeholder="Street Address" id="streetAddress_edit"></textarea>
-            </div>
-        </div>
 
 
-        <div class="row pb-15">
-            <div class="col-2">
-                <h5 class="my-10">Tax Authority: </h5>
+            <div class="row">
+                <div class="col-2">
+                    <h5 class="my-10">Commercial Title: </h5>
+                </div>
+                <div class="col-10">
+                    <input class="form-control input-col" id="commercialTitle_edit" />
+                </div>
             </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Tax Authority" id="taxAuthority_edit" />
-            </div>
-        </div>
 
-        <div class="row pb-15">
-            <div class="col-2">
-                <h5 class="my-10">Tax No: </h5>
+            <div class="row pb-20">
+                <div class="col-2">
+                    <h5 class="my-10">Street Address: </h5>
+                </div>
+                <div class="col-10">
+                    <textarea class="form-control input-col" placeholder="Street Address" id="streetAddress_edit"></textarea>
+                </div>
             </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Tax No" id="taxNo_edit" />
-            </div>
-        </div>
 
 
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Bank: </h5>
+            <div class="row pb-15">
+                <div class="col-2">
+                    <h5 class="my-10">Tax Authority: </h5>
+                </div>
+                <div class="col-10">
+                    <input class="form-control input-col" type="text" placeholder="Tax Authority" id="taxAuthority_edit" />
+                </div>
             </div>
-            <div class="col-10">
-                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="bank_edit">
-                    <option value="" selected disabled class="d-none">Select</option>
-                    @foreach (var item in Model.Bank_Enumerable)
-                    {
+
+            <div class="row pb-15">
+                <div class="col-2">
+                    <h5 class="my-10">Tax No: </h5>
+                </div>
+                <div class="col-10">
+                    <input class="form-control input-col" type="text" placeholder="Tax No" id="taxNo_edit" />
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-2">
+                    <h5 class="my-10">Bank: </h5>
+                </div>
+                <div class="col-10" style="max-width:430px;">
+                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="bank_edit">
+                        <option value="" selected disabled class="d-none">Select</option>
+                        @foreach (var item in Model.Bank_Enumerable)
+                        {
                         <option value="@item.Id">@item.Name</option>
-                    }
-                </select>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row pb-15">
+                <div class="col-2">
+                    <h5 class="my-10">IBAN: </h5>
+                </div>
+                <div class="col-10">
+                    <input class="form-control input-col" type="text" placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" id="iban_edit" />
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-2">
+                    <h5 class="my-10">Payment Terms: </h5>
+                </div>
+                <div class="col-10 my-10">
+
+                    <input type="checkbox" id="term30_edit" class="filled-in chk-col-success" />
+                    <label for="term30_edit">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                    <input type="checkbox" id="term60_edit" class="filled-in chk-col-success" />
+                    <label for="term60_edit">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                    <input type="checkbox" id="term90_edit" class="filled-in chk-col-success" />
+                    <label for="term90_edit">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="p-10">
+            <!--Contacts-->
+
+            <div class="border-top border-bottom">
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <h5 class="my-10">Contact: </h5>
+                    </div>
+                    <div class="col-10">
+                        <div class="row">
+                            <div class="col-xl-10 col-12">
+                                <div class="row">
+                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                        <div class="rounded text-center">
+                                            <input type="text" id="fullname" placeholder='Full Name' class="form-control input-col" />
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                        <div class="rounded text-center">
+                                            <select class="form-select input-col" id="departmantid">
+                                                <option value="" selected="selected" disabled class="d-none">Departmant</option>
+                                                @foreach (var item in Model.Departmant_Enumerable)
+                                                {
+                                                <option value="@item.Id">@item.Name</option>
+                                                }
+                                                @*
+                                                <option value="1">HR</option>
+                                                <option value="2">Accounting</option>
+                                                <option value="3">Management</option>
+                                                <option value="4">Quality Control Manager</option>*@
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                        <div class="rounded text-center">
+                                            <input type="text" id="mobileNumber" class="form-control input-col" data-inputmask="'mask':[ '0(999) 999-9999']" data-mask="" placeholder="Mobile Number">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12 pb-10">
+                                        <div class="rounded text-center">
+                                            <input type="email" id="email" placeholder='E-mail' class="form-control input-col" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-12">
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="add_defContact_row" type="button" class="btn btn-primary mb-10"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <div class="row pb-15">
-            <div class="col-2">
-                <h5 class="my-10">IBAN: </h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="IBAN" data-inputmask="'mask':['TR99 9999 9999 9999 9999 9999 99']" data-mask="" id="iban_edit" />
-            </div>
-        </div>
+        <div class="row" id="contact_section">
+            <div class="col-12">
+                <div class="p-10">
+                    <div class="box mb-0"va>
+                        <div class="p-5">
 
+                            <div class="inner-content-div" style="max-height: 150px !important; height: 150px; overflow: hidden; width: auto;" id="contact_list">
+                                <p>Wrao the content inside a <code>.box-body .inner-content-div</code> Defoult height 200px.</p>
 
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Payment Terms: </h5>
-            </div>
-            <div class="col-10 my-10">
+                                <p>Pellentesque scelerisque, massa ut fringilla mollis, sem tortor pharetra mi, non consequat velit dui sed lorem. Fusce commodo eros a vulputate accumsan. Nulla et mollis nibh. Donec sodales convallis urna luctus pulvinar. Ut vestibulum enim vitae elit luctus, id tincidunt metus suscipit. Pellentesque scelerisque, massa ut fringilla mollis, sem tortor pharetra mi, non consequat velit dui sed lorem.</p>
 
-                <input type="checkbox" id="term30_edit" class="filled-in chk-col-success" />
-                <label for="term30_edit">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                <input type="checkbox" id="term60_edit" class="filled-in chk-col-success" />
-                <label for="term60_edit">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                <input type="checkbox" id="term90_edit" class="filled-in chk-col-success" />
-                <label for="term90_edit">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                <p>Nulla et mollis nibh. Donec sodales convallis urna luctus pulvinar. Ut vestibulum enim vitae elit luctus, id tincidunt metus suscipit. Pellentesque scelerisque, massa ut fringilla mollis, sem tortor pharetra mi, non consequat velit dui sed lorem. Fusce commodo eros a vulputate accumsan. Nulla et mollis nibh. Donec sodales convallis urna luctus pulvinar. Ut vestibulum enim vitae elit luctus, id tincidunt metus suscipit. Pellentesque scelerisque, massa ut fringilla mollis, sem tortor pharetra mi, non consequat velit dui sed lorem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
-        <div class="row pb-10" style="margin:-5px;">
+
+
+
+
+        <div class="row p-2">
             <div class="col-12">
                 <button class="btn btn-info waves-effect waves-dark" type="button" style="float:right;">Save</button>
             </div>
@@ -1243,6 +1330,7 @@
 
     </div>
 </div>
+
 
 
 @section Scripts
@@ -1639,8 +1727,26 @@
                         /*
                         $("#code").val(data.identityCode);
                         $("#idnum").val(JSON.stringify(data.idNumber));*/
-                        console.log(data);
+
                         /*DEVELOPING!!!*/
+
+                        let text = data.identityCode;
+                        const myArray = text.split("-");
+                        let def = myArray[0];
+
+
+                        let text_num = $('#code_edit').val();
+                        const arr_num = text_num.split("-");
+                        let num = arr_num[1];
+
+                        let idCode = def + "-" + num;
+
+                        console.log(idCode);
+
+                        $('#code_edit').val(idCode);
+
+
+
                     }
                 });
 

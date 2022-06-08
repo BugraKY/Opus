@@ -18,5 +18,8 @@ namespace Opus.Models.DbModels.Accounting
         public Departmant Departmant { get; set; }
         public string MobileNumber { get; set; }
         public string Email { get; set; }
+        public Guid? IdentificationId { get; set; }
+        [ForeignKey("IdentificationId")]
+        public Identification Identification { get; set; }
     }
 }

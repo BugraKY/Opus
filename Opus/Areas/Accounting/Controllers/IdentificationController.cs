@@ -42,7 +42,7 @@ namespace Opus.Areas.Accounting.Controllers
                     return Redirect("/accounting/identifications");
                 }
                 identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank")
-                    .Where(a=>a.Active).OrderBy(i=>i.IdNumber);
+                    .Where(a => a.Active).OrderBy(i => i.IdNumber);
             }
             catch (Exception ex)
             {
@@ -153,11 +153,25 @@ namespace Opus.Areas.Accounting.Controllers
                 TaxAuthority = Ids.TaxAuthority,
                 TaxNo = Ids.TaxNo,
                 PaymentTerm = Ids.PaymentTerm,
-                Active=true
+                Active = true
             };
             _uow.Accounting_Identification.Add(_identification);
             if (Ids.ContactEnumerable != null)
-                _uow.Accounting_Contact.AddRange(Ids.ContactEnumerable);
+            {
+                foreach (var item in Ids.ContactEnumerable)
+                {
+                    var _cont = new Contact()
+                    {
+                        IdentificationId = _identification.Id,
+                        DepartmantId=item.DepartmantId,
+                        Email=item.Email,
+                        FullName=item.FullName,
+                        MobileNumber=item.MobileNumber
+                    };
+                    _uow.Accounting_Contact.Add(_cont);
+                }
+            }
+                
             _uow.Save();
             //return NoContent();
             return Redirect("/accounting/ids/" + Ids.CompanyId);
@@ -178,7 +192,7 @@ namespace Opus.Areas.Accounting.Controllers
             {
                 return ex.InnerException.Message;
             }
-            
+
         }
         [HttpPost("api/accounting/add-dep")]
         public string AddDepartmant([FromBody] string name)
@@ -285,9 +299,34 @@ namespace Opus.Areas.Accounting.Controllers
             return tags;
         }
         [HttpGet("api/accounting/getDef/{id}")]
-        public Identification GetDefinition(string id)
+        public IdentificationIndexVM GetDefinition(string id)
         {
-            return _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
+            IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
+
+            /*
+            identificationIndex.CompanyItem = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == Guid.Parse(compid));
+            identificationIndex.Companies = _uow.Accounting_Company.GetAll();
+            identificationIndex.IdentificationType_Enumerable = _uow.Accounting_Identificationtype.GetAll();
+            identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll();
+            identificationIndex.Departmant_Enumerable = _uow.Accounting_Departmant.GetAll();
+            if (identificationIndex.CompanyItem == null || !identificationIndex.Companies.Any() ||
+                !identificationIndex.IdentificationType_Enumerable.Any() || !identificationIndex.Bank_Enumerable.Any() ||
+                !identificationIndex.Departmant_Enumerable.Any())
+            {
+                return Redirect("/accounting/identifications");
+            }*/
+            //identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
+            identificationIndex.Identification_Item = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
+
+            /*
+            if (identificationIndex.Identification_Item == null)
+                return Content("OPUS SYSTEM - Definition was not found from this id='" + id + "'");
+            */
+            identificationIndex.ContactEnumerable = (List<Contact>)_uow.Accounting_Contact.GetAll(i => i.IdentificationId == Guid.Parse(id),includeProperties:"Departmant,Identification");
+
+            return identificationIndex;
+
+            //return _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
         }
         [Route("api/accounting/getalldep")]
         public IEnumerable<Departmant> GetDepartmants()
