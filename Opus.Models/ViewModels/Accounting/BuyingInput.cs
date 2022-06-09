@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Opus.Models.DbModels.Accounting;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace Opus.Models.ViewModels.Accounting
         [Required]
         [MaxLength(20,ErrorMessage ="This field cannot be more than 20 characters.")]
         public string DocNo { get; set; }
+        public int PaymentMethId { get; set; }
+
 
     }
 }

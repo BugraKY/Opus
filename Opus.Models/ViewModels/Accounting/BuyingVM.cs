@@ -11,6 +11,7 @@ namespace Opus.Models.ViewModels.Accounting
     {
         public BuyingInput BuyingInput { get; set; }
         public IEnumerable<Identification> Identification_Enuberable { get; set; }
+        public string CompanyId { get; set; }
         public Company Company { get; set; }
         public string IdentificationId { get; set; }
         public Identification Identification { get; set; }

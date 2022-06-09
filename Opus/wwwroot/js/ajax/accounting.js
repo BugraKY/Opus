@@ -185,7 +185,7 @@ function getDepartmants() {
 
 function getContacts(obj) {
     var _tbodyConts = ``;
-    var selectdep = getDepartmants();
+    //var selectdep = getDepartmants();
     jQuery.each(obj, function (i, val) {
 
         _tbodyConts += `
@@ -237,8 +237,8 @@ function getContacts(obj) {
             mobileNumber: val.mobileNumber,
             email: val.email
         }
-        */
-        //contactEnumerable.push(contactObj);
+        
+        contactEnumerable.push(contactObj);*/
         //Add Model
 
     });
@@ -253,7 +253,7 @@ function getContacts(obj) {
                                                                     <th> </th>
                                                                     <th> </th>
                                                                     <th> </th>
-                                                                    <th></th>
+                                                                    <th> </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody class="tbody_def" id="contacts_tbody">
@@ -264,11 +264,21 @@ function getContacts(obj) {
     console.log("contact Enum");
     console.log(contactEnumerable);
     if (obj.length === 0) {
-        $('#contact_section').css("display", "none");
+        /*$('#contact_section').css("display", "none");*/
+        $('#contact_list').html(
+            `
+        <div class="row p-10">
+            <div class="col-12 text-center">
+                <div class="badge badge-secondary shadow-1-strong">No contact has been added to this definition.</div>
+            </div>
+            
+        </div>
+`
+        );
     } else {
         $('#contact_section').css("display", "block");
         $('#contact_list').html(_tableConts);
-        console.log(selectdep);
+        //console.log(selectdep);
     }
 
     console.log('\n');
