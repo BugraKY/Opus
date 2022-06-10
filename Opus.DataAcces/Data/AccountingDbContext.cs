@@ -23,6 +23,7 @@ namespace Opus.DataAcces.Data
         public DbSet<Bank> Bank { get; set; }
         public DbSet<Identification> Identification { get; set; }
         public DbSet<ContactDefinitions> ContactDefinitions { get; set; }
+        public DbSet<TagDefinitions> TagDefinitions { get; set; }
 
     }
 }

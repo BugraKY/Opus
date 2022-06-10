@@ -69,12 +69,12 @@
         max-height: 400px !important;
         height: 400px !important;
     }
-    
+
     .slimScrollDiv {
         max-height: 400px !important;
         height: auto !important;
     }
-    
+
     .table {
         --bs-table-hover-bg: rgba(41, 163, 119, 0.25) !important;
         cursor: pointer !important;
@@ -1105,6 +1105,20 @@
                             <div id="tagmodal-alert"></div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label class="form-label">Combine tag with SubCategory.</label>
+                            <select class="form-control select2" style="width: 100%;" id="tags_select">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 my-1">
+                            <input type="checkbox" id="md_checkbox_24" name="addall" class="filled-in chk-col-info" />
+                            <label for="md_checkbox_24">Add under all SubCategories</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1138,7 +1152,7 @@
                         <option value="" selected disabled class="d-none">Select</option>
                         @foreach (var item in Model.IdentificationType_Enumerable)
                         {
-                        <option value="@item.Id">@item.Name</option>
+                            <option value="@item.Id">@item.Name</option>
                         }
                     </select>
                 </div>
@@ -1203,7 +1217,7 @@
                         <option value="" selected disabled class="d-none">Select</option>
                         @foreach (var item in Model.Bank_Enumerable)
                         {
-                        <option value="@item.Id">@item.Name</option>
+                            <option value="@item.Id">@item.Name</option>
                         }
                     </select>
                 </div>
@@ -1263,13 +1277,13 @@
                                                 <option value="" selected="selected" disabled class="d-none">Departmant</option>
                                                 @foreach (var item in Model.Departmant_Enumerable)
                                                 {
-                                                <option value="@item.Id">@item.Name</option>
+                                                    <option value="@item.Id">@item.Name</option>
                                                 }
                                                 @*
-                                                <option value="1">HR</option>
-                                                <option value="2">Accounting</option>
-                                                <option value="3">Management</option>
-                                                <option value="4">Quality Control Manager</option>*@
+                                                    <option value="1">HR</option>
+                                                    <option value="2">Accounting</option>
+                                                    <option value="3">Management</option>
+                                                    <option value="4">Quality Control Manager</option>*@
                                             </select>
                                         </div>
                                     </div>
@@ -1322,10 +1336,10 @@
             </div>
         </div>
         <div class="row p-10">
-            <div class="col-12">
-                <div class="badge badge-warning shadow-2-strong">This section not ready yet.</div>
-            </div>
-            
+
+            <div class="badge badge-warning shadow-2-strong">This section not ready yet.</div>
+
+
         </div>
     </div>
 </div>
@@ -1347,28 +1361,30 @@
 
         var tagId = "";
         var tagName = "";
-
+        var addAll_check = false;
 
         var catTable = $('#cat_table').DataTable({
                 "ajax": {
-                    "url": "/api/accounting/getCat",
+                    "url": '/api/accounting/getCat/'+'@Model.CompanyItem.Id.ToString()',
                     dataSrc: ""
                 },
                 "columns": [
                     { "data": "name", "width": "100%" },
                     { "data": "id", "class": "d-none" }
-                ],
-                processing: true,
-                serverSide: true,
-                searching: false,
-                paging: false,
-                info: false
+            ],
+            processing: true,
+            serverSide: true,
+            searching: false,
+            paging: false,
+            info: false,
+            caseInsensitive: false,
 
             });
         var subCatTable = $('#subCat_table').DataTable({
             searching: false,
             paging: false,
             info: false,
+            caseInsensitive: false,
 
         });
 
@@ -1376,17 +1392,45 @@
             searching: false,
             paging: false,
             info: false,
+            caseInsensitive: false,
 
         });
-
+        $('#setcatinp').keyup(function (e) {
+            if (e.keyCode == 13) {
+                setCat();
+            }
+        });
+        $('#setsubcatinp').keyup(function (e) {
+            if (e.keyCode == 13) {
+                setSubCat();
+            }
+        });
+        $('#settaginp').keyup(function (e) {
+            if (e.keyCode == 13) {
+                setSubCat();
+            }
+        });
+        $('#modal-setcat').on('shown.bs.modal', function (e) {
+            $("#setcatinp").focus();
+        });
+        $('#modal-setsubCat').on('shown.bs.modal', function (e) {
+            $("#setsubcatinp").focus();
+        });
+        $('#modal-settag').on('shown.bs.modal', function (e) {
+            $("#settaginp").focus();
+        });
         function setCat() {
             var category = $('#setcatinp').val();
-
+            var cat = { name: category, companyId: '@Model.CompanyItem.Id.ToString()' }
+            console.clear();
+            console.log("set cat:");
+            console.log(cat);
             $.ajax({
                 url: "/api/accounting/setCat",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(category),
+                dataType: "json",
+                data: JSON.stringify(cat),
                 success: function (received) {
                     catTable.ajax.reload();
 
@@ -1441,6 +1485,9 @@
                                 "ajax": {
                                     "url": "/api/accounting/getsubcat/" + catId,
                                     dataSrc: '',
+
+
+ 
                                 },
                                 "columns": [
                                     { "data": "name", "width": "100%" },
@@ -1452,7 +1499,7 @@
                                 paging: false,
                                 info: false,
                                 destroy: true,
-
+                                caseInsensitive: false,
                             });
                         }
                         else {
@@ -1469,7 +1516,16 @@
             }
 
         }
+        /*
+        $('input[name=addall]:checked').each(function () {
+            //console.log(this.value);
+            addAll_check = $(this).is(':checked');
+            console.log(addAll_check);
+        });*/
 
+        $('input[name=addall]').click(function () {
+            addAll_check = $(this).is(':checked');
+        });
         function setTag() {
 
             if (subName == null || subName == '') {
@@ -1498,6 +1554,7 @@
                     name: tag,
                     categoryId: catId,
                     subCategoryId: subId,
+                    addAll: addAll_check,
                     active: true
                 };
 
@@ -1526,7 +1583,7 @@
                                 paging: false,
                                 info: false,
                                 destroy: true,
-
+                                caseInsensitive: false,
                             });
 
                             $('#tags_table').removeClass("dataTable");
@@ -1546,7 +1603,9 @@
 
         }
 
+        function addTag() {
 
+        }
 
 
         function AddBank() {
@@ -1758,6 +1817,7 @@
                 paging: true,
                 info: true,
                 ordering: true,
+                caseInsensitive: false,
                 order: [[1, 'asc']],
             });
         });
@@ -1779,6 +1839,7 @@
                     "ajax": {
                         "url": "/api/accounting/getsubcat/" + catId,
                         dataSrc: '',
+
                     },
                     "columns": [
                         { "data": "name", "width": "100%" },
@@ -1789,7 +1850,8 @@
                     searching: false,
                     paging: false,
                     info: false,
-                    destroy:true,
+                    destroy: true,
+                    caseInsensitive: false,
 
                 });
 
@@ -1818,15 +1880,33 @@
 
         $('#subCat_table tbody').on('click', 'tr', function () {
 
-
             subId = subCatTable.row(this).data().id;
             subName = subCatTable.row(this).data().name;
-
+            /*$('#tags_select').empty();*/
 
             $('#tags_table').DataTable({
                 "ajax": {
                     "url": "/api/accounting/gettags/" + subId,
                     dataSrc: '',
+                    /*
+                    success: function (tags_data) {
+                        console.clear();
+                        console.log(tags_data);
+                        $.each(tags_data, function (key, value) {
+
+                            
+                            $('#tags_select').append($('<option>',
+                                {
+                                    value: value.id,
+                                    text: value.name
+                                }));
+
+                            $('#tags_select').append('<option value="' + value.id + '">' + value.name +'</option>')
+
+                        });
+
+                    }
+                    */
                 },
                 "columns": [
                     { "data": "name", "width": "100%" },
@@ -1838,7 +1918,15 @@
                 paging: false,
                 info: false,
                 destroy: true,
+                caseInsensitive: false,
+            });
 
+            $('#tags_select').select2({
+                ajax: {
+                    url: function (params) {
+                        return '/api/accounting/gettags/' + subId;
+                    }
+                }
             });
 
             $('#search_subCatlist').removeAttr('disabled');

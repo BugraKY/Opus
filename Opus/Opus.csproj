@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\configuration.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\configuration.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="IbanNet" Version="5.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
@@ -29,6 +37,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\testfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\configuration.js" />
   </ItemGroup>
 
 </Project>

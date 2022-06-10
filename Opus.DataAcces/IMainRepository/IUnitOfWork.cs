@@ -40,6 +40,7 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.IBankRepository Accounting_Bank { get; }
         IAccountingRepository.IIdentificationRepository Accounting_Identification { get; }
         IAccountingRepository.IContactDefinitionsRepository Accounting_ContactDefinitions { get; }
+        IAccountingRepository.ITagDefinitionsRepository Accounting_TagDefinations { get; }
         #endregion Accounting
 
         void Save();
