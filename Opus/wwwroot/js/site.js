@@ -716,3 +716,63 @@ function Add16() {
 function Add00() {
     document.getElementById("time").value = "00:00";
 }
+
+
+/*Term*/
+$('#term30').click(function () {
+
+    if ($(this).is(':checked')) {
+        $('#term60').prop('checked', false);
+        $('#term90').prop('checked', false);
+    }
+    else
+        $('#term30').prop('checked', true);
+});
+$('#term60').click(function () {
+
+    if ($(this).is(':checked')) {
+        $('#term30').prop('checked', false);
+        $('#term90').prop('checked', false);
+    }
+    else
+        $('#term60').prop('checked', true);
+});
+$('#term90').click(function () {
+
+    if ($(this).is(':checked')) {
+        $('#term30').prop('checked', false);
+        $('#term60').prop('checked', false);
+    }
+    else
+        $('#term90').prop('checked', true);
+});
+
+$('#term30_edit').click(function () {
+
+    if ($(this).is(':checked')) {
+        $('#term60_edit').prop('checked', false);
+        $('#term90_edit').prop('checked', false);
+    }
+    else
+        $('#term30_edit').prop('checked', true);
+});
+$('#term60_edit').click(function () {
+
+    if ($(this).is(':checked')) {
+        $('#term30_edit').prop('checked', false);
+        $('#term90_edit').prop('checked', false);
+    }
+    else
+        $('#term60_edit').prop('checked', true);
+});
+$('#term90_edit').click(function () {
+
+    if ($(this).is(':checked')) {
+        $('#term30_edit').prop('checked', false);
+        $('#term60_edit').prop('checked', false);
+    }
+    else
+        $('#term90_edit').prop('checked', true);
+});
+
+/*Term*/

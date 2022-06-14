@@ -17,5 +17,8 @@ namespace Opus.Models.ViewModels.Accounting
         public Identification Identification { get; set; }
         public int PaymentMethId { get; set; }
         public PaymentMeth PaymentMeth { get; set; }
+        public bool Term30 { get; set; }
+        public bool Term60 { get; set; }
+        public bool Term90 { get; set; }
     }
 }

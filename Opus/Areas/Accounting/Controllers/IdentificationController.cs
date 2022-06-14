@@ -260,7 +260,9 @@ namespace Opus.Areas.Accounting.Controllers
         public TagDefinitions AddTagDef([FromBody] TagDefinitions _tagdef)
         {
             _uow.Accounting_TagDefinations.Add(_tagdef);
-            _uow.Save();
+            var status=_uow.Accounting_TagDefinations.GetFirstOrDefault(i=>(i.TagId==_tagdef.TagId&&i.SubCategoryId==_tagdef.SubCategoryId&&i.CategoryId==_tagdef.CategoryId));
+            if(status==null)
+                _uow.Save();
             return _tagdef;
         }
         [Route("api/accounting/getCat/{id}")]
@@ -291,6 +293,10 @@ namespace Opus.Areas.Accounting.Controllers
         public bool SetTag([FromBody] Tag tag)
         {
             List<TagDefinitions> _tagDefinitions = new List<TagDefinitions>();
+            if (String.IsNullOrEmpty(tag.Name)||string.IsNullOrWhiteSpace(tag.Name))
+            {
+                return true;
+            }
             var _tag = _uow.Accounting_Tag.GetAll(includeProperties: "Category").Where(n => (n.Name == tag.Name && n.CategoryId == tag.CategoryId));
             if (tag.AddAll)
             {
@@ -388,9 +394,31 @@ namespace Opus.Areas.Accounting.Controllers
             var tagdefs = _uow.Accounting_TagDefinations.GetAll(i => i.SubCategoryId == Guid.Parse(id), includeProperties: "Tag,SubCategory");
             foreach (var item in tagdefs)
             {
-                _tags.Add(item.Tag);
+
+                var _tagItem = new Tag()
+                {
+                    Id = item.Id,
+                    SubCategoryId = item.Tag.SubCategoryId,
+                    Active = item.Tag.Active,
+                    CategoryId = item.Tag.CategoryId,
+                    Name = item.Tag.Name
+                };
+                _tags.Add(_tagItem);
             }
-            return _tags;
+            return _tags.OrderBy(i=>i.Name);
+            //return null;
+        }
+        [Route("api/accounting/gettagsfromCat/{id}")]
+        public IEnumerable<Tag> GetTagsFromCategory(string id)
+        {
+            List<Tag> _tags = new List<Tag>();
+            var tagdefs = _uow.Accounting_Tag.GetAll(i => i.CategoryId == Guid.Parse(id), includeProperties: "Category");
+            /*
+            foreach (var item in tagdefs)
+            {
+                _tags.Add(item);
+            }*/
+            return tagdefs;
             //return null;
         }
         [HttpGet("api/accounting/getDef/{id}")]
@@ -422,6 +450,25 @@ namespace Opus.Areas.Accounting.Controllers
             return identificationIndex;
 
             //return _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
+        }
+        [HttpGet("api/accounting/remove-tag/{id}")]
+        public bool RemoveTag(string id)
+        {
+            var _tagdef_remItem = _uow.Accounting_TagDefinations.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+            var tagTitle = _uow.Accounting_Tag.GetFirstOrDefault(i => i.Id == _tagdef_remItem.TagId);
+            var _tagDefCount = _uow.Accounting_TagDefinations.GetAll(i => i.TagId == _tagdef_remItem.TagId).Count();
+
+            if (_tagDefCount == 1)
+            {
+                _uow.Accounting_Tag.Remove(tagTitle);
+                _uow.Accounting_TagDefinations.Remove(_tagdef_remItem);
+            }
+            else
+                _uow.Accounting_TagDefinations.Remove(_tagdef_remItem);
+            _uow.Save();
+
+
+            return true;
         }
         [Route("api/accounting/getalldep")]
         public IEnumerable<Departmant> GetDepartmants()

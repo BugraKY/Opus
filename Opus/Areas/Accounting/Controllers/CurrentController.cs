@@ -11,6 +11,7 @@ namespace Opus.Areas.Accounting.Controllers
     [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accounting)]
     public class CurrentController : Controller
     {
+        Utility.ForeignCurrency excRate = new Utility.ForeignCurrency();
         private readonly IUnitOfWork _uow;
         public CurrentController(IUnitOfWork uow)
         {
@@ -69,6 +70,13 @@ namespace Opus.Areas.Accounting.Controllers
                 PaymentMethId = _buyingVM.PaymentMethId
             };
             return NoContent();
+        }
+        
+        [Route("api/accounting/foreign-currency/{_date}")]
+        public ExchangeRate GetExchange(string _date)
+        {
+            var data=excRate.GetExchangeByDate(DateTime.Parse(DateTime.Parse(_date).ToString("dd/MM/yyyy")));
+            return data;
         }
     }
 }

@@ -1,166 +1,237 @@
 ﻿
 @model Opus.Models.ViewModels.Accounting.BuyingVM
 
-<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onselectstart='return false;' style="white-space:nowrap">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
+<div class="container-full">
+    @*<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onselectstart='return false;' style="white-space:nowrap">*@
+<!-- Content Header (Page header) -->
+<div class="content-header">
 
-        <div class="d-flex align-items-center">
-            <div class="me-auto">
-                <h3 class="page-title">Accounting</h3>
-                <div class="d-inline-block align-items-center">
-                    <nav>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
-                            <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Buying</li>
-                        </ol>
-                    </nav>
-                </div>
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Accounting</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Buying</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-
     </div>
 
-    <div class="pb-10"></div>
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-12">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h4 class="box-title"></h4>
+</div>
+
+<div class="pb-10"></div>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    @*<h4 class="box-title"></h4>*@
+                    <div class="row">
+                        <div class="col-3">
+                            <h4 class="box-title">Today:</h4>
+                        </div>
+                        <div class="col-3 fa-1x" title="US DOLAR">
+                            <i class="fa fa-usd opus-color" aria-hidden="true"></i><span class="usd_today" style="padding-left:5px;"></span>
+                        </div>
+                        <div class="col-3 fa-1x" title="EURO">
+                            <i class="fa fa-eur opus-color" aria-hidden="true"></i><span class="eur_today" style="padding-left: 5px;"></span>
+                        </div>
+                        <div class="col-3 fa-1x" title="STERLIN">
+                            <i class="fa fa-gbp opus-color" aria-hidden="true"></i><span class="gbp_today" style="padding-left: 5px;"></span>
+                        </div>
                     </div>
-                    <form method="post" action="/accounting/curr/buying-post">
-                        <div class="box-body">
+                    <div class="text-center" style="position:absolute;">
+                        <small style="font-size:10px;">This currency is pulled from the central bank of the republic of Turkey database.</small>
+                    </div>
+                </div>
+                <form method="post" action="/accounting/curr/buying-post">
+                    <div class="box-body">
 
-                            <hr class="my-15">
+                        <hr class="my-15">
 
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Supplier</h5>
-                                </div>
-                                <div class="col-10">
-                                    <select class="form-control select2 mb-20 me-10" data-style="btn-white" id="definition" asp-for="IdentificationId" required>
-                                        <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
-                                        @foreach (var item in Model.Identification_Enuberable)
-                                        {
-                                            <option value="@item.Id">@item.CommercialTitle</option>
-                                        }
-                                    </select>
-                                    @*
-                                        <label class="form-label"></label>
-                                        <select class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">Alabama</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
-                                        </select>*@
-                                </div>
-
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Supplier</h5>
+                            </div>
+                            <div class="col-10">
+                                <select class="form-control select2 mb-20 me-10" data-style="btn-white" id="definition" asp-for="IdentificationId" required>
+                                    <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
+                                    @foreach (var item in Model.Identification_Enuberable)
+                                    {
+                                        <option value="@item.Id">@item.CommercialTitle</option>
+                                    }
+                                </select>
+                                @*
+                <label class="form-label"></label>
+                <select class="form-control select2" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                </select>*@
                             </div>
 
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Document Date</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
-                                </div>
-                                <span asp-validation-for="BuyingInput.DocDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Document Date</h5>
                             </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Document No</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="BuyingInput.DocNo" />
-                                </div>
-                                <span asp-validation-for="BuyingInput.DocNo" class="text-danger"></span>
+                            <div class="col-10">
+                                <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
                             </div>
+                            <span asp-validation-for="BuyingInput.DocDate" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Document No</h5>
+                            </div>
+                            <div class="col-10">
+                                <input class="form-control input-col" type="text" placeholder="Document No" asp-for="BuyingInput.DocNo" />
+                            </div>
+                            <span asp-validation-for="BuyingInput.DocNo" class="text-danger"></span>
+                        </div>
 
 
 
 
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Payment Method</h5>
-                                </div>
-                                <div class="col-10">
-                                    <div class="row">
-                                        <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio-col-info" value="1" checked />
-                                            <label for="cashrad">Cash</label>
-                                        </div>
-                                        <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" />
-                                            <label for="cardrad">Credit Card</label>
-                                        </div>
-                                        <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" />
-                                            <label for="currentrad">Current</label>
-                                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Payment Method</h5>
+                            </div>
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col my-10">
+                                        <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio-col-info" value="1" checked />
+                                        <label for="cashrad">Cash</label>
+                                    </div>
+                                    <div class="col my-10">
+                                        <input asp-for="PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" />
+                                        <label for="cardrad">Credit Card</label>
+                                    </div>
+                                    <div class="col my-10">
+                                        <input asp-for="PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" />
+                                        <label for="currentrad">Current</label>
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Input</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Input 1" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Input</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Input 1" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Input</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Input 1" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Input</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Input 1" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <h5 class="my-10">Input</h5>
-                                </div>
-                                <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Input 1" />
-                                </div>
-                            </div>
-                            <button class="btn btn-outline-primary" type="submit">Submit</button>
                         </div>
-                    </form>
-                </div>
+
+
+                        <div class="row payment-term d-none">
+                            <div class="col-2">
+                                <h5 class="my-10">Payment Terms: </h5>
+                            </div>
+                            <div class="col-10 my-10">
+                                <input type="checkbox" id="term30" class="filled-in chk-col-success" />
+                                <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                <input type="checkbox" id="term60" class="filled-in chk-col-success" />
+                                <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                <input type="checkbox" id="term90" class="filled-in chk-col-success" />
+                                <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                            </div>
+                        </div>
+
+
+
+
+                        @*
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Input</h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Input 1" />
             </div>
         </div>
-    </section>
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Input</h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Input 1" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Input</h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Input 1" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Input</h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Input 1" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <h5 class="my-10">Input</h5>
+            </div>
+            <div class="col-10">
+                <input class="form-control input-col" type="text" placeholder="Input 1" />
+            </div>
+        </div>
+                        *@
+
+
+
+                        <button class="btn btn-outline-success" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/api/accounting/foreign-currency/14.06.2022',
+                
+                success: function (data) {
+                    $('.usd_today').html(data.usd);
+                    $('.eur_today').html(data.eur);
+                    $('.gbp_today').html(data.gbp);
+                }
+            });
+
+
+            $('input[type=radio][name=PaymentMethId]').change(function () {
+                if (this.value == '3') {
+                    $('.payment-term').removeClass('d-none');
+                    $('#term30').attr('name', 'Term30');
+                    $('#term60').attr('name', 'Term60');
+                    $('#term90').attr('name', 'Term90');
+                }
+                else {
+                    $('.payment-term').addClass('d-none');
+                    $('#term30').removeAttr('name');
+                    $('#term60').removeAttr('name');
+                    $('#term90').removeAttr('name');
+                }
+            });
+
+        });
+    </script>
 }

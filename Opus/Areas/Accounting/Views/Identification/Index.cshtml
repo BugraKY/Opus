@@ -172,6 +172,7 @@
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab" aria-controls="defTab" draggable="false"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
                             <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab" aria-controls="categoriesTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#staffTab" role="tab" aria-controls="staffTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Staff</span></a> </li>
                             @*
                                 <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
                                 <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#bankTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Banks</span></a> </li>
@@ -559,6 +560,7 @@
                                                                     <tr>
                                                                         <th>title-1</th>
                                                                         <th style="width:0;">title-2</th>
+                                                                        <th style="width:7px;"></th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody id="tags_tbody">
@@ -575,411 +577,110 @@
                                 </div>
                             </div>
 
-                            <div id="depTab" class="tab-pane">
+                            <div class="tab-pane" id="staffTab" role="tabpanel">
                                 <div class="p-15">
-                                    <div class="row">
-                                        <div class="col-xl-2 col-12">
-                                            <h5 class="my-10">Search: </h5>
-                                        </div>
-                                        <div class="col-xl-10 col-12">
-                                            <input class="form-control input-col" type="text" placeholder="Search Departmant" id="search_deplist" onkeyup="searchDepFunc()" />
-                                        </div>
-                                    </div>
+                                    <form action="/" method="post">
+                                        <div class="row my-10">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Departmants</h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <select class="form-select input-col" id="departmantid">
+                                                    <option value="" selected="selected" disabled class="d-none">Departmant</option>
+                                                    @foreach (var item in Model.Departmant_Enumerable)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
 
-                                    <div class="row mt-20">
-                                        <div class="col-xl-2 col-12">
-                                            <h5 class="my-10">Departmant List: </h5>
                                         </div>
-                                        <div class="col-xl-10 col-12 zmdi-border-col">
-                                            @*<input class="form-control input-col" type="text" placeholder="Departmant" />*@
-                                            <div class="inner-content-div border zmdi-border-inner">
-                                                <div class="table-responsive">
-                                                    <table id="deps_table" class="table table-striped table-bordered display" style="width:100%">
-                                                        <tr>
-                                                            <td>Tiger Nixon</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Garrett Winters</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ashton Cox</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cedric Kelly</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Airi Satou</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Brielle Williamson</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Herrod Chandler</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Rhona Davidson</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Colleen Hurst</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sonya Frost</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jena Gaines</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Quinn Flynn</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Charde Marshall</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Haley Kennedy</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Tatyana Fitzpatrick</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Michael Silva</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Paul Byrd</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gloria Little</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Bradley Greer</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Dai Rios</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jenette Caldwell</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Yuri Berry</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Caesar Vance</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Doris Wilder</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Angelica Ramos</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gavin Joyce</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jennifer Chang</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Brenden Wagner</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Fiona Green</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Shou Itou</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Michelle House</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Suki Burks</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Prescott Bartlett</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Buğra Kaya</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gavin Cortez</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Martena Mccray</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Unity Butler</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Howard Hatfield</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Hope Fuentes</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Vivian Harrell</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Timothy Mooney</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jackson Bradshaw</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Olivia Liang</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Bruno Nash</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sakura Yamamoto</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Thor Walton</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Finn Camacho</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Serge Baldwin</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Zenaida Frank</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Zorita Serrano</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jennifer Acosta</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cara Stevens</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Hermione Butler</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Lael Greer</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jonas Alexander</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Shad Decker</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Michael Bruce</td>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Donna Snider</td>
-                                                        </tr>
-                                                    </table>
+                                        <div class="row pb-20">
+                                            <div class="col-2">
+                                                <h5 class="my-10">First Name: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" id="firstname" type="text" asp-for="IdentityCode" placeholder="First Name" required />
+                                                <input class="form-control d-none" id="idnum" type="text" asp-for="IdNumber" readonly="readonly" hidden />
+                                                <input class="form-control d-none" type="text" asp-for="CompanyId" value="@Model.CompanyItem.Id" readonly="readonly" hidden />
+                                            </div>
+                                        </div>
+
+                                        <div class="row pb-20">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Last Name: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" id="lastname" type="text" placeholder="Last Name" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="row pb-20">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Mobile Number: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" id="mobilenumber" type="text" data-inputmask="'mask':['9999 999 99 99']" data-mask="" placeholder="0535 999 99 99" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h5 class="my-10">Email: </h5>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control input-col" id="mobilenumber" type="email" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="row pt-50">
+                                            <div class="col-12">
+                                                <div style="float:right;">
+                                                    <button class="btn btn-primary input-col">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
 
-                                    </div>
+                                    </form>
+
                                 </div>
-                            </div>
+                                <div class="border-top p-15"></div>
 
-                            <div id="bankTab" class="tab-pane">
-                                <div class="p-15">
-                                    <div class="row">
-                                        <div class="col-xl-2 col-12">
-                                            <h5 class="my-10">Search: </h5>
-                                        </div>
-                                        <div class="col-xl-10 col-12">
-                                            <input class="form-control input-col" type="text" placeholder="Bank" id="search_banklist" onkeyup="searchBankFunc()" />
-                                        </div>
+                                <!--Staff List Section-->
+                                <section>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered table-striped dataTables" width="100%" id="stafflist_table">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="d-none"></th>
+                                                    <th class="d-none"></th>
+                                                    <th>Departmant</th>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Identification_Enumerable)
+                                                {
+                                                    <tr>
+                                                        <td class="d-none">@item.Id</td>
+                                                        <td class="d-none">@item.IdNumber</td>
+                                                        <td>@item.IdentificationType.Name</td>
+                                                        <td>@item.IdentityCode</td>
+                                                        <td>@item.CommercialTitle</td>
+                                                        <td>@item.StreetAddress</td>
+                                                        <td>@item.TaxAuthority</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="row mt-20">
-                                        <div class="col-xl-2 col-12">
-                                            <h5 class="my-10">Bank List: </h5>
-                                        </div>
-                                        <div class="col-xl-10 col-12 zmdi-border-col">
-                                            @*<input class="form-control input-col" type="text" placeholder="Departmant" />*@
-                                            <div class="inner-content-div border zmdi-border-inner">
-                                                <div class="table-responsive">
-                                                    <table id="banks_table" class="table table-striped table-bordered display" style="width:100%">
-                                                        <tr>
-                                                            <td>Tiger Nixon</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Garrett Winters</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Ashton Cox</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cedric Kelly</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Airi Satou</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Brielle Williamson</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Herrod Chandler</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Rhona Davidson</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Colleen Hurst</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sonya Frost</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jena Gaines</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Quinn Flynn</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Charde Marshall</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Haley Kennedy</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Tatyana Fitzpatrick</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Michael Silva</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Paul Byrd</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gloria Little</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Bradley Greer</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Dai Rios</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jenette Caldwell</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Yuri Berry</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Caesar Vance</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Doris Wilder</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Angelica Ramos</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gavin Joyce</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jennifer Chang</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Brenden Wagner</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Fiona Green</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Shou Itou</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Michelle House</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Suki Burks</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Prescott Bartlett</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Buğra Kaya</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Gavin Cortez</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Martena Mccray</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Unity Butler</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Howard Hatfield</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Hope Fuentes</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Vivian Harrell</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Timothy Mooney</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jackson Bradshaw</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Olivia Liang</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Bruno Nash</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Sakura Yamamoto</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Thor Walton</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Finn Camacho</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Serge Baldwin</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Zenaida Frank</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Zorita Serrano</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jennifer Acosta</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Cara Stevens</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Hermione Butler</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Lael Greer</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Jonas Alexander</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Shad Decker</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Michael Bruce</td>
 
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Donna Snider</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                </section>
+                                <!--Staff List Section-->
                             </div>
                         </div>
                     </div>
@@ -1106,11 +807,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-10">
                             <label class="form-label">Combine tag with SubCategory.</label>
-                            <select class="form-control select2" style="width: 100%;" id="tags_select">
-
+                            <select class="form-control form-select" style="width: 100%;" id="tags_select">
                             </select>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-success waves-effect waves-light my-25" id="add-selectedtag" onclick="addSelectedtag()"><i class="fa fa-plus" aria-hidden="true"></i></button>
                         </div>
                     </div>
                     <div class="row">
@@ -1487,7 +1190,7 @@
                                     dataSrc: '',
 
 
- 
+
                                 },
                                 "columns": [
                                     { "data": "name", "width": "100%" },
@@ -1575,7 +1278,14 @@
                                 },
                                 "columns": [
                                     { "data": "name", "width": "100%" },
-                                    { "data": "id", "class": "d-none" }
+                                    { "data": "id", "class": "d-none" },
+                                    {
+                                        render: function (data, type, row, meta) {
+
+                                            return `<button onclick="delTag('` + row.id + `')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>`;
+                                        },
+                                        class: "text-center"
+                                    }
                                 ],
                                 processing: true,
                                 serverSide: true,
@@ -1600,7 +1310,7 @@
                     }
                 });
             }
-
+            $('#settaginp').val('');
         }
 
         function addTag() {
@@ -1715,6 +1425,7 @@
                                 <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
                             <option data-tokens="4955e8b7-33ad-429e-107c-08da2f601faa">Many Points</option><option data-tokens="22bdc8ad-1fbe-437d-3486-08da2f638e84">Expert Quality Services</option></select></div>`;
             $('#search_subCatlist').attr('disabled', 'disabled');
+
             //$('#subcat-toggle').attr('disabled', 'disabled');
             $('#subcat-toggle').attr("disabled", true);
             $('#subcategory-title').html("Sub Category - (Main was not selected)");
@@ -1877,9 +1588,8 @@
 
         }
 
-
         $('#subCat_table tbody').on('click', 'tr', function () {
-
+            console.clear();
             subId = subCatTable.row(this).data().id;
             subName = subCatTable.row(this).data().name;
             /*$('#tags_select').empty();*/
@@ -1891,7 +1601,15 @@
                 },
                 "columns": [
                     { "data": "name", "width": "100%" },
-                    { "data": "id", "class": "d-none" }
+                    { "data": "id", "class": "d-none" },
+                    {
+                        render: function (data, type, row, meta) {
+
+                            return `<button onclick="delTag('` + row.id + `')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>`;
+                        },
+                        class: "text-center"
+                    }
+
                 ],
                 processing: true,
                 serverSide: true,
@@ -1901,7 +1619,7 @@
                 destroy: true,
                 caseInsensitive: false,
             });
-
+            /*
             $('#tags_select').select2({
                 ajax: {
                     url: function (params) {
@@ -1909,6 +1627,18 @@
                     }
                 }
             });
+            */
+            $('#tags_select').empty().append(new Option("Uncombined","0",true,true));
+            $.ajax({
+                url: "/api/accounting/gettagsfromCat/" + catId,
+                success: function (received) {
+                    $.each(received, function (key, value) {
+                        /*$('#tags_select').append(`<option value="` + value.id + `">` + value.name + `</option>`)*/
+                        $('#tags_select').append(new Option(value.name, value.id))
+                    });
+                }
+            });
+
 
             $('#search_subCatlist').removeAttr('disabled');
             $('#subCat_table').removeClass("dataTable");
@@ -1929,6 +1659,97 @@
                 /*gridClickHandler(row);*/
             }
         });
+
+        $('#tags_table tbodyyy').on('click', 'tr > td > button', function () {/*$('#tags_table tbody').on('click', 'tr', function () {*/
+
+
+            subId = subCatTable.row(this).data().id;
+            subName = subCatTable.row(this).data().name;
+
+            /*
+            $('#tags_table').DataTable({
+                "ajax": {
+                    "url": "/api/accounting/gettags/" + subId,
+                    dataSrc: '',
+                },
+                "columns": [
+                    { "data": "name", "width": "100%" },
+                    { "data": "id", "class": "d-none" },
+                    {
+                        data: function () {
+                            return `<a onclick="delTag(this)" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>`;
+                        },
+                        class: "text-center"
+                    }
+                ],
+                processing: true,
+                serverSide: true,
+                searching: false,
+                paging: false,
+                info: false,
+                destroy: true,
+                caseInsensitive: false,
+            });
+
+            $('#tags_select').empty().append(new Option("Uncombined", "0", true, true));
+            $.ajax({
+                url: "/api/accounting/gettagsfromCat/" + catId,
+                success: function (received) {
+                    $.each(received, function (key, value) {
+                        $('#tags_select').append(new Option(value.name, value.id))
+                    });
+                }
+            });
+
+            */
+            var $rowsel = $(this).find("td").eq(1).html();
+            var row = $(this);                 //cache the row
+            console.log("row selected:");
+            console.log($rowsel);
+            if (!row.hasClass('selected')) {
+                row.addClass('selected')       //add class to clicked row
+                    .siblings()                //get the other rows
+                    .removeClass('selected');  //remove their classes
+                /*gridClickHandler(row);*/
+            }
+        });
+
+
+        function delTag(data) {
+            console.log(data);
+
+            $.ajax({
+                url: "/api/accounting/remove-tag/" + data,
+                success: function (received) {
+                    tagTable = $('#tags_table').DataTable({
+                        "ajax": {
+                            "url": "/api/accounting/gettags/" + subId,
+                            dataSrc: '',
+                        },
+                        "columns": [
+                            { "data": "name", "width": "100%" },
+                            { "data": "id", "class": "d-none" },
+                            {
+                                render: function (data, type, row, meta) {
+
+                                    return `<button onclick="delTag('` + row.id + `')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>`;
+                                },
+                                class: "text-center"
+                            }
+                        ],
+                        processing: true,
+                        serverSide: true,
+                        searching: false,
+                        paging: false,
+                        info: false,
+                        destroy: true,
+                        caseInsensitive: false,
+                    });
+                }
+            });
+
+        }
+
 
         $('#deflist_table tbody').on('click', 'tr', function () {
             /*
@@ -1971,60 +1792,14 @@
             */
         });
 
-        $('#term30').click(function () {
-
-            if ($(this).is(':checked')) {
-                $('#term60').prop('checked', false);
-                $('#term90').prop('checked', false);
+        $('#md_checkbox_24').change(function () {
+            if (this.checked) {
+                $('#tags_select').attr('disabled', 'disabled');
+                $("#tags_select").val("0").change();
             }
-            else
-                $('#term30').prop('checked', true);
-        });
-        $('#term60').click(function () {
-
-            if ($(this).is(':checked')) {
-                $('#term30').prop('checked', false);
-                $('#term90').prop('checked', false);
+            else {
+                $('#tags_select').removeAttr('disabled');
             }
-            else
-                $('#term60').prop('checked', true);
-        });
-        $('#term90').click(function () {
-
-            if ($(this).is(':checked')) {
-                $('#term30').prop('checked', false);
-                $('#term60').prop('checked', false);
-            }
-            else
-                $('#term90').prop('checked', true);
-        });
-
-        $('#term30_edit').click(function () {
-
-            if ($(this).is(':checked')) {
-                $('#term60_edit').prop('checked', false);
-                $('#term90_edit').prop('checked', false);
-            }
-            else
-                $('#term30_edit').prop('checked', true);
-        });
-        $('#term60_edit').click(function () {
-
-            if ($(this).is(':checked')) {
-                $('#term30_edit').prop('checked', false);
-                $('#term90_edit').prop('checked', false);
-            }
-            else
-                $('#term60_edit').prop('checked', true);
-        });
-        $('#term90_edit').click(function () {
-
-            if ($(this).is(':checked')) {
-                $('#term30_edit').prop('checked', false);
-                $('#term60_edit').prop('checked', false);
-            }
-            else
-                $('#term90_edit').prop('checked', true);
         });
 
         function searchCat() {
@@ -2128,6 +1903,87 @@
             }
 
 
+        }
+
+        function addSelectedtag() {
+            if (subName == null || subName == '') {
+                /*
+                $('#modal-setsubCat').modal('toggle');
+                $('#setcatinp').val('');*/
+
+                /*$('#categories-alert').removeClass('d-none');*/
+                $('#tagmodal-alert').html(`<div class="alert alert-warning alert-dismissible shadow-2-strong mt-20">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <h4><i class="icon fa fa-ban"></i><label>Alert!</label> </h4>
+                                        <label>You should select the main catergory first.</label>
+                                    </div>`);
+            }
+            else {
+                var tag = $("#tags_select option:selected").val();
+                if (tag != "0") {
+
+                    console.log(tag);
+
+                    var model = {
+                        tagId: tag,
+                        categoryId: catId,
+                        subCategoryId: subId
+                    };
+
+
+                    $.ajax({
+                        url: "/api/accounting/add-tagdef",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(model),
+                        success: function (received) {
+                            if (received) {
+                                $('#modal-settag').modal('toggle');
+                                $('#setsubcatinp').val('');
+
+                                tagTable = $('#tags_table').DataTable({
+                                    "ajax": {
+                                        "url": "/api/accounting/gettags/" + subId,
+                                        dataSrc: '',
+                                    },
+                                    "columns": [
+                                        { "data": "name", "width": "100%" },
+                                        { "data": "id", "class": "d-none" },
+                                        {
+                                            render: function (data, type, row, meta) {
+
+                                                return `<button onclick="delTag('` + row.id + `')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>`;
+                                            },
+                                            class: "text-center"
+                                        }
+                                    ],
+                                    processing: true,
+                                    serverSide: true,
+                                    searching: false,
+                                    paging: false,
+                                    info: false,
+                                    destroy: true,
+                                    caseInsensitive: false,
+                                });
+
+                                $('#tags_table').removeClass("dataTable");
+                            }
+                            else {
+                                $('#tagmodal-alert').html(`<div class="alert alert-warning alert-dismissible shadow-2-strong mt-20">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <h4><i class="icon fa fa-ban"></i><label>Fail!</label> </h4>
+                                        <label>'`+ tag + `' already been added before.</label>
+                                    </div>`);
+                            }
+
+
+                        }
+                    });
+
+
+                }
+
+            }
         }
 
         /*

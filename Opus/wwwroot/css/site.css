@@ -27,6 +27,12 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+.opus-color {
+    color: #2aa377;
+}
+.opus-bgColor {
+    background-color: #2aa377;
+}
 /*Sidebar*/
 .rotate {
 }
