@@ -719,60 +719,96 @@ function Add00() {
 
 
 /*Term*/
+$('#term15').click(function () {
+    calcDate(15);
+});
 $('#term30').click(function () {
-
-    if ($(this).is(':checked')) {
-        $('#term60').prop('checked', false);
-        $('#term90').prop('checked', false);
-    }
-    else
-        $('#term30').prop('checked', true);
+    calcDate(30);
+});
+$('#term45').click(function () {
+    calcDate(45);
 });
 $('#term60').click(function () {
-
-    if ($(this).is(':checked')) {
-        $('#term30').prop('checked', false);
-        $('#term90').prop('checked', false);
-    }
-    else
-        $('#term60').prop('checked', true);
+    calcDate(60);
 });
 $('#term90').click(function () {
-
-    if ($(this).is(':checked')) {
-        $('#term30').prop('checked', false);
-        $('#term60').prop('checked', false);
-    }
-    else
-        $('#term90').prop('checked', true);
+    calcDate(90);
 });
 
+$('#term15_edit').click(function () {
+    calcDate(15);
+});
 $('#term30_edit').click(function () {
-
-    if ($(this).is(':checked')) {
-        $('#term60_edit').prop('checked', false);
-        $('#term90_edit').prop('checked', false);
-    }
-    else
-        $('#term30_edit').prop('checked', true);
+    calcDate(30);
+});
+$('#term45_edit').click(function () {
+    calcDate(45);
 });
 $('#term60_edit').click(function () {
-
-    if ($(this).is(':checked')) {
-        $('#term30_edit').prop('checked', false);
-        $('#term90_edit').prop('checked', false);
-    }
-    else
-        $('#term60_edit').prop('checked', true);
+    calcDate(60);
 });
 $('#term90_edit').click(function () {
-
-    if ($(this).is(':checked')) {
-        $('#term30_edit').prop('checked', false);
-        $('#term60_edit').prop('checked', false);
-    }
-    else
-        $('#term90_edit').prop('checked', true);
+    calcDate(90);
 });
 
+function calcDate(day) {
+    $.ajax({
+        url: '/api/accounting/calculateDatebyday/' + day,
+
+        success: function (date) {
+            console.log(date);
+            console.log(day);
+            $('#paymentTermDate').val(date);
+            $('#term15').prop('checked', false);
+            $('#term30').prop('checked', false);
+            $('#term45').prop('checked', false);
+            $('#term60').prop('checked', false);
+            $('#term90').prop('checked', false);
+
+            $('#term15_edit').prop('checked', false);
+            $('#term30_edit').prop('checked', false);
+            $('#term45_edit').prop('checked', false);
+            $('#term60_edit').prop('checked', false);
+            $('#term90_edit').prop('checked', false);
+
+            if (day == 15) {
+                $('#term15').prop('checked', true);
+                $('#term15_edit').prop('checked', true);
+            }
+            if (day == 30) {
+                $('#term30').prop('checked', true);
+                $('#term30_edit').prop('checked', true);
+            }
+            if (day == 45) {
+                $('#term45').prop('checked', true);
+                $('#term45_edit').prop('checked', true);
+            }
+            if (day == 60) {
+                $('#term60').prop('checked', true);
+                $('#term60_edit').prop('checked', true);
+            }
+            if (day == 90) {
+                $('#term90').prop('checked', true);
+                $('#term90_edit').prop('checked', true);
+            }
+        }
+    });
+}
+
 /*Term*/
+
+/*Foreign-Currency*/
+function foreignCurrency(date) {
+    $.ajax({
+        url: '/api/accounting/foreign-currency/'+date,
+
+        success: function (data) {
+            $('.usd_today').html(data.usd);
+            $('.eur_today').html(data.eur);
+            $('.gbp_today').html(data.gbp);
+            $('.excDate').html(data.date);
+        }
+    });
+}
+/*Foreign-Currency*/
+

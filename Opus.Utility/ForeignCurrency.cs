@@ -23,17 +23,57 @@ namespace Opus.Utility
         }
         public ExchangeRate GetExchangeByDate(DateTime _date)
         {
-            _date=_date.AddDays(-1);
             var Year = _date.ToString("yyyy");
             var Month = _date.ToString("MM");
             var Day = _date.ToString("dd");
+            _date =_date.AddDays(-1);
+
+
+            /*
+             * Özel günler her yıl veri tabanına kaydedilecek.
+            if(Month=="04"&&Day=="23")
+                _date = _date.AddDays(-1);
+
+            */
+
+            if (_date.DayOfWeek==DayOfWeek.Saturday)
+                _date = _date.AddDays(-1);
+            if (_date.DayOfWeek == DayOfWeek.Sunday)
+                _date = _date.AddDays(-2);
+            if(_date>DateTime.Now.AddDays(-1))
+            {
+                _date = DateTime.Now.AddDays(-1);
+            }
+            Year = _date.ToString("yyyy");
+            Month = _date.ToString("MM");
+            Day = _date.ToString("dd");
             var Monthly = Year + Month;
             var AllDate = Day + Month + Year;
             var DateURL = Monthly + "/" + AllDate + ".xml";
             exchangeRate += DateURL;
 
             var xmlDoc = new XmlDocument();
-            xmlDoc.Load(exchangeRate);
+            try
+            {
+                xmlDoc.Load(exchangeRate);
+            }
+            catch (Exception ex)
+            {
+                _date.AddDays(-1);
+                if (_date.DayOfWeek == DayOfWeek.Saturday)
+                    _date = _date.AddDays(-1);
+                if (_date.DayOfWeek == DayOfWeek.Sunday)
+                    _date = _date.AddDays(-2);
+                Year = _date.ToString("yyyy");
+                Month = _date.ToString("MM");
+                Day = _date.ToString("dd");
+                Monthly = Year + Month;
+                AllDate = Day + Month + Year;
+                DateURL = Monthly + "/" + AllDate + ".xml";
+                exchangeRate += DateURL;
+                xmlDoc.Load(exchangeRate);
+            }
+            
 
             string _usd = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='USD']/ForexBuying").InnerXml;
             string _eur = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='EUR']/ForexBuying").InnerXml;
@@ -41,7 +81,8 @@ namespace Opus.Utility
 
             var _foreignCurrency = new ExchangeRate()
             {
-               USD=_usd,
+               DATE = _date.ToString("dd.MM.yyyy"),
+               USD =_usd,
                EUR=_eur,
                GBP=_gbp
             };

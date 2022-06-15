@@ -55,7 +55,26 @@ body {
 .danger {
     color: #ff0000 !important;
 }
-
+.btn-primary {
+    background-color: #2aa377 !important;
+    border-color: #2aa377 !important;
+}
+.theme-primary .btn-primary {
+    background-color: #2aa377 !important;
+    border-color: #2aa377 !important;
+}
+.theme-primary .btn-primary:hover {
+    background-color: #2aa377 !important;
+    border-color: #2aa377 !important;
+}
+    .theme-primary .btn-primary:active {
+        background-color: #2aa377 !important;
+        border-color: #2aa377 !important;
+    }
+    .theme-primary .btn-primary:focus {
+        background-color: #2aa377 !important;
+        border-color: #2aa377 !important;
+    }
 #loader {
     /*background: #fff url(/images/preloaders/1.gif) no-repeat center center!important;*/
     /*background: #fff url(/loader.png) no-repeat center center !important;*/

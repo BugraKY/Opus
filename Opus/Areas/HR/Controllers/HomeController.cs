@@ -4,6 +4,8 @@ using System.Security.Claims;
 using Opus.Extensions;
 using static Opus.Utility.ProjectConstant;
 using Microsoft.AspNetCore.Identity;
+using Opus.Models.DbModels;
+using Opus.Models.ViewModels;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -55,6 +57,28 @@ namespace Opus.Areas.HR.Controllers
         {
             var _object = _uow.Location.GetAll();
             return Json(_object);
+        }
+        [Route("add-vacation")]
+        public IActionResult AddVacationDays()
+        {
+            var vacatins = new VacationVM()
+            {
+                EnumerableVacationDates= _uow.VacationDates.GetAll()
+            };
+            return View(vacatins);
+        }
+        [HttpPost("add-vacation")]
+        public IActionResult AddVacationDaysPost(VacationVM vacatins)
+        {
+            var _vacation = new VacationDates()
+            {
+                Beginning=vacatins.Beginning,
+                Ending=vacatins.Ending,
+                Description=vacatins.Description
+            };
+            _uow.VacationDates.Add(_vacation);
+            _uow.Save();
+            return View("AddVacationDays");
         }
     }
 }

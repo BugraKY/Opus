@@ -131,8 +131,12 @@ namespace Opus.Areas.Accounting.Controllers
         [HttpPost("accounting/definitionpost")]
         public IActionResult DefinitionPost(IdentificationIndexVM Ids)
         {
-            if (Ids.Term30)
+            if (Ids.Term15)
+                Ids.PaymentTerm = 15;
+            else if (Ids.Term30)
                 Ids.PaymentTerm = 30;
+            else if (Ids.Term45)
+                Ids.PaymentTerm = 45;
             else if (Ids.Term60)
                 Ids.PaymentTerm = 60;
             else if (Ids.Term90)
@@ -177,6 +181,7 @@ namespace Opus.Areas.Accounting.Controllers
             return Redirect("/accounting/ids/" + Ids.CompanyId);
         }
         #endregion ACTION
+
 
 
         #region API
@@ -260,8 +265,8 @@ namespace Opus.Areas.Accounting.Controllers
         public TagDefinitions AddTagDef([FromBody] TagDefinitions _tagdef)
         {
             _uow.Accounting_TagDefinations.Add(_tagdef);
-            var status=_uow.Accounting_TagDefinations.GetFirstOrDefault(i=>(i.TagId==_tagdef.TagId&&i.SubCategoryId==_tagdef.SubCategoryId&&i.CategoryId==_tagdef.CategoryId));
-            if(status==null)
+            var status = _uow.Accounting_TagDefinations.GetFirstOrDefault(i => (i.TagId == _tagdef.TagId && i.SubCategoryId == _tagdef.SubCategoryId && i.CategoryId == _tagdef.CategoryId));
+            if (status == null)
                 _uow.Save();
             return _tagdef;
         }
@@ -293,7 +298,7 @@ namespace Opus.Areas.Accounting.Controllers
         public bool SetTag([FromBody] Tag tag)
         {
             List<TagDefinitions> _tagDefinitions = new List<TagDefinitions>();
-            if (String.IsNullOrEmpty(tag.Name)||string.IsNullOrWhiteSpace(tag.Name))
+            if (String.IsNullOrEmpty(tag.Name) || string.IsNullOrWhiteSpace(tag.Name))
             {
                 return true;
             }
@@ -405,7 +410,7 @@ namespace Opus.Areas.Accounting.Controllers
                 };
                 _tags.Add(_tagItem);
             }
-            return _tags.OrderBy(i=>i.Name);
+            return _tags.OrderBy(i => i.Name);
             //return null;
         }
         [Route("api/accounting/gettagsfromCat/{id}")]
@@ -447,6 +452,8 @@ namespace Opus.Areas.Accounting.Controllers
             */
             identificationIndex.ContactEnumerable = (List<Contact>)_uow.Accounting_Contact.GetAll(i => i.IdentificationId == Guid.Parse(id), includeProperties: "Departmant,Identification");
 
+
+
             return identificationIndex;
 
             //return _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
@@ -479,6 +486,67 @@ namespace Opus.Areas.Accounting.Controllers
         public IEnumerable<Bank> GetBanks()
         {
             return _uow.Accounting_Bank.GetAll().OrderBy(n => n.Name);
+        }
+        [HttpPost("api/accounting/add-staff")]
+        public bool AddStaff([FromBody] Models.DbModels.Accounting.Staff _staff)
+        {
+            try
+            {
+                if (
+                    _staff.DepartmantId == Guid.Parse("00000000-0000-0000-0000-000000000000") || _staff.CompanyId == Guid.Parse("00000000-0000-0000-0000-000000000000") ||
+                    String.IsNullOrEmpty(_staff.FirstName) || String.IsNullOrWhiteSpace(_staff.FirstName) || String.IsNullOrEmpty(_staff.LastName) || String.IsNullOrWhiteSpace(_staff.LastName) ||
+                    String.IsNullOrEmpty(_staff.Email) || String.IsNullOrWhiteSpace(_staff.Email) || String.IsNullOrEmpty(_staff.MobileNum) || String.IsNullOrWhiteSpace(_staff.MobileNum)
+                    )
+                    return false;
+                else
+                {
+                    var split = _staff.MobileNum.Split('_').Count();
+                    if (split > 1)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        _uow.Accounting_Staff.Add(_staff);
+                        _uow.Save();
+                        return true;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+
+
+        }
+        [HttpGet("api/accounting/remove-staff/{id}")]
+        public bool RemoveStaff(string id)
+        {
+            try
+            {
+                _uow.Accounting_Staff.Remove(_uow.Accounting_Staff.GetFirstOrDefault(i => i.Id == Guid.Parse(id)));
+                _uow.Save();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        [HttpGet("api/accounting/get-staff/{id}")]
+        public IEnumerable<Models.DbModels.Accounting.Staff> GetStaffs(string id)
+        {
+
+            return _uow.Accounting_Staff.GetAll(includeProperties: "Departmant").Where(i => (i.CompanyId == Guid.Parse(id) && i.Active));
+        }
+        [HttpGet("api/accounting/calculateDatebyday/{day}")]
+        public string CalculateDatebyDay(int day)
+        {
+            return DateTime.Now.AddDays(day).ToString("yyyy-MM-dd");
         }
         #endregion API
 

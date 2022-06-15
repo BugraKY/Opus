@@ -18,7 +18,9 @@ namespace Opus.Models.ViewModels.Accounting
         public IEnumerable<Departmant> Departmant_Enumerable { get; set; }
         public IEnumerable<Identification> Identification_Enumerable { get; set; }
         public Identification Identification_Item { get; set; }
+        public bool Term15 { get; set; }
         public bool Term30 { get; set; }
+        public bool Term45 { get; set; }
         public bool Term60 { get; set; }
         public bool Term90 { get; set; }
 

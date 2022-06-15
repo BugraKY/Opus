@@ -36,6 +36,7 @@ namespace Opus.DataAcces.MainRepository
             MaritalStatus = new MaritalStatusRepository(_db);
             EducationalStatus = new EducationalStatusRepository(_db);
             StaffResignation = new StaffResignationRepository(_db);
+            VacationDates = new VacationDatesRepository(_db);
             #endregion Main And HR
 
             #region Accounting
@@ -76,6 +77,7 @@ namespace Opus.DataAcces.MainRepository
         public IMaritalStatusRepository MaritalStatus { get; private set; }
         public IEducationalStatusRepository EducationalStatus { get; private set; }
         public IStaffResignationRepository StaffResignation { get; private set; }
+        public IVacationDatesRepository VacationDates { get; private set; }
         #endregion Main And HR
 
         #region Accounting

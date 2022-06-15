@@ -33,7 +33,7 @@
                     @*<h4 class="box-title"></h4>*@
                     <div class="row">
                         <div class="col-3">
-                            <h4 class="box-title">Today:</h4>
+                            <h4 class="box-title excDate">Today:</h4>
                         </div>
                         <div class="col-3 fa-1x" title="US DOLAR">
                             <i class="fa fa-usd opus-color" aria-hidden="true"></i><span class="usd_today" style="padding-left:5px;"></span>
@@ -132,15 +132,24 @@
                             <div class="col-2">
                                 <h5 class="my-10">Payment Terms: </h5>
                             </div>
-                            <div class="col-10 my-10">
-                                <input type="checkbox" id="term30" class="filled-in chk-col-success" />
+                            <div class="col-6 my-10">
+                                <input type="checkbox" id="term15" class="filled-in chk-col-success" asp-for="Term15" />
+                                <label for="term15">15  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" />
                                 <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                <input type="checkbox" id="term60" class="filled-in chk-col-success" />
+                                <input type="checkbox" id="term45" class="filled-in chk-col-success" asp-for="Term45" />
+                                <label for="term45">45  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" />
                                 <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
-                                <input type="checkbox" id="term90" class="filled-in chk-col-success" />
+                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="Term90" />
                                 <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="paymentTermDate" />
                             </div>
                         </div>
 
@@ -206,17 +215,25 @@
 
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: '/api/accounting/foreign-currency/14.06.2022',
-                
-                success: function (data) {
-                    $('.usd_today').html(data.usd);
-                    $('.eur_today').html(data.eur);
-                    $('.gbp_today').html(data.gbp);
-                }
+
+            foreignCurrency('@DateTime.Now.ToString("yyyy-MM-dd")')
+            $(document.body).on("change", "#definition", function () {
+                $.ajax({
+                    url: '/api/accounting/getDef/'+this.value,
+
+                    success: function (data) {
+                        var day = data.identification_Item.paymentTerm;
+                        calcDate(day);
+                    }
+                });
             });
-
-
+            $(document.body).on("change", "#BuyingInput_DocDate", function () {
+                foreignCurrency(this.value);
+            });
+            $('#mob-gig-date-gteq').change(function () {
+                var date = $(this).val();
+                console.log(date, 'change')
+            });
             $('input[type=radio][name=PaymentMethId]').change(function () {
                 if (this.value == '3') {
                     $('.payment-term').removeClass('d-none');

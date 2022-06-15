@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewData["Title"] = "AddVacationDays";
+}
+@model Opus.Models.ViewModels.VacationVM
+<h1>AddVacationDays</h1>
+
+<div class="container-full">
+
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Identifications</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active"><a href="#">Vacations</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+            <div class="col-12">
+                <div class="box">
+
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="p-15">
+                            <form method="post" asp-area="Accounting" asp-action="DefinitionPost" asp-controller="Identification">
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        <h5 class="my-10">Commercial Title: </h5>
+                                    </div>
+                                    <div class="col-10">
+                                        <input class="form-control input-col" asp-for="Beginning" required />
+                                    </div>
+                                </div>
+
+                                <div class="row pb-15">
+                                    <div class="col-2">
+                                        <h5 class="my-10">Tax Authority: </h5>
+                                    </div>
+                                    <div class="col-10">
+                                        <input class="form-control input-col" type="text" placeholder="Tax Authority" asp-for="Ending" required />
+                                    </div>
+                                </div>
+
+                                <div class="row pb-20">
+                                    <div class="col-2">
+                                        <h5 class="my-10">Street Address: </h5>
+                                    </div>
+                                    <div class="col-10">
+                                        <textarea class="form-control input-col" placeholder="Street Address" asp-for="Description" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row pt-50">
+                                    <div class="col-12">
+                                        <div style="float:right;">
+                                            <button class="btn btn-primary input-col">Add</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!--Definition List Section-->
+                                <section>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered table-striped dataTables" width="100%" id="deflist_table">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="d-none"></th>
+                                                    <th class="d-none"></th>
+                                                    <th>Definition</th>
+                                                    <th>Code</th>
+                                                    <th>Commercial Title</th>
+                                                    <th>Street Address</th>
+                                                    <th>Tax Authority</th>
+                                                    <th>Tax No</th>
+                                                    <th>Bank</th>
+                                                    <th>IBAN</th>
+                                                    <th style="width: 84px;">Payment Term</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.EnumerableVacationDates)
+                                                {
+                                                    <tr>
+                                                        <td class="d-none">@item.Id</td>
+                                                        <td class="d-none">@item.IdNumber</td>
+                                                        <td>@item.IdentificationType.Name</td>
+                                                        <td>@item.IdentityCode</td>
+                                                        <td>@item.CommercialTitle</td>
+                                                        <td>@item.StreetAddress</td>
+                                                        <td>@item.TaxAuthority</td>
+                                                        <td>@item.TaxNo</td>
+                                                        <td>@item.Bank.Name</td>
+                                                        <td>@item.IBAN</td>
+                                                        <td class="text-center">@item.PaymentTerm</td>
+                                                        @*<td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>*@
+                                                        <td class="text-center"><a onclick="getDef('@item.Id')" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                                        <td class="text-center"><a href="#/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font" style="pointer-events: none"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </section>
+                                <!--Definition List Sectio-->
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+    </section>
+
+
+</div>

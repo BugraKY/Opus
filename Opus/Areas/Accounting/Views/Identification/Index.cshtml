@@ -170,20 +170,16 @@
                     <div class="box-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs customtab" role="tablist">
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab" aria-controls="defTab" draggable="false"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab" aria-controls="categoriesTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#staffTab" role="tab" aria-controls="staffTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Staff</span></a> </li>
-                            @*
-                                <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#depTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Departmants</span></a> </li>
-                                <li class="nav-item"> <a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#bankTab" role="tab"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Banks</span></a> </li>
-                            *@
+                            <li class="nav-item"><a class="nav-link waves-effect waves-dark active" data-bs-toggle="tab" href="#defTab" role="tab" aria-controls="defTab" draggable="false"><span class="hidden-sm-up"><i class="ion-home"></i></span> <span class="hidden-xs-down">Definitions</span></a> </li>
+                            <li class="nav-item"><a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#staffTab" role="tab" aria-controls="staffTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Staff</span></a> </li>
+                            <li class="nav-item"><a class="nav-link waves-effect waves-dark" data-bs-toggle="tab" href="#categoriesTab" role="tab" aria-controls="categoriesTab" draggable="false"><span class="hidden-sm-up"><i class="ion-person"></i></span> <span class="hidden-xs-down">Categories</span></a> </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
 
                             <div class="tab-pane active" id="defTab" role="tabpanel">
                                 <div class="p-15">
-                                    <form method="post" asp-area="Accounting" asp-action="DefinitionPost" asp-controller="Identification">
+                                    <form id="defForm" method="post" asp-area="Accounting" asp-action="DefinitionPost" asp-controller="Identification">
                                         <!--method="get" id="idsForm"-->
 
                                         <div class="row">
@@ -198,8 +194,8 @@
                                                         <option value="@item.Id">@item.Name</option>
                                                     }
                                                     @*
-                                                        <option value="1">Supplier</option>
-                                                        <option value="2">Customer</option>
+                    <option value="1">Supplier</option>
+                    <option value="2">Customer</option>
                                                     *@
                                                 </select>
                                             </div>
@@ -266,9 +262,9 @@
                                                         <option value="@item.Id">@item.Name</option>
                                                     }
                                                     @*
-                                                        <option value="1">Akbank</option>
-                                                        <option value="2">TC Ziraat Bankası</option>
-                                                        <option value="3">Türkiye İş Bankası</option>*@
+                    <option value="1">Akbank</option>
+                    <option value="2">TC Ziraat Bankası</option>
+                    <option value="3">Türkiye İş Bankası</option>*@
                                                 </select>
                                                 <buttom class="btn btn-success" style="margin-top:-20px;" data-bs-toggle="modal" data-bs-target="#modal-fill"><i class="fa fa-plus-square" aria-hidden="true"></i></buttom>
                                             </div>
@@ -289,8 +285,14 @@
                                                 <h5 class="my-10">Payment Terms: </h5>
                                             </div>
                                             <div class="col-10 my-10">
+                                                <input type="checkbox" id="term15" class="filled-in chk-col-success" asp-for="Term15" />
+                                                <label for="term15">15  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
                                                 <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" />
                                                 <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                                <input type="checkbox" id="term45" class="filled-in chk-col-success" asp-for="Term45" />
+                                                <label for="term45">45  &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
                                                 <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" />
                                                 <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
@@ -300,10 +302,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                        <div class="row pt-50">
                                             <div class="col-12">
-
+                                                <div style="float:right;">
+                                                    <button class="btn btn-primary input-col">Add</button>
+                                                </div>
                                             </div>
+
                                         </div>
 
                                         <section class="mb-20">
@@ -351,10 +356,10 @@
                                                                                     <option value="@item.Id">@item.Name</option>
                                                                                 }
                                                                                 @*
-                                                                                    <option value="1">HR</option>
-                                                                                    <option value="2">Accounting</option>
-                                                                                    <option value="3">Management</option>
-                                                                                    <option value="4">Quality Control Manager</option>*@
+                                                <option value="1">HR</option>
+                                                <option value="2">Accounting</option>
+                                                <option value="3">Management</option>
+                                                <option value="4">Quality Control Manager</option>*@
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -446,14 +451,7 @@
                                         <div class="row"><div class="col-2"></div><div class="col-10"></div></div>
 
 
-                                        <div class="row pt-50">
-                                            <div class="col-12">
-                                                <div style="float:right;">
-                                                    <button class="btn btn-primary input-col">Submit</button>
-                                                </div>
-                                            </div>
 
-                                        </div>
 
 
                                     </form>
@@ -578,71 +576,71 @@
                             </div>
 
                             <div class="tab-pane" id="staffTab" role="tabpanel">
+
                                 <div class="p-15">
-                                    <form action="/" method="post">
-                                        <div class="row my-10">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Departmants</h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <select class="form-select input-col" id="departmantid">
-                                                    <option value="" selected="selected" disabled class="d-none">Departmant</option>
-                                                    @foreach (var item in Model.Departmant_Enumerable)
-                                                    {
-                                                        <option value="@item.Id">@item.Name</option>
-                                                    }
-                                                </select>
-                                            </div>
 
+                                    <div class="row my-10">
+                                        <div class="col-2">
+                                            <h5 class="my-10">Departmants</h5>
+                                        </div>
+                                        <div class="col-10">
+                                            <select class="form-select input-col" name="departmantid_staff">
+                                                <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Departmant</option>
+                                                @foreach (var item in Model.Departmant_Enumerable)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </select>
                                         </div>
 
-                                        <div class="row pb-20">
-                                            <div class="col-2">
-                                                <h5 class="my-10">First Name: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" id="firstname" type="text" asp-for="IdentityCode" placeholder="First Name" required />
-                                                <input class="form-control d-none" id="idnum" type="text" asp-for="IdNumber" readonly="readonly" hidden />
-                                                <input class="form-control d-none" type="text" asp-for="CompanyId" value="@Model.CompanyItem.Id" readonly="readonly" hidden />
+                                    </div>
+
+                                    <div class="row pb-20">
+                                        <div class="col-2">
+                                            <h5 class="my-10">First Name: </h5>
+                                        </div>
+                                        <div class="col-10">
+                                            <input class="form-control input-col" name="firstname_staff" type="text" placeholder="First Name" required />
+                                            <input class="form-control d-none" type="text" name="companyid_staff" value="@Model.CompanyItem.Id" readonly="readonly" hidden />
+                                        </div>
+                                    </div>
+
+                                    <div class="row pb-20">
+                                        <div class="col-2">
+                                            <h5 class="my-10">Last Name: </h5>
+                                        </div>
+                                        <div class="col-10">
+                                            <input class="form-control input-col" name="lastname_staff" type="text" placeholder="Last Name" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="row pb-20">
+                                        <div class="col-2">
+                                            <h5 class="my-10">Mobile Number: </h5>
+                                        </div>
+                                        <div class="col-10">
+                                            <input class="form-control input-col" name="mobilenumber_staff" type="text" data-inputmask="'mask':['9999 999 99 99']" data-mask="" placeholder="0535 999 99 99" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h5 class="my-10">Email: </h5>
+                                        </div>
+                                        <div class="col-10">
+                                            <input class="form-control input-col" name="email_staff" type="email" required />
+                                        </div>
+                                    </div>
+
+                                    <div class="row pt-50">
+                                        <div class="col-12">
+                                            <div style="float:right;">
+                                                <button class="btn btn-primary waves-effect waves-light input-col" onclick="addStaff()" type="button">Add</button>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div id="staff-alert"></div>
 
-                                        <div class="row pb-20">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Last Name: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" id="lastname" type="text" placeholder="Last Name" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row pb-20">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Mobile Number: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" id="mobilenumber" type="text" data-inputmask="'mask':['9999 999 99 99']" data-mask="" placeholder="0535 999 99 99" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <h5 class="my-10">Email: </h5>
-                                            </div>
-                                            <div class="col-10">
-                                                <input class="form-control input-col" id="mobilenumber" type="email" required />
-                                            </div>
-                                        </div>
-
-                                        <div class="row pt-50">
-                                            <div class="col-12">
-                                                <div style="float:right;">
-                                                    <button class="btn btn-primary input-col">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </form>
 
                                 </div>
                                 <div class="border-top p-15"></div>
@@ -654,28 +652,17 @@
                                             <thead>
                                                 <tr class="text-start">
                                                     <th class="d-none"></th>
-                                                    <th class="d-none"></th>
                                                     <th>Departmant</th>
                                                     <th>First Name</th>
                                                     <th>Last Name</th>
                                                     <th>Mobile Number</th>
                                                     <th>Email</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                @foreach (var item in Model.Identification_Enumerable)
-                                                {
-                                                    <tr>
-                                                        <td class="d-none">@item.Id</td>
-                                                        <td class="d-none">@item.IdNumber</td>
-                                                        <td>@item.IdentificationType.Name</td>
-                                                        <td>@item.IdentityCode</td>
-                                                        <td>@item.CommercialTitle</td>
-                                                        <td>@item.StreetAddress</td>
-                                                        <td>@item.TaxAuthority</td>
-                                                    </tr>
-                                                }
-                                            </tbody>
+                                            @*
+                                                <tbody>
+                                                </tbody>*@
                                         </table>
                                     </div>
 
@@ -941,9 +928,14 @@
                     <h5 class="my-10">Payment Terms: </h5>
                 </div>
                 <div class="col-10 my-10">
+                    <input type="checkbox" id="term15_edit" class="filled-in chk-col-success" />
+                    <label for="term15_edit">15  &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
                     <input type="checkbox" id="term30_edit" class="filled-in chk-col-success" />
                     <label for="term30_edit">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                    <input type="checkbox" id="term45_edit" class="filled-in chk-col-success" />
+                    <label for="term45_edit">45  &nbsp; &nbsp; &nbsp; &nbsp;</label>
 
                     <input type="checkbox" id="term60_edit" class="filled-in chk-col-success" />
                     <label for="term60_edit">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
@@ -1098,6 +1090,41 @@
             caseInsensitive: false,
 
         });
+
+        var stafflist_table = $('#stafflist_table').DataTable({
+                "ajax": {
+                    "url": "/api/accounting/get-staff/"+'@Model.CompanyItem.Id.ToString()',
+                    dataSrc: '',
+                },
+                "initComplete": function (settings, json) {
+                    $('section.content').removeClass('disabled');
+                },
+                "columns": [
+
+                    { "data": "id", "width": "0", "class": "d-none" },
+                    { "data": "departmant.name", "width": "auto" },
+                    { "data": "firstName", "width": "auto" },
+                    { "data": "lastName", "width": "auto" },
+                    { "data": "mobileNum", "width": "auto" },
+                    { "data": "email", "width": "auto" },
+
+                    {
+                        render: function (data, type, row, meta) {
+
+                            return `<button onclick="delstaff('` + row.id + `')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>`;
+                        },
+                        class: "text-center"
+                    }
+            ],
+            autoWidth: true,
+            processing: true,
+            searching: true,
+            paging: true,
+            info: false,
+            destroy: true,
+            caseInsensitive: false,
+        });
+
         $('#setcatinp').keyup(function (e) {
             if (e.keyCode == 13) {
                 setCat();
@@ -1313,10 +1340,77 @@
             $('#settaginp').val('');
         }
 
-        function addTag() {
+        function addStaff() {
 
-        }
+            $('section.content').addClass('disabled');
 
+            var departmantid_staff = '';
+            var companyid_staff = '';
+            var firstname_staff = '';
+            var lastname_staff = '';
+            var mobilenumber_staff = '';
+            var email_staff = '';
+
+
+
+
+            departmantid_staff = $("select[name=departmantid_staff] option:selected").val();
+            companyid_staff = $("input[name=companyid_staff]").val();
+            firstname_staff = $("input[name=firstname_staff]").val();
+            lastname_staff = $("input[name=lastname_staff]").val();
+            mobilenumber_staff = $("input[name=mobilenumber_staff]").val();
+            email_staff = $("input[name=email_staff]").val();
+
+            var staff = {
+                departmantId: departmantid_staff,
+                companyId: companyid_staff,
+                firstName: firstname_staff,
+                lastName: lastname_staff,
+                mobileNum: mobilenumber_staff,
+                email: email_staff,
+                active:true
+            };
+
+            $.ajax({
+                url: "/api/accounting/add-staff",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(staff),
+                success: function (received) {
+
+                    if (received) {
+                        
+                        $("select[name=departmantid_staff] option:selected").val('00000000-0000-0000-0000-000000000000').change();
+                        $("input[name=firstname_staff]").val('');
+                        $("input[name=lastname_staff]").val('');
+                        $("input[name=mobilenumber_staff]").val('');
+                        $("input[name=email_staff]").val('');
+
+                        getStaffTable();
+
+                        var fullName = staff.firstName + " " + staff.lastName;
+                        $('#staff-alert').html(`<div class="alert alert-info alert-dismissible shadow-2-strong mt-20" style="background-color:#2aa377!important;border-color:#2aa377!important;" >
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <label> <small>The staff has been successfully added.. (`+ fullName+`)</small></label>
+                                    </div>`);
+                    }
+                    else {
+                        $('#staff-alert').html(`<div class="alert alert-danger alert-dismissible shadow-2-strong mt-20" >
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <label> <small>Adding staff failed. Make sure to fill in all fields.</small></label>
+                                    </div>`);
+                        $('section.content').removeClass('disabled');
+                    }
+
+                }
+            });
+
+
+        };
+
+        $("#defForm").submit(function (event) {
+            $('section.content').addClass('disabled');
+        });
 
         function AddBank() {
             var def = $('#bankinp').val();
@@ -1396,34 +1490,9 @@
         }
 
         $(document).ready(function () {
-            var test = `<div class="btn-group bootstrap-select mb-20 me-10"><button type="button" class="btn dropdown-toggle btn-white show" data-bs-toggle="dropdown" role="button" data-id="comps" title="Sed posuere metus vel maximus fringilla." aria-expanded="true"><span class="filter-option pull-left">Sed posuere metus vel maximus fringilla.</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button><div class="dropdown-menu open show" role="combobox" style="margin: 0px; position: absolute; inset: 0px auto auto 0px; transform: translate(0px, 36px);" data-popper-placement="bottom-start">
-                    <ul class="dropdown-menu inner" role="listbox" aria-expanded="true">
-                            <li data-original-index="0" class="selected">
-                                <a tabindex="0" class="" data-tokens="Lorem" role="option" aria-disabled="false" aria-selected="true">
-                                    <span class="text">Sed posuere metus vel maximus fringilla.</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>
+            getStaffTable();
 
-                            <li data-original-index="1">
-                                <a tabindex="0" class="" data-tokens="ipsum" role="option" aria-disabled="false" aria-selected="false">
-                                    <span class="text">Nam in nisl a ligula semper euismod.</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>
 
-                            <li data-original-index="2">
-                                <a tabindex="0" class="" data-tokens="dolor" role="option" aria-disabled="false" aria-selected="false">
-                                    <span class="text">Ut rhoncus diam et elit tristique venenatis.</span><span class="glyphicon glyphicon-ok check-mark">
-                                    </span>
-                                </a>
-                            </li>
-                    </ul></div><select class="selectpicker mb-20 me-10" data-style="btn-white" id="comps" tabindex="-98">
-
-                                <option data-tokens="Lorem">Sed posuere metus vel maximus fringilla.</option>
-                                <option data-tokens="ipsum">Nam in nisl a ligula semper euismod.</option>
-                                <option data-tokens="dolor">Ut rhoncus diam et elit tristique venenatis.</option>
-                            <option data-tokens="4955e8b7-33ad-429e-107c-08da2f601faa">Many Points</option><option data-tokens="22bdc8ad-1fbe-437d-3486-08da2f638e84">Expert Quality Services</option></select></div>`;
             $('#search_subCatlist').attr('disabled', 'disabled');
 
             //$('#subcat-toggle').attr('disabled', 'disabled');
@@ -1749,6 +1818,30 @@
             });
 
         }
+        function delstaff(data) {
+
+            $.ajax({
+                url: "/api/accounting/remove-staff/" + data,
+                success: function (received) {
+                    getStaffTable();
+                    if (received) {
+                        $('#staff-alert').html(`<div class="alert alert-info alert-dismissible shadow-2-strong mt-20" style="background-color:#2aa377!important;border-color:#2aa377!important;" >
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <label> <small>The staff has been successfully removed.. (`+ fullName + `)</small></label>
+                                    </div>`);
+
+                    }
+                    else {
+                        $('#staff-alert').html(`<div class="alert alert-danger alert-dismissible shadow-2-strong mt-20" >
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <label> <small>Removing staff failed. Please contact to developer.</small></label>
+                                    </div>`);
+                    }
+
+                }
+            });
+
+        }
 
 
         $('#deflist_table tbody').on('click', 'tr', function () {
@@ -1984,6 +2077,44 @@
                 }
 
             }
+        }
+
+        function getStaffTable() {
+            $('section.content').addClass('disabled');
+            stafflist_table = $('#stafflist_table').DataTable({
+                "ajax": {
+                    "url": "/api/accounting/get-staff/"+'@Model.CompanyItem.Id.ToString()',
+                    dataSrc: '',
+                },
+                "initComplete": function (settings, json) {
+                    $('section.content').removeClass('disabled');
+                },
+                "columns": [
+
+                    { "data": "id", "width": "0", "class": "d-none" },
+                    { "data": "departmant.name", "width": "auto" },
+                    { "data": "firstName", "width": "auto" },
+                    { "data": "lastName", "width": "auto" },
+                    { "data": "mobileNum", "width": "auto" },
+                    { "data": "email", "width": "auto" },
+
+                    {
+                        render: function (data, type, row, meta) {
+
+                            return `<button onclick="delstaff('` + row.id + `')" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></button>`;
+                        },
+                        class: "text-center"
+                    }
+                ],
+                autoWidth: true,
+                processing: true,
+                searching: true,
+                paging: true,
+                info: false,
+                destroy: true,
+                caseInsensitive: false,
+            });
+
         }
 
         /*
