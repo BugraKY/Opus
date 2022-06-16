@@ -135,7 +135,7 @@ body {
 .select2-container {
     max-width: 400px !important;
     min-width: 90px !important;
-    width: 400px!important;
+    /*width: 400px!important;*/
 }
 
 .select2-dropdown.select2-dropdown--below {

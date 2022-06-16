@@ -720,43 +720,53 @@ function Add00() {
 
 /*Term*/
 $('#term15').click(function () {
-    calcDate(15);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(15, documentDate);
 });
 $('#term30').click(function () {
-    calcDate(30);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(30, documentDate);
 });
 $('#term45').click(function () {
-    calcDate(45);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(45, documentDate);
 });
 $('#term60').click(function () {
-    calcDate(60);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(60, documentDate);
 });
 $('#term90').click(function () {
-    calcDate(90);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(90, documentDate);
 });
 
 $('#term15_edit').click(function () {
-    calcDate(15);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(15, documentDate);
 });
 $('#term30_edit').click(function () {
-    calcDate(30);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(30, documentDate);
 });
 $('#term45_edit').click(function () {
-    calcDate(45);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(45, documentDate);
 });
 $('#term60_edit').click(function () {
-    calcDate(60);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(60, documentDate);
 });
 $('#term90_edit').click(function () {
-    calcDate(90);
+    var documentDate = $('#BuyingInput_DocDate').val();
+    calcDate(90, documentDate);
 });
 
-function calcDate(day) {
+function calcDate(day,docDate) {
     $.ajax({
-        url: '/api/accounting/calculateDatebyday/' + day,
+        url: '/api/accounting/calculateDatebyday/' + day + "/" + docDate,
 
         success: function (date) {
-            console.log(date);
+            //console.log(date);
             console.log(day);
             $('#paymentTermDate').val(date);
             $('#term15').prop('checked', false);
@@ -791,6 +801,18 @@ function calcDate(day) {
                 $('#term90').prop('checked', true);
                 $('#term90_edit').prop('checked', true);
             }
+
+            selectedDay = day;
+        }
+    });
+}
+function calcDefault(day,docDate){
+    $.ajax({
+        url: '/api/accounting/calculateDatebyday/' + day + "/" + docDate,
+
+        success: function (date) {
+            $('#default-term').val(date);
+            $('#default-day').html(defaultDay);
         }
     });
 }

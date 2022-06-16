@@ -77,8 +77,8 @@ namespace Opus.Areas.HR.Controllers
                 Description=vacatins.Description
             };
             _uow.VacationDates.Add(_vacation);
-            _uow.Save();
-            return View("AddVacationDays");
+            //_uow.Save();
+            return RedirectToAction("AddVacationDays");
         }
     }
 }

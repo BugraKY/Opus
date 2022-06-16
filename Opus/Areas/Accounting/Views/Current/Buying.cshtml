@@ -1,238 +1,410 @@
 ﻿
 @model Opus.Models.ViewModels.Accounting.BuyingVM
-
+<style>
+    .invoice-input {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    .invoice-input:hover {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow:none!important;
+    }
+        .invoice-inpu:target:active {
+            border: none !important;
+            border-style: hidden !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+    .invoice-inpu:target:focus {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    .invoice-inpu:target:target {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+</style>
 <div class="container-full">
     @*<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onselectstart='return false;' style="white-space:nowrap">*@
-<!-- Content Header (Page header) -->
-<div class="content-header">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
 
-    <div class="d-flex align-items-center">
-        <div class="me-auto">
-            <h3 class="page-title">Accounting</h3>
-            <div class="d-inline-block align-items-center">
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
-                        <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Buying</li>
-                    </ol>
-                </nav>
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Accounting</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Buying</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
+
     </div>
 
-</div>
-
-<div class="pb-10"></div>
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="box">
-                <div class="box-header with-border">
-                    @*<h4 class="box-title"></h4>*@
-                    <div class="row">
-                        <div class="col-3">
-                            <h4 class="box-title excDate">Today:</h4>
+    <div class="pb-10"></div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        @*<h4 class="box-title"></h4>*@
+                        <div class="row">
+                            <div class="col-3">
+                                <h4 class="box-title excDate">Today:</h4>
+                            </div>
+                            <div class="col-3 fa-1x" title="US DOLAR">
+                                <i class="fa fa-usd opus-color" aria-hidden="true"></i><span class="usd_today" style="padding-left:5px;"></span>
+                            </div>
+                            <div class="col-3 fa-1x" title="EURO">
+                                <i class="fa fa-eur opus-color" aria-hidden="true"></i><span class="eur_today" style="padding-left: 5px;"></span>
+                            </div>
+                            <div class="col-3 fa-1x" title="STERLIN">
+                                <i class="fa fa-gbp opus-color" aria-hidden="true"></i><span class="gbp_today" style="padding-left: 5px;"></span>
+                            </div>
                         </div>
-                        <div class="col-3 fa-1x" title="US DOLAR">
-                            <i class="fa fa-usd opus-color" aria-hidden="true"></i><span class="usd_today" style="padding-left:5px;"></span>
-                        </div>
-                        <div class="col-3 fa-1x" title="EURO">
-                            <i class="fa fa-eur opus-color" aria-hidden="true"></i><span class="eur_today" style="padding-left: 5px;"></span>
-                        </div>
-                        <div class="col-3 fa-1x" title="STERLIN">
-                            <i class="fa fa-gbp opus-color" aria-hidden="true"></i><span class="gbp_today" style="padding-left: 5px;"></span>
+                        <div class="text-center" style="position:absolute;">
+                            <small style="font-size:10px;">This currency is pulled from the central bank of the republic of Turkey database.</small>
                         </div>
                     </div>
-                    <div class="text-center" style="position:absolute;">
-                        <small style="font-size:10px;">This currency is pulled from the central bank of the republic of Turkey database.</small>
-                    </div>
-                </div>
-                <form method="post" action="/accounting/curr/buying-post">
-                    <div class="box-body">
+                    <form method="post" action="/accounting/curr/buying-post">
+                        <div class="box-body">
 
-                        <hr class="my-15">
+                            <hr class="my-15">
 
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="row">
-                            <div class="col-2">
-                                <h5 class="my-10">Supplier</h5>
-                            </div>
-                            <div class="col-10">
-                                <select class="form-control select2 mb-20 me-10" data-style="btn-white" id="definition" asp-for="IdentificationId" required>
-                                    <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
-                                    @foreach (var item in Model.Identification_Enuberable)
-                                    {
-                                        <option value="@item.Id">@item.CommercialTitle</option>
-                                    }
-                                </select>
-                                @*
-                <label class="form-label"></label>
-                <select class="form-control select2" style="width: 100%;">
-                    <option selected="selected">Alabama</option>
-                    <option>Alaska</option>
-                    <option>California</option>
-                    <option>Delaware</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Washington</option>
-                </select>*@
+                            <div class="row">
+                                <div class="col-2">
+                                    <h5 class="my-10">Supplier</h5>
+                                </div>
+                                <div class="col-10">
+                                    <select class="form-control select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="IdentificationId" required>
+                                        <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
+                                        @foreach (var item in Model.Identification_Enuberable)
+                                        {
+                                            <option value="@item.Id">@item.CommercialTitle</option>
+                                        }
+                                    </select>
+                                    @*
+                                        <label class="form-label"></label>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>*@
+                                </div>
+
                             </div>
 
-                        </div>
-
-                        <div class="row">
-                            <div class="col-2">
-                                <h5 class="my-10">Document Date</h5>
+                            <div class="row">
+                                <div class="col-2">
+                                    <h5 class="my-10">Document Date</h5>
+                                </div>
+                                <div class="col-10">
+                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
+                                </div>
+                                <span asp-validation-for="BuyingInput.DocDate" class="text-danger"></span>
                             </div>
-                            <div class="col-10">
-                                <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
+                            <div class="row">
+                                <div class="col-2">
+                                    <h5 class="my-10">Document No</h5>
+                                </div>
+                                <div class="col-10">
+                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="BuyingInput.DocNo" />
+                                </div>
+                                <span asp-validation-for="BuyingInput.DocNo" class="text-danger"></span>
                             </div>
-                            <span asp-validation-for="BuyingInput.DocDate" class="text-danger"></span>
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                                <h5 class="my-10">Document No</h5>
-                            </div>
-                            <div class="col-10">
-                                <input class="form-control input-col" type="text" placeholder="Document No" asp-for="BuyingInput.DocNo" />
-                            </div>
-                            <span asp-validation-for="BuyingInput.DocNo" class="text-danger"></span>
-                        </div>
 
 
 
 
-                        <div class="row">
-                            <div class="col-2">
-                                <h5 class="my-10">Payment Method</h5>
-                            </div>
-                            <div class="col-10">
-                                <div class="row">
-                                    <div class="col my-10">
-                                        <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio-col-info" value="1" checked />
-                                        <label for="cashrad">Cash</label>
-                                    </div>
-                                    <div class="col my-10">
-                                        <input asp-for="PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" />
-                                        <label for="cardrad">Credit Card</label>
-                                    </div>
-                                    <div class="col my-10">
-                                        <input asp-for="PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" />
-                                        <label for="currentrad">Current</label>
+                            <div class="row">
+                                <div class="col-2">
+                                    <h5 class="my-10">Payment Method</h5>
+                                </div>
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col my-10">
+                                            <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio-col-info" value="1" checked />
+                                            <label for="cashrad">Cash</label>
+                                        </div>
+                                        <div class="col my-10">
+                                            <input asp-for="PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" />
+                                            <label for="cardrad">Credit Card</label>
+                                        </div>
+                                        <div class="col my-10">
+                                            <input asp-for="PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" />
+                                            <label for="currentrad">Current</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="row payment-term d-none">
+                                <div class="col-2">
+                                    <h5 class="my-10">Payment Terms: </h5>
+                                </div>
+                                <div class="col-6 my-10">
+                                    <input type="checkbox" id="term15" class="filled-in chk-col-success" asp-for="Term15" />
+                                    <label for="term15">15  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                    <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" />
+                                    <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                    <input type="checkbox" id="term45" class="filled-in chk-col-success" asp-for="Term45" />
+                                    <label for="term45">45  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                    <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" />
+                                    <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
+
+                                    <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="Term90" />
+                                    <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                </div>
+                                <div class="col-4">
+                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="paymentTermDate" />
+                                </div>
+                            </div>
+
+                            <div class="row d-none">
+                                <div class="col-2">Default Payment Term</div>
+                                <div class="col-10">
+                                    <input class="form-control input-col" type="date" readonly="readonly" id="default-term" /><h6 id="default-day"></h6>
+                                </div>
+                            </div>
+
+
+                            <hr class="my-15">
+                            <div>
+
+                                <div class="border-top border-bottom">
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col-2">
+                                            <h5 class="my-10">Expenses: </h5>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col-xl-11 col-12">
+                                                    <div class="row">
+                                                        <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <select class="form-select select2 input-col" id="categoryId">
+                                                                    <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Category</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <select class="form-select select2 input-col" id="subCatId">
+                                                                    <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Sub Category</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <select class="form-select select2 input-col" id="tagId">
+                                                                    <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Tag</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" id="unit_price" class="form-control input-col" placeholder="Unit Price" onchange="calculateInp()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <!--<input type="email" id="total" placeholder='Vat' class="form-control input-col" />-->
+                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="vat">
+                                                                    <option value="0" selected disabled class="d-none">Vat</option>
+                                                                    <option value="1.01">%1</option>
+                                                                    <option value="1.08">%8</option>
+                                                                    <option value="1.1">%10</option>
+                                                                    <option value="1.18">%18</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <!--<input type="email" id="total" placeholder='Vat' class="form-control input-col" />-->
+                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
+                                                                    <option value="1" selected disabled class="d-none">Discount</option>
+                                                                    <option value="1">%0</option>
+                                                                    <option value="1.08">%8</option>
+                                                                    <option value="1.1">%10</option>
+                                                                    <option value="1.18">%18</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" id="total" placeholder='Total' class="form-control input-col" readonly="readonly" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xl-1 col-12">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <button id="add_buyingDetail_row" type="button" class="btn btn-primary mb-10"><i class="fa fa-plus"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <table class="table table-hover table-bordered table-striped dataTables dataTable no-footer">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Category</th>
+                                                    <th>Sub-Category</th>
+                                                    <th>Tag</th>
+                                                    <th>Piece</th>
+                                                    <th>Price</th>
+                                                    <th>Vat</th>
+                                                    <th>Discount</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_buyingDetail">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-8 col-md-6 col-12 pb-10"></div>
+                                    <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                        <table class="table table-hover table-bordered table-striped dataTables dataTable no-footer">
+                                            <tr>
+                                                <td><h6 style="float:right">Out of Vat</h6></td>
+                                                <td><h6 style="float:right" id="outofVat">0 TL</h6></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h6 style="float:right">Vat</h6></td>
+                                                <td><h6 style="float:right" id="total_vat">0 TL</h6></td>
+                                            </tr>
+                                            <tr>
+                                                <td><h6 style="float:right">Total Amount</h6></td>
+                                                <td><h6 style="float:right" id="total_amount">0 TL</h6></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-outline-success" style="float:right" type="submit">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
-
-
-                        <div class="row payment-term d-none">
-                            <div class="col-2">
-                                <h5 class="my-10">Payment Terms: </h5>
-                            </div>
-                            <div class="col-6 my-10">
-                                <input type="checkbox" id="term15" class="filled-in chk-col-success" asp-for="Term15" />
-                                <label for="term15">15  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                                <input type="checkbox" id="term30" class="filled-in chk-col-success" asp-for="Term30" />
-                                <label for="term30">30  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                                <input type="checkbox" id="term45" class="filled-in chk-col-success" asp-for="Term45" />
-                                <label for="term45">45  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                                <input type="checkbox" id="term60" class="filled-in chk-col-success" asp-for="Term60" />
-                                <label for="term60">60 &nbsp; &nbsp; &nbsp; &nbsp;</label>
-
-                                <input type="checkbox" id="term90" class="filled-in chk-col-success" asp-for="Term90" />
-                                <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="paymentTermDate" />
-                            </div>
-                        </div>
-
-
-
-
-                        @*
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Input</h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Input 1" />
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Input</h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Input 1" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Input</h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Input 1" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Input</h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Input 1" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <h5 class="my-10">Input</h5>
-            </div>
-            <div class="col-10">
-                <input class="form-control input-col" type="text" placeholder="Input 1" />
-            </div>
-        </div>
-                        *@
-
-
-
-                        <button class="btn btn-outline-success" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
     <script>
+        var selectedDay = 0;
+        var defaultDay = 0;
+        /*
+        var buyingObj = {
+            categoryId : '00000000-0000-0000-0000-000000000000',
+            subCategoryId : '00000000-0000-0000-0000-000000000000',
+            tagId : '00000000-0000-0000-0000-000000000000',
+            category={},
+            subcategory={},
+            tag={}
+        }
+        */
+        var categoryId = '00000000-0000-0000-0000-000000000000';
+        var subCategoryId = '00000000-0000-0000-0000-000000000000';
+        var tagId = '00000000-0000-0000-0000-000000000000';
+
+        var category_name = '';
+        var subCategory_name = '';
+        var tag_name = '';
+
+        var piece = 0;
+        var unit_price = 0;
+        var vat = 0;
+        var discount = 0;
+        var outVat = 0;
+        var total = 0;
+
+
+        var totaloutVat = 0;
+        var totalVat = 0;
+        var totalAmount = 0;
+
+        var seq = 0;
+        var tagTEST;
+
         $(document).ready(function () {
 
             foreignCurrency('@DateTime.Now.ToString("yyyy-MM-dd")')
-            $(document.body).on("change", "#definition", function () {
+            $(document.body).on("change", "#identification", function () {
                 $.ajax({
                     url: '/api/accounting/getDef/'+this.value,
 
                     success: function (data) {
-                        var day = data.identification_Item.paymentTerm;
-                        calcDate(day);
+                        selectedDay = data.identification_Item.paymentTerm;
+                        defaultDay = data.identification_Item.paymentTerm;
+                        var docDate = $('#BuyingInput_DocDate').val();
+                        //foreignCurrency(this.value);
+                        calcDate(selectedDay, docDate);
+                        calcDefault(defaultDay, docDate);
+
                     }
                 });
             });
             $(document.body).on("change", "#BuyingInput_DocDate", function () {
                 foreignCurrency(this.value);
-            });
-            $('#mob-gig-date-gteq').change(function () {
-                var date = $(this).val();
-                console.log(date, 'change')
+                calcDate(selectedDay,this.value);
+
             });
             $('input[type=radio][name=PaymentMethId]').change(function () {
                 if (this.value == '3') {
@@ -249,6 +421,319 @@
                 }
             });
 
+            $(document.body).on("change", "#categoryId", function (e) {
+                subCategoryId = '00000000-0000-0000-0000-000000000000';
+                tagId = '00000000-0000-0000-0000-000000000000';
+
+                categoryId = this.value;
+                category_name = $('#categoryId').find(':selected')[0].innerText;
+
+                getSubCategory(categoryId);
+            });
+            $(document.body).on("change", "#subCatId", function () {
+                tagId = '00000000-0000-0000-0000-000000000000';
+
+                subCategoryId = this.value;
+                subCategory_name = $('#subCatId').find(':selected')[0].innerText;
+                getTag(subCategoryId);
+            });
+            $(document.body).on("change", "#tagId", function () {
+                tagId = this.value;
+                tag_name = $('#tagId').find(':selected')[0].innerText;
+            });
+
+
+            getCategory();
+
+            $('#vat').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                vat = $(this).val();
+                calculateInp();
+            });
+            $('#discount').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                discount = $(this).val();
+                calculateInp();
+            });
         });
+
+
+        function getCategory() {
+            $.ajax({
+                url: '/api/accounting/getCat/' + '@Model.Company.Id',//get category
+
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function (key, value) {
+                        $("#categoryId").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                    });
+                    $('#categoryId').val('00000000-0000-0000-0000-000000000000'); // Select the option with a value of '1'
+                    $('#categoryId').trigger('change'); // Notify any JS components that the value changed
+                }
+            });
+        }
+
+        function getSubCategory(catId) {
+            $.ajax({
+                url: '/api/accounting/getsubcat/' + catId,
+                success: function (data) {
+                    console.log(data);
+                    $("#subCatId").empty();
+                    $("#subCatId").append("<option value='00000000-0000-0000-0000-000000000000' selected='selected' disabled class='d-none'>Sub Category</option>");
+                    $('#subCatId').trigger('change'); // Notify any JS components that the value changed
+                    $.each(data, function (key, value) {
+                        $("#subCatId").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                    });
+                    $('#subCatId').val('00000000-0000-0000-0000-000000000000'); // Select the option with a value of '1'
+                    $('#subCatId').trigger('change'); // Notify any JS components that the value changed
+
+                }
+            });
+        }
+
+        function getTag(subCatId) {
+            $.ajax({
+                url: '/api/accounting/gettags/' + subCatId,
+                success: function (data) {
+                    tagTEST = data;
+                    console.log(data);
+
+                    $("#tagId").empty();
+                    $("#tagId").append("<option value='00000000-0000-0000-0000-000000000000' selected='selected' disabled class='d-none'>Tag</option>");
+                    $('#tagId').trigger('change'); // Notify any JS components that the value changed
+                    $.each(data, function (key, value) {
+                        $("#tagId").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                    });
+                    $('#tagId').val('00000000-0000-0000-0000-000000000000'); // Select the option with a value of '1'
+                    $('#tagId').trigger('change'); // Notify any JS components that the value changed
+
+
+                }
+            });
+        }
+
+        function calculateInp() {
+            piece = $('#piece').val();
+            unit_price = $('#unit_price').val();
+            //vat
+            //discount
+            total = (piece * unit_price) * vat;
+            outVat = (piece * unit_price);
+            $('#total').val(totaloutVat.toFixed(2));
+
+
+
+
+            totaloutVat = outVat;
+            totalVat = total - outVat;
+            totalAmount = total;
+            if (totalVat < 0)
+                totalVat = 0;
+
+            $('#outofVat').html(totaloutVat.toFixed(2) + ' TL');
+            $('#total_vat').html(totalVat.toFixed(2) + ' TL');
+            $('#total_amount').html(totalAmount.toFixed(2) + ' TL');
+        }
+
+
+        $("#add_buyingDetail_row").on("click", function () {
+
+            const selectedText = $("#departmantid option:selected").text();
+            const selectedValue = $("#departmantid option:selected").val();
+
+            if (selectedValue == -1) {
+                $.toast({
+                    heading: 'Required family member selection',
+                    text: 'Please select a family member.',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else if (piece == "" || piece == null || piece==0) {
+                $.toast({
+                    heading: 'Required Piece Field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else if (unit_price == "" || unit_price == null || unit_price==0) {
+                $.toast({
+                    heading: 'Required unit price field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else if (vat == "" || vat == null || vat<1) {
+                $.toast({
+                    heading: 'Required select vat field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else if (categoryId == "00000000-0000-0000-0000-000000000000" || categoryId == null) {
+                $.toast({
+                    heading: 'Required Category',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else if (subCategoryId == "00000000-0000-0000-0000-000000000000" || subCategoryId == null) {
+                $.toast({
+                    heading: 'Required SubCategory',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else if (tagId == "00000000-0000-0000-0000-000000000000" || tagId == null) {
+                $.toast({
+                    heading: 'Required Tag',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+            }
+            else {
+                seq++;
+                var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" readonly="readonly" />`;
+                var selectedElementVal = `<input type="text" class="form-control departmantid d-none" value="` + selectedValue + `" hidden/>`;
+
+                var tbody_buying_item = `
+                                                    <tr data-id="`+ seq + `">
+                                                        <td data-name="seq">
+                                                            <div class="rounded text-center">
+                                                                <input type="text" class="form-control invoice-input" value="`+ seq + `" title="` + seq + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="category">
+                                                            <div class="rounded text-center">
+                                                                <input type="text" class="form-control invoice-input" value="`+ category_name + `" title="` + category_name + `" readonly="readonly"/>
+                                                                <input type="text" class="d-none" value="`+ categoryId + `" title="` + categoryId + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="subCategory">
+                                                            <div class="rounded text-center">
+                                                                <input type="text" class="form-control invoice-input" value="`+ subCategory_name + `" title="` + subCategory_name + `" readonly="readonly"/>
+                                                                <input type="text" class="d-none" value="`+ subCategoryId + `" title="` + subCategoryId + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="tag">
+                                                            <div class="rounded text-center">
+                                                                <input type="text" class="form-control invoice-input" value="`+ tag_name + `" title="` + tag_name + `" readonly="readonly"/>
+                                                                <input type="text" class="d-none" value="`+ tagId + `" title="` + tagId + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="form-control invoice-input" value=`+ piece + ` title="` + piece + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="form-control invoice-input" value=`+ unit_price + ` title="` + unit_price + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="form-control invoice-input" value=`+ vat + ` title="` + vat + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="form-control invoice-input" value=`+ discount + ` title="` + discount + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="form-control invoice-input" value=`+ total + ` title="` + total + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <!--
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="date" class="form-control familyMembersDateOfBirth" value=`+ 'familyDateofBirth' + ` title="` + 'familyDate' + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>-->
+                                                        <td data-name="del">
+                                                            <button id="delCont" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                        </td>
+                                                    </tr>
+
+`;
+                $("#tbody_buyingDetail").append(tbody_buying_item);
+
+
+
+
+
+
+                $("#fullname").val("");
+                $("#mobileNumber").val("");
+                $("#email").val("");
+                $("#departmantid").val("");
+
+
+                //defTr++;
+
+
+                /*
+                $('.fullname').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].FullName');
+                });
+                $('.departmantid').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].DepartmantId');
+                });
+                $('.mobileNumber').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].MobileNumber');
+                });
+                $('.email').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                */
+
+
+                /*
+                $('.familyMembersDateOfBirth').each(function (i) {
+                    $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
+                });*/
+
+
+                /*
+                $("#boxstate").addClass("box");
+                $("#boxstate").addClass("mb-20");
+                $("#boxstate").addClass("mt-20");*/
+            }
+        });
+
     </script>
 }

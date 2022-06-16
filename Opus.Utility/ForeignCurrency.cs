@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -21,11 +22,16 @@ namespace Opus.Utility
             return xmlDoc;
             
         }
-        public ExchangeRate GetExchangeByDate(DateTime _date)
+        public async Task<ExchangeRate> GetExchangeByDate(DateTime _date)
         {
+
             var Year = _date.ToString("yyyy");
             var Month = _date.ToString("MM");
             var Day = _date.ToString("dd");
+            string _usd = "";
+            string _eur = "";
+            string _gbp = "";
+
             _date =_date.AddDays(-1);
 
 
@@ -53,31 +59,62 @@ namespace Opus.Utility
             exchangeRate += DateURL;
 
             var xmlDoc = new XmlDocument();
+            bool _break = true;
+            HttpClient client = new HttpClient();
+
+            /*var pageContents = await response.Content.ReadAsStringAsync();*/
+
+
+            var responseBank = await client.GetAsync(exchangeRate_TODAY);
+            if (responseBank.StatusCode == HttpStatusCode.OK)
+            {
+                while (_break)
+                {
+                    var response = await client.GetAsync(exchangeRate);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        _break = false;
+                        xmlDoc.Load(exchangeRate);
+                    }
+                    else
+                    {
+                        _date = _date.AddDays(-1);
+                        if (_date.DayOfWeek == DayOfWeek.Saturday)
+                            _date = _date.AddDays(-1);
+                        if (_date.DayOfWeek == DayOfWeek.Sunday)
+                            _date = _date.AddDays(-2);
+                        Year = _date.ToString("yyyy");
+                        Month = _date.ToString("MM");
+                        Day = _date.ToString("dd");
+                        Monthly = Year + Month;
+                        AllDate = Day + Month + Year;
+                        DateURL = Monthly + "/" + AllDate + ".xml";
+                        exchangeRate = "https://www.tcmb.gov.tr/kurlar/";
+                        exchangeRate += DateURL;
+                    }
+                }
+            }
+            else if(responseBank.StatusCode == HttpStatusCode.NotFound)
+            {
+                //merkez bankasına şuanda ulaşılamıyor!!
+            }
+            else
+            {
+                //merkez bankasından gelen Statuscode == responseBank.StatusCode
+            }
             try
             {
-                xmlDoc.Load(exchangeRate);
+                _usd = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='USD']/ForexBuying").InnerXml;
+                _eur = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='EUR']/ForexBuying").InnerXml;
+                _gbp = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='GBP']/ForexBuying").InnerXml;
             }
-            catch (Exception ex)
+            catch (NullReferenceException ex)
             {
-                _date.AddDays(-1);
-                if (_date.DayOfWeek == DayOfWeek.Saturday)
-                    _date = _date.AddDays(-1);
-                if (_date.DayOfWeek == DayOfWeek.Sunday)
-                    _date = _date.AddDays(-2);
-                Year = _date.ToString("yyyy");
-                Month = _date.ToString("MM");
-                Day = _date.ToString("dd");
-                Monthly = Year + Month;
-                AllDate = Day + Month + Year;
-                DateURL = Monthly + "/" + AllDate + ".xml";
-                exchangeRate += DateURL;
-                xmlDoc.Load(exchangeRate);
-            }
-            
 
-            string _usd = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='USD']/ForexBuying").InnerXml;
-            string _eur = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='EUR']/ForexBuying").InnerXml;
-            string _gbp = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='GBP']/ForexBuying").InnerXml;
+                Console.WriteLine("\nError:\n"+ex.InnerException.Message);
+            }
+
+
 
             var _foreignCurrency = new ExchangeRate()
             {

@@ -543,10 +543,19 @@ namespace Opus.Areas.Accounting.Controllers
 
             return _uow.Accounting_Staff.GetAll(includeProperties: "Departmant").Where(i => (i.CompanyId == Guid.Parse(id) && i.Active));
         }
-        [HttpGet("api/accounting/calculateDatebyday/{day}")]
-        public string CalculateDatebyDay(int day)
+        [HttpGet("api/accounting/calculateDatebyday/{day}/{docDate}")]
+        public string CalculateDatebyDay(int day,string docDate)
         {
-            return DateTime.Now.AddDays(day).ToString("yyyy-MM-dd");
+            try
+            {
+                return DateTime.Parse(docDate).AddDays(day).ToString("yyyy-MM-dd");
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+
         }
         #endregion API
 
