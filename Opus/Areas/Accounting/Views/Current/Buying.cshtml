@@ -1,35 +1,55 @@
 ﻿
 @model Opus.Models.ViewModels.Accounting.BuyingVM
 <style>
-    .invoice-input {
+    input.box-shadow-none:active {
         border: none !important;
         border-style: hidden !important;
         background: transparent !important;
         box-shadow: none !important;
     }
-    .invoice-input:hover {
-        border: none !important;
-        border-style: hidden !important;
-        background: transparent !important;
-        box-shadow:none!important;
-    }
-        .invoice-inpu:target:active {
-            border: none !important;
-            border-style: hidden !important;
-            background: transparent !important;
-            box-shadow: none !important;
-        }
-    .invoice-inpu:target:focus {
+
+    input.box-shadow-none:hover {
         border: none !important;
         border-style: hidden !important;
         background: transparent !important;
         box-shadow: none !important;
     }
-    .invoice-inpu:target:target {
+
+    input.box-shadow-none:focus {
         border: none !important;
         border-style: hidden !important;
         background: transparent !important;
         box-shadow: none !important;
+    }
+    input.box-shadow-none:focus-visible {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none;
+    }
+    input.box-shadow-none:target {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    input.box-shadow-none {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #212529;
+        background: transparent !important;
+        border: none !important;
+        appearance: none;
+    }
+    td {
+        max-width: 50px!important;
+        width: auto!important;
+        min-width: 10px!important;
     }
 </style>
 <div class="container-full">
@@ -80,7 +100,7 @@
                             <small style="font-size:10px;">This currency is pulled from the central bank of the republic of Turkey database.</small>
                         </div>
                     </div>
-                    <form method="post" action="/accounting/curr/buying-post">
+                    <form method="post" action="/accounting/curr/buying-post" id="buying-form">
                         <div class="box-body">
 
                             <hr class="my-15">
@@ -92,7 +112,7 @@
                                     <h5 class="my-10">Supplier</h5>
                                 </div>
                                 <div class="col-10">
-                                    <select class="form-control select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="IdentificationId" required>
+                                    <select class="form-control box-shadow-focus select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="IdentificationId" required>
                                         <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
                                         @foreach (var item in Model.Identification_Enuberable)
                                         {
@@ -119,7 +139,7 @@
                                     <h5 class="my-10">Document Date</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
+                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
                                 </div>
                                 <span asp-validation-for="BuyingInput.DocDate" class="text-danger"></span>
                             </div>
@@ -254,8 +274,8 @@
                                                             <div class="rounded text-center">
                                                                 <!--<input type="email" id="total" placeholder='Vat' class="form-control input-col" />-->
                                                                 <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
-                                                                    <option value="1" selected disabled class="d-none">Discount</option>
-                                                                    <option value="1">%0</option>
+                                                                    <option value="0" selected disabled class="d-none">Discount</option>
+                                                                    <option value="0">%0</option>
                                                                     <option value="1.08">%8</option>
                                                                     <option value="1.1">%10</option>
                                                                     <option value="1.18">%18</option>
@@ -263,9 +283,18 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                                        <div class="col-xl-3 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="total" placeholder='Total' class="form-control input-col" readonly="readonly" />
+                                                                <input type="text" id="total" placeholder='Total' class="form-control input-col" readonly="readonly" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-1 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="vat">
+                                                                    <option value="1">TRY</option>
+                                                                    <option value="2">USD</option>
+                                                                    <option value="3">EUR</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -294,13 +323,48 @@
                                                     <th>Tag</th>
                                                     <th>Piece</th>
                                                     <th>Price</th>
+                                                    <th>Vat Rate</th>
                                                     <th>Vat</th>
+                                                    <th>Discount Rate</th>
                                                     <th>Discount</th>
                                                     <th>Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody_buyingDetail">
+                                                @*
+                                                    <tr data-id="`+ seq + `">
+                                                        <td data-name="seq">
 
+                                                        </td>
+                                                        <td data-name="category">
+
+                                                        </td>
+                                                        <td data-name="subCategory">
+
+                                                        </td>
+                                                        <td data-name="tag">
+
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+
+                                                        </td>
+                                                        <td data-name="del">
+                                                            <button id="delCont" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                        </td>
+                                                    </tr>
+                                                *@
                                             </tbody>
                                         </table>
                                     </div>
@@ -371,10 +435,12 @@
         var piece = 0;
         var unit_price = 0;
         var vat = 0;
+        var vatRate = 0;
         var discount = 0;
+        var discountrate = 0;
         var outVat = 0;
         var total = 0;
-
+        var calcedVat = 0;
 
         var totaloutVat = 0;
         var totalVat = 0;
@@ -384,6 +450,10 @@
         var tagTEST;
 
         $(document).ready(function () {
+
+
+
+
 
             foreignCurrency('@DateTime.Now.ToString("yyyy-MM-dd")')
             $(document.body).on("change", "#identification", function () {
@@ -406,6 +476,7 @@
                 calcDate(selectedDay,this.value);
 
             });
+
             $('input[type=radio][name=PaymentMethId]').change(function () {
                 if (this.value == '3') {
                     $('.payment-term').removeClass('d-none');
@@ -419,6 +490,11 @@
                     $('#term60').removeAttr('name');
                     $('#term90').removeAttr('name');
                 }
+            });
+
+            $("input[name='delBuyingColumn']").on("click", function () {
+                console.clear();
+                console.log(e);
             });
 
             $(document.body).on("change", "#categoryId", function (e) {
@@ -453,6 +529,81 @@
                 discount = $(this).val();
                 calculateInp();
             });
+
+
+            $("#buying-form").on('click', "#delCont", function () {
+                console.log("removed: ");
+                
+                //var totalamount_del = 0;
+                //var total_del = 0;
+                //var calcedVat_del = 0;
+
+                let total_del = Number($(this).parent().parent().find('.outVat-buying').val().replace(/\,/g, '.'));
+                let calcedVat_del = Number($(this).parent().parent().find('.calcedVat-buying').val().replace(/\,/g, '.'));
+
+
+                let totalamount_del = Number(total_del + calcedVat_del).toFixed(2);
+
+                console.clear();
+                console.log("removing values: ");
+                console.log("out of vat: " + total_del);
+                console.log("Vat: " + calcedVat_del);
+                console.log("Total Amount: " + totalamount_del);
+
+                $(this).parent().parent().remove();
+
+                totaloutVat -= total_del;
+                totalVat -= calcedVat_del;
+                totalAmount -= totalamount_del;
+
+                const totalAmount_STR = new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2)).toString();
+                const totalVat_STR = new Intl.NumberFormat('tr-TR').format(totalVat.toFixed(2)).toString();
+                const totaloutVat_STR = new Intl.NumberFormat('tr-TR').format(totaloutVat.toFixed(2)).toString();
+                $('#outofVat').html(totaloutVat_STR + ' TRY');
+                $('#total_vat').html(totalVat_STR + ' TRY');
+                $('#total_amount').html(totalAmount_STR + ' TRY');
+
+
+                $('.seq-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].FullName');
+                });
+                $('.categoryName-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].DepartmantId');
+                });
+                $('.subCategoryName-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].MobileNumber');
+                });
+                $('.tagName-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.piece-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.unitPrice-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.vatRate-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.calcedVat-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.discount-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.discountRate-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.outVat-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+            });
+            console.clear();
+            console.log(new Intl.NumberFormat('tr-TR').format(1555.15));
+
+            /*
+            console.clear();
+            console.log(new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(1555.15));*/
         });
 
 
@@ -517,22 +668,21 @@
             //discount
             total = (piece * unit_price) * vat;
             outVat = (piece * unit_price);
-            $('#total').val(totaloutVat.toFixed(2));
+            calcedVat = total - outVat;
+            if (calcedVat < 0)
+                calcedVat = 0;
+            $('#total').val(outVat.toFixed(2).toString().replace(/\./g, ','));
 
 
 
-
-            totaloutVat = outVat;
-            totalVat = total - outVat;
-            totalAmount = total;
-            if (totalVat < 0)
-                totalVat = 0;
-
-            $('#outofVat').html(totaloutVat.toFixed(2) + ' TL');
-            $('#total_vat').html(totalVat.toFixed(2) + ' TL');
-            $('#total_amount').html(totalAmount.toFixed(2) + ' TL');
         }
-
+        /*
+        function remBuyingTable(data) {
+            console.clear();
+            console.log("Remove Func:");
+            console.log(data);
+        }
+        */
 
         $("#add_buyingDetail_row").on("click", function () {
 
@@ -624,7 +774,45 @@
                 });
             }
             else {
+                /*calculateInp();*/
+
+
+                totaloutVat += outVat;
+                totalVat += calcedVat;
+                totalAmount += total;
+
+                const totalAmount_STR = new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2)).toString();
+                const totalVat_STR = new Intl.NumberFormat('tr-TR').format(totalVat.toFixed(2)).toString();
+                const totaloutVat_STR = new Intl.NumberFormat('tr-TR').format(totaloutVat.toFixed(2)).toString();
+                $('#outofVat').html(totaloutVat_STR + ' TRY');
+                $('#total_vat').html(totalVat_STR + ' TRY');
+                $('#total_amount').html(totalAmount_STR + ' TRY');
+
+                //new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2))
+
+
                 seq++;
+
+
+                if (vat == 1.01)
+                    vatRate = "%1";
+                if (vat == 1.08)
+                    vatRate = "%8";
+                if (vat == 1.1)
+                    vatRate = "%10";
+                if (vat == 1.18)
+                    vatRate = "%18";
+
+                if (discount == 1)
+                    discountrate = "%0";
+                if (discount == 1.08)
+                    discountrate = "%8";
+                if (discount == 1.1)
+                    discountrate = "%10";
+                if (discount == 1.18)
+                    discountrate = "%18";
+
+
                 var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" readonly="readonly" />`;
                 var selectedElementVal = `<input type="text" class="form-control departmantid d-none" value="` + selectedValue + `" hidden/>`;
 
@@ -632,66 +820,77 @@
                                                     <tr data-id="`+ seq + `">
                                                         <td data-name="seq">
                                                             <div class="rounded text-center">
-                                                                <input type="text" class="form-control invoice-input" value="`+ seq + `" title="` + seq + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none seq-buying" value="`+ seq + `" title="` + seq + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="category">
                                                             <div class="rounded text-center">
-                                                                <input type="text" class="form-control invoice-input" value="`+ category_name + `" title="` + category_name + `" readonly="readonly"/>
-                                                                <input type="text" class="d-none" value="`+ categoryId + `" title="` + categoryId + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none categoryName-buying" value="`+ category_name + `" title="` + category_name + `" readonly="readonly"/>
+                                                                <input type="text" class="categoryId-buying d-none" value="`+ categoryId + `" title="` + categoryId + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="subCategory">
                                                             <div class="rounded text-center">
-                                                                <input type="text" class="form-control invoice-input" value="`+ subCategory_name + `" title="` + subCategory_name + `" readonly="readonly"/>
-                                                                <input type="text" class="d-none" value="`+ subCategoryId + `" title="` + subCategoryId + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none subCategoryName-buying" value="`+ subCategory_name + `" title="` + subCategory_name + `" readonly="readonly"/>
+                                                                <input type="text" class="subCategoryId-buying d-none" value="`+ subCategoryId + `" title="` + subCategoryId + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="tag">
                                                             <div class="rounded text-center">
-                                                                <input type="text" class="form-control invoice-input" value="`+ tag_name + `" title="` + tag_name + `" readonly="readonly"/>
-                                                                <input type="text" class="d-none" value="`+ tagId + `" title="` + tagId + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none tagName-buying" value="`+ tag_name + `" title="` + tag_name + `" readonly="readonly"/>
+                                                                <input type="text" class="tagId-buying d-none" value="`+ tagId + `" title="` + tagId + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="rounded text-center">
-                                                                <input type="number" class="form-control invoice-input" value=`+ piece + ` title="` + piece + `" readonly="readonly"/>
+                                                                <input type="number" class="box-shadow-none piece-buying" value=`+ piece + ` title="` + piece + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="rounded text-center">
-                                                                <input type="number" class="form-control invoice-input" value=`+ unit_price + ` title="` + unit_price + `" readonly="readonly"/>
+                                                                <input type="number" class="box-shadow-none unitPrice-buying" value=`+ unit_price + ` title="` + unit_price + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="rounded text-center">
-                                                                <input type="number" class="form-control invoice-input" value=`+ vat + ` title="` + vat + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none vatRate-buying" value=`+ vatRate + ` title="` + vatRate + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="rounded text-center">
-                                                                <input type="number" class="form-control invoice-input" value=`+ discount + ` title="` + discount + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none calcedVat-buying" value=`+ calcedVat.toFixed(2).toString().replace(/\./g, ',') + ` title="` + calcedVat.toFixed(2).toString().replace(/\./g, ',') + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <td data-name="deliveryDate">
                                                             <div class="rounded text-center">
-                                                                <input type="number" class="form-control invoice-input" value=`+ total + ` title="` + total + `" readonly="readonly"/>
+                                                                <input type="text" class="box-shadow-none discountRate-buying" value=`+ discountrate + ` title="` + discountrate + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="box-shadow-none discount-buying" value=`+ discount + ` title="` + discount + `" readonly="readonly"/>
+                                                            </div>
+                                                        </td>
+                                                        <td data-name="deliveryDate">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" class="box-shadow-none outVat-buying" value=`+ outVat + ` title="` + outVat + `" readonly="readonly"/>
                                                             </div>
                                                         </td>
                                                         <!--
                                                         <td data-name="deliveryDate">
                                                             <div class="rounded text-center">
-                                                                <input type="date" class="form-control familyMembersDateOfBirth" value=`+ 'familyDateofBirth' + ` title="` + 'familyDate' + `" readonly="readonly"/>
+                                                                <input type="date" class="box-shadow-none familyMembersDateOfBirth" value=`+ 'familyDateofBirth' + ` title="` + 'familyDate' + `" readonly="readonly"/>
                                                             </div>
                                                         </td>-->
                                                         <td data-name="del">
-                                                            <button id="delCont" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove"><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                            <button id="delCont" name="delBuyingColumn" type="button" class="waves-effect waves-light btn btn-danger btn-circle row-remove" ><span class="icon-Trash1 fs-18"><span class="path1"></span></span></button>
+                                                            <!--<input type="button" name="delBuyingColumn" class="btn waves-effect waves-light"><i class="fa fa-minus-square-o" aria-hidden="true"></i></input>-->
+                                                            <!--<a class="fa-exp-font" style="pointer-events: none"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a>-->
                                                         </td>
                                                     </tr>
 
 `;
                 $("#tbody_buyingDetail").append(tbody_buying_item);
-
 
 
 
@@ -706,22 +905,51 @@
                 //defTr++;
 
 
-                /*
-                $('.fullname').each(function (i) {
+                
+                $('.seq-buying').each(function (i) {
                     $(this).attr('name', 'ContactEnumerable[' + i + '].FullName');
                 });
-                $('.departmantid').each(function (i) {
+                $('.categoryName-buying').each(function (i) {
                     $(this).attr('name', 'ContactEnumerable[' + i + '].DepartmantId');
                 });
-                $('.mobileNumber').each(function (i) {
+                $('.subCategoryName-buying').each(function (i) {
                     $(this).attr('name', 'ContactEnumerable[' + i + '].MobileNumber');
                 });
-                $('.email').each(function (i) {
+                $('.tagName-buying').each(function (i) {
                     $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
                 });
-                */
+                $('.piece-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.unitPrice-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.vatRate-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.calcedVat-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.discount-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.discountRate-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
+                $('.outVat-buying').each(function (i) {
+                    $(this).attr('name', 'ContactEnumerable[' + i + '].Email');
+                });
 
+                console.clear();
 
+                //console.log(totalAmount.toFixed(2));
+                console.log(
+                    new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2))
+                );
+
+                //console.log(new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(1555.15));
+
+                //discountRate-buying
                 /*
                 $('.familyMembersDateOfBirth').each(function (i) {
                     $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
