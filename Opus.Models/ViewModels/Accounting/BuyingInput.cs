@@ -18,7 +18,12 @@ namespace Opus.Models.ViewModels.Accounting
         [MaxLength(20,ErrorMessage ="This field cannot be more than 20 characters.")]
         public string DocNo { get; set; }
         public int PaymentMethId { get; set; }
-
+        public DateTime PaymentTerm { get; set; }
+        public IEnumerable<BuyingDetails> Enumerable_BuyingDetails { get; set; }
+        public float OutofVat { get; set; }
+        public float Vat { get; set; }
+        public float Discount { get; set; }
+        public float TotalAmount { get; set; }
 
     }
 }

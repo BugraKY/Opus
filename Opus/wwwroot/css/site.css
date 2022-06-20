@@ -129,11 +129,11 @@ body {
 }
 
 .input-col {
-    max-width: 400px;
+    max-width: 900px;
 }
 
 .select2-container {
-    max-width: 400px !important;
+    max-width: 900px !important;
     min-width: 90px !important;
     /*width: 400px!important;*/
 }

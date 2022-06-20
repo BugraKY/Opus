@@ -60,15 +60,24 @@ namespace Opus.Areas.Accounting.Controllers
         [HttpPost("accounting/curr/buying-post")]
         public IActionResult BuyingPost(BuyingVM _buyingVM)
         {
-
-            var buyingvm = new BuyingVM()
+            double vat = 0;
+            double outofVat = 0;
+            double discount = 0;
+            double totalAmount = 0;
+            foreach (var item in _buyingVM.BuyingInput.Enumerable_BuyingDetails)
             {
-                Identification_Enuberable = _buyingVM.Identification_Enuberable,
-                BuyingInput = _buyingVM.BuyingInput,
-                IdentificationId = _buyingVM.IdentificationId,
-                Identification=_uow.Accounting_Identification.GetFirstOrDefault(i=>i.Id== Guid.Parse(_buyingVM.IdentificationId)),
-                PaymentMethId = _buyingVM.PaymentMethId
-            };
+                vat+=item.Vat;
+                outofVat += item.Total;
+                discount += item.Discount;
+            }
+            _buyingVM.BuyingInput.PaymentMethId = _buyingVM.PaymentMethId;
+            totalAmount = (outofVat + vat) - discount;
+            _buyingVM.BuyingInput.Vat = (float)Math.Round(vat,2);
+            _buyingVM.BuyingInput.OutofVat = (float)Math.Round(outofVat,2);
+            _buyingVM.BuyingInput.Discount = (float)Math.Round(discount,2);
+            _buyingVM.BuyingInput.TotalAmount = (float)Math.Round(totalAmount,2);
+            //_uow.buyingdetails.addrange(_buyingVM.BuyingInput.Enumerable_BuyingDetails)
+            //_uow.buyinginput.add(_buyingVM.BuyingInput)-->dbclassta kalıtsal yolla view-model classa tanımlamalı.
             return NoContent();
         }
         
