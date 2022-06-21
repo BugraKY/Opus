@@ -1,16 +1,20 @@
-﻿using Opus.Models.DbModels.Accounting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Opus.Models.ViewModels.Accounting
+namespace Opus.Models.DbModels.Accounting
 {
-    public class BuyingDetails
+    public class PurchaseInvoiceDetails
     {
-        //buyinginp id -- foreignkey
+        [Key]
+        public long Id { get; set; }
+        public Guid PurchaseInvoiceId { get; set; }
+        [ForeignKey("PurchaseInvoiceId")]
+        public PurchaseInvoice PurchaseInvoice { get; set; }
         public TagDefinitions TagDefinitions { get; set; }
         [ForeignKey("TagDefinitionsId")]
         public Guid TagDefinitionsId { get; set; }
@@ -21,5 +25,7 @@ namespace Opus.Models.ViewModels.Accounting
         public float Discount_Rate { get; set; }
         public float Discount { get; set; }
         public float Total { get; set; }
+        public int ExchangeRate { get; set; }
+        //developing
     }
 }

@@ -65,7 +65,7 @@
     }
 
     .table td {
-        font-size: .7rem;
+        font-size: .8rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -328,7 +328,7 @@
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="vat">
+                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="exc_rate">
                                                                     <option value="1">TRY</option>
                                                                     <option value="2">USD</option>
                                                                     <option value="3">EUR</option>
@@ -381,19 +381,19 @@
                                         <table class="table table-hover table-bordered table-striped dataTables dataTable no-footer">
                                             <tr>
                                                 <td><h6 style="float:right">Out of Vat</h6></td>
-                                                <td><h6 style="float:right" id="outofVat">0 TL</h6></td>
+                                                <td><h6 style="float:right"><span id="outofVat">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                             <tr>
                                                 <td><h6 style="float:right">Vat</h6></td>
-                                                <td><h6 style="float:right" id="total_vat">0 TL</h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                             <tr class="discount_tr d-none">
                                                 <td><h6 style="float:right">Discount</h6></td>
-                                                <td><h6 style="float:right" id="totalDiscount">0 TL</h6></td>
+                                                <td><h6 style="float:right"><span id="totalDiscount">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                             <tr>
                                                 <td><h6 style="float:right">Total Amount</h6></td>
-                                                <td><h6 style="float:right" id="total_amount">0 TL</h6></td>
+                                                <td><h6 style="float:right"><span id="total_amount">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -476,6 +476,7 @@
             subcategory={},
             tag={}
         }
+
         */
         var categoryId = '00000000-0000-0000-0000-000000000000';
         var subCategoryId = '00000000-0000-0000-0000-000000000000';
@@ -484,7 +485,9 @@
         var category_name = '';
         var subCategory_name = '';
         var tag_name = '';
+        var exc_rateText = 'TRY';
 
+        var exc_rate = 1;
         var piece = 0;
         var unit_price = 0;
         var vat = 0;
@@ -591,7 +594,11 @@
                 discount = $(this).val();
                 calculateInp();
             });
-
+            $(document.body).on("change", "#exc_rate", function () {
+                exc_rate = this.value;
+                exc_rateText = $(this).find(':selected')[0].innerText;
+                $('.exc_rate_spn').html(exc_rateText);
+            });
 
             $("#buying-form").on('click', "#delCont", function () {
                 $('#buying-submit').prop('disabled', true);
@@ -637,7 +644,7 @@
                 */
 
                 $('.tagId-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].TagId');
+                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].TagDefinitionsId');
                 });
                 $('.piece-buying').each(function (i) {
                     $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Piece');
@@ -854,32 +861,6 @@
                 });
             }
             else {
-                /*calculateInp();*/
-
-                /*
-                totaloutVat += outVat;
-                totalVat += calcedVat;
-                totalDiscount += calcedDis;
-
-                totalAmount += total;
-                totalAmount -= calcedDis;*/
-
-
-
-
-                /*
-                const totalAmount_STR = new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2)).toString();
-                const totalDiscount_STR = new Intl.NumberFormat('tr-TR').format(totalDiscount.toFixed(2)).toString();
-                const totalVat_STR = new Intl.NumberFormat('tr-TR').format(totalVat.toFixed(2)).toString();
-                const totaloutVat_STR = new Intl.NumberFormat('tr-TR').format(totaloutVat.toFixed(2)).toString();
-                $('#outofVat').html(totaloutVat_STR + ' TRY');
-                $('#total_vat').html(totalVat_STR + ' TRY');
-                $('#total_amount').html(totalAmount_STR + ' TRY');
-                $('#totalDiscount').html('-' + totalDiscount_STR + ' TRY');*/
-
-                //new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2))
-
-
                 seq++;
 
 
@@ -966,7 +947,7 @@
                                                         <td data-name="deliveryDate" class="fitwidth">
 
                                                                 <input type="text" class="box-shadow-none outVat-buying d-none" value=`+ outVat.toString().replace(/\./g, ',') + ` title="` + outVat.toString().replace(/\./g, ',') + `" readonly="readonly"/>
-                                                                <span title="">`+ outVat + `</span>
+                                                                <span title="">`+ outVat.toString().replace(/\./g, ',') + `</span>
 
                                                         </td>
                                                         <!--
@@ -986,37 +967,11 @@
 `;
                 $("#tbody_buyingDetail").append(tbody_buying_item);
 
-
-
-
-                /*
-                $("#fullname").val("");
-                $("#mobileNumber").val("");
-                $("#email").val("");
-                $("#departmantid").val("");
-                */
-
-                //defTr++;
-
-
                 $('.seq-buying-spn').each(function (i) {
                     $(this).html(Number(i + 1));
                 });
-                $('.seq-buying').each(function (i) {
-                    /*$(this).attr('name', 'ContactEnumerable[' + i + '].FullName');*/
-                });
-
-                /*
-                $('.categoryName-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput[' + i + '].DepartmantId');
-                });
-                $('.subCategoryName-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput[' + i + '].MobileNumber');
-                });
-                */
-
                 $('.tagId-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].TagId');
+                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].TagDefinitionsId');
                 });
                 $('.piece-buying').each(function (i) {
                     $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Piece');
@@ -1040,31 +995,43 @@
                     $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Total');
                 });
 
-                console.clear();
-
-                //console.log(totalAmount.toFixed(2));
-                console.log(
-                    new Intl.NumberFormat('tr-TR').format(totalAmount.toFixed(2))
-                );
-
-                //console.log(new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(1555.15));
-
-                //discountRate-buying
-                /*
-                $('.familyMembersDateOfBirth').each(function (i) {
-                    $(this).attr('name', 'FamilyMembersEnumerable[' + i + '].DateOfBirth');
-                });*/
-
-
-                /*
-                $("#boxstate").addClass("box");
-                $("#boxstate").addClass("mb-20");
-                $("#boxstate").addClass("mt-20");*/
+                setTimeout(function () {
+                    getSumVals();
+                    clearBuyingInputs();
+                }, 500);
+                
             }
-            setTimeout(function () {
-                getSumVals();
-            }, 500);
+
         });
+
+        function clearBuyingInputs() {
+            $('#piece').val('');
+            $('#unit_price').val('');
+            $('#total').val('');
+
+            vat = 0;
+            vatRate = 0;
+            discount = 0;
+            discountrate = 0;
+            categoryId = '00000000-0000-0000-0000-000000000000';
+            subCategoryId = '00000000-0000-0000-0000-000000000000';
+            tagId = '00000000-0000-0000-0000-000000000000';
+
+            $('#vat').selectpicker('val',vat);
+            $('#discount').selectpicker('val', discount);
+
+
+            $('#tagId').val(tagId);
+            $('#subCatId').val(subCategoryId);
+            $('#categoryId').val(categoryId);
+
+            $('#tagId').trigger('change');
+            $('#subCatId').trigger('change');
+            $('#categoryId').trigger('change');
+
+
+
+        }
 
         function getSumVals() {
             var sumVat = 0;
@@ -1107,10 +1074,20 @@
             const totalVat_STR = new Intl.NumberFormat('tr-TR').format(sumVat.toFixed(2)).toString();
             const totaloutVat_STR = new Intl.NumberFormat('tr-TR').format(sumoutofVat.toFixed(2)).toString();
 
-            if (total > 0)
+            if (total > 0) {
                 $('#buying-submit').prop('disabled', false);
-            else
+
+                $('#exc_rate').prop('disabled', true);
+                console.log("Exchange Rate: " + true);
+            }
+            else {
                 $('#buying-submit').prop('disabled', true);
+
+                $('#exc_rate').prop('disabled', false);
+                console.log("Exchange Rate: " + false);
+
+            }
+
 
             if (sumDiscount > 0)
                 $('.discount_tr').removeClass('d-none');
@@ -1120,10 +1097,10 @@
             unit_price = 0;
             total = 0;
 
-            $('#outofVat').html(totaloutVat_STR + ' TRY');
-            $('#total_vat').html(totalVat_STR + ' TRY');
-            $('#total_amount').html(totalAmount_STR + ' TRY');
-            $('#totalDiscount').html('-' + totalDiscount_STR + ' TRY');
+            $('#outofVat').html(totaloutVat_STR);
+            $('#total_vat').html(totalVat_STR);
+            $('#total_amount').html(totalAmount_STR);
+            $('#totalDiscount').html('-' + totalDiscount_STR);
             /*$('#total_amount').html(total + ' TRY');*/
         }
     </script>

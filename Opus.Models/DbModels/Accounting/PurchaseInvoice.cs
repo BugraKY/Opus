@@ -18,12 +18,11 @@ namespace Opus.Models.DbModels.Accounting
         [ForeignKey("PaymentMethId")]
         public PaymentMeth PaymentMeth { get; set; }
         public DateTime PaymentTerm { get; set; }
-        [NotMapped]
-        //public IEnumerable<BuyingDetails> Enumerable_BuyingDetails { get; set; }
         public float OutofVat { get; set; }
         public float Vat { get; set; }
         public float Discount { get; set; }
         public float TotalAmount { get; set; }
+        public int ExchangeRate { get; set; }
         //developing..
     }
 }

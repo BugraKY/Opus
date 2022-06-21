@@ -64,11 +64,17 @@ namespace Opus.Areas.Accounting.Controllers
             double outofVat = 0;
             double discount = 0;
             double totalAmount = 0;
+            int i=0;
+            List<TagDefinitions> _tagDefinitions = new List<TagDefinitions>();
             foreach (var item in _buyingVM.BuyingInput.Enumerable_BuyingDetails)
             {
                 vat+=item.Vat;
                 outofVat += item.Total;
                 discount += item.Discount;
+                //_tagDefinitions
+                _buyingVM.BuyingInput.Enumerable_BuyingDetails[i].TagDefinitions = _uow.Accounting_TagDefinations.
+                    GetFirstOrDefault(i => i.Id == item.TagDefinitionsId,includeProperties: "Category,SubCategory,Tag");
+                i++;
             }
             _buyingVM.BuyingInput.PaymentMethId = _buyingVM.PaymentMethId;
             totalAmount = (outofVat + vat) - discount;

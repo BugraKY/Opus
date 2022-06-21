@@ -43,6 +43,8 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.IContactDefinitionsRepository Accounting_ContactDefinitions { get; }
         IAccountingRepository.ITagDefinitionsRepository Accounting_TagDefinations { get; }
         IAccountingRepository.IStaffRepository Accounting_Staff { get; }
+        IAccountingRepository.IPurchaseInvoiceRepository Accounting_PurchaseInvoice { get; }
+        IAccountingRepository.IPurchaseInvoiceDetailsRepository Accounting_PurchaseInvoiceDetails { get; }
         #endregion Accounting
 
         void Save();

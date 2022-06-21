@@ -19,6 +19,8 @@ namespace Opus.Models.DbModels.Accounting
         public string SubCategoryId { get; set; }
         [NotMapped]
         public bool AddAll { get; set; }
+        [NotMapped]
+        public Guid? TagDefinitionsId { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; }
     }

@@ -19,7 +19,7 @@ namespace Opus.Models.ViewModels.Accounting
         public string DocNo { get; set; }
         public int PaymentMethId { get; set; }
         public DateTime PaymentTerm { get; set; }
-        public IEnumerable<BuyingDetails> Enumerable_BuyingDetails { get; set; }
+        public List<BuyingDetails> Enumerable_BuyingDetails { get; set; }
         public float OutofVat { get; set; }
         public float Vat { get; set; }
         public float Discount { get; set; }

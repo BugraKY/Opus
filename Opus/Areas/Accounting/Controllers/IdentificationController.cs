@@ -407,6 +407,7 @@ namespace Opus.Areas.Accounting.Controllers
                     Active = item.Tag.Active,
                     CategoryId = item.Tag.CategoryId,
                     Name = item.Tag.Name
+                    
                 };
                 _tags.Add(_tagItem);
             }

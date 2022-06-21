@@ -18,5 +18,17 @@ namespace Opus.Utility
         {
 
         }
+        public enum ExchangeRate
+        {
+            TRY = 1,
+            USD = 2,
+            EUR = 3
+        }
+        public enum PaymentMethod
+        {
+            Cash = 1,
+            CreditCard = 2,
+            Current= 3
+        }
     }
 }
