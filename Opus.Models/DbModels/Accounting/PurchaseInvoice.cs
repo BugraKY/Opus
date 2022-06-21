@@ -22,7 +22,9 @@ namespace Opus.Models.DbModels.Accounting
         public float Vat { get; set; }
         public float Discount { get; set; }
         public float TotalAmount { get; set; }
-        public int ExchangeRate { get; set; }
+        public int ExchangeRateId { get; set; }
+        [ForeignKey("ExchangeRateId")]
+        public ExchangeRate ExchangeRate { get; set; }
         //developing..
     }
 }
