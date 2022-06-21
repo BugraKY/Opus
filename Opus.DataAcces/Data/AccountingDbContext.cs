@@ -28,6 +28,7 @@ namespace Opus.DataAcces.Data
         public DbSet<PaymentMeth> PaymentMeth { get; set; }
         public DbSet<PurchaseInvoice> PurchaseInvoice { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
+        public DbSet<ExchangeRate> ExchangeRate { get; set; }
 
     }
 }
