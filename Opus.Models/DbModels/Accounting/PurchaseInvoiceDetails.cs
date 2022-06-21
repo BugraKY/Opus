@@ -25,7 +25,6 @@ namespace Opus.Models.DbModels.Accounting
         public float Discount_Rate { get; set; }
         public float Discount { get; set; }
         public float Total { get; set; }
-        public int ExchangeRate { get; set; }
         //developing
     }
 }

@@ -49,12 +49,13 @@ namespace Opus.Areas.Accounting.Controllers
         {
             var _comp = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
             var _IdentifiType = _uow.Accounting_Identificationtype.GetFirstOrDefault(t => t.Identity == "SUP");
+            
             var _buyingvm = new BuyingVM()
             {
                 Company = _comp,
                 Identification_Enuberable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == _comp.Id).Where(i => i.IdentificationTypeId == _IdentifiType.Id),
+                Enumerable_PurchaseInvoice = _uow.Accounting_PurchaseInvoice.GetAll(i=>i.CompanyId == _comp.Id,includeProperties: "Identification,PaymentMeth,ExchangeRate"),
             };
-
             return View(_buyingvm);
         }
         [HttpPost("accounting/curr/buying-post")]
@@ -64,29 +65,73 @@ namespace Opus.Areas.Accounting.Controllers
             double outofVat = 0;
             double discount = 0;
             double totalAmount = 0;
-            int i=0;
-            List<TagDefinitions> _tagDefinitions = new List<TagDefinitions>();
-            foreach (var item in _buyingVM.BuyingInput.Enumerable_BuyingDetails)
+            int i = 0;
+            var _purchaseCheck = _uow.Accounting_PurchaseInvoice.GetFirstOrDefault(i => i.DocNo == _buyingVM.PurchaseInvoice.DocNo);
+            if(_purchaseCheck == null)
             {
-                vat+=item.Vat;
-                outofVat += item.Total;
-                discount += item.Discount;
-                //_tagDefinitions
-                _buyingVM.BuyingInput.Enumerable_BuyingDetails[i].TagDefinitions = _uow.Accounting_TagDefinations.
-                    GetFirstOrDefault(i => i.Id == item.TagDefinitionsId,includeProperties: "Category,SubCategory,Tag");
+                foreach (var item in _buyingVM.Enumerable_PurchaseInvoiceDetails)
+                {
+                    vat += item.Vat;
+                    outofVat += item.Total;
+                    discount += item.Discount;
+                }
+                _buyingVM.PurchaseInvoice.PaymentMethId = _buyingVM.PaymentMethId;
+                totalAmount = (outofVat + vat) - discount;
+                _buyingVM.PurchaseInvoice.Vat = (float)Math.Round(vat, 2);
+                _buyingVM.PurchaseInvoice.OutofVat = (float)Math.Round(outofVat, 2);
+                _buyingVM.PurchaseInvoice.Discount = (float)Math.Round(discount, 2);
+                _buyingVM.PurchaseInvoice.TotalAmount = (float)Math.Round(totalAmount, 2);
+                _uow.Accounting_PurchaseInvoice.Add(_buyingVM.PurchaseInvoice);
+
+                foreach (var item in _buyingVM.Enumerable_PurchaseInvoiceDetails)
+                {
+                    _buyingVM.Enumerable_PurchaseInvoiceDetails[i].PurchaseInvoiceId = _buyingVM.PurchaseInvoice.Id;
+                    i++;
+                }
+                _uow.Accounting_PurchaseInvoiceDetails.AddRange(_buyingVM.Enumerable_PurchaseInvoiceDetails);
+                _uow.Save();
+                return Redirect("/accounting/curr/buying/" + _buyingVM.PurchaseInvoice.CompanyId.ToString());
+            }
+            else
+            {
+                return Content("This number has already been added to the invoice. Document Number: " + _purchaseCheck.DocNo);
+            }
+        }
+        [Route("accounting/curr/buying/detail/{id}")]
+        public IActionResult BuyingDetail(string id)
+        {
+            var _purchaseInvoise = _uow.Accounting_PurchaseInvoice.GetFirstOrDefault(i => i.Id == Guid.Parse(id),includeProperties: "Identification,PaymentMeth,ExchangeRate");
+            var _purchaseInvoiseDetails = _uow.Accounting_PurchaseInvoiceDetails.GetAll(i=>i.PurchaseInvoiceId==_purchaseInvoise.Id, includeProperties: "TagDefinitions").ToList();
+            int i = 0;
+            var _isdiscount = false;
+            foreach (var item in _purchaseInvoiseDetails)
+            {
+                _purchaseInvoiseDetails[i].TagDefinitions.Category = _uow.Accounting_Category.GetFirstOrDefault(i => i.Id == item.TagDefinitions.CategoryId);
+                _purchaseInvoiseDetails[i].TagDefinitions.SubCategory = _uow.Accounting_Subcategory.GetFirstOrDefault(i => i.Id == item.TagDefinitions.SubCategoryId);
+                _purchaseInvoiseDetails[i].TagDefinitions.Tag = _uow.Accounting_Tag.GetFirstOrDefault(i => i.Id == item.TagDefinitions.TagId);
+                if (_purchaseInvoiseDetails[i].Discount > 0)
+                    _isdiscount = true;
                 i++;
             }
-            _buyingVM.BuyingInput.PaymentMethId = _buyingVM.PaymentMethId;
-            totalAmount = (outofVat + vat) - discount;
-            _buyingVM.BuyingInput.Vat = (float)Math.Round(vat,2);
-            _buyingVM.BuyingInput.OutofVat = (float)Math.Round(outofVat,2);
-            _buyingVM.BuyingInput.Discount = (float)Math.Round(discount,2);
-            _buyingVM.BuyingInput.TotalAmount = (float)Math.Round(totalAmount,2);
-            //_uow.buyingdetails.addrange(_buyingVM.BuyingInput.Enumerable_BuyingDetails)
-            //_uow.buyinginput.add(_buyingVM.BuyingInput)-->dbclassta kalıtsal yolla view-model classa tanımlamalı.
-            return NoContent();
+            var _buying = new BuyingVM
+            {
+                Company = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == _purchaseInvoise.CompanyId),
+                CompanyId= _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == _purchaseInvoise.CompanyId).Id.ToString(),
+                PurchaseInvoice =_purchaseInvoise,
+                Enumerable_PurchaseInvoiceDetails= _purchaseInvoiseDetails,
+                IsDiscount=_isdiscount
+            };
+
+            return View(_buying);
         }
-        
+        [Route("accounting/curr/buying/del/{id}")]
+        public IActionResult BuyingDel(string id)
+        {
+            var _purchaseInvoice = _uow.Accounting_PurchaseInvoice.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+            _uow.Accounting_PurchaseInvoice.Remove(_purchaseInvoice);
+            _uow.Save();
+            return Redirect("/accounting/curr/buying/" + _purchaseInvoice.CompanyId);
+        }
         [Route("api/accounting/foreign-currency/{_date}")]
         public async Task<Models.ViewModels.Accounting.ExchangeRate> GetExchange(string _date)
         {

@@ -12,6 +12,9 @@ namespace Opus.Models.DbModels.Accounting
     {
         [Key]
         public Guid Id { get; set; }
+        public Guid IdentificationId { get; set; }
+        [ForeignKey("IdentificationId")]
+        public Identification Identification { get; set; }
         public DateTime DocDate { get; set; }
         public string DocNo { get; set; }
         public int PaymentMethId { get; set; }
@@ -25,6 +28,8 @@ namespace Opus.Models.DbModels.Accounting
         public int ExchangeRateId { get; set; }
         [ForeignKey("ExchangeRateId")]
         public ExchangeRate ExchangeRate { get; set; }
-        //developing..
+        public Guid? CompanyId { get; set; }
+        [ForeignKey("CompanyId")]
+        public Company Company { get; set; }
     }
 }

@@ -1,0 +1,298 @@
+﻿@model Opus.Models.ViewModels.Accounting.BuyingVM
+<style>
+    input.box-shadow-none:active {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    input.box-shadow-none:hover {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    input.box-shadow-none:focus {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    input.box-shadow-none:focus-visible {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none;
+    }
+
+    input.box-shadow-none:target {
+        border: none !important;
+        border-style: hidden !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    input.box-shadow-none {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #212529;
+        background: transparent !important;
+        border: none !important;
+        appearance: none;
+    }
+
+    td {
+        max-width: 50px !important;
+        width: auto !important;
+        min-width: 10px !important;
+    }
+
+        td.fitwidth {
+            width: 1px;
+            white-space: nowrap;
+        }
+
+    .table > tbody > tr > td.fitwidth, .table > tbody > tr > th {
+        padding: 7px 10px 7px 10px;
+    }
+
+    .table td {
+        font-size: .8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 1px;
+    }
+
+    .table th {
+        font-size: 11px;
+        white-space: pre-wrap;
+    }
+</style>
+<div class="container-full">
+    @*<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onselectstart='return false;' style="white-space:nowrap">*@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Accounting</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
+                            <li class="breadcrumb-item" aria-current="page">@Model.Company.Name</li>
+                            <li class="breadcrumb-item" aria-current="page">Purchase Invoice</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pb-10"></div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+
+                    <div class="box-header with-border">
+                        @*<h4 class="box-title"></h4>*@
+                        <div class="row">
+                            <div class="col-3">
+                                <h4 class="box-title excDate">Today:</h4>
+                            </div>
+                            <div class="col-3 fa-1x" title="US DOLAR">
+                                <i class="fa fa-usd opus-color" aria-hidden="true"></i><span class="usd_today" style="padding-left:5px;"></span>
+                            </div>
+                            <div class="col-3 fa-1x" title="EURO">
+                                <i class="fa fa-eur opus-color" aria-hidden="true"></i><span class="eur_today" style="padding-left: 5px;"></span>
+                            </div>
+                            <div class="col-3 fa-1x" title="STERLIN">
+                                <i class="fa fa-gbp opus-color" aria-hidden="true"></i><span class="gbp_today" style="padding-left: 5px;"></span>
+                            </div>
+                        </div>
+                        <div class="text-center" style="position:absolute;">
+                            <small style="font-size:10px;">This currency is pulled from the central bank of the republic of Turkey database.</small>
+                        </div>
+                    </div>
+
+
+                    <div class="box-body">
+                        <hr class="my-15">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input class="d-none" type="text" asp-for="PurchaseInvoice.CompanyId" value="@Model.Company.Id" hidden />
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Company</h5>
+                            </div>
+                            <div class="col-10">
+                                <img height="50" src="/assets/accounting/company/@Model.Company.Id/img/@Model.Company.ImageFile" />
+                                @*<img src="/assets/accounting/company/1215ce74-9adf-40ff-1301-08da4acb0647/img/" />*@
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Supplier</h5>
+                            </div>
+                            <div class="col-10">
+                                <input class="form-control box-shadow-focus input-col" value="@Model.PurchaseInvoice.Identification.CommercialTitle" readonly="readonly" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Document Date</h5>
+                            </div>
+                            <div class="col-10">
+                                <input class="form-control box-shadow-focus input-col" type="date" value="@Model.PurchaseInvoice.DocDate.ToString("yyyy-MM-dd")" id="doc_date" readonly="readonly" />
+                            </div>
+                            <span asp-validation-for="PurchaseInvoice.DocDate" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Document No</h5>
+                            </div>
+                            <div class="col-10">
+                                <input class="form-control input-col" type="text" placeholder="Document No" value="@Model.PurchaseInvoice.DocNo" maxlength="20" readonly="readonly" />
+                            </div>
+                            <span asp-validation-for="PurchaseInvoice.DocNo" class="text-danger"></span>
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="col-2">
+                                <h5 class="my-10">Payment Method</h5>
+                            </div>
+                            <div class="col-10">
+                                <input class="form-control input-col" type="text" placeholder="Document No" value="@Model.PurchaseInvoice.PaymentMeth.Name" maxlength="20" readonly="readonly" />
+                            </div>
+                        </div>
+
+
+                        @if (@Model.PurchaseInvoice.PaymentMeth.Name == "Current")
+                        {
+                            <div class="row payment-term">
+                                <div class="col-2">
+                                    <h5 class="my-10">Payment Terms: </h5>
+                                </div>
+
+                                <div class="col-8">
+                                    <input class="form-control input-col" type="text" value="@Model.PurchaseInvoice.PaymentTerm.ToString("dd/MM/yyyy")" id="paymentTermDate" asp-for="PurchaseInvoice.PaymentTerm" readonly="readonly" />
+                                </div>
+                            </div>
+                        }
+
+
+                        <hr class="my-15">
+                        <div>
+
+                            <div class="border-top border-bottom">
+
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <table id="buying_table" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;/*font-family:'Courier New',Courier,monospace; font-size:80%;*/">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">#</th>
+                                                <th width="20%">Category</th>
+                                                <th width="20%">Sub-Category</th>
+                                                <th width="20%">Tag</th>
+                                                <th width="5%">Piece</th>
+                                                <th width="5%">Price</th>
+                                                <th width="5%">Vat Rate</th>
+                                                <th width="5%">Vat</th>
+                                                <th width="5%">Discount Rate</th>
+                                                <th width="5%">Discount</th>
+                                                <th width="5%">Total</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbody_buyingDetail">
+                                            @{int i = 0;}
+                                            @foreach (var item in Model.Enumerable_PurchaseInvoiceDetails)
+                                            {
+                                                { i++; }
+                                                <tr>
+                                                    <th width="5%">@i.ToString()</th>
+                                                    <th width="20%">@item.TagDefinitions.Category.Name</th>
+                                                    <th width="20%">@item.TagDefinitions.SubCategory.Name</th>
+                                                    <th width="20%">@item.TagDefinitions.Tag.Name</th>
+                                                    <th width="5%">@item.Piece</th>
+                                                    <th width="5%">@Math.Round(item.Price, 2)</th>
+                                                    <th width="5%">@item.Vat_Rate</th>
+                                                    <th width="5%">@Math.Round(item.Vat, 2)</th>
+                                                    <th width="5%">@item.Discount_Rate</th>
+                                                    @if (item.Discount > 0)
+                                                    {
+                                                        <th width="5%">-@Math.Round(item.Discount, 2)</th>
+                                                    }
+                                                    else
+                                                    {
+                                                        <th width="5%">0</th>
+                                                    }
+                                                    <th width="5%">@Math.Round(item.Total, 2)</th>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-8 col-md-6 col-12 pb-10"></div>
+                                <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                    <table class="table table-hover table-bordered table-striped dataTables dataTable no-footer">
+                                        <tr>
+                                            <td><h6 style="float:right">Out of Vat</h6></td>
+                                            <td><h6 style="float:right"><span id="outofVat">@Model.PurchaseInvoice.OutofVat</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                        </tr>
+                                        <tr>
+                                            <td><h6 style="float:right">Vat</h6></td>
+                                            <td><h6 style="float:right"><span id="total_vat">@Model.PurchaseInvoice.Vat</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                        </tr>
+                                        @if (Model.IsDiscount)
+                                        {
+                                            <tr class="discount_tr">
+                                                <td><h6 style="float:right">Discount</h6></td>
+                                                <td><h6 style="float:right"><span id="totalDiscount">-@Model.PurchaseInvoice.Discount</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td><h6 style="float:right">Total Amount</h6></td>
+                                            <td><h6 style="float:right"><span id="total_amount">@Model.PurchaseInvoice.TotalAmount</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

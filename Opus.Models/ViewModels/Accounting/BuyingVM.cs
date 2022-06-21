@@ -10,6 +10,9 @@ namespace Opus.Models.ViewModels.Accounting
     public class BuyingVM
     {
         public BuyingInput BuyingInput { get; set; }
+        public PurchaseInvoice PurchaseInvoice { get; set; }
+        public List<PurchaseInvoiceDetails> Enumerable_PurchaseInvoiceDetails { get; set; }
+        public IEnumerable<PurchaseInvoice> Enumerable_PurchaseInvoice { get; set; }
         public IEnumerable<Identification> Identification_Enuberable { get; set; }
         public string CompanyId { get; set; }
         public Company Company { get; set; }
@@ -28,5 +31,6 @@ namespace Opus.Models.ViewModels.Accounting
         public bool Term45 { get; set; }
         public bool Term60 { get; set; }
         public bool Term90 { get; set; }
+        public bool IsDiscount { get; set; }
     }
 }

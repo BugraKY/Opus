@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Opus.DataAcces.Data;
 
@@ -11,9 +12,10 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations.AccountingDb
 {
     [DbContext(typeof(AccountingDbContext))]
-    partial class AccountingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220621091121_InitialMigration8")]
+    partial class InitialMigration8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,9 +289,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<float>("Discount")
                         .HasColumnType("real");
 
@@ -301,9 +300,6 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
                     b.Property<int>("ExchangeRateId")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("IdentificationId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("OutofVat")
                         .HasColumnType("real");
@@ -322,11 +318,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
-
                     b.HasIndex("ExchangeRateId");
-
-                    b.HasIndex("IdentificationId");
 
                     b.HasIndex("PaymentMethId");
 
@@ -346,6 +338,9 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
                     b.Property<float>("Discount_Rate")
                         .HasColumnType("real");
+
+                    b.Property<int>("ExchangeRate")
+                        .HasColumnType("int");
 
                     b.Property<int>("Piece")
                         .HasColumnType("int");
@@ -576,19 +571,9 @@ namespace Opus.DataAcces.Migrations.AccountingDb
 
             modelBuilder.Entity("Opus.Models.DbModels.Accounting.PurchaseInvoice", b =>
                 {
-                    b.HasOne("Opus.Models.DbModels.Accounting.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
-
                     b.HasOne("Opus.Models.DbModels.Accounting.ExchangeRate", "ExchangeRate")
                         .WithMany()
                         .HasForeignKey("ExchangeRateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Opus.Models.DbModels.Accounting.Identification", "Identification")
-                        .WithMany()
-                        .HasForeignKey("IdentificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -598,11 +583,7 @@ namespace Opus.DataAcces.Migrations.AccountingDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
-
                     b.Navigation("ExchangeRate");
-
-                    b.Navigation("Identification");
 
                     b.Navigation("PaymentMeth");
                 });

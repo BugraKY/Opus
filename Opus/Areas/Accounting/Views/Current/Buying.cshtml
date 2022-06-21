@@ -91,7 +91,7 @@
                             <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
                             <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
                             <li class="breadcrumb-item" aria-current="page">@Model.Company.Name</li>
-                            <li class="breadcrumb-item" aria-current="page">Buying</li>
+                            <li class="breadcrumb-item" aria-current="page">Purchase Invoice</li>
                         </ol>
                     </nav>
                 </div>
@@ -134,7 +134,7 @@
                             <hr class="my-15">
 
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+                            <input class="d-none" type="text" asp-for="PurchaseInvoice.CompanyId" value="@Model.Company.Id" hidden />
                             <div class="row">
                                 <div class="col-2">
                                     <h5 class="my-10">Company</h5>
@@ -150,7 +150,7 @@
                                     <h5 class="my-10">Supplier</h5>
                                 </div>
                                 <div class="col-10">
-                                    <select class="form-control box-shadow-focus select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="BuyingInput.IdentificationId" required>
+                                    <select class="form-control box-shadow-focus select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="PurchaseInvoice.IdentificationId" required>
                                         <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
                                         @foreach (var item in Model.Identification_Enuberable)
                                         {
@@ -158,16 +158,16 @@
                                         }
                                     </select>
                                     @*
-                    <label class="form-label"></label>
-                    <select class="form-control select2" style="width: 100%;">
-                        <option selected="selected">Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>*@
+                                        <label class="form-label"></label>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>*@
                                 </div>
 
                             </div>
@@ -177,18 +177,18 @@
                                     <h5 class="my-10">Document Date</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BuyingInput.DocDate" />
+                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" />
                                 </div>
-                                <span asp-validation-for="BuyingInput.DocDate" class="text-danger"></span>
+                                <span asp-validation-for="PurchaseInvoice.DocDate" class="text-danger"></span>
                             </div>
                             <div class="row">
                                 <div class="col-2">
                                     <h5 class="my-10">Document No</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="BuyingInput.DocNo" />
+                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" maxlength="20" required/>
                                 </div>
-                                <span asp-validation-for="BuyingInput.DocNo" class="text-danger"></span>
+                                <span asp-validation-for="PurchaseInvoice.DocNo" class="text-danger"></span>
                             </div>
 
 
@@ -238,7 +238,7 @@
                                     <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
                                 </div>
                                 <div class="col-4">
-                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="paymentTermDate" asp-for="BuyingInput.PaymentTerm" />
+                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="paymentTermDate" asp-for="PurchaseInvoice.PaymentTerm" />
                                 </div>
                             </div>
 
@@ -333,6 +333,7 @@
                                                                     <option value="2">USD</option>
                                                                     <option value="3">EUR</option>
                                                                 </select>
+                                                                <input class="d-none" type="number" asp-for="PurchaseInvoice.ExchangeRateId" id="exc_rate_hidden" value="1" hidden />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -429,20 +430,34 @@
                                             <th>Document Date</th>
                                             <th>Document No</th>
                                             <th>Payment Method</th>
-                                            <th>Payment Terms</th>
+                                            @*<th>Payment Terms</th>*@
+                                            <th>Total</th>
+                                            <th>Currency</th>
+                                            <th>Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @*
-                                        <tr>
-                                            <td>January</td>
-                                            <td>$100</td>
-                                        </tr>
-                                        <tr>
-                                            <td>February</td>
-                                            <td>$80</td>
-                                        </tr>
-                                        *@
+                                        @if (Model.Enumerable_PurchaseInvoice.Count() > 0)
+                                        {
+                                            @foreach (var item in @Model.Enumerable_PurchaseInvoice)
+                                            {
+                                                <tr>
+                                                    <th>@item.Identification.CommercialTitle</th>
+                                                    <th>@item.DocDate.ToString("dd/MM/yyyy")</th>
+                                                    <th>@item.DocNo</th>
+                                                    <th>@item.PaymentMeth.Name</th>
+                                                    @*<th>@item.PaymentTerm</th>*@
+                                                    <th>@item.TotalAmount</th>
+                                                    <th>@item.ExchangeRate.Name</th>
+                                                    <th class="text-center" width="130">
+                                                        <div class="d-flex justify-content-center align-content-center">
+                                                            <a style="padding-right:10px;" href="/accounting/curr/buying/detail/@item.Id"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></a>
+                                                            <a style="padding-left:10px;" href="/accounting/curr/buying/del/@item.Id"><i class="fa fa-trash fa-2x"></i></a>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            }
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -528,7 +543,7 @@
                     success: function (data) {
                         selectedDay = data.identification_Item.paymentTerm;
                         defaultDay = data.identification_Item.paymentTerm;
-                        var docDate = $('#BuyingInput_DocDate').val();
+                        var docDate = $('#doc_date').val();
                         //foreignCurrency(this.value);
                         calcDate(selectedDay, docDate);
                         calcDefault(defaultDay, docDate);
@@ -536,7 +551,7 @@
                     }
                 });
             });
-            $(document.body).on("change", "#BuyingInput_DocDate", function () {
+            $(document.body).on("change", "#doc_date", function () {
                 foreignCurrency(this.value);
                 calcDate(selectedDay,this.value);
 
@@ -598,6 +613,7 @@
                 exc_rate = this.value;
                 exc_rateText = $(this).find(':selected')[0].innerText;
                 $('.exc_rate_spn').html(exc_rateText);
+                $('#exc_rate_hidden').val(exc_rate);
             });
 
             $("#buying-form").on('click', "#delCont", function () {
@@ -644,28 +660,28 @@
                 */
 
                 $('.tagId-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].TagDefinitionsId');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].TagDefinitionsId');
                 });
                 $('.piece-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Piece');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Piece');
                 });
                 $('.unitPrice-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Price');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Price');
                 });
                 $('.vatRate-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Vat_Rate');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat_Rate');
                 });
                 $('.calcedVat-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Vat');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat');
                 });
                 $('.discount-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Discount');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount');
                 });
                 $('.discountRate-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Discount_Rate');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount_Rate');
                 });
                 $('.outVat-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Total');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
                 });
                 setTimeout(function () {
                     getSumVals();
@@ -971,35 +987,35 @@
                     $(this).html(Number(i + 1));
                 });
                 $('.tagId-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].TagDefinitionsId');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].TagDefinitionsId');
                 });
                 $('.piece-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Piece');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Piece');
                 });
                 $('.unitPrice-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Price');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Price');
                 });
                 $('.vatRate-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Vat_Rate');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat_Rate');
                 });
                 $('.calcedVat-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Vat');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat');
                 });
                 $('.discount-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Discount');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount');
                 });
                 $('.discountRate-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Discount_Rate');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount_Rate');
                 });
                 $('.outVat-buying').each(function (i) {
-                    $(this).attr('name', 'BuyingInput.Enumerable_BuyingDetails[' + i + '].Total');
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
                 });
 
                 setTimeout(function () {
                     getSumVals();
                     clearBuyingInputs();
                 }, 500);
-                
+
             }
 
         });

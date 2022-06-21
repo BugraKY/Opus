@@ -720,44 +720,44 @@ function Add00() {
 
 /*Term*/
 $('#term15').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(15, documentDate);
 });
 $('#term30').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(30, documentDate);
 });
 $('#term45').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(45, documentDate);
 });
 $('#term60').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(60, documentDate);
 });
 $('#term90').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(90, documentDate);
 });
 
 $('#term15_edit').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(15, documentDate);
 });
 $('#term30_edit').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(30, documentDate);
 });
 $('#term45_edit').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(45, documentDate);
 });
 $('#term60_edit').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(60, documentDate);
 });
 $('#term90_edit').click(function () {
-    var documentDate = $('#BuyingInput_DocDate').val();
+    var documentDate = $('#doc_date').val();
     calcDate(90, documentDate);
 });
 
