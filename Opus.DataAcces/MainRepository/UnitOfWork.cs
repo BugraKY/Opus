@@ -55,6 +55,7 @@ namespace Opus.DataAcces.MainRepository
             Accounting_Staff = new AccountingRepository.StaffRepository(_dbAc);
             Accounting_PurchaseInvoice = new AccountingRepository.PurchaseInvoiceRepository(_dbAc);
             Accounting_PurchaseInvoiceDetails = new AccountingRepository.PurchaseInvoiceDetailsRepository(_dbAc);
+            Accounting_ExchangeRate = new AccountingRepository.ExchangeRateRepository(_dbAc);
             #endregion Accounting
 
             #endregion Dependency-Injection
@@ -98,6 +99,7 @@ namespace Opus.DataAcces.MainRepository
         public IMainRepository.IAccountingRepository.IStaffRepository Accounting_Staff { get; private set; }
         public IMainRepository.IAccountingRepository.IPurchaseInvoiceRepository Accounting_PurchaseInvoice { get; private set; }
         public IMainRepository.IAccountingRepository.IPurchaseInvoiceDetailsRepository Accounting_PurchaseInvoiceDetails { get; private set; }
+        public IMainRepository.IAccountingRepository.IExchangeRateRepository Accounting_ExchangeRate { get; private set; }
 
         #endregion Accounting
 

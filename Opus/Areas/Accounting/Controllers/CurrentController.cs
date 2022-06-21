@@ -88,7 +88,7 @@ namespace Opus.Areas.Accounting.Controllers
         }
         
         [Route("api/accounting/foreign-currency/{_date}")]
-        public async Task<ExchangeRate> GetExchange(string _date)
+        public async Task<Models.ViewModels.Accounting.ExchangeRate> GetExchange(string _date)
         {
             var data = await excRate.GetExchangeByDate(DateTime.Parse(DateTime.Parse(_date).ToString("dd/MM/yyyy"))).ConfigureAwait(false);
             return data;

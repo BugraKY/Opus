@@ -45,6 +45,7 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.IStaffRepository Accounting_Staff { get; }
         IAccountingRepository.IPurchaseInvoiceRepository Accounting_PurchaseInvoice { get; }
         IAccountingRepository.IPurchaseInvoiceDetailsRepository Accounting_PurchaseInvoiceDetails { get; }
+        IAccountingRepository.IExchangeRateRepository Accounting_ExchangeRate { get; }
         #endregion Accounting
 
         void Save();

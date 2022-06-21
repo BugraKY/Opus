@@ -25,6 +25,9 @@ namespace Opus.DataAcces.Data
         public DbSet<ContactDefinitions> ContactDefinitions { get; set; }
         public DbSet<TagDefinitions> TagDefinitions { get; set; }
         public DbSet<Staff> Staff { get; set; }
+        public DbSet<PaymentMeth> PaymentMeth { get; set; }
+        public DbSet<PurchaseInvoice> PurchaseInvoice { get; set; }
+        public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
 
     }
 }
