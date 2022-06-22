@@ -76,6 +76,9 @@
         font-size: 11px;
         white-space: pre-wrap;
     }
+    .alert {
+        padding: 0.3rem 0.3rem!important;
+    }
 </style>
 <div class="container-full">
     @*<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onselectstart='return false;' style="white-space:nowrap">*@
@@ -150,26 +153,36 @@
                                     <h5 class="my-10">Supplier</h5>
                                 </div>
                                 <div class="col-10">
-                                    <select class="form-control box-shadow-focus select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="PurchaseInvoice.IdentificationId" required>
+                                    <select class="form-control box-shadow-focus select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="PurchaseInvoice.IdentificationId" tabindex="1" required>
                                         <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
                                         @foreach (var item in Model.Identification_Enuberable)
                                         {
-                                            <option value="@item.Id">@item.CommercialTitle</option>
+                                        <option value="@item.Id">@item.CommercialTitle</option>
                                         }
                                     </select>
                                     @*
-                                        <label class="form-label"></label>
-                                        <select class="form-control select2" style="width: 100%;">
-                                            <option selected="selected">Alabama</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                            <option>Delaware</option>
-                                            <option>Tennessee</option>
-                                            <option>Texas</option>
-                                            <option>Washington</option>
-                                        </select>*@
+                <label class="form-label"></label>
+                <select class="form-control select2" style="width: 100%;">
+                    <option selected="selected">Alabama</option>
+                    <option>Alaska</option>
+                    <option>California</option>
+                    <option>Delaware</option>
+                    <option>Tennessee</option>
+                    <option>Texas</option>
+                    <option>Washington</option>
+                </select>*@
                                 </div>
 
+                            </div>
+
+                            <div class="row">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-10">
+                                    <div class="submit_alert_id input-col">
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -177,7 +190,7 @@
                                     <h5 class="my-10">Document Date</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" />
+                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" tabindex="2"/>
                                 </div>
                                 <span asp-validation-for="PurchaseInvoice.DocDate" class="text-danger"></span>
                             </div>
@@ -186,11 +199,20 @@
                                     <h5 class="my-10">Document No</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" maxlength="20" required />
+                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" maxlength="20" onchange="checkDocNum()" tabindex="3" required />
                                 </div>
                                 <span asp-validation-for="PurchaseInvoice.DocNo" class="text-danger"></span>
                             </div>
 
+                            <div class="row">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-10">
+                                    <div class="submit_alert input-col">
+                                    </div>
+                                </div>
+                            </div>
 
 
 
@@ -201,7 +223,7 @@
                                 <div class="col-10">
                                     <div class="row">
                                         <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio-col-info" value="1" checked />
+                                            <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio radio-col-info" value="1" tabindex="4" checked />
                                             <label for="cashrad">Cash</label>
                                         </div>
                                         <div class="col my-10">
@@ -264,21 +286,21 @@
                                                     <div class="row">
                                                         <div class="col-xl-4 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <select class="form-select select2 input-col" id="categoryId">
+                                                                <select class="form-select select2 input-col" id="categoryId" tabindex="5">
                                                                     <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Category</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-4 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <select class="form-select select2 input-col" id="subCatId">
+                                                                <select class="form-select select2 input-col" id="subCatId" tabindex="6">
                                                                     <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Sub Category</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-4 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <select class="form-select select2 input-col" id="tagId">
+                                                                <select class="form-select select2 input-col" id="tagId" tabindex="7">
                                                                     <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Tag</option>
                                                                 </select>
                                                             </div>
@@ -287,49 +309,49 @@
                                                     <div class="row">
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" />
+                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" tabindex="8"/>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="unit_price" class="form-control input-col" placeholder="Unit Price" onchange="calculateInp()">
+                                                                <input type="number" id="unit_price" class="form-control input-col" placeholder="Unit Price" onchange="calculateInp()" tabindex="9">
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
                                                                 <!--<input type="email" id="total" placeholder='Vat' class="form-control input-col" />-->
-                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="vat">
+                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="vat" tabindex="10">
                                                                     <option value="0" selected disabled class="d-none">Vat</option>
                                                                     <option value="1.01">%1</option>
                                                                     <option value="1.08">%8</option>
-                                                                    <option value="1.1">%10</option>
+                                                                    @*<option value="1.1">%10</option>*@
                                                                     <option value="1.18">%18</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" />
+                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" tabindex="11"/>
                                                                 @*
-                                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
-                                                                        <option value="0" selected disabled class="d-none">Discount</option>
-                                                                        <option value="0">%0</option>
-                                                                        <option value="1.08">%8</option>
-                                                                        <option value="1.1">%10</option>
-                                                                        <option value="1.18">%18</option>
-                                                                    </select>*@
+                                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
+                                                <option value="0" selected disabled class="d-none">Discount</option>
+                                                <option value="0">%0</option>
+                                                <option value="1.08">%8</option>
+                                                <option value="1.1">%10</option>
+                                                <option value="1.18">%18</option>
+                                            </select>*@
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="text" id="total" placeholder='Total' class="form-control input-col" readonly="readonly" />
+                                                                <input type="text" id="total" placeholder='Total' class="form-control input-col" readonly="readonly" tabindex="-1" />
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="exc_rate">
+                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="exc_rate" tabindex="12">
                                                                     <option value="1">TRY</option>
                                                                     <option value="2">USD</option>
                                                                     <option value="3">EUR</option>
@@ -413,12 +435,20 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <button id="buying-submit" class="btn btn-opus" style="float:right" type="submit" disabled>Submit</button>
+                                <div class="row my-10">
+                                    <div class="col-xl-8 col-md-6 col-12 pb-10">
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-12 pb-10">
+                                        <div class="submit_alert" style="float:right;">
+                                        </div>
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button id="buying-submit" class="btn btn-opus" style="float:right" type="button" onclick="purchaseInvoice_Submit()" disabled>Submit</button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
 
@@ -432,7 +462,7 @@
                                 <h6>Buying List:</h6>
                             </div>
                         </div>
-
+                        
                         <!--Buying List-->
                         <div class="row">
                             <div class="col">
@@ -538,10 +568,89 @@
 
         var seq = 0;
         var tagTEST;
+        function purchaseInvoice_Submit() {
+            var docno = $('#PurchaseInvoice_DocNo').val();
+            var idVal = $("#identification").val();
+
+            if (idVal != null) {
+                $.ajax({
+                    url: '/api/accounting/check-docno/' + docno,
+                    success: function (data) {
+
+                        if (data) {
+                            $('.submit_alert').html(``);
+                            $('#buying-submit').prop('disabled', true);
+                            $('#buying-form').submit();
+                            $('.content').addClass("disabled");
+                            $('#loader').css('opacity', '1');
+                            $('#loader').css('display', 'block');
+                            $('#loader').attr('style', 'z-index:0!important;');
+                        }
+                        else {
+                            $('.submit_alert').html(`                                            
+                                            <div class="alert alert-danger my-10">
+                                                <h6>This document number has been added before. Document Number:'`+ docno + `' </h6>
+                                            </div>`);
+                            $('#buying-submit').prop('disabled', false);
+                        }
+
+                    }
+                });
+            }
+
+
+
+        }
+
+        $(document).on("focus", ".select2", function (e) {
+            if (e.originalEvent) {
+                var s2element = $(this).siblings("select:enabled");
+                s2element.select2("open");
+                // Set focus back to select2 element on closing.
+                s2element.on("select2:closing", function () {
+                    if (s2element.val()) s2element.select2("focus");
+                });
+            }
+        });
+        /*
+        $(document).on('keydown', 'input,select,textarea,a,button', function (e) {
+            if (e.which == 37) {
+                var tabIndexKey = document.activeElement.tabIndex - 1;
+
+                $('[tabindex=' + tabIndexKey + ']').focus();
+
+            }
+            if (e.which == 39) {
+                var tabIndexKey = document.activeElement.tabIndex + 1;
+                $('[tabindex=' + tabIndexKey + ']').focus();
+
+
+            }
+        });
+        */
+        $(document).on('keydown', '.form-control,.select2', function (e) {
+            if (e.which == 37) {
+                var tabIndexKey = document.activeElement.tabIndex - 1;
+
+                $('[tabindex=' + tabIndexKey + ']').focus();
+
+            }
+            if (e.which == 39) {
+                var tabIndexKey = document.activeElement.tabIndex + 1;
+                $('[tabindex=' + tabIndexKey + ']').focus();
+
+
+            }
+        });
 
         $(document).ready(function () {
-            $("#identification").select2({ width: '100%' });
+            /*
+            $(".select2-selection").on("focus", function () {
+                $(this).parent().parent().prev().select2("open");
+            });*/
 
+            //focusTab();
+            $("#identification").select2({ width: '100%' });
             $('#buying_list').DataTable({
                 searching: true,
                 paging: true,
@@ -565,8 +674,11 @@
                         calcDate(selectedDay, docDate);
                         calcDefault(defaultDay, docDate);
 
+                        checkId();
+
                     }
                 });
+
             });
             $(document.body).on("change", "#doc_date", function () {
                 foreignCurrency(this.value);
@@ -594,6 +706,8 @@
                 console.log(e);
             });
 
+            /////////////////////////////////////////////////////////////////
+            
             $(document.body).on("change", "#categoryId", function (e) {
                 subCategoryId = '00000000-0000-0000-0000-000000000000';
                 tagId = '00000000-0000-0000-0000-000000000000';
@@ -602,6 +716,8 @@
                 category_name = $('#categoryId').find(':selected')[0].innerText;
 
                 getSubCategory(categoryId);
+                $('#add_buyingDetail_row').prop('disabled', false);
+                checkDocNum();
             });
             $(document.body).on("change", "#subCatId", function () {
                 tagId = '00000000-0000-0000-0000-000000000000';
@@ -609,11 +725,61 @@
                 subCategoryId = this.value;
                 subCategory_name = $('#subCatId').find(':selected')[0].innerText;
                 getTag(subCategoryId);
+                $('#add_buyingDetail_row').prop('disabled', false);
+                checkDocNum();
             });
             $(document.body).on("change", "#tagId", function () {
                 tagId = this.value;
                 tag_name = $('#tagId').find(':selected')[0].innerText;
+                $('#add_buyingDetail_row').prop('disabled', false);
+                checkDocNum();
             });
+            
+
+
+
+            //////////////////////////////////////////////////////////////////
+
+            /*
+            $(document).on('keyup', '.select2-search__field', function (e) {
+                if (e.which === 13) {
+                    alert("selected category");
+                    subCategoryId = '00000000-0000-0000-0000-000000000000';
+                    tagId = '00000000-0000-0000-0000-000000000000';
+
+                    categoryId = this.value;
+                    category_name = $('#categoryId').find(':selected')[0].innerText;
+
+                    getSubCategory(categoryId);
+                    $('#add_buyingDetail_row').prop('disabled', false);
+                    checkDocNum();
+                }
+            });
+            $(document).on('keyup', '.select2-search__field', function (e) {
+                if (e.which === 13) {
+                    alert("selected Sub-Category");
+                    tagId = '00000000-0000-0000-0000-000000000000';
+
+                    subCategoryId = this.value;
+                    subCategory_name = $('#subCatId').find(':selected')[0].innerText;
+                    getTag(subCategoryId);
+                    $('#add_buyingDetail_row').prop('disabled', false);
+                    checkDocNum();
+                }
+            });
+            $(document).on('keyup', '.select2-search__field', function (e) {
+                if (e.which === 13) {
+                    alert("selected Tags");
+                    tagId = this.value;
+                    tag_name = $('#tagId').find(':selected')[0].innerText;
+                    $('#add_buyingDetail_row').prop('disabled', false);
+                    checkDocNum();
+                }
+            });
+            */
+            ///////////////////////////////////////////////////////////////////
+
+
 
 
             getCategory();
@@ -621,6 +787,8 @@
             $('#vat').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                 vat = $(this).val();
                 calculateInp();
+                checkDocNum();
+                checkId();
             });/*
             $('#discount').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                 discount = $(this).val();
@@ -735,6 +903,7 @@
                     $('#categoryId').trigger('change'); // Notify any JS components that the value changed
                 }
             });
+            checkDocNum();
         }
 
         function getSubCategory(catId) {
@@ -812,123 +981,130 @@
         */
 
         $("#add_buyingDetail_row").on("click", function () {
-            $('#buying-submit').prop('disabled', true);
-            const selectedText = $("#departmantid option:selected").text();
-            const selectedValue = $("#departmantid option:selected").val();
-
-            if (selectedValue == -1) {
-                $.toast({
-                    heading: 'Required family member selection',
-                    text: 'Please select a family member.',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-            }
-            else if (piece == "" || piece == null || piece == 0) {
-                $.toast({
-                    heading: 'Required Piece Field',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-            }
-            else if (unit_price == "" || unit_price == null || unit_price == 0) {
-                $.toast({
-                    heading: 'Required unit price field',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-            }
-            else if (vat == "" || vat == null || vat < 1) {
-                $.toast({
-                    heading: 'Required select vat field',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-            }
-            else if (categoryId == "00000000-0000-0000-0000-000000000000" || categoryId == null) {
-                $.toast({
-                    heading: 'Required Category',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-            }
-            else if (subCategoryId == "00000000-0000-0000-0000-000000000000" || subCategoryId == null) {
-                $.toast({
-                    heading: 'Required SubCategory',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-            }
-            else if (tagId == "00000000-0000-0000-0000-000000000000" || tagId == null) {
-                $.toast({
-                    heading: 'Required Tag',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
+            var idVal = $("#identification").val();
+            if (idVal == null) {
+                checkId();
             }
             else {
-                seq++;
+
+                $('#buying-submit').prop('disabled', true);
+                $('#add_buyingDetail_row').prop('disabled', true);
+                const selectedText = $("#departmantid option:selected").text();
+                const selectedValue = $("#departmantid option:selected").val();
+
+                if (selectedValue == -1) {
+                    $.toast({
+                        heading: 'Required family member selection',
+                        text: 'Please select a family member.',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (piece == "" || piece == null || piece == 0) {
+                    $.toast({
+                        heading: 'Required Piece Field',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (unit_price == "" || unit_price == null || unit_price == 0) {
+                    $.toast({
+                        heading: 'Required unit price field',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (vat == "" || vat == null || vat < 1) {
+                    $.toast({
+                        heading: 'Required select vat field',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (categoryId == "00000000-0000-0000-0000-000000000000" || categoryId == null) {
+                    $.toast({
+                        heading: 'Required Category',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (subCategoryId == "00000000-0000-0000-0000-000000000000" || subCategoryId == null) {
+                    $.toast({
+                        heading: 'Required SubCategory',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (tagId == "00000000-0000-0000-0000-000000000000" || tagId == null) {
+                    $.toast({
+                        heading: 'Required Tag',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else {
+                    seq++;
 
 
-                if (vat == 1.01)
-                    vatRate = "%1";
-                if (vat == 1.08)
-                    vatRate = "%8";
-                if (vat == 1.18)
-                    vatRate = "%18";
+                    if (vat == 1.01)
+                        vatRate = "%1";
+                    if (vat == 1.08)
+                        vatRate = "%8";
+                    if (vat == 1.18)
+                        vatRate = "%18";
 
-                /*console.log("%1: "+vat_1);
-                console.log("%8: " + vat_8);
-                console.log("%18: " + vat_18);*/
+                    /*console.log("%1: "+vat_1);
+                    console.log("%8: " + vat_8);
+                    console.log("%18: " + vat_18);*/
 
-                if (discount == 1)
-                    discountrate = "%0";
-                if (discount == 1.08)
-                    discountrate = "%8";
-                if (discount == 1.1)
-                    discountrate = "%10";
-                if (discount == 1.18)
-                    discountrate = "%18";
+                    if (discount == 1)
+                        discountrate = "%0";
+                    if (discount == 1.08)
+                        discountrate = "%8";
+                    if (discount == 1.1)
+                        discountrate = "%10";
+                    if (discount == 1.18)
+                        discountrate = "%18";
 
 
-                var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" readonly="readonly" />`;
-                var selectedElementVal = `<input type="text" class="form-control departmantid d-none" value="` + selectedValue + `" hidden/>`;
+                    var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" readonly="readonly" />`;
+                    var selectedElementVal = `<input type="text" class="form-control departmantid d-none" value="` + selectedValue + `" hidden/>`;
 
-                var tbody_buying_item = `
+                    var tbody_buying_item = `
                                                     <tr data-id="`+ seq + `">
                                                         <td data-name="seq" class="fitwidth">
                                                                 <input type="text" class="box-shadow-none seq-buying d-none" value="`+ seq + `" title="` + seq + `" readonly="readonly"/>
@@ -1015,43 +1191,43 @@
                                                     </tr>
 
 `;
-                $("#tbody_buyingDetail").append(tbody_buying_item);
+                    $("#tbody_buyingDetail").append(tbody_buying_item);
 
-                $('.seq-buying-spn').each(function (i) {
-                    $(this).html(Number(i + 1));
-                });
-                $('.tagId-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].TagDefinitionsId');
-                });
-                $('.piece-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Piece');
-                });
-                $('.unitPrice-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Price');
-                });
-                $('.vatRate-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat_Rate');
-                });
-                $('.calcedVat-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat');
-                });
-                $('.discount-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount');
-                });
-                $('.discountRate-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount_Rate');
-                });
-                $('.outVat-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
-                });
+                    $('.seq-buying-spn').each(function (i) {
+                        $(this).html(Number(i + 1));
+                    });
+                    $('.tagId-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].TagDefinitionsId');
+                    });
+                    $('.piece-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Piece');
+                    });
+                    $('.unitPrice-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Price');
+                    });
+                    $('.vatRate-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat_Rate');
+                    });
+                    $('.calcedVat-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat');
+                    });
+                    $('.discount-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount');
+                    });
+                    $('.discountRate-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount_Rate');
+                    });
+                    $('.outVat-buying').each(function (i) {
+                        $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
+                    });
 
-                setTimeout(function () {
-                    getSumVals();
-                    clearBuyingInputs();
-                }, 500);
+                    setTimeout(function () {
+                        getSumVals();
+                        clearBuyingInputs();
+                    }, 500);
 
+                }
             }
-
         });
 
         function clearBuyingInputs() {
@@ -1163,9 +1339,9 @@
 
                 $('#exc_rate').prop('disabled', false);
                 console.log("Exchange Rate: " + false);
-
             }
-
+            $('#add_buyingDetail_row').prop('disabled', false);
+            checkDocNum();
 
             if (sumDiscount > 0)
                 $('.discount_tr').removeClass('d-none');
@@ -1197,6 +1373,84 @@
             $('#total_amount').html(totalAmount_STR);
             $('#totalDiscount').html('-' + totalDiscount_STR);
             /*$('#total_amount').html(total + ' TRY');*/
+        }
+
+        function checkDocNum() {
+            var docno = $('#PurchaseInvoice_DocNo').val();
+            $.ajax({
+                url: '/api/accounting/check-docno/' + docno,
+                success: function (data) {
+
+                    if (data) {
+                        /*alert("kayıt yapılabilir");*/
+                        $('.submit_alert').html(``);
+                        $('#buying-submit').prop('disabled', false);
+                        $('#add_buyingDetail_row').prop('disabled', false);
+                    }
+                    else {
+                        $('.submit_alert').html(`                                            
+                                            <div class="alert alert-danger">
+                                                <p>This document number has been added before. Document Number:'`+ docno + `' </p>
+                                            </div>`);
+                        $('#buying-submit').prop('disabled', true);
+                        $('#add_buyingDetail_row').prop('disabled', true);
+                    }
+                    //alert("This number has been added before. Document Number: " + docno);
+
+                }
+            });
+        }
+
+        function checkId() {
+            var idVal = $("#identification").val();
+            if (idVal == null) {
+                $('.submit_alert_id').html(`                                            
+                                            <div class="alert alert-danger">
+                                                <p>You must choose a supplier.</p>
+                                            </div>`);
+                $('#buying-submit').prop('disabled', true);
+            }
+            else {
+                $('.submit_alert_id').html("");
+                $('#buying-submit').prop('disabled', false);
+            }
+        }
+        
+        function focusTab() {
+            jQuery(".select2").select2().on("select2:close", function (e) {
+                var nextId = getNextFocusableFieldId(jQuery(this).attr('id'));
+                // set focus to the next field
+                jQuery('#' + nextId).focus().select();
+            });
+
+
+            // steal focus during close - only capture once and stop propogation
+            /*
+            $('select.select2').on('select2:closing', function (e) {
+                $(e.target).data("select2").$selection.one('focus focusin', function (e) {
+                    e.stopPropagation();
+                });
+            });*/
+        }
+
+        function getNextFocusableFieldId(idIn) {
+            var focusables = jQuery("input, select, textarea");
+            var reachedId = false;
+            var id = '';
+            var nextId = '';
+            jQuery.each(focusables, function (index, value) {
+                id = jQuery(this).attr('id');
+                // if we reached the id last time set the nextId and exit each
+                if (reachedId) {
+                    nextId = id;
+                    return false;
+                }
+                // if the ids match set the flag for the next iteration
+                if (id == idIn) {
+                    reachedId = true;
+                }
+            });
+            return nextId;
         }
     </script>
 }

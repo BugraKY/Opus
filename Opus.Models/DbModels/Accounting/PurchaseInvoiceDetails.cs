@@ -22,7 +22,7 @@ namespace Opus.Models.DbModels.Accounting
         public float Price { get; set; }
         public float Vat_Rate { get; set; }
         public float Vat { get; set; }
-        public float Discount_Rate { get; set; }
+        //public float Discount_Rate { get; set; }
         public float Discount { get; set; }
         public float Total { get; set; }
         //developing

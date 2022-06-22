@@ -195,12 +195,25 @@ tbody {
     outline: none !important;
     outline-offset: 0 !important;
     box-shadow: 0 1px 5px 0 rgba(0,0,0,.30) !important;
+    border-color: #00baff;
 }
-
+select {
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    border-color: #00baff;
+}
+.select2-container *:focus {
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    border-color: #00baff;
+}
 .theme-primary .form-control:focus {
     -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
     -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
     box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    border-color: #00baff;
 }
 .sidebar-collapse > .sidebar-title {
     transition:2s;
@@ -213,6 +226,12 @@ tbody {
 .sidebar-collapse > .main-sidebar > img {
     max-width: 0 !important;
     z-index:-1;
+}
+.radio:focus {
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.75) !important;
+    border-color: #00baff !important;
 }
 table.dataTable {
     border-collapse: collapse !important;
@@ -227,7 +246,13 @@ table.dataTable {
     top:0;
     left:0;
 }
-
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+.z-important-0{
+    z-index:0!important;
+}
     /*border-collapse: separate !important;*/
     /*
 .sidebar-collapse div.wrapper .main-sidebar .light-skin.sidebar a {
