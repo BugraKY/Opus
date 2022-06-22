@@ -186,7 +186,7 @@
                                     <h5 class="my-10">Document No</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" maxlength="20" required/>
+                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" maxlength="20" required />
                                 </div>
                                 <span asp-validation-for="PurchaseInvoice.DocNo" class="text-danger"></span>
                             </div>
@@ -310,14 +310,15 @@
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <!--<input type="email" id="total" placeholder='Vat' class="form-control input-col" />-->
-                                                                <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
-                                                                    <option value="0" selected disabled class="d-none">Discount</option>
-                                                                    <option value="0">%0</option>
-                                                                    <option value="1.08">%8</option>
-                                                                    <option value="1.1">%10</option>
-                                                                    <option value="1.18">%18</option>
-                                                                </select>
+                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" />
+                                                                @*
+                                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
+                                                                        <option value="0" selected disabled class="d-none">Discount</option>
+                                                                        <option value="0">%0</option>
+                                                                        <option value="1.08">%8</option>
+                                                                        <option value="1.1">%10</option>
+                                                                        <option value="1.18">%18</option>
+                                                                    </select>*@
                                                             </div>
                                                         </div>
 
@@ -364,10 +365,10 @@
                                                     <th width="5%">Price</th>
                                                     <th width="5%">Vat Rate</th>
                                                     <th width="5%">Vat</th>
-                                                    <th width="5%">Discount Rate</th>
+                                                    @*<th width="5%">Discount Rate</th>*@
                                                     <th width="5%">Discount</th>
                                                     <th width="5%">Total</th>
-                                                    <th></th>
+                                                    <th width="30"></th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody_buyingDetail">
@@ -387,6 +388,18 @@
                                             <tr>
                                                 <td><h6 style="float:right">Vat</h6></td>
                                                 <td><h6 style="float:right"><span id="total_vat">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                            </tr>
+                                            <tr class="vat_1 d-none">
+                                                <td><h6 style="float:right">Vat %1</h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat_1">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                            </tr>
+                                            <tr class="vat_8 d-none">
+                                                <td><h6 style="float:right">Vat %8</h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat_8">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                            </tr>
+                                            <tr class="vat_18 d-none">
+                                                <td><h6 style="float:right">Vat %18</h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat_18">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                             <tr class="discount_tr d-none">
                                                 <td><h6 style="float:right">Discount</h6></td>
@@ -507,6 +520,10 @@
         var unit_price = 0;
         var vat = 0;
         var vatRate = 0;
+        var vat_1 = 0;
+        var vat_8 = 0;
+        var vat_18 = 0;
+
         var discount = 0;
         var discountrate = 0;
         var outVat = 0;
@@ -604,10 +621,17 @@
             $('#vat').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                 vat = $(this).val();
                 calculateInp();
-            });
+            });/*
             $('#discount').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
                 discount = $(this).val();
+
                 calculateInp();
+            });*/
+            $("#discount").change(function () {
+                discount = $(this).val();
+                calculateInp();
+                console.clear();
+                console.log(discount);
             });
             $(document.body).on("change", "#exc_rate", function () {
                 exc_rate = this.value;
@@ -884,10 +908,12 @@
                     vatRate = "%1";
                 if (vat == 1.08)
                     vatRate = "%8";
-                if (vat == 1.1)
-                    vatRate = "%10";
                 if (vat == 1.18)
                     vatRate = "%18";
+
+                /*console.log("%1: "+vat_1);
+                console.log("%8: " + vat_8);
+                console.log("%18: " + vat_18);*/
 
                 if (discount == 1)
                     discountrate = "%0";
@@ -948,6 +974,7 @@
                                                                 <span title="">`+ calcedVat.toFixed(2).toString().replace(/\./g, ',') + `</span>
 
                                                         </td>
+                                                        @*
                                                         <td data-name="deliveryDate" class="fitwidth">
 
                                                                 <input type="text" class="box-shadow-none discountRate-buying d-none" value=`+ discount.toString().replace(/\./g, ',') + ` title="` + discountrate.toString().replace(/\./g, ',') + `" readonly="readonly"/>
@@ -958,6 +985,13 @@
 
                                                                 <input type="text" class="box-shadow-none discount-buying d-none" value=`+ calcedDis.toString().replace(/\./g, ',') + ` title="` + calcedDis.toString().replace(/\./g, ',') + `" readonly="readonly"/>
                                                                 <span title="">`+ calcedDis.toFixed(2).toString().replace(/\./g, ',') + `</span>
+
+                                                        </td>
+                                                        *@
+                                                        <td data-name="deliveryDate" class="fitwidth">
+
+                                                                <input type="text" class="box-shadow-none discount-buying d-none" value=`+ discount + ` title="` + discount + `" readonly="readonly"/>
+                                                                <span title="">`+ discount + `</span>
 
                                                         </td>
                                                         <td data-name="deliveryDate" class="fitwidth">
@@ -1056,6 +1090,7 @@
             piece = 0;
             unit_price = 0;
             total = 0;
+
             $('.calcedVat-buying').each(function () {
                 sumVat += Number($(this).val().replace(/\,/g, '.'));  // Or this.innerHTML, this.innerText
             });
@@ -1073,6 +1108,7 @@
             });
 
 
+
             total = sumoutofVat;
             total += sumVat;
             total -= sumDiscount;
@@ -1084,11 +1120,37 @@
             console.log("Out of vat: " + sumoutofVat);
             console.log("Total amount: " + total);
 
+            vat_1 = 0;
+            vat_8 = 0;
+            vat_18 = 0;
+
+            $('#tbody_buyingDetail tr').each(function () {
+                var rateVal = $(this).find(".vatRate-buying").val();
+                var vatVal = $(this).find(".calcedVat-buying").val();
+
+                if (rateVal == "1,01" || rateVal == "1.01" || rateVal == 1.01) {
+                    vat_1 += Number(vatVal.replace(/\,/g, '.'));
+                }
+                if (rateVal == "1,08" || rateVal == "1.08" || rateVal == 1.08) {
+                    vat_8 += Number(vatVal.replace(/\,/g, '.'));
+                }
+                if (rateVal == "1,18" || rateVal == "1.18" || rateVal == 1.18) {
+                    vat_18 += Number(vatVal.replace(/\,/g, '.'));
+                }
+
+            });
+            console.log("");
+            console.log("%1: "+vat_1);
+            console.log("%8: " + vat_8);
+            console.log("%18: " + vat_18);
 
             const totalAmount_STR = new Intl.NumberFormat('tr-TR').format(total.toFixed(2)).toString();
             const totalDiscount_STR = new Intl.NumberFormat('tr-TR').format(sumDiscount.toFixed(2)).toString();
             const totalVat_STR = new Intl.NumberFormat('tr-TR').format(sumVat.toFixed(2)).toString();
             const totaloutVat_STR = new Intl.NumberFormat('tr-TR').format(sumoutofVat.toFixed(2)).toString();
+            const totalVat_1_STR = new Intl.NumberFormat('tr-TR').format(vat_1.toFixed(2)).toString();
+            const totalVat_8_STR = new Intl.NumberFormat('tr-TR').format(vat_8.toFixed(2)).toString();
+            const totalVat_18_STR = new Intl.NumberFormat('tr-TR').format(vat_18.toFixed(2)).toString();
 
             if (total > 0) {
                 $('#buying-submit').prop('disabled', false);
@@ -1109,9 +1171,26 @@
                 $('.discount_tr').removeClass('d-none');
             else
                 $('.discount_tr').addClass('d-none');
+            if (vat_1 > 0)
+                $('.vat_1').removeClass('d-none');
+            else
+                $('.vat_1').addClass('d-none');
+            if (vat_8 > 0)
+                $('.vat_8').removeClass('d-none');
+            else
+                $('.vat_8').addClass('d-none');
+            if (vat_18 > 0)
+                $('.vat_18').removeClass('d-none');
+            else
+                $('.vat_18').addClass('d-none');
+
             piece = 0;
             unit_price = 0;
             total = 0;
+
+            $('#total_vat_1').html(totalVat_1_STR);
+            $('#total_vat_8').html(totalVat_8_STR);
+            $('#total_vat_18').html(totalVat_18_STR);
 
             $('#outofVat').html(totaloutVat_STR);
             $('#total_vat').html(totalVat_STR);

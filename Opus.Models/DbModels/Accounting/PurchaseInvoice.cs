@@ -23,6 +23,9 @@ namespace Opus.Models.DbModels.Accounting
         public DateTime PaymentTerm { get; set; }
         public float OutofVat { get; set; }
         public float Vat { get; set; }
+        public float Vat_1 { get; set; }
+        public float Vat_8 { get; set; }
+        public float Vat_18 { get; set; }
         public float Discount { get; set; }
         public float TotalAmount { get; set; }
         public int ExchangeRateId { get; set; }
