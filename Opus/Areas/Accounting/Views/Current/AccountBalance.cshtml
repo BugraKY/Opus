@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewData["Title"] = "AccountBalance";
+}
+@model Opus.Models.ViewModels.Accounting.IdentificationIndexVM
+@using System.Globalization
+<div class="container-full">
+    @*<div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onselectstart='return false;' style="white-space:nowrap">*@
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Accounting</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
+                            <li class="breadcrumb-item" aria-current="page">@Model.CompanyItem.Name</li>
+                            <li class="breadcrumb-item" aria-current="page">Current Account Balance</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="pb-10"></div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+
+                    <div class="box-header with-border">
+                        @*<h4 class="box-title"></h4>*@
+                        <div class="row">
+                            <div class="col-3">
+                                <h4 class="box-title excDate">Today:</h4>
+                            </div>
+                            <div class="col-3 fa-1x" title="US DOLAR">
+                                <i class="fa fa-usd opus-color" aria-hidden="true"></i><span class="usd_today" style="padding-left:5px;"></span>
+                            </div>
+                            <div class="col-3 fa-1x" title="EURO">
+                                <i class="fa fa-eur opus-color" aria-hidden="true"></i><span class="eur_today" style="padding-left: 5px;"></span>
+                            </div>
+                            <div class="col-3 fa-1x" title="STERLIN">
+                                <i class="fa fa-gbp opus-color" aria-hidden="true"></i><span class="gbp_today" style="padding-left: 5px;"></span>
+                            </div>
+                        </div>
+                        <div class="text-center" style="position:absolute;">
+                            <small style="font-size:10px;">This currency is pulled from the central bank of the republic of Turkey database.</small>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <input class="form-control" type="date" name="date">
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control" type="date" name="date">
+                            </div>
+                        </div>
+
+                        <!--Definition List Section-->
+                        <section>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered table-striped dataTables" width="100%" id="balance">
+                                    <thead>
+                                        <tr class="text-start">
+                                            <th class="d-none"></th>
+                                            <th class="d-none"></th>
+                                            <th width="35">Definition</th>
+                                            <th width="45">Code</th>
+                                            <th>Commercial Title</th>
+                                            @*<th>Street Address</th>*@
+                                            @*<th>Tax Authority</th>*@
+                                            @*<th>Tax No</th>*@
+                                            @*<th>Bank</th>*@
+                                            @*<th>IBAN</th>*@
+                                            <th style="width: 84px;">Payment Term</th>
+                                            <th>Balance TRY</th>
+                                            <th>Balance USD</th>
+                                            <th>Balance EUR</th>
+
+                                            <th class="d-none">TRY vals</th>
+                                            <th class="d-none">USD vals</th>
+                                            <th class="d-none">EUR vals</th>
+
+                                            <th></th>
+                                            @*<th></th>*@
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model.Identification_Enumerable)
+                                        {
+                                            <tr>
+                                                <td class="d-none">@item.Id</td>
+                                                <td class="d-none">@item.IdNumber</td>
+                                                <td>@item.IdentificationType.Name</td>
+                                                <td>@item.IdentityCode</td>
+                                                <td>@item.CommercialTitle</td>
+                                                @*<td>@item.StreetAddress</td>*@
+                                                @*<td>@item.TaxAuthority</td>*@
+                                                @*<td>@item.TaxNo</td>*@
+                                                @*<td>@item.Bank.Name</td>*@
+                                                @*<td>@item.IBAN</td>*@
+                                                <td class="text-center">@item.PaymentTerm DAYS</td>
+
+                                                <td>₺ @item.Balance_TRY.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                <td>$ @item.Balance_USD.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                <td>€ @item.Balance_EUR.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+
+                                                <td class="d-none">@item.Balance_TRY.ToString(new CultureInfo("en-US"))</td>
+                                                <td class="d-none">@item.Balance_USD.ToString(new CultureInfo("en-US"))</td>
+                                                <td class="d-none">@item.Balance_EUR.ToString(new CultureInfo("en-US"))</td>
+                                                @*<td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>*@
+                                                <td class="text-center"><a onclick="#getDef('@item.Id')" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                                @*<td class="text-center"><a href="#/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font" style="pointer-events: none"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>*@
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </section>
+                        <!--Definition List Sectio-->
+
+                        <div class="row" style="font-weight:500;">
+                            <div class="col-4 text-center"><span class="balance_try_total">Total ₺ @Model.Balance_TRY_Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</span></div>
+                            <div class="col-4 text-center"><span class="balance_usd_total">Total $ @Model.Balance_USD_Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</span></div>
+                            <div class="col-4 text-center"><span class="balance_eur_total">Total € @Model.Balance_EUR_Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</span></div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts
+{
+    @*
+        <script src="~/lib/print/print.min.js"></script>
+    *@
+    <script type="module">
+        //import { jsPDF } from "jspdf";
+        $(document).ready(function () {
+            $('#balance').DataTable(); 
+            //var doc = new jsPDF('jspdf'); // will automatically load the node version
+
+            //doc.text("Hello world!", 10, 10);
+            //doc.save("a4.pdf"); // will save the file in the current working directory
+            /*
+
+
+            var tryVal = 0.00;
+            var usdVal = 0.00;
+            var eurVal = 0.00;
+            var table = document.getElementById("balance");
+            
+            for (var i = 1; i < table.rows.length; i++) {
+                
+                tryVal = tryVal + parseInt(table.rows[i].cells[9].innerHTML);
+                usdVal = usdVal + parseInt(table.rows[i].cells[10].innerHTML);
+                eurVal = eurVal + parseInt(table.rows[i].cells[11].innerHTML);
+            }
+
+            $('.balance_try_total').html("Total ₺: " + tryVal);
+            $('.balance_usd_total').html("Total $: " + usdVal);
+            $('.balance_eur_total').html("Total €: " + eurVal);
+            */
+
+            //console.log(tryVal.toFixed(2).toString());
+            //console.log(usdVal);
+            //console.log(eurVal);
+
+        });
+    </script>
+}
+
+

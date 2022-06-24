@@ -28,6 +28,7 @@ namespace Opus.Areas.Accounting.Controllers
         public IActionResult Index(string id)
         {
             IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
+            int x = 0;
             try
             {
                 identificationIndex.CompanyItem = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
@@ -41,8 +42,19 @@ namespace Opus.Areas.Accounting.Controllers
                 {
                     return Redirect("/accounting/identifications");
                 }
+
                 identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank")
-                    .Where(a => a.Active).OrderBy(i => i.IdNumber);
+                    .Where(a => a.Active).OrderBy(i => i.IdNumber).ToList();
+                foreach (var item in identificationIndex.Identification_Enumerable)
+                {
+                    var _sumTRY = _uow.Accounting_PurchaseInvoice.GetAll(i => i.IdentificationId == item.Id).Where(f=>f.ExchangeRateId==1).Sum(s=>s.TotalAmount);
+                    var _sumUSD = _uow.Accounting_PurchaseInvoice.GetAll(i => i.IdentificationId == item.Id).Where(f=>f.ExchangeRateId==2).Sum(s=>s.TotalAmount);
+                    var _sumEUR = _uow.Accounting_PurchaseInvoice.GetAll(i => i.IdentificationId == item.Id).Where(f=>f.ExchangeRateId==3).Sum(s=>s.TotalAmount);
+                    identificationIndex.Identification_Enumerable[x].Balance_TRY = _sumTRY;
+                    identificationIndex.Identification_Enumerable[x].Balance_USD = _sumUSD;
+                    identificationIndex.Identification_Enumerable[x].Balance_EUR = _sumEUR;
+                    x++;
+                }
             }
             catch (Exception ex)
             {
@@ -79,7 +91,7 @@ namespace Opus.Areas.Accounting.Controllers
                 {
                     return Redirect("/accounting/identifications");
                 }
-                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank").ToList();
                 identificationIndex.Identification_Item = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank");
 
                 if (identificationIndex.Identification_Item == null)
@@ -280,13 +292,17 @@ namespace Opus.Areas.Accounting.Controllers
         public bool SetSubCat([FromBody] SubCategory sub)
         {
             var _substate = _uow.Accounting_Subcategory.GetFirstOrDefault(n => n.Name == sub.Name);
+            //jqUERYDE HTML table listesine göre kontrol sağlanmalı!
+            /*
             if (_substate == null)
             {
                 _uow.Accounting_Subcategory.Add(sub);
                 _uow.Save();
             }
             else
-                return false;
+                return false;*/
+            _uow.Accounting_Subcategory.Add(sub);
+            _uow.Save();
             return true;
         }
         [Route("api/accounting/getsubcat/{id}")]

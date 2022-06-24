@@ -76,8 +76,9 @@
         font-size: 11px;
         white-space: pre-wrap;
     }
+
     .alert {
-        padding: 0.3rem 0.3rem!important;
+        padding: 0.3rem 0.3rem !important;
     }
 </style>
 <div class="container-full">
@@ -133,11 +134,11 @@
 
 
                     <div class="box-body">
-                        <form method="post" action="/accounting/curr/buying-post" id="buying-form">
+                        <form method="post" action="/accounting/curr/buying-upsert" id="buying-form">
                             <hr class="my-15">
 
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input class="d-none" type="text" asp-for="PurchaseInvoice.CompanyId" value="@Model.Company.Id" hidden />
+                            <input class="d-none" type="text" asp-for="PurchaseInvoice.CompanyId" value="@Model.PurchaseInvoice.CompanyId" hidden />
                             <div class="row">
                                 <div class="col-2">
                                     <h5 class="my-10">Company</h5>
@@ -154,23 +155,30 @@
                                 </div>
                                 <div class="col-10">
                                     <select class="form-control box-shadow-focus select2 mb-20 me-10" data-style="btn-white" id="identification" asp-for="PurchaseInvoice.IdentificationId" tabindex="1" required>
-                                        <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
                                         @foreach (var item in Model.Identification_Enuberable)
                                         {
-                                        <option value="@item.Id">@item.CommercialTitle</option>
+
+                                            if (Model.Identification.Id == item.Id)
+                                            {
+                                                <option value="@item.Id" selected="selected">@item.CommercialTitle</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.CommercialTitle</option>
+                                            }
                                         }
                                     </select>
                                     @*
-                <label class="form-label"></label>
-                <select class="form-control select2" style="width: 100%;">
-                    <option selected="selected">Alabama</option>
-                    <option>Alaska</option>
-                    <option>California</option>
-                    <option>Delaware</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Washington</option>
-                </select>*@
+                                        <label class="form-label"></label>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>*@
                                 </div>
 
                             </div>
@@ -190,7 +198,7 @@
                                     <h5 class="my-10">Document Date</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" tabindex="2"/>
+                                    <input class="form-control box-shadow-focus input-col" type="date" value="@Model.PurchaseInvoice.DocDate.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" tabindex="2" />
                                 </div>
                                 <span asp-validation-for="PurchaseInvoice.DocDate" class="text-danger"></span>
                             </div>
@@ -199,7 +207,7 @@
                                     <h5 class="my-10">Document No</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" maxlength="20" onchange="checkDocNum()" tabindex="3" required />
+                                    <input class="form-control input-col" type="text" placeholder="Document No" asp-for="PurchaseInvoice.DocNo" value="@Model.PurchaseInvoice.DocNo" maxlength="20" onchange="checkDocNum()" tabindex="3" required />
                                 </div>
                                 <span asp-validation-for="PurchaseInvoice.DocNo" class="text-danger"></span>
                             </div>
@@ -223,16 +231,40 @@
                                 <div class="col-10">
                                     <div class="row">
                                         <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="cashrad" class="radio radio-col-info" value="1" tabindex="4" checked />
-                                            <label for="cashrad">Cash</label>
+                                            @if (Model.PurchaseInvoice.PaymentMeth.Id == 1)
+                                            {
+                                                <input asp-for="PurchaseInvoice.PaymentMethId" type="radio" id="cashrad" class="radio radio-col-info" value="1" tabindex="4" checked="checked" />
+                                                <label for="cashrad">Cash</label>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="PurchaseInvoice.PaymentMethId" type="radio" id="cashrad" class="radio radio-col-info" value="1" tabindex="4" />
+                                                <label for="cashrad">Cash</label>
+                                            }
                                         </div>
                                         <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" />
-                                            <label for="cardrad">Credit Card</label>
+                                            @if (Model.PurchaseInvoice.PaymentMeth.Id == 2)
+                                            {
+                                                <input asp-for="PurchaseInvoice.PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" checked="checked" />
+                                                <label for="cardrad">Credit Card</label>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="PurchaseInvoice.PaymentMethId" type="radio" id="cardrad" class="radio-col-success" value="2" />
+                                                <label for="cardrad">Credit Card</label>
+                                            }
                                         </div>
                                         <div class="col my-10">
-                                            <input asp-for="PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" />
-                                            <label for="currentrad">Current</label>
+                                            @if (Model.PurchaseInvoice.PaymentMeth.Id == 3)
+                                            {
+                                                <input asp-for="PurchaseInvoice.PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" checked="checked" />
+                                                <label for="currentrad">Current</label>
+                                            }
+                                            else
+                                            {
+                                                <input asp-for="PurchaseInvoice.PaymentMethId" type="radio" id="currentrad" class="radio-col-warning" value="3" />
+                                                <label for="currentrad">Current</label>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -260,7 +292,7 @@
                                     <label for="term90">90  &nbsp; &nbsp; &nbsp; &nbsp;</label>
                                 </div>
                                 <div class="col-4">
-                                    <input class="form-control input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="paymentTermDate" asp-for="PurchaseInvoice.PaymentTerm" />
+                                    <input class="form-control input-col" type="date" value="@Model.PurchaseInvoice.PaymentTerm" id="paymentTermDate" asp-for="PurchaseInvoice.PaymentTerm" />
                                 </div>
                             </div>
 
@@ -309,7 +341,7 @@
                                                     <div class="row">
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" tabindex="8"/>
+                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" tabindex="8" />
                                                             </div>
                                                         </div>
 
@@ -322,8 +354,7 @@
                                                             <div class="rounded text-center">
                                                                 <!--<input type="email" id="total" placeholder='Vat' class="form-control input-col" />-->
                                                                 <select class="selectpicker mb-20 me-10" data-style="btn-white" id="vat" tabindex="10">
-                                                                    <option value="1" selected disabled class="d-none">Vat</option>
-                                                                    <option value="1">%0</option>
+                                                                    <option value="0" selected disabled class="d-none">Vat</option>
                                                                     <option value="1.01">%1</option>
                                                                     <option value="1.08">%8</option>
                                                                     @*<option value="1.1">%10</option>*@
@@ -333,15 +364,15 @@
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" tabindex="11"/>
+                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" tabindex="11" />
                                                                 @*
-                                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
-                                                <option value="0" selected disabled class="d-none">Discount</option>
-                                                <option value="0">%0</option>
-                                                <option value="1.08">%8</option>
-                                                <option value="1.1">%10</option>
-                                                <option value="1.18">%18</option>
-                                            </select>*@
+                                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
+                                                                        <option value="0" selected disabled class="d-none">Discount</option>
+                                                                        <option value="0">%0</option>
+                                                                        <option value="1.08">%8</option>
+                                                                        <option value="1.1">%10</option>
+                                                                        <option value="1.18">%18</option>
+                                                                    </select>*@
                                                             </div>
                                                         </div>
 
@@ -395,6 +426,28 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody_buyingDetail">
+                                                @{int i = 0;}
+                                                @foreach (var item in Model.Enumerable_PurchaseInvoiceDetails)
+                                                {
+                                                    i++;
+                                                    <tr>
+                                                        <td class="fitwidth" width="5%">@i.ToString()</td>
+                                                        <td class="fitwidth" width="20%">@item.TagDefinitions.Category.Name</td>
+                                                        <td class="fitwidth" width="20%">@item.TagDefinitions.SubCategory.Name</td>
+                                                        <td class="fitwidth" width="20%">@item.TagDefinitions.Tag.Name</td>
+                                                        <td class="fitwidth" width="5%">@item.Piece</td>
+                                                        <td class="fitwidth" width="5%">@item.Price</td>
+                                                        <td class="fitwidth" width="5%">@if (item.Vat_Rate == float.Parse("1,01"))
+                                                        {<span>%1</span>}@if (item.Vat_Rate == float.Parse("1,08"))
+                                                        {<span>%8</span>}@if (item.Vat_Rate == float.Parse("1,18"))
+                                                        {<span>%18</span>}</td>
+                                                        <td class="fitwidth" width="5%">@item.Vat</td>
+                                                        <td class="fitwidth" width="5%">@item.Discount</td>
+                                                        <td class="fitwidth" width="5%">@item.Total</td>
+                                                        <td class="fitwidth"><a href="#del-detail/id-@item.Id"><i class="fa fa-trash fa-2x" aria-hidden="true"></i></a></td>
+                                                    </tr>
+
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
@@ -406,31 +459,43 @@
                                         <table class="table table-hover table-bordered table-striped dataTables dataTable no-footer">
                                             <tr>
                                                 <td><h6 style="float:right">Out of Vat</h6></td>
-                                                <td><h6 style="float:right"><span id="outofVat">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                <td><h6 style="float:right"><span id="outofVat">@Model.PurchaseInvoice.OutofVat</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                             </tr>
                                             <tr>
                                                 <td><h6 style="float:right">Vat</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat">@Model.PurchaseInvoice.Vat</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                             </tr>
-                                            <tr class="vat_1 d-none">
-                                                <td><h6 style="float:right">Vat %1</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat_1">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
-                                            </tr>
-                                            <tr class="vat_8 d-none">
-                                                <td><h6 style="float:right">Vat %8</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat_8">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
-                                            </tr>
-                                            <tr class="vat_18 d-none">
-                                                <td><h6 style="float:right">Vat %18</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat_18">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
-                                            </tr>
-                                            <tr class="discount_tr d-none">
-                                                <td><h6 style="float:right">Discount</h6></td>
-                                                <td><h6 style="float:right"><span id="totalDiscount">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
-                                            </tr>
+                                            @if (Model.PurchaseInvoice.Vat_1 > 0)
+                                            {
+                                                <tr class="vat_1">
+                                                    <td><h6 style="float:right">Vat %1</h6></td>
+                                                    <td><h6 style="float:right"><span id="total_vat_1">@Model.PurchaseInvoice.Vat_1</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                </tr>
+                                            }
+                                            @if (Model.PurchaseInvoice.Vat_8 > 0)
+                                            {
+                                                <tr class="vat_8">
+                                                    <td><h6 style="float:right">Vat %8</h6></td>
+                                                    <td><h6 style="float:right"><span id="total_vat_8">@Model.PurchaseInvoice.Vat_8</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                </tr>
+                                            }
+                                            @if (Model.PurchaseInvoice.Vat_18 > 0)
+                                            {
+                                                <tr class="vat_18">
+                                                    <td><h6 style="float:right">Vat %18</h6></td>
+                                                    <td><h6 style="float:right"><span id="total_vat_18">@Model.PurchaseInvoice.Vat_18</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                </tr>
+                                            }
+                                            @if (Model.IsDiscount)
+                                            {
+                                                <tr class="discount_tr">
+                                                    <td><h6 style="float:right">Discount</h6></td>
+                                                    <td><h6 style="float:right"><span id="totalDiscount">-@Model.PurchaseInvoice.Discount</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                                </tr>
+                                            }
                                             <tr>
                                                 <td><h6 style="float:right">Total Amount</h6></td>
-                                                <td><h6 style="float:right"><span id="total_amount">0</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                <td><h6 style="float:right"><span id="total_amount">@Model.PurchaseInvoice.TotalAmount</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -447,7 +512,7 @@
 
                                 <div class="row">
                                     <div class="col-12">
-                                        <button id="buying-submit" class="btn btn-opus waves-effect waves-light" style="float:right" type="button" onclick="purchaseInvoice_Submit()" disabled>Submit</button>
+                                        <button id="buying-submit" class="btn btn-opus" style="float:right" type="button" onclick="purchaseInvoice_Submit()" disabled>Update</button>
                                     </div>
                                 </div>
                             </div>
@@ -459,58 +524,9 @@
 
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <h6>Buying List:</h6>
-                            </div>
-                        </div>
-                        
-                        <!--Buying List-->
-                        <div class="row">
-                            <div class="col">
-                                <table id="buying_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
-                                    <thead>
-                                        <tr>
-                                            <th>Supplier</th>
-                                            <th>Document Date</th>
-                                            <th>Document No</th>
-                                            <th>Payment Method</th>
-                                            @*<th>Payment Terms</th>*@
-                                            <th>Total</th>
-                                            <th>Currency</th>
-                                            <th>Edit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (Model.Enumerable_PurchaseInvoice.Count() > 0)
-                                        {
-                                            @foreach (var item in @Model.Enumerable_PurchaseInvoice)
-                                            {
-                                                <tr>
-                                                    <th>@item.Identification.CommercialTitle</th>
-                                                    <th>@item.DocDate.ToString("dd/MM/yyyy")</th>
-                                                    <th>@item.DocNo</th>
-                                                    <th>@item.PaymentMeth.Name</th>
-                                                    @*<th>@item.PaymentTerm</th>*@
-                                                    <th>@item.TotalAmount</th>
-                                                    <th>@item.ExchangeRate.Name</th>
-                                                    <th class="text-center" width="130">
-                                                        <div class="d-flex justify-content-center align-content-center">
-                                                            <a style="padding-right:10px;" href="/accounting/curr/buying/detail/@item.Id"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></a>
-                                                            <a style="padding-right:10px;" href="/accounting/curr/buying/edit/@item.Id"><i class="fa fa-edit fa-2x" aria-hidden="true"></i></a>
-                                                            <a style="padding-left:10px;" href="/accounting/curr/buying/del/@item.Id"><i class="fa fa-trash fa-2x"></i></a>
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!--Buying List-->
-                    </div>
-                    <span contenteditable="true" role="form">DENEME DENEME</span>
 
+                        </div>
+                    </div>
 
 
 
@@ -550,7 +566,7 @@
         var exc_rate = 1;
         var piece = 0;
         var unit_price = 0;
-        var vat = 1;
+        var vat = 0;
         var vatRate = 0;
         var vat_1 = 0;
         var vat_8 = 0;
@@ -573,8 +589,8 @@
         function purchaseInvoice_Submit() {
             var docno = $('#PurchaseInvoice_DocNo').val();
             var idVal = $("#identification").val();
-            checkDocNum();
-            if (idVal != null && docno != null) {
+
+            if (idVal != null) {
                 $.ajax({
                     url: '/api/accounting/check-docno/' + docno,
                     success: function (data) {
@@ -589,7 +605,7 @@
                             $('#loader').attr('style', 'z-index:0!important;');
                         }
                         else {
-                            $('.submit_alert').html(`                                            
+                            $('.submit_alert').html(`
                                             <div class="alert alert-danger my-10">
                                                 <h6>This document number has been added before. Document Number:'`+ docno + `' </h6>
                                             </div>`);
@@ -619,41 +635,6 @@
             //console.log("bs-placeholder focusud");
             $(this).click();
         });
-        $(function () {
-            /*$('.selectpicker').selectpicker({
-
-            });*/
-            /*
-            $('div.dropdown-menu.open li').on('keydown', function (e) {
-                console.log("keypressing");
-                if (e.keyCode == 38) { // Up
-                    console.log("upping");
-                    var previousEle = $(this).prev();
-                    if (previousEle.length == 0) {
-                        previousEle = $(this).nextAll().last();
-                    }
-                    var selVal = $('.selectpicker option').filter(function () {
-                        return $(this).text() == previousEle.text();
-                    }).val();
-                    $('.selectpicker').selectpicker('val', selVal);
-
-                    return;
-                }
-                if (e.keyCode == 40) { // Down
-                    console.log("downing");
-                    var nextEle = $(this).next();
-                    if (nextEle.length == 0) {
-                        nextEle = $(this).prevAll().last();
-                    }
-                    var selVal = $('.selectpicker option').filter(function () {
-                        return $(this).text() == nextEle.text();
-                    }).val();
-                    $('.selectpicker').selectpicker('val', selVal);
-
-                    return;
-                }
-            });*/
-        });
 
         $(document).on('keydown', '.form-control,.select2', function (e) {
 
@@ -672,6 +653,7 @@
         });
 
         $(document).ready(function () {
+            getvalsfromCulture();
             $(".span_number").keypress(function (e) {
                 var x = event.charCode || event.keyCode;
                 if (isNaN(String.fromCharCode(e.which)) && x != 46) e.preventDefault();
@@ -734,13 +716,8 @@
                 }
             });
 
-            $("input[name='delBuyingColumn']").on("click", function () {
-                console.clear();
-                console.log(e);
-            });
-
             /////////////////////////////////////////////////////////////////
-            
+
             $(document.body).on("change", "#categoryId", function (e) {
                 subCategoryId = '00000000-0000-0000-0000-000000000000';
                 tagId = '00000000-0000-0000-0000-000000000000';
@@ -750,7 +727,6 @@
 
                 getSubCategory(categoryId);
                 $('#add_buyingDetail_row').prop('disabled', false);
-
             });
             $(document.body).on("change", "#subCatId", function () {
                 tagId = '00000000-0000-0000-0000-000000000000';
@@ -759,15 +735,13 @@
                 subCategory_name = $('#subCatId').find(':selected')[0].innerText;
                 getTag(subCategoryId);
                 $('#add_buyingDetail_row').prop('disabled', false);
-
             });
             $(document.body).on("change", "#tagId", function () {
                 tagId = this.value;
                 tag_name = $('#tagId').find(':selected')[0].innerText;
                 $('#add_buyingDetail_row').prop('disabled', false);
-
             });
-            
+
 
 
 
@@ -830,8 +804,6 @@
             $("#discount").change(function () {
                 discount = $(this).val();
                 calculateInp();
-                console.clear();
-                console.log(discount);
             });
             $(document.body).on("change", "#exc_rate", function () {
                 exc_rate = this.value;
@@ -908,13 +880,10 @@
                     $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
                 });
                 setTimeout(function () {
-                    getSumVals();
+                    getSumValsUpsert();
                 }, 500);
 
             });
-
-            console.clear();
-            console.log(new Intl.NumberFormat('tr-TR').format(1555.15));
 
             /*
             console.clear();
@@ -1013,10 +982,6 @@
 
         $("#add_buyingDetail_row").on("click", function () {
             var idVal = $("#identification").val();
-            var docNo = $("#PurchaseInvoice_DocNo").val();
-            if (docNo == null || docNo=='') {
-                checkDocNum();
-            }
             if (idVal == null) {
                 checkId();
             }
@@ -1114,8 +1079,7 @@
                 else {
                     seq++;
 
-                    if (vat == 1)
-                        vatRate = "%0"
+
                     if (vat == 1.01)
                         vatRate = "%1";
                     if (vat == 1.08)
@@ -1258,7 +1222,7 @@
                     });
 
                     setTimeout(function () {
-                        getSumVals();
+                        getSumValsUpsert();
                         clearBuyingInputs();
                     }, 500);
 
@@ -1271,7 +1235,7 @@
             $('#unit_price').val('');
             $('#total').val('');
 
-            vat = 1;
+            vat = 0;
             vatRate = 0;
             discount = 0;
             discountrate = 0;
@@ -1295,7 +1259,7 @@
 
         }
 
-        function getSumVals() {
+        function getSumValsUpsert() {
             var sumVat = 0;
             var sumDiscount = 0;
             var sumoutofVat = 0;
@@ -1377,7 +1341,7 @@
                 console.log("Exchange Rate: " + false);
             }
             $('#add_buyingDetail_row').prop('disabled', false);
-
+            checkDocNum();
 
             if (sumDiscount > 0)
                 $('.discount_tr').removeClass('d-none');
@@ -1413,45 +1377,34 @@
 
         function checkDocNum() {
             var docno = $('#PurchaseInvoice_DocNo').val();
-            if (docno == null || docno == '') {
-                $('.submit_alert').html(`                                            
-                                            <div class="alert alert-danger">
-                                                <p>You cannot leave the Document number blank.</p>
-                                            </div>`);
-                $('#buying-submit').prop('disabled', true);
-            }
-            else {
-                $('#buying-submit').prop('disabled', false);
-                $.ajax({
-                    url: '/api/accounting/check-docno/' + docno,
-                    success: function (data) {
+            $.ajax({
+                url: '/api/accounting/check-docno-upsert/' + docno,
+                success: function (data) {
 
-                        if (data) {
-                            /*alert("kayıt yapılabilir");*/
-                            $('.submit_alert').html(``);
-                            $('#buying-submit').prop('disabled', false);
-                            $('#add_buyingDetail_row').prop('disabled', false);
-                        }
-                        else {
-                            $('.submit_alert').html(`                                            
+                    if (data) {
+                        /*alert("kayıt yapılabilir");*/
+                        $('.submit_alert').html(``);
+                        $('#buying-submit').prop('disabled', false);
+                        $('#add_buyingDetail_row').prop('disabled', false);
+                    }
+                    else {
+                        $('.submit_alert').html(`
                                             <div class="alert alert-danger">
                                                 <p>This document number has been added before. Document Number:'`+ docno + `' </p>
                                             </div>`);
-                            $('#buying-submit').prop('disabled', true);
-                            $('#add_buyingDetail_row').prop('disabled', true);
-                        }
-                        //alert("This number has been added before. Document Number: " + docno);
-
+                        $('#buying-submit').prop('disabled', true);
+                        $('#add_buyingDetail_row').prop('disabled', true);
                     }
-                });
-            }
+                    //alert("This number has been added before. Document Number: " + docno);
 
+                }
+            });
         }
 
         function checkId() {
             var idVal = $("#identification").val();
             if (idVal == null) {
-                $('.submit_alert_id').html(`                                            
+                $('.submit_alert_id').html(`
                                             <div class="alert alert-danger">
                                                 <p>You must choose a supplier.</p>
                                             </div>`);
@@ -1462,7 +1415,7 @@
                 $('#buying-submit').prop('disabled', false);
             }
         }
-        
+
         function focusTab() {
             jQuery(".select2").select2().on("select2:close", function (e) {
                 var nextId = getNextFocusableFieldId(jQuery(this).attr('id'));
@@ -1498,6 +1451,44 @@
                 }
             });
             return nextId;
+        }
+
+        function getvalsfromCulture() {
+            //not working afsdfgasdgasd
+            console.log("test");
+            total = @Model.PurchaseInvoice.TotalAmount;
+            sumDiscount = @Model.PurchaseInvoice.Discount;
+            sumVat = @Model.PurchaseInvoice.Vat;
+            sumoutofVat = @Model.PurchaseInvoice.OutofVat;
+
+            vat_1 = @Model.PurchaseInvoice.Vat_1;
+            vat_8 = @Model.PurchaseInvoice.Vat_8;
+            vat_18 = @Model.PurchaseInvoice.Vat_18;
+
+
+            var testtt = '@Model.PurchaseInvoice.TotalAmount.ToString()';
+
+            const totalAmount_STR = new Intl.NumberFormat('tr-TR').format(testtt).toString();
+            const totalDiscount_STR = new Intl.NumberFormat('tr-TR').format(sumDiscount.toFixed(2)).toString();
+            const totalVat_STR = new Intl.NumberFormat('tr-TR').format(sumVat.toFixed(2)).toString();
+            const totaloutVat_STR = new Intl.NumberFormat('tr-TR').format(sumoutofVat.toFixed(2)).toString();
+
+            const totalVat_1_STR = new Intl.NumberFormat('tr-TR').format(vat_1.toFixed(2)).toString();
+            const totalVat_8_STR = new Intl.NumberFormat('tr-TR').format(vat_8.toFixed(2)).toString();
+            const totalVat_18_STR = new Intl.NumberFormat('tr-TR').format(vat_18.toFixed(2)).toString();
+
+
+
+            console.clear();
+            console.log(testtt);
+            console.log("Out of vat: " + totaloutVat_STR);
+            console.log("Total Vat: " + totalVat_STR);
+            console.log("Total Vat %1: " + totalVat_1_STR);
+            console.log("Total Vat %8: " + totalVat_8_STR);
+            console.log("Total Vat %18: " + totalVat_18_STR);
+            console.log("Total Amount: " + totalAmount_STR);
+            console.log("Total Discount: " + '-' + totalDiscount_STR);
+            //not working afsdfgasdgasd
         }
     </script>
 }

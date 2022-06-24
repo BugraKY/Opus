@@ -33,5 +33,11 @@ namespace Opus.Models.DbModels.Accounting
         public string IBAN { get; set; }
         public int PaymentTerm { get; set; }
         public bool Active { get; set; }
+        [NotMapped]
+        public float Balance_TRY { get; set; }
+        [NotMapped]
+        public float Balance_USD { get; set; }
+        [NotMapped]
+        public float Balance_EUR { get; set; }
     }
 }

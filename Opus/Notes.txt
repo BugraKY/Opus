@@ -21,3 +21,11 @@ _____________________________________________________________________
  https://www.codegrepper.com/cxde-examples/whatever/select2+add+new+option+ajax
 
 
+
+
+
+ <<<<<<<<<<>>>>>>>>>>>>>>>>>>>
+
+ tahsilat kaydı türü= kredi kartı, nakit, çek,
+
+

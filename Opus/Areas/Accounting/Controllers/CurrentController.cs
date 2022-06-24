@@ -71,11 +71,11 @@ namespace Opus.Areas.Accounting.Controllers
             {
                 foreach (var item in _buyingVM.Enumerable_PurchaseInvoiceDetails)
                 {
-                    if(item.Vat_Rate == float.Parse("1,01"))
+                    if (item.Vat_Rate == float.Parse("1,01"))
                     {
                         vat_01 += item.Vat;
                     }
-                    if(item.Vat_Rate == float.Parse("1,08"))
+                    if (item.Vat_Rate == float.Parse("1,08"))
                     {
                         vat_08 += item.Vat;
                     }
@@ -159,10 +159,141 @@ namespace Opus.Areas.Accounting.Controllers
         public bool CheckDocNo(string docno)
         {
             var _purchaseCheck = _uow.Accounting_PurchaseInvoice.GetFirstOrDefault(i => i.DocNo == docno);
-            if(_purchaseCheck == null)
+            if (_purchaseCheck == null)
                 return true;
             else
                 return false;
+        }
+        [Route("accounting/curr/buying/edit/{id}")]
+        public IActionResult BuyingEdit(string id)
+        {
+            var _purchaseInvoise = _uow.Accounting_PurchaseInvoice.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "Identification,PaymentMeth,ExchangeRate");
+            var _purchaseInvoiseDetails = _uow.Accounting_PurchaseInvoiceDetails.GetAll(i => i.PurchaseInvoiceId == _purchaseInvoise.Id, includeProperties: "TagDefinitions").ToList();
+            int i = 0;
+            var _isdiscount = false;
+            var _identificatins = _uow.Accounting_Identification.GetAll(includeProperties: "IdentificationType").Where(i => (i.CompanyId == _purchaseInvoise.CompanyId && i.IdentificationType.Identity== "SUP" && i.Active));
+            var _identificatin = _uow.Accounting_Identification.GetFirstOrDefault(i => i.Id == _purchaseInvoise.IdentificationId);
+            foreach (var item in _purchaseInvoiseDetails)
+            {
+                _purchaseInvoiseDetails[i].TagDefinitions.Category = _uow.Accounting_Category.GetFirstOrDefault(i => i.Id == item.TagDefinitions.CategoryId);
+                _purchaseInvoiseDetails[i].TagDefinitions.SubCategory = _uow.Accounting_Subcategory.GetFirstOrDefault(i => i.Id == item.TagDefinitions.SubCategoryId);
+                _purchaseInvoiseDetails[i].TagDefinitions.Tag = _uow.Accounting_Tag.GetFirstOrDefault(i => i.Id == item.TagDefinitions.TagId);
+                if (_purchaseInvoiseDetails[i].Discount > 0)
+                    _isdiscount = true;
+                i++;
+            }
+            var _buying = new BuyingVM
+            {
+                Company = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == _purchaseInvoise.CompanyId),
+                CompanyId = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == _purchaseInvoise.CompanyId).Id.ToString(),
+                PurchaseInvoice = _purchaseInvoise,
+                Enumerable_PurchaseInvoiceDetails = _purchaseInvoiseDetails,
+                Identification_Enuberable = _identificatins,
+                Identification = _identificatin,
+                IsDiscount = _isdiscount
+            };
+
+            return View(_buying);
+        }
+        [Route("accounting/curr/account-balance/{id}")]
+        public IActionResult AccountBalance(string id)
+        {
+            IdentificationIndexVM identificationIndex = new IdentificationIndexVM();
+            int x = 0;
+            try
+            {
+                identificationIndex.CompanyItem = _uow.Accounting_Company.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+                identificationIndex.IdentificationType_Enumerable = _uow.Accounting_Identificationtype.GetAll();
+                identificationIndex.Bank_Enumerable = _uow.Accounting_Bank.GetAll();
+                identificationIndex.Departmant_Enumerable = _uow.Accounting_Departmant.GetAll();
+                if (identificationIndex.CompanyItem == null || identificationIndex.IdentificationType_Enumerable.Count() == 0 ||
+                    identificationIndex.Bank_Enumerable.Count() == 0 || identificationIndex.Departmant_Enumerable.Count() == 0)
+                {
+                    return Redirect("/accounting/identifications");
+                }
+                
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank")
+                    .Where(a => a.Active).OrderBy(i => i.IdNumber).ToList();
+                /*
+                identificationIndex.Identification_Enumerable = _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank")
+                    .Where(a => a.Active).Select(g => new
+                    {
+                        g.
+                    }
+                    )OrderBy(i => i.IdNumber).ToList();
+                */
+                /*
+                var _purchase = _uow.Accounting_PurchaseInvoice.GetAll();
+                var orn = (List<Identification>)_uow.Accounting_Identification.GetAll()
+                    .Join(_purchase,
+
+                    i => i.Id,
+                    p => p.IdentificationId,
+                    (i, p) => new { identification = i, purchaseInvoice = p }).Where(i => i.purchaseInvoice.ExchangeRateId == 1);*/
+                //.GroupBy(i=>i.identification.Balance_TRY)
+                //.Sum(s => s.purchaseInvoice.TotalAmount);
+
+
+                /*
+                var _orn = _uow.Accounting_PurchaseInvoice.GetAll(includeProperties:"Identification").GroupBy(x => x.Identification).Select(g => new
+                {
+                    identification = g.Key,
+                    Total = g.Sum(x=>x.TotalAmount)
+                });
+                */
+
+                /*
+                var orn = _uow.Staff.GetAll()
+                .Join(staffResignation,
+                s => s.Id,
+                r => r.StaffId,
+                (s, r) => new { staffs = s, staffResignation = r })
+                .Where(i => (i.staffs.Active && i.staffs.Status == 0) || (i.staffs.Active == false && i.staffs.Status == 1) && i.staffs.BlackList == false)
+                .Select(s => s.staffs)
+                .OrderBy(n => n.FirstName);
+                 
+                 
+                 */
+                
+                foreach (var item in identificationIndex.Identification_Enumerable)
+                {
+                    var _sumTRY = _uow.Accounting_PurchaseInvoice.GetAll(i => i.IdentificationId == item.Id).Where(f => f.ExchangeRateId == 1).Sum(s => s.TotalAmount);
+                    var _sumUSD = _uow.Accounting_PurchaseInvoice.GetAll(i => i.IdentificationId == item.Id).Where(f => f.ExchangeRateId == 2).Sum(s => s.TotalAmount);
+                    var _sumEUR = _uow.Accounting_PurchaseInvoice.GetAll(i => i.IdentificationId == item.Id).Where(f => f.ExchangeRateId == 3).Sum(s => s.TotalAmount);
+                    identificationIndex.Identification_Enumerable[x].Balance_TRY = _sumTRY;
+                    identificationIndex.Identification_Enumerable[x].Balance_USD = _sumUSD;
+                    identificationIndex.Identification_Enumerable[x].Balance_EUR = _sumEUR;
+                    x++;
+                }
+                identificationIndex.Balance_TRY_Total= identificationIndex.Identification_Enumerable.Sum(i => i.Balance_TRY);
+                identificationIndex.Balance_USD_Total= identificationIndex.Identification_Enumerable.Sum(i => i.Balance_USD);
+                identificationIndex.Balance_EUR_Total= identificationIndex.Identification_Enumerable.Sum(i => i.Balance_EUR);
+
+                /*
+                var deneme = _uow.Accounting_PurchaseInvoice.GetAll().GroupBy(c=>c.IdentificationId).
+                    Select(g=> new
+                    {
+                        g.Key,
+                        Sum =g.Sum(s=>s.TotalAmount.Select)
+                    });
+                */
+                /*
+                var catgroup = db.CATEGORies.GroupBy(c => c.CATNAME).
+                  Select(g => new
+                  {
+                      g.Key,
+                      SUM = g.Sum(s => s.Inqueries.Select(t => t.TotalTimeSpent).Sum())
+                  });*/
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                    return Content(ex.InnerException.Message);
+                else
+                    return Content(ex.Message);
+            }
+
+            return View(identificationIndex);
         }
     }
 }

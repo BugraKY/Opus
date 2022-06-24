@@ -406,6 +406,9 @@
                                                             <th>Bank</th>
                                                             <th>IBAN</th>
                                                             <th style="width: 84px;">Payment Term</th>
+                                                            <th>Balance TRY</th>
+                                                            <th>Balance USD</th>
+                                                            <th>Balance EUR</th>
                                                             <th></th>
                                                             <th></th>
                                                         </tr>
@@ -425,6 +428,9 @@
                                                                 <td>@item.Bank.Name</td>
                                                                 <td>@item.IBAN</td>
                                                                 <td class="text-center">@item.PaymentTerm</td>
+                                                                <td>@item.Balance_TRY.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                                <td>@item.Balance_USD.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                                <td>@item.Balance_EUR.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</td>
                                                                 @*<td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>*@
                                                                 <td class="text-center"><a onclick="getDef('@item.Id')" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
                                                                 <td class="text-center"><a href="#/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font" style="pointer-events: none"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>

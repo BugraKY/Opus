@@ -260,43 +260,43 @@
                                     <table class="table table-hover table-bordered table-striped dataTables dataTable no-footer">
                                         <tr>
                                             <td><h6 style="float:right">Out of Vat</h6></td>
-                                            <td><h6 style="float:right"><span id="outofVat">@Model.PurchaseInvoice.OutofVat</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                            <td><h6 style="float:right"><span id="outofVat">@Model.PurchaseInvoice.OutofVat.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                         </tr>
                                         <tr>
                                             <td><h6 style="float:right">Vat</h6></td>
-                                            <td><h6 style="float:right"><span id="total_vat">@Model.PurchaseInvoice.Vat</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                            <td><h6 style="float:right"><span id="total_vat">@Model.PurchaseInvoice.Vat.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                         </tr>
                                         @if (Model.PurchaseInvoice.Vat_1 > 0)
                                         {
                                             <tr class="vat_1">
                                                 <td><h6 style="float:right">Vat %1</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat_1">@Model.PurchaseInvoice.Vat_1</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat_1">@Model.PurchaseInvoice.Vat_1.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                         }
                                         @if (Model.PurchaseInvoice.Vat_8 > 0)
                                         {
                                             <tr class="vat_8">
                                                 <td><h6 style="float:right">Vat %8</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat_8">@Model.PurchaseInvoice.Vat_8</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat_8">@Model.PurchaseInvoice.Vat_8.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                         }
                                         @if (Model.PurchaseInvoice.Vat_18 > 0)
                                         {
                                             <tr class="vat_18">
                                                 <td><h6 style="float:right">Vat %18</h6></td>
-                                                <td><h6 style="float:right"><span id="total_vat_18">@Model.PurchaseInvoice.Vat_18</span> <span class="exc_rate_spn">TRY</span></h6></td>
+                                                <td><h6 style="float:right"><span id="total_vat_18">@Model.PurchaseInvoice.Vat_18.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">TRY</span></h6></td>
                                             </tr>
                                         }
                                         @if (Model.IsDiscount)
                                         {
                                             <tr class="discount_tr">
                                                 <td><h6 style="float:right">Discount</h6></td>
-                                                <td><h6 style="float:right"><span id="totalDiscount">-@Model.PurchaseInvoice.Discount</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                                <td><h6 style="float:right"><span id="totalDiscount">-@Model.PurchaseInvoice.Discount.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                             </tr>
                                         }
                                         <tr>
                                             <td><h6 style="float:right">Total Amount</h6></td>
-                                            <td><h6 style="float:right"><span id="total_amount">@Model.PurchaseInvoice.TotalAmount</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
+                                            <td><h6 style="float:right"><span id="total_amount">@Model.PurchaseInvoice.TotalAmount.ToString("C2", System.Globalization.CultureInfo.CurrentCulture).Remove(0, 1)</span> <span class="exc_rate_spn">@Model.PurchaseInvoice.ExchangeRate.Name</span></h6></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -316,3 +316,20 @@
         </div>
     </section>
 </div>
+
+@section Scripts
+{
+@*
+    <script src="~/lib/print/print.min.js"></script>
+    *@
+    <script type="module">
+        //import { jsPDF } from "jspdf";
+        $(document).ready(function () {
+
+            //var doc = new jsPDF('jspdf'); // will automatically load the node version
+
+            //doc.text("Hello world!", 10, 10);
+            //doc.save("a4.pdf"); // will save the file in the current working directory
+        });
+    </script>
+}

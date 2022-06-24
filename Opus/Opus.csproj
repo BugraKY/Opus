@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\js\configuration.js" />
+    <None Include="wwwroot\lib\print\print.min.js" />
   </ItemGroup>
 
 </Project>
