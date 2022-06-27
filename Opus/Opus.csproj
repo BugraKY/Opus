@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\assets\testfiles\" />
+    <Folder Include="wwwroot\lib\vendor_components\datatable\plugin\" />
   </ItemGroup>
 
   <ItemGroup>

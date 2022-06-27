@@ -1,5 +1,6 @@
 ﻿
 @model Opus.Models.ViewModels.Accounting.BuyingVM
+@using System.Globalization
 <style>
     input.box-shadow-none:active {
         border: none !important;
@@ -60,24 +61,29 @@
             white-space: nowrap;
         }
 
-    .table > tbody > tr > td.fitwidth, .table > tbody > tr > th {
-        padding: 7px 10px 7px 10px;
-    }
 
-    .table td {
+    .table > tbody > tr > td.fitwidth, .table > tbody > tr > th {
+        padding: 10px 5px 10px 5px;
+    }
+    .table.invoice_det_table > tbody > tr > td.fitwidth, .table > tbody > tr > th {
+        padding: 2px 5px 2px 5px;
+    }
+    .table.invoice_det_table td {
         font-size: .8rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         width: 1px;
     }
-
-    .table th {
+    .table.invoice_det_table th {
         font-size: 11px;
         white-space: pre-wrap;
     }
+    .table{
+        padding:0;
+    }
     .alert {
-        padding: 0.3rem 0.3rem!important;
+        padding: 0.3rem 0.3rem !important;
     }
 </style>
 <div class="container-full">
@@ -157,20 +163,20 @@
                                         <option value="" selected disabled class="d-none" style="color:antiquewhite">Supplier</option>
                                         @foreach (var item in Model.Identification_Enuberable)
                                         {
-                                        <option value="@item.Id">@item.CommercialTitle</option>
+                                            <option value="@item.Id">@item.CommercialTitle</option>
                                         }
                                     </select>
                                     @*
-                <label class="form-label"></label>
-                <select class="form-control select2" style="width: 100%;">
-                    <option selected="selected">Alabama</option>
-                    <option>Alaska</option>
-                    <option>California</option>
-                    <option>Delaware</option>
-                    <option>Tennessee</option>
-                    <option>Texas</option>
-                    <option>Washington</option>
-                </select>*@
+                                        <label class="form-label"></label>
+                                        <select class="form-control select2" style="width: 100%;">
+                                            <option selected="selected">Alabama</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                            <option>Delaware</option>
+                                            <option>Tennessee</option>
+                                            <option>Texas</option>
+                                            <option>Washington</option>
+                                        </select>*@
                                 </div>
 
                             </div>
@@ -190,7 +196,7 @@
                                     <h5 class="my-10">Document Date</h5>
                                 </div>
                                 <div class="col-10">
-                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" tabindex="2"/>
+                                    <input class="form-control box-shadow-focus input-col" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="PurchaseInvoice.DocDate" id="doc_date" tabindex="2" />
                                 </div>
                                 <span asp-validation-for="PurchaseInvoice.DocDate" class="text-danger"></span>
                             </div>
@@ -306,16 +312,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="row">
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" tabindex="8"/>
+                                                                <input type="number" id="piece" placeholder='Piece' class="form-control input-col" onchange="calculateInp()" tabindex="8" min="1" />
                                                             </div>
                                                         </div>
 
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="unit_price" class="form-control input-col" placeholder="Unit Price" onchange="calculateInp()" tabindex="9">
+                                                                <input type="number" id="unit_price" class="form-control input-col" placeholder="Unit Price" onchange="calculateInp()" tabindex="9" step="0.01" min="0.01">
                                                             </div>
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
@@ -333,15 +340,15 @@
                                                         </div>
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
-                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" tabindex="11"/>
+                                                                <input type="number" id="discount" placeholder='Discount' class="form-control input-col" value="0" step="0.01" min="0" tabindex="11" />
                                                                 @*
-                                            <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
-                                                <option value="0" selected disabled class="d-none">Discount</option>
-                                                <option value="0">%0</option>
-                                                <option value="1.08">%8</option>
-                                                <option value="1.1">%10</option>
-                                                <option value="1.18">%18</option>
-                                            </select>*@
+                                                                    <select class="selectpicker mb-20 me-10" data-style="btn-white" id="discount">
+                                                                        <option value="0" selected disabled class="d-none">Discount</option>
+                                                                        <option value="0">%0</option>
+                                                                        <option value="1.08">%8</option>
+                                                                        <option value="1.1">%10</option>
+                                                                        <option value="1.18">%18</option>
+                                                                    </select>*@
                                                             </div>
                                                         </div>
 
@@ -350,6 +357,7 @@
                                                                 <input type="text" id="total" placeholder='Total' class="form-control input-col" readonly="readonly" tabindex="-1" />
                                                             </div>
                                                         </div>
+
                                                         <div class="col-xl-2 col-md-6 col-12 pb-10">
                                                             <div class="rounded text-center">
                                                                 <select class="selectpicker mb-20 me-10" data-style="btn-white" id="exc_rate" tabindex="12">
@@ -360,6 +368,19 @@
                                                                 <input class="d-none" type="number" asp-for="PurchaseInvoice.ExchangeRateId" id="exc_rate_hidden" value="1" hidden />
                                                             </div>
                                                         </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10"></div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10"></div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10"></div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10"></div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10">
+                                                            <div class="rounded text-center">
+                                                                <input type="number" id="totalwithvat" placeholder='Total Amount' class="form-control input-col" tabindex="-1" onchange="calcBasis()" step="0.01" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-2 col-md-6 col-12 pb-10"></div>
                                                     </div>
 
                                                 </div>
@@ -377,7 +398,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <table id="buying_table" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;/*font-family:'Courier New',Courier,monospace; font-size:80%;*/">
+                                        <table id="buying_table" class="table table-hover table-bordered table-striped invoice_det_table dataTables dataTable no-footer" style="width:100%;/*font-family:'Courier New',Courier,monospace; font-size:80%;*/">
                                             <thead>
                                                 <tr>
                                                     <th width="5%">#</th>
@@ -463,7 +484,7 @@
                                 <h6>Buying List:</h6>
                             </div>
                         </div>
-                        
+
                         <!--Buying List-->
                         <div class="row">
                             <div class="col">
@@ -491,13 +512,13 @@
                                                     <th>@item.DocNo</th>
                                                     <th>@item.PaymentMeth.Name</th>
                                                     @*<th>@item.PaymentTerm</th>*@
-                                                    <th>@item.TotalAmount</th>
+                                                    <th>@item.TotalAmount.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</th>
                                                     <th>@item.ExchangeRate.Name</th>
                                                     <th class="text-center" width="130">
                                                         <div class="d-flex justify-content-center align-content-center">
-                                                            <a style="padding-right:10px;" href="/accounting/curr/buying/detail/@item.Id"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></a>
-                                                            <a style="padding-right:10px;" href="/accounting/curr/buying/edit/@item.Id"><i class="fa fa-edit fa-2x" aria-hidden="true"></i></a>
-                                                            <a style="padding-left:10px;" href="/accounting/curr/buying/del/@item.Id"><i class="fa fa-trash fa-2x"></i></a>
+                                                            <a target="_blank" style="padding-right:10px;" href="/accounting/curr/buying/detail/@item.Id"><i class="fa fa-eye fa-2x" aria-hidden="true"></i></a>
+                                                            <a target="_blank" style="padding-right:10px;" href="/accounting/curr/buying/edit/@item.Id"><i class="fa fa-edit fa-2x" aria-hidden="true"></i></a>
+                                                            <a style="padding-left:10px;" href="#accounting/curr/buying/del/@item.Id"><i class="fa fa-trash fa-2x"></i></a>
                                                         </div>
                                                     </th>
                                                 </tr>
@@ -509,7 +530,6 @@
                         </div>
                         <!--Buying List-->
                     </div>
-                    <span contenteditable="true" role="form">DENEME DENEME</span>
 
 
 
@@ -589,7 +609,7 @@
                             $('#loader').attr('style', 'z-index:0!important;');
                         }
                         else {
-                            $('.submit_alert').html(`                                            
+                            $('.submit_alert').html(`
                                             <div class="alert alert-danger my-10">
                                                 <h6>This document number has been added before. Document Number:'`+ docno + `' </h6>
                                             </div>`);
@@ -740,7 +760,7 @@
             });
 
             /////////////////////////////////////////////////////////////////
-            
+
             $(document.body).on("change", "#categoryId", function (e) {
                 subCategoryId = '00000000-0000-0000-0000-000000000000';
                 tagId = '00000000-0000-0000-0000-000000000000';
@@ -767,7 +787,7 @@
                 $('#add_buyingDetail_row').prop('disabled', false);
 
             });
-            
+
 
 
 
@@ -977,6 +997,7 @@
         }
 
         function calculateInp() {
+            var withvatinp = $('#totalwithvat').val();
             piece = $('#piece').val();
             unit_price = $('#unit_price').val();
 
@@ -995,13 +1016,18 @@
 
             outVat = (piece * unit_price);
             calcedVat = total - outVat;
+            var withVat = (piece * unit_price) + calcedVat;
+            withVat -= discount;
             if (calcedVat < 0)
                 calcedVat = 0;
 
             $('#total').val(outVat.toFixed(2).toString().replace(/\./g, ','));
 
+            if (withVat>0)
+                $('#totalwithvat').val(withVat.toFixed(2));
 
-
+            console.clear();
+            console.log(withVat);
         }
         /*
         function remBuyingTable(data) {
@@ -1270,6 +1296,7 @@
             $('#piece').val('');
             $('#unit_price').val('');
             $('#total').val('');
+            $('#totalwithvat').val('');
 
             vat = 1;
             vatRate = 0;
@@ -1409,12 +1436,13 @@
             $('#total_amount').html(totalAmount_STR);
             $('#totalDiscount').html('-' + totalDiscount_STR);
             /*$('#total_amount').html(total + ' TRY');*/
+
         }
 
         function checkDocNum() {
             var docno = $('#PurchaseInvoice_DocNo').val();
             if (docno == null || docno == '') {
-                $('.submit_alert').html(`                                            
+                $('.submit_alert').html(`
                                             <div class="alert alert-danger">
                                                 <p>You cannot leave the Document number blank.</p>
                                             </div>`);
@@ -1433,7 +1461,7 @@
                             $('#add_buyingDetail_row').prop('disabled', false);
                         }
                         else {
-                            $('.submit_alert').html(`                                            
+                            $('.submit_alert').html(`
                                             <div class="alert alert-danger">
                                                 <p>This document number has been added before. Document Number:'`+ docno + `' </p>
                                             </div>`);
@@ -1451,7 +1479,7 @@
         function checkId() {
             var idVal = $("#identification").val();
             if (idVal == null) {
-                $('.submit_alert_id').html(`                                            
+                $('.submit_alert_id').html(`
                                             <div class="alert alert-danger">
                                                 <p>You must choose a supplier.</p>
                                             </div>`);
@@ -1462,7 +1490,7 @@
                 $('#buying-submit').prop('disabled', false);
             }
         }
-        
+
         function focusTab() {
             jQuery(".select2").select2().on("select2:close", function (e) {
                 var nextId = getNextFocusableFieldId(jQuery(this).attr('id'));
@@ -1499,5 +1527,62 @@
             });
             return nextId;
         }
+
+        function calcBasis() {
+            console.clear();
+            var totalAmo = $('#totalwithvat').val();
+            console.log(totalAmo);
+
+            var piece = $('#piece').val();
+            var unitPrice = $('#unit_price').val();
+
+
+            if (piece == '') {
+                piece = 1;
+                $('#piece').val(1);
+            }
+
+
+            console.log("Piece: "+piece);
+            console.log("Unit Price: "+unitPrice);
+            console.log("vat: " + vat);
+            //calculateInp();
+
+            var calced = (totalAmo / piece) / vat;
+
+            $('#unit_price').val(calced.toFixed(2).toString());
+            console.log(calced);
+
+            /*
+            $('#vat').selectpicker('val', vat);*/
+            //calculateInp();
+
+
+            var withvatinp = $('#totalwithvat').val();
+            piece = $('#piece').val();
+            unit_price = $('#unit_price').val();
+
+            total = (piece * unit_price) * vat;
+            if (discount > 0) {
+                var withDis = total / discount;
+                calcedDis = total - withDis;
+                console.log(calcedDis);
+            }
+            else {
+                discount = 0;
+                calcedDis = 0;
+            }
+            //calcedDis = 0;
+
+
+            outVat = (piece * unit_price);
+            calcedVat = total - outVat;
+            if (calcedVat < 0)
+                calcedVat = 0;
+
+            $('#total').val(outVat.toFixed(2).toString().replace(/\./g, ','));
+
+        }
+
     </script>
 }

@@ -39,5 +39,10 @@ namespace Opus.Models.DbModels.Accounting
         public float Balance_USD { get; set; }
         [NotMapped]
         public float Balance_EUR { get; set; }
+        [NotMapped]
+        public List<PurchaseInvoice> PurchaseInvoices { get; set; }
+        [NotMapped]
+        public int NumberOfInvoices { get; set; }
+
     }
 }

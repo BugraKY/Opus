@@ -1,4 +1,5 @@
 ﻿@model Opus.Models.ViewModels.Accounting.BuyingVM
+@using System.Globalization
 <style>
     input.box-shadow-none:active {
         border: none !important;
@@ -233,8 +234,29 @@
                                                     <th width="20%">@item.TagDefinitions.SubCategory.Name</th>
                                                     <th width="20%">@item.TagDefinitions.Tag.Name</th>
                                                     <th width="5%">@item.Piece</th>
-                                                    <th width="5%">@Math.Round(item.Price, 2)</th>
-                                                    <th width="5%">@item.Vat_Rate</th>
+                                                    <th width="5%">@item.Price.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</th>
+
+                                                    @if (item.Vat_Rate == 1)
+                                                    {
+                                                        <th width="5%" class="text-center">%0</th>
+                                                    }
+                                                    @if (item.Vat_Rate == float.Parse("1,01"))
+                                                    {
+                                                        <th width="5%" class="text-center">%1</th>
+                                                    }
+                                                    @if (item.Vat_Rate == float.Parse("1,08"))
+                                                    {
+                                                        <th width="5%" class="text-center">%8</th>
+                                                    }
+                                                    @if (item.Vat_Rate == float.Parse("1,1"))
+                                                    {
+                                                        <th width="5%" class="text-center">%10</th>
+                                                    }
+                                                    @if (item.Vat_Rate == float.Parse("1,18"))
+                                                    {
+                                                        <th width="5%" class="text-center">%18</th>
+                                                    }
+
                                                     <th width="5%">@Math.Round(item.Vat, 2)</th>
                                                     @*<th width="5%">@item.Discount_Rate</th>*@
                                                     @if (item.Discount > 0)
@@ -245,7 +267,7 @@
                                                     {
                                                         <th width="5%">0</th>
                                                     }
-                                                    <th width="5%">@Math.Round(item.Total, 2)</th>
+                                                    <th width="5%">@item.Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</th>
                                                 </tr>
 
                                             }
@@ -319,8 +341,8 @@
 
 @section Scripts
 {
-@*
-    <script src="~/lib/print/print.min.js"></script>
+    @*
+        <script src="~/lib/print/print.min.js"></script>
     *@
     <script type="module">
         //import { jsPDF } from "jspdf";
