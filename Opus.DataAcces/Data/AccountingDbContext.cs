@@ -29,6 +29,15 @@ namespace Opus.DataAcces.Data
         public DbSet<PurchaseInvoice> PurchaseInvoice { get; set; }
         public DbSet<PurchaseInvoiceDetails> PurchaseInvoiceDetails { get; set; }
         public DbSet<ExchangeRate> ExchangeRate { get; set; }
-
+        /*
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<PurchaseInvoice>()
+                .HasOne<Identification>(s => s.Identification)
+                .WithMany(g => g.PurchaseInvoiceCollection)
+                .HasForeignKey(s => s.IdentificationId);
+        }
+        */
     }
 }

@@ -74,7 +74,7 @@
                                 <h6 class="my-10">Starting Date:</h6>
                             </div>
                             <div class="col-lg-4 col-12">
-                                <input class="form-control get-balance" type="date" name="startingDate" style="max-width:200px;" value="2017-01-01">
+                                <input class="form-control get-balance" type="date" name="startingDate" style="max-width:200px;" value="@DateTime.Now.Year-@DateTime.Now.ToString("MM")-01" >
                             </div>
 
                         </div>
@@ -83,7 +83,7 @@
                                 <h6 class="my-10">Ending Date:</h6>
                             </div>
                             <div class="col-lg-4 col-12">
-                                <input class="form-control get-balance" type="date" name="endingDate" style="max-width:200px;" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                <input class="form-control get-balance" type="date" name="endingDate" style="max-width:200px;" value="@DateTime.Now.ToString("yyyy-MM-dd")" >
                             </div>
                         </div>
 
@@ -95,61 +95,39 @@
                                         <tr class="text-start">
                                             <th class="d-none"></th>
                                             <th class="d-none"></th>
-                                            @*<th width="35">Definition</th>*@
                                             <th width="45">Code</th>
                                             <th>Commercial Title</th>
-                                            @*<th>Street Address</th>*@
-                                            @*<th>Tax Authority</th>*@
-                                            @*<th>Tax No</th>*@
-                                            @*<th>Bank</th>*@
-                                            @*<th>IBAN</th>*@
                                             <th style="width: 84px;">Payment Term</th>
                                             <th style="width: 84px;">Number of Invoices</th>
                                             <th>Balance TRY</th>
                                             <th>Balance USD</th>
                                             <th>Balance EUR</th>
-                                            @*
-                                                <th class="d-none">TRY vals</th>
-                                                <th class="d-none">USD vals</th>
-                                                <th class="d-none">EUR vals</th>*@
-
                                             <th></th>
-                                            @*<th></th>*@
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @foreach (var item in Model.Identification_Enumerable)
-                                        {
-                                            var currenc = @item.Balance_TRY.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1).Replace("\"","");
-                                            <tr>
-                                                <td class="d-none">@item.Id</td>
-                                                <td class="d-none">@item.IdNumber</td>
-                                                @*<td>@item.IdentificationType.Name</td>*@
-                                                <td>@item.IdentityCode</td>
-                                                <td>@item.CommercialTitle</td>
-                                                @*<td>@item.StreetAddress</td>*@
-                                                @*<td>@item.TaxAuthority</td>*@
-                                                @*<td>@item.TaxNo</td>*@
-                                                @*<td>@item.Bank.Name</td>*@
-                                                @*<td>@item.IBAN</td>*@
-                                                <td class="text-center">@item.PaymentTerm DAYS</td>
-                                                @*<h1 class="d-none">@Convert.ToInt64(item.Balance_TRY)</h1>*@
-                                                @*<h1 class="d-none">@Convert.ToInt64(item.Balance_USD)</h1>*@
-                                                @*<h1 class="d-none">@Convert.ToInt64(item.Balance_EUR)</h1>*@
-                                                <td class="text-center">@item.NumberOfInvoices</td>
-                                                <td class="text-center">₺@item.Balance_TRY.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
-                                                <td class="text-center">$@item.Balance_USD.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
-                                                <td class="text-center">€@item.Balance_EUR.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                        @*
+                                            foreach (var item in Model.Identification_Enumerable)
+                                            {
+                                                var currenc = @item.Balance_TRY.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1).Replace("\"","");
+                                                <tr>
+                                                    <td class="d-none">@item.Id</td>
+                                                    <td class="d-none">@item.IdNumber</td>
 
-                                                @*<td class="d-none">@item.Balance_TRY.ToString(new CultureInfo("en-US"))</td>
-        <td class="d-none">@item.Balance_USD.ToString(new CultureInfo("en-US"))</td>
-        <td class="d-none">@item.Balance_EUR.ToString(new CultureInfo("en-US"))</td>*@
-                                                @*<td class="text-center"><a href="/accounting/ids/@Model.CompanyItem.Id/edit-def/@item.Id" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>*@
-                                                <td class="text-center"><a onclick="#getDef('@item.Id')" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
-                                                @*<td class="text-center"><a href="#/accounting/ids/@Model.CompanyItem.Id/remove-def/@item.Id" class="fa-exp-font" style="pointer-events: none"><i class="fa fa-trash fa-3" aria-hidden="true"></i></a></td>*@
-                                            </tr>
-                                        }
+                                                    <td>@item.IdentityCode</td>
+                                                    <td>@item.CommercialTitle</td>
+                                                    <td class="text-center">@item.PaymentTerm DAYS</td>
+                                                    <td class="text-center">@item.NumberOfInvoices</td>
+                                                    <td class="text-center">₺@item.Balance_TRY.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                    <td class="text-center">$@item.Balance_USD.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                    <td class="text-center">€@item.Balance_EUR.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</td>
+                                                    <td class="text-center"><a onclick="#getDef('@item.Id')" class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                                </tr>
+                                            }
+                                        *@
                                     </tbody>
                                 </table>
                             </div>
@@ -158,9 +136,9 @@
                         <!--Definition List Sectio-->
 
                         <div class="row" style="font-weight:500;">
-                            <div class="col-4 text-center"><span class="balance_try_total">Total ₺ @Model.Balance_TRY_Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</span></div>
-                            <div class="col-4 text-center"><span class="balance_usd_total">Total $ @Model.Balance_USD_Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</span></div>
-                            <div class="col-4 text-center"><span class="balance_eur_total">Total € @Model.Balance_EUR_Total.ToString("C2", CultureInfo.CurrentCulture).Remove(0, 1)</span></div>
+                            <div class="col-4 text-center"><span class="balance_try_total">Total ₺ </span></div>
+                            <div class="col-4 text-center"><span class="balance_usd_total">Total $ </span></div>
+                            <div class="col-4 text-center"><span class="balance_eur_total">Total € </span></div>
                         </div>
 
 
@@ -176,105 +154,98 @@
     @*
         <script src="~/lib/print/print.min.js"></script>
     *@
-<script type="module">
-        //import { jsPDF } from "jspdf";
+    <script type="module">
+
         $(document).ready(function () {
-            $('#balance').DataTable({
-                columnDefs: [
-                    /*{ targets: 5, type: 'num-fmt' },*/
-                    { type: 'currency', targets: 5 }
-                ]
-                /*order: [[5, 'desc']],*/
-            });
-            //var doc = new jsPDF('jspdf'); // will automatically load the node version
-
-            //doc.text("Hello world!", 10, 10);
-            //doc.save("a4.pdf"); // will save the file in the current working directory
-            /*
-
-
-            var tryVal = 0.00;
-            var usdVal = 0.00;
-            var eurVal = 0.00;
-            var table = document.getElementById("balance");
-
-            for (var i = 1; i < table.rows.length; i++) {
-
-                tryVal = tryVal + parseInt(table.rows[i].cells[9].innerHTML);
-                usdVal = usdVal + parseInt(table.rows[i].cells[10].innerHTML);
-                eurVal = eurVal + parseInt(table.rows[i].cells[11].innerHTML);
-            }
-
-            $('.balance_try_total').html("Total ₺: " + tryVal);
-            $('.balance_usd_total').html("Total $: " + usdVal);
-            $('.balance_eur_total').html("Total €: " + eurVal);
-            */
-
-            //console.log(tryVal.toFixed(2).toString());
-            //console.log(usdVal);
-            //console.log(eurVal);
 
             $('.get-balance').keyup(function (e) {
                 if (e.keyCode == 13) {
                     getBalance();
                 }
             });
-
+            getBalance();
         });
 
         function getBalance() {
+            var sumTRY = 0.00;
+            var sumUSD = 0.00;
+            var sumEUR = 0.00;
             var startingDate = $('input[name="startingDate"]').val();
             var endingDate = $('input[name="endingDate"]').val();
             var id = '@Model.CompanyItem.Id';
             var ajaxUrl = '/api/accounting/getBalance/startingdate=' + startingDate + '&endingdate=' + endingDate + '&id=' + id;
-            /*
-            $.ajax({
-                url: ajaxUrl,
-                typr: "GET",
-                contentType: "application/json;charset=UTF-8",
-                dataType: "json",
-                success: function (response) {
-                    console.log(response);
-                },
-                error: function (response) {
-                    alert(response.responseText);
-                }
-            });
-            */
+
             var table = $('#balance').DataTable({
                 "bDestroy": true,
-                "bProcessing": true,
-                "bServerSide": true,
+                "bProcessing": false,
+                "bServerSide": false,
                 "ajax": {
                     "type": "GET",
                     "url": ajaxUrl,
-                    "dataSrc": function (json) {
-                        //Make your callback here.
-                        //alert("Done!");
-                        //return json.data;
-                    }
+                    'dataSrc': ''
                 },
                 "columns": [
-                    { "data": "id" },
-                    { "data": "idNumber" },
-                    { "data": "identityCode" },
+                    { "data": "id", "className": "d-none" },
+                    { "data": "idNumber", "className": "d-none" },
+                    { "data": "identityCode", "width": "45"},
                     { "data": "commercialTitle" },
-                    { "data": "PaymentTerm" },
-                    { "data": "NumberOfInvoices" },
-                    { "data": "Balance_TRY" },
-                    { "data": "Balance_USD" },
-                    { "data": "Balance_EUR" },
+                    { "data": "paymentTerm" },
+                    { "data": "numberOfInvoices" },
+                    {
+                        "data": "balance_TRY",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(data);
+                        },
+                    },
+                    {
+                        "data": "balance_USD",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'USD' }).format(data);
+                        },
+                    },
+                    {
+                        "data": "balance_EUR",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'EUR' }).format(data);
+                        },
+                    },
+
+                    {"data": "balance_TRY","className": "d-none sum-try"},
+                    { "data": "balance_USD", "className": "d-none sum-usd"},
+                    { "data": "balance_EUR", "className": "d-none sum-eur"},
+                    /*
                     {
                         data: null,
                         render: function (data, type, row) {
                             return '<a class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
                         }
-                    },
+                    },*/
 
                 ]
             });
+
+            table.on('draw', function () {
+                console.clear();
+                $("td.d-none.sum-try").each(function () {
+                    console.log("adding:" + sumTRY);
+                    sumTRY += parseFloat($(this).text());
+                });
+                $("td.d-none.sum-usd").each(function () {
+                    sumUSD += parseFloat($(this).text());
+                });
+                $("td.d-none.sum-eur").each(function () {
+                    sumEUR += parseFloat($(this).text());
+                });
+
+                console.log("balance TRY sum: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(sumTRY));
+                console.log("balance USD sum: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'USD' }).format(sumUSD));
+                console.log("balance EUR sum: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'EUR' }).format(sumEUR));
+                $('.balance_try_total').text("Total: "+new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(sumTRY));
+                $('.balance_usd_total').text("Total: " +new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'USD' }).format(sumUSD));
+                $('.balance_eur_total').text("Total: " +new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'EUR' }).format(sumEUR));
+            });
         }
-</script>
+    </script>
 }
 
 

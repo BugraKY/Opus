@@ -18,6 +18,8 @@ namespace Opus.Models.ViewModels.Accounting
         public IEnumerable<Departmant> Departmant_Enumerable { get; set; }
         public List<Identification> Identification_Enumerable { get; set; }
         public Identification Identification_Item { get; set; }
+        public List<PurchaseBalance> PurchaseBalance_Enumerable { get; set; }
+        //public IGrouping<PurchaseBalance> PurchaseBalance_EnumerableGroup { get; set; }
         public bool Term15 { get; set; }
         public bool Term30 { get; set; }
         public bool Term45 { get; set; }
