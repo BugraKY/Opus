@@ -270,6 +270,19 @@ table.dataTable {
 .z-important-0{
     z-index:0!important;
 }
+.input-td {
+    min-width: 15px;
+    max-width: 40px;
+    max-height: 5px;
+    border-radius: 0;
+    background: transparent;
+    border: hidden;
+    font-size: .8rem;
+}
+input.form-control.input-td:focus {
+    box-shadow: none !important;
+    background: transparent;
+}
     /*border-collapse: separate !important;*/
     /*
 .sidebar-collapse div.wrapper .main-sidebar .light-skin.sidebar a {

@@ -332,8 +332,8 @@ namespace Opus.Areas.Accounting.Controllers
             return View(identificationIndex);
         }
 
-        [HttpGet("api/accounting/getBalance/startingdate={startingdate}&endingdate={endingdate}&id={id}")]
-        public IEnumerable<PurchaseBalance> GetBalance(string startingdate, string endingdate, string id)
+        [HttpGet("api/accounting/getlistbydate/startingdate={startingdate}&endingdate={endingdate}&id={id}")]
+        public IEnumerable<PurchaseBalance> GetListbydate(string startingdate, string endingdate, string id)
         {
             var _startingDate = DateTime.Parse(startingdate);
             var _endingdate = DateTime.Parse(endingdate);
@@ -354,7 +354,29 @@ namespace Opus.Areas.Accounting.Controllers
                     Balance_TRY = s.Where(c => c.ExchangeRateId == 1).Sum(s => s.TotalAmount),
                     Balance_USD = s.Where(c => c.ExchangeRateId == 2).Sum(s => s.TotalAmount),
                     Balance_EUR = s.Where(c => c.ExchangeRateId == 3).Sum(s => s.TotalAmount)
-                });
+                }); //list with starting endingdate date
+        }
+        [HttpGet("api/accounting/get-balance/{id}")]
+        public IEnumerable<PurchaseBalance> GetBalance(string id)
+        {
+            return _uow.Accounting_Identification.GetAll(i => i.CompanyId == Guid.Parse(id), includeProperties: "IdentificationType,Company,Bank,PurchaseInvoiceCollection")
+                .Where(a => (a.Active))
+                .SelectMany(r => r.PurchaseInvoiceCollection.
+                    Where(d => (d.PaymentTerm >= DateTime.Now && d.PaymentMethId==3)))
+                .GroupBy(g => g.Identification)
+                .Select(s => new PurchaseBalance()
+                {
+                    Id = s.Key.Id,
+                    Active = s.Key.Active,
+                    IdNumber = s.Key.IdNumber,
+                    IdentityCode = s.Key.IdentityCode,
+                    CommercialTitle = s.Key.CommercialTitle,
+                    PaymentTerm = s.Key.PaymentTerm,
+                    NumberOfInvoices = s.Key.PurchaseInvoiceCollection.Where(d => (d.PaymentTerm >= DateTime.Now && d.PaymentMethId == 3)).Count(),
+                    Balance_TRY = s.Where(c => c.ExchangeRateId == 1).Sum(s => s.TotalAmount),
+                    Balance_USD = s.Where(c => c.ExchangeRateId == 2).Sum(s => s.TotalAmount),
+                    Balance_EUR = s.Where(c => c.ExchangeRateId == 3).Sum(s => s.TotalAmount)
+                }); //list Current Account Balance
         }
 
         public IdentificationIndexVM SumInvoiceTotals()

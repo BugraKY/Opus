@@ -124,7 +124,7 @@
                                 <div class="box-body">
                                     <div class="dropdown" style="height:100%;">
                                         <div class="box box-inverse box-comp box-outline-success">
-                                            <a class="dropdown-toggle waves-effect waves-dark" id="@DropdownStr" style="color: white; height: 100%;z-index:999;" data-bs-toggle="dropdown">
+                                            <a class="dropdown-toggle dropdown-comp waves-effect waves-dark" id="@DropdownStr" style="color: white; height: 100%;z-index:999;" data-bs-toggle="dropdown">
                                                 <div class="box-body d-flex justify-content-center align-items-center" style="height:100%;">
                                                     @*<span>@item.Name</span>*@
                                                     <img src="@_logo" style='height: 100%; width: 100%; object-fit: contain' />
@@ -204,6 +204,32 @@
 
             });
 
+        });
+
+        $('.dropdown').hover(function () {
+
+            $('a.dropdown-toggle', this).trigger('click');
+
+            @*
+            $('a.dropdown-toggle.dropdown-comp', this).after().slideToggle(function () {
+
+            }, function () {
+                $(this).css('display', 'block');
+                //alert("Second handler for .toggle() called.");
+                console.log("Second handler for .toggle() called.");
+            });
+                *@
+
+            @*
+            $('a.dropdown-toggle.dropdown-comp', this).slideToggle(function () {
+                //alert("First handler for .toggle() called.");
+
+                console.log("First handler for .toggle() called.");
+            }, function () {
+                $(this).css('display', 'block');
+                //alert("Second handler for .toggle() called.");
+                console.log("Second handler for .toggle() called.");
+            });*@
         });
     </script>
 }

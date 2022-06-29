@@ -61,7 +61,7 @@
         }
 
     .table > tbody > tr > td.fitwidth, .table > tbody > tr > th {
-        padding: 7px 10px 7px 10px;
+        padding: 2px 10px 2px 10px;
     }
 
     .table td {
@@ -435,12 +435,16 @@
                                                         <td class="fitwidth" width="20%">@item.TagDefinitions.Category.Name</td>
                                                         <td class="fitwidth" width="20%">@item.TagDefinitions.SubCategory.Name</td>
                                                         <td class="fitwidth" width="20%">@item.TagDefinitions.Tag.Name</td>
-                                                        <td class="fitwidth" width="5%">@item.Piece</td>
-                                                        <td class="fitwidth" width="5%">@item.Price</td>
-                                                        <td class="fitwidth" width="5%">@if (item.Vat_Rate == float.Parse("1,01"))
-                                                        {<span>%1</span>}@if (item.Vat_Rate == float.Parse("1,08"))
-                                                        {<span>%8</span>}@if (item.Vat_Rate == float.Parse("1,18"))
-                                                        {<span>%18</span>}</td>
+                                                        <td class="fitwidth" width="5%"><input class="form-control input-td" value="@item.Piece" /></td>
+                                                        <td class="fitwidth" width="5%"><input class="form-control input-td" value="@item.Price" /></td>
+                                                        <td class="fitwidth" width="5%">
+                                                            @if (item.Vat_Rate == float.Parse("1,01"))
+                                                            {<span>%1</span>}
+                                                            @if (item.Vat_Rate == float.Parse("1,08"))
+                                                            {<span>%8</span>}
+                                                            @if (item.Vat_Rate == float.Parse("1,18"))
+                                                            {<span>%18</span>}
+                                                        </td>
                                                         <td class="fitwidth" width="5%">@item.Vat</td>
                                                         <td class="fitwidth" width="5%">@item.Discount</td>
                                                         <td class="fitwidth" width="5%">@item.Total</td>
@@ -589,7 +593,7 @@
         function purchaseInvoice_Submit() {
             var docno = $('#PurchaseInvoice_DocNo').val();
             var idVal = $("#identification").val();
-
+            /*
             if (idVal != null) {
                 $.ajax({
                     url: '/api/accounting/check-docno/' + docno,
@@ -616,7 +620,7 @@
                 });
             }
 
-
+            */
 
         }
 
@@ -637,7 +641,7 @@
         });
 
         $(document).on('keydown', '.form-control,.select2', function (e) {
-
+            /*
             if (e.which == 37) {
                 var tabIndexKey = document.activeElement.tabIndex - 1;
 
@@ -650,6 +654,7 @@
 
 
             }
+            */
         });
 
         $(document).ready(function () {
