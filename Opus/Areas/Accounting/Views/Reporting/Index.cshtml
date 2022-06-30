@@ -1,0 +1,321 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model Opus.Models.DbModels.Accounting.Company
+
+<style>
+    table {
+        /*
+            font-family: "Courier New", Courier, monospace;
+            font-size: 80%;*/
+
+        background-color: #efefef;
+        width: 350px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #999999;
+        font-family: arial, verdana, sans-serif;
+    }
+</style>
+<div class="content-header">
+
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Accounting</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/accounting/curr">Currents</a></li>
+                        <li class="breadcrumb-item" aria-current="page">@Model.Name</li>
+                        <li class="breadcrumb-item" aria-current="page">Accounting Reporting</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Accounting Reporting</h4>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                        <li class="nav-item"> <a class="nav-link active" data-bs-toggle="tab" href="#totals" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">Purchase</span></a> </li>
+                        <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#profile12" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">Sale</span></a> </li>
+                        @*<li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#messages12" role="tab"><span><i class="ion-email"></i></span> <span class="hidden-xs-down ms-15">Messages</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#setting12" role="tab"><span><i class="ion-settings"></i></span> <span class="hidden-xs-down ms-15">Setting</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#about12" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">About</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" data-bs-toggle="tab" href="#contact12" role="tab"><span><i class="ion-camera"></i></span> <span class="hidden-xs-down ms-15">Contact</span></a> </li>*@
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content tabcontent-border">
+                        <div class="tab-pane active" id="totals" role="tabpanel">
+                            <div class="p-15">
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Starting Date:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control get-balance" type="date" name="startingDate" style="max-width:200px;" value="@DateTime.Now.Year-@DateTime.Now.ToString("MM")-01">
+                                    </div>
+
+                                </div>
+                                <div class="row my-20">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Ending Date:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control get-balance" type="date" name="endingDate" style="max-width:200px;" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        Week:
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control get-balance-week" type="week" name="week">
+                                    </div>
+
+                                </div>
+                                <div id="pie">
+                                </div>
+
+
+                                <section>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered table-striped dataTables" width="100%" id="totalsTable">
+                                            <thead>
+                                                <tr class="text-start">
+                                                    <th class="d-none"></th>
+                                                    <th class="d-none"></th>
+                                                    <th width="45">Code</th>
+                                                    <th>Commercial Title</th>
+                                                    <th style="width: 84px;">Payment Term</th>
+                                                    <th style="width: 84px;">Number of Invoices</th>
+                                                    <th>Purchase TRY</th>
+                                                    <th>Purchase USD</th>
+                                                    <th>Purchase EUR</th>
+                                                    <th class="d-none"></th>
+                                                    <th class="d-none"></th>
+                                                    <th class="d-none"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </section>
+
+                                <div class="row" style="font-weight:500;">
+                                    <div class="col-4 text-center"><span class="balance_try_total">Total ₺ </span></div>
+                                    <div class="col-4 text-center"><span class="balance_usd_total">Total $ </span></div>
+                                    <div class="col-4 text-center"><span class="balance_eur_total">Total € </span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="profile12" role="tabpanel">
+                            <div class="p-15">
+                                <h4>What is Lorem Ipsum?</h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+                                but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                                and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            getlistbyDate();
+            $('.get-balance').keyup(function (e) {
+                if (e.keyCode == 13) {
+                    getlistbyDate();
+                }
+            });
+            $('.get-balance-week').keyup(function (e) {
+                if (e.keyCode == 13) {
+                    var dateval = $(this).val();
+                    console.log($(this).val())
+
+                    $.ajax({
+                        url: "/api/accounting/calc-date-fromWeek/" + dateval,
+                        cache: false,
+                        success: function (response) {
+                            console.log(response);
+                        }
+                    });
+
+                }
+            });
+            /*
+            $('.balance_filter > input').on('keyup', function (e) {
+                if (e.keyCode == 13 || this.value == "") {
+
+                }
+            });
+            */
+
+        });
+    
+        function getlistbyDate() {
+            console.log("getlistbyDate()");
+            var sumTRY = 0.00;
+            var sumUSD = 0.00;
+            var sumEUR = 0.00;
+            var startingDate = $('input[name="startingDate"]').val();
+            var endingDate = $('input[name="endingDate"]').val();
+            var id = '@Model.Id';
+            var ajaxUrl = '/api/accounting/getlistbydate/startingdate=' + startingDate + '&endingdate=' + endingDate + '&id=' + id;
+
+            var table = $('#totalsTable').DataTable({
+                order: [[2, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": ajaxUrl,
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                    pieVal(json);
+                    // call your function here
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "idNumber", "className": "d-none" },
+                    { "data": "identityCode", "width": "45"},
+                    { "data": "commercialTitle" },
+                    { "data": "paymentTerm" },
+                    { "data": "numberOfInvoices" },
+                    {
+                        "data": "balance_TRY",
+                        "type": "num-fmt",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(data);
+                        },
+                    },
+                    {
+                        "data": "balance_USD",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'USD' }).format(data);
+                        },
+                    },
+                    {
+                        "data": "balance_EUR",
+                        render: function (data, type, row) {
+                            return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'EUR' }).format(data);
+                        },
+                    },
+
+                    { "data": "balance_TRY", "className": "d-none sum-try"},
+                    { "data": "balance_USD", "className": "d-none sum-usd"},
+                    { "data": "balance_EUR", "className": "d-none sum-eur"},
+                    /*
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return '<a class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                        }
+                    },*/
+
+                ]
+            });
+            table.on('draw', function () {
+                console.log("totalsTable()");
+                sumTRY = 0.00;
+                sumUSD = 0.00;
+                sumEUR = 0.00;
+                $("td.d-none.sum-try").each(function () {
+                    console.log("adding:" + sumTRY);
+                    sumTRY += parseFloat($(this).text());
+                });
+                $("td.d-none.sum-usd").each(function () {
+                    sumUSD += parseFloat($(this).text());
+                });
+                $("td.d-none.sum-eur").each(function () {
+                    sumEUR += parseFloat($(this).text());
+                });
+
+                console.log("balance TRY sum: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(sumTRY));
+                console.log("balance USD sum: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'USD' }).format(sumUSD));
+                console.log("balance EUR sum: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'EUR' }).format(sumEUR));
+                $('.balance_try_total').text("Total: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(sumTRY));
+                $('.balance_usd_total').text("Total: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'USD' }).format(sumUSD));
+                $('.balance_eur_total').text("Total: " + new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'EUR' }).format(sumEUR));
+
+            });
+
+        }
+
+        function pieVal(dataSource) {
+            $(() => {
+                $('#pie').dxPieChart({
+                    size: {
+                        width: 'auto',
+                    },
+                    palette: 'bright',
+                    dataSource,
+                    series: [
+                        {
+                            argumentField: 'commercialTitle',
+                            valueField: 'balance_TRY',
+                            label: {
+                                visible: true,
+                                connector: {
+                                    visible: true,
+                                    width: 1,
+                                },
+                            },
+                        },
+                    ],
+                    title: 'Area of Suppliers',
+                    export: {
+                        enabled: false,
+                    },
+                    onPointClick(e) {
+                        const point = e.target;
+
+                        toggleVisibility(point);
+                    },
+                    onLegendClick(e) {
+                        const arg = e.target;
+
+                        toggleVisibility(this.getAllSeries()[0].getPointsByArg(arg)[0]);
+                    },
+                });
+
+                function toggleVisibility(item) {
+                    if (item.isVisible()) {
+                        item.hide();
+                    } else {
+                        item.show();
+                    }
+                }
+            });
+        }
+    
+    </script>
+}

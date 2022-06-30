@@ -61,14 +61,20 @@
     .dropdown-submenu {
         position: absolute;
     }
+
     a.dropdown-item {
         transition: 1s !important;
     }
+
         a.dropdown-item:hover {
             transition: 1s !important;
             background: #e8e8e8 !important;
             box-shadow: 0 1px 5px 0 rgb(0 0 0 / 21%) !important;
         }
+
+    .dropdown-grid .dropdown-item {
+        padding: 0;
+    }
 </style>
 <div class="container-full" ondragstart="return false;" ondrop="return false;" draggable="false" onmousedown='return false;' onselectstart='return false;' style="white-space:nowrap">
     <!-- Content Header (Page header) -->
@@ -92,7 +98,7 @@
 
     <div class="pb-10"></div>
     <!-- Main content -->
-    <section class="content">
+    <section class="content pb-100">
         <div class="row">
             <div class="col-12">
                 <div class="box">
@@ -107,8 +113,8 @@
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <a class="dropdown-item" asp-action="Identifications" asp-controller="Identification" asp-area="Accounting"><i class="ti-cart"></i> Identifications</a>
                                         @*
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>*@
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="ti-settings"></i> Settings</a>*@
                                     </div>
                                 </li>
                             </ul>
@@ -122,58 +128,105 @@
                             var _logo = AccountingPath.Company.Root + item.Id.ToString() + AccountingPath.Company.ProfileIMG + item.ImageFile;
                             <div class="col-3">
                                 <div class="box-body">
-                                    <div class="dropdown" style="height:100%;">
+                                    <div class="dropdown dropdown-comp" style="height:100%;">
                                         <div class="box box-inverse box-comp box-outline-success">
-                                            <a class="dropdown-toggle dropdown-comp waves-effect waves-dark" id="@DropdownStr" style="color: white; height: 100%;z-index:999;" data-bs-toggle="dropdown">
+                                            <a class="dropdown-toggle" id="@DropdownStr" style="color: white; height: 100%; z-index: 999; pointer-events: none;" data-bs-toggle="dropdown">
                                                 <div class="box-body d-flex justify-content-center align-items-center" style="height:100%;">
                                                     @*<span>@item.Name</span>*@
                                                     <img src="@_logo" style='height: 100%; width: 100%; object-fit: contain' />
                                                 </div>
                                             </a>
-                                            <div class="dropdown-menu dropdown-grid" style="margin: 20px; width:400px;" aria-labelledby="@DropdownStr">
-                                                <a class="dropdown-item waves-effect waves-dark" href="/accounting/ids/@item.Id">
-                                                    <span class="icon fa fa-id-card"></span> Identification
-                                                </a>
-                                                <a class="dropdown-item waves-effect waves-dark" href="/accounting/curr/account-balance/@item.Id">
-                                                    <span class="icon fa fa-google-wallet"></span> 	Current Account<br />Balance
-                                                </a>
-                                                <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-payments-report">
-                                                    <span class="icon fa fa-table"></span> Weekly Payments
-                                                </a>
-                                                <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-settings">
-                                                    <span class="icon fa fa-info"></span> Information
-                                                </a>
-                                                <div class="dropdown-item" id="submenu">
-                                                    <span class="icon fa fa-plus"></span> <label>New Invoice</label>
-                                                    <div class="dropdown-menu dropdown-submenu" style="margin-top: -100px; width:100px;" aria-labelledby="@DropdownStr">
-                                                        <a class="dropdown-item" href="curr/buying/@item.Id">
-                                                            <span class="icon fa fa-plus"></span> Purchase Invoice
+                                            @*
+                                                <div class="dropdown-menu dropdown-grid" style="width:400px;" aria-labelledby="@DropdownStr">
+                                                    <a class="dropdown-item waves-effect waves-dark" href="/accounting/ids/@item.Id" style="width:33.3%;">
+                                                        <span class="icon fa fa-id-card"></span> Identification
+                                                    </a>
+                                                    <a class="dropdown-item waves-effect waves-dark" href="/accounting/curr/account-balance/@item.Id" style="width:33.3%;">
+                                                        <span class="icon fa fa-google-wallet"></span> 	Current Account<br />Balance
+                                                    </a>
+                                                    <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-payments-report" style="width:33.3%;">
+                                                        <span class="icon fa fa-table"></span> Weekly Payments
+                                                    </a>
+
+
+                                                    <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-settings">
+                                                        <span class="icon fa fa-info"></span> Information
+                                                    </a>
+
+                                                    <div class="dropdown-item" id="submenu">
+                                                        <span class="icon fa fa-plus"></span> <label>New Invoice</label>
+                                                        <div class="dropdown-menu dropdown-submenu" style="margin-top: -90px;margin-left:140px; width:100px;" aria-labelledby="@DropdownStr">
+                                                            <a class="dropdown-item" href="curr/buying/@item.Id">
+                                                                <span class="icon fa fa-plus"></span> Purchase Invoice
+                                                            </a>
+                                                            <a class="dropdown-item" href="#@item.Id-sales">
+                                                                <span class="icon fa fa-plus"></span> Sale Invoice
+                                                            </a>
+                                                            <a class="dropdown-item" href="#@item.Id-payment">
+                                                                <span class="icon fa fa-plus"></span> Payments
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            *@
+
+                                            <div class="dropdown-menu dropdown-grid" style="width: 400px; margin: 0; position: absolute; inset: auto auto 0px 0px; z-index: 9999; " aria-labelledby="@DropdownStr">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <a class="dropdown-item waves-effect waves-dark" href="/accounting/ids/@item.Id">
+                                                            <span class="icon fa fa-id-card"></span> Identification
                                                         </a>
-                                                        <a class="dropdown-item" href="#@item.Id-sales">
-                                                            <span class="icon fa fa-plus"></span> Sale Invoice
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <a class="dropdown-item waves-effect waves-dark" href="/accounting/curr/account-balance/@item.Id">
+                                                            <span class="icon fa fa-google-wallet"></span> 	Current Account<br />Balance
                                                         </a>
-                                                        <a class="dropdown-item" href="#@item.Id-payment">
-                                                            <span class="icon fa fa-plus"></span> Payments
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <a class="dropdown-item waves-effect waves-dark" href="/accounting/reporting/@item.Id">
+                                                            <span class="icon fa fa-table"></span> Payments
                                                         </a>
                                                     </div>
                                                 </div>
-                                                @*
-        <a class="dropdown-item" href="#">
-            <span class="icon fa fa-music"></span>
-        </a>
-        <a class="dropdown-item" href="#">
-            <span class="icon fa fa-newspaper-o"></span>
-        </a>
-        <a class="dropdown-item" href="#">
-            <span class="icon fa fa-book"></span>
-        </a>
-        <a class="dropdown-item" href="#">
-            <span class="icon fa fa-download"></span>
-        </a>
-        <a class="dropdown-item" href="#">
-            <span class="icon fa fa-gear"></span>
-        </a>*@
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <a class="dropdown-item waves-effect waves-dark" href="#@item.Id-settings">
+                                                            <span class="icon fa fa-info"></span> Information
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="dropdown-item" id="submenu">
+                                                            <span class="icon fa fa-plus"></span> <label>New Invoice</label>
+                                                            <div class="dropdown-menu dropdown-submenu" style="margin-top: -5px;width:400px;" aria-labelledby="@DropdownStr">
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <a class="dropdown-item" href="curr/buying/@item.Id">
+                                                                            <span class="icon fa fa-plus"></span> Purchase Invoice
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <a class="dropdown-item" href="#@item.Id-sales">
+                                                                            <span class="icon fa fa-plus"></span> Sale Invoice
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <a class="dropdown-item" href="#@item.Id-payment">
+                                                                            <span class="icon fa fa-plus"></span> Payments
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                    </div>
+                                                </div>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -194,42 +247,22 @@
             $(".dropdown-toggle").click(function () {
                 $('#div#submenu').show("slide", { direction: "right" }, 1000);
             });
-            
+
             $("div#submenu").hover(function (e) {
                 e.stopPropagation();
-                /*$(this).fadeOut(100);
-                $(this).fadeIn(500);*/
-                console.log("hovered");
-                $(this).parent().find(".dropdown-menu").toggle();
+                $(this).parent().find(".dropdown-menu").slideDown();
 
+            }, function () {
+                $(this).parent().find(".dropdown-menu").slideUp();
             });
 
         });
-
-        $('.dropdown').hover(function () {
-
-            $('a.dropdown-toggle', this).trigger('click');
-
-            @*
-            $('a.dropdown-toggle.dropdown-comp', this).after().slideToggle(function () {
-
-            }, function () {
-                $(this).css('display', 'block');
-                //alert("Second handler for .toggle() called.");
-                console.log("Second handler for .toggle() called.");
-            });
-                *@
-
-            @*
-            $('a.dropdown-toggle.dropdown-comp', this).slideToggle(function () {
-                //alert("First handler for .toggle() called.");
-
-                console.log("First handler for .toggle() called.");
-            }, function () {
-                $(this).css('display', 'block');
-                //alert("Second handler for .toggle() called.");
-                console.log("Second handler for .toggle() called.");
-            });*@
+        $('.dropdown.dropdown-comp').mouseenter(function () {
+            $(this).children().children().eq(1).slideDown();
+        }).mouseleave(function () {
+            console.log($(this).find(".dropdown-menu.dropdown-submenu"));
+            $(this).children().children().eq(1).slideUp();
         });
+
     </script>
 }
