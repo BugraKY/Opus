@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
+    var week = DateTime.Now.Year.ToString() + "-W" + System.Globalization.ISOWeek.GetWeekOfYear(DateTime.Now).ToString();
 }
 @model Opus.Models.DbModels.Accounting.Company
 
@@ -65,7 +66,7 @@
                                         <h6 class="my-10">Starting Date:</h6>
                                     </div>
                                     <div class="col-lg-4 col-12">
-                                        <input class="form-control get-balance" type="date" name="startingDate" style="max-width:200px;" value="@DateTime.Now.Year-@DateTime.Now.ToString("MM")-01">
+                                        <input class="form-control custom-date" type="date" name="startingDate" style="max-width:200px;" value="@DateTime.Now.Year-@DateTime.Now.ToString("MM")-01">
                                     </div>
 
                                 </div>
@@ -74,19 +75,23 @@
                                         <h6 class="my-10">Ending Date:</h6>
                                     </div>
                                     <div class="col-lg-4 col-12">
-                                        <input class="form-control get-balance" type="date" name="endingDate" style="max-width:200px;" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                        <input class="form-control custom-date" type="date" name="endingDate" style="max-width:200px;" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-2 col-12">
-                                        Week:
+                                        <h6 class="my-10">Weekly:</h6>
                                     </div>
                                     <div class="col-lg-4 col-12">
-                                        <input class="form-control get-balance-week" type="week" name="week">
+                                        <input class="form-control get-balance-week" type="week" name="weekly" value="@week" disabled>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input type="checkbox" id="week_check" class="filled-in chk-col-success">
+                                        <label for="week_check" class="my-10">Weekly</label>
                                     </div>
 
                                 </div>
-                                <div id="pie">
+                                <div id="pie" style="padding-bottom:25px;">
                                 </div>
 
 
@@ -148,35 +153,52 @@
     <script>
         $(document).ready(function () {
             getlistbyDate();
-            $('.get-balance').keyup(function (e) {
+            $('.custom-date').keyup(function (e) {
                 if (e.keyCode == 13) {
                     getlistbyDate();
-                }
+                };
             });
             $('.get-balance-week').keyup(function (e) {
                 if (e.keyCode == 13) {
-                    var dateval = $(this).val();
-                    console.log($(this).val())
-
-                    $.ajax({
-                        url: "/api/accounting/calc-date-fromWeek/" + dateval,
-                        cache: false,
-                        success: function (response) {
-                            console.log(response);
-                        }
-                    });
-
+                    calcdays($(this).val());
                 }
             });
-            /*
-            $('.balance_filter > input').on('keyup', function (e) {
-                if (e.keyCode == 13 || this.value == "") {
+            //calcdays();
+            //calcWeek();
+            $('.custom-date').change(function (e) {
+                console.clear();
+                var _starting = $('input[name=startingDate]').val();
+                var _ending = $('input[name=endingDate]').val();
 
+                if (_starting >= _ending) {
+                    $('input[name=startingDate]').val(_ending);
                 }
+                console.log(_starting);
+                console.log(_ending);
             });
-            */
-
+            $('input[name=weekly]').change(function () {
+                calcdays($(this).val());
+                //getlistbyDate();
+            });
+            
+            $('input[id=week_check]').change(function () {
+                console.log("dasfsadf");
+                if ($(this).is(':checked')) {
+                    console.log("disable falsed");
+                    $('input[name=weekly]').prop("disabled", false);
+                    $('.custom-date').prop("disabled", true);
+                }
+                else {
+                    console.log("disable enabled");
+                    $('input[name=weekly]').prop("disabled", true);
+                    $('.custom-date').prop("disabled", false);
+                }
+                    
+                //getlistbyDate();
+            });
         });
+
+
     
         function getlistbyDate() {
             console.log("getlistbyDate()");
@@ -200,6 +222,7 @@
                     'dataSrc': '',
                 },
                 "initComplete": function (settings, json) {
+                    console.log(json);
                     pieVal(json);
                     // call your function here
                 },
@@ -270,13 +293,44 @@
 
         }
 
+        function calcdays(dateval) {
+
+            $.ajax({
+                url: "/api/accounting/calc-date-fromWeek/" + dateval,
+                cache: false,
+                success: function (obj) {
+                    $('input[name="startingDate"]').val(obj.firstDate);
+                    $('input[name="endingDate"]').val(obj.lastDate);
+                    getlistbyDate();
+                }
+            });
+            //console.log($('input[name="weekly"]').val());
+
+        };
+
         function pieVal(dataSource) {
             $(() => {
                 $('#pie').dxPieChart({
                     size: {
                         width: 'auto',
+                        height:'600',
                     },
-                    palette: 'bright',
+                    palette: 'ocean',
+                    legend: {
+                        orientation: 'horizontal',
+                        itemTextPosition: 'right',
+                        horizontalAlignment: 'center',
+                        verticalAlignment: 'top',
+                        columnCount: 4,
+                        /*
+                        customizeText: {
+                            seriesInfo: {
+                                seriesIndex: 10,
+                                seriesColor: '#ff001e',
+                            },
+                        },
+                        */
+                    },
                     dataSource,
                     series: [
                         {
@@ -288,6 +342,7 @@
                                     visible: true,
                                     width: 1,
                                 },
+                                position: 'columns',
                             },
                         },
                     ],

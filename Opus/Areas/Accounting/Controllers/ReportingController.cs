@@ -47,22 +47,29 @@ namespace Opus.Areas.Accounting.Controllers
                 }); //list with starting endingdate date
         }
         [HttpGet("api/accounting/calc-date-fromWeek/{week}")]
-        public JsonResult CalcDatefromWeek(string week)
+        public object CalcDatefromWeek(string week)
         {
-            var testDate = new DateTime();
-            var dayofyearDatetime = new DateTime();
+            var FirstDayDate = new DateTime();
+            var LastDayDate = new DateTime();
+            var calced = 0;
+
             var splitVal = week.Split('-');
             var _year = int.Parse(splitVal[0]);
             var _week = int.Parse(splitVal[1].Replace("W", ""));
 
-            dayofyearDatetime = dayofyearDatetime.AddYears(_year - 1);
-            var dayofyear = dayofyearDatetime.DayOfYear;
-            /*
-            var asdf = System.Globalization.ISOWeek.GetWeeksInYear(_year);
-            float _days = (_year*365)+(_week * 7);
-            var test = dayofyear;*/
+            for (int i = 1; i < _year; i++)
+                calced += System.Globalization.ISOWeek.GetWeeksInYear(i);
 
-            return Json(null);
+            int _lastday = ((_week + calced) * 7) - 1;
+            int _firstday = _lastday - 6;
+
+            object obj = new
+            {
+                firstDate = FirstDayDate.AddDays(_firstday).ToString("yyyy-MM-dd"),
+                lastDate = LastDayDate.AddDays(_lastday).ToString("yyyy-MM-dd")
+            };
+
+            return obj;
         }
         #endregion API
     }
