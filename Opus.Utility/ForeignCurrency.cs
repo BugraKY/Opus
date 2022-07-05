@@ -104,9 +104,11 @@ namespace Opus.Utility
             }
             try
             {
+                #pragma warning disable CS8602 // Dereference of a possibly null reference.
                 _usd = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='USD']/ForexBuying").InnerXml;
                 _eur = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='EUR']/ForexBuying").InnerXml;
                 _gbp = xmlDoc.SelectSingleNode("Tarih_Date/Currency[@Kod='GBP']/ForexBuying").InnerXml;
+                #pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
             catch (NullReferenceException ex)
             {

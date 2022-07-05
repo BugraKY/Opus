@@ -73,7 +73,7 @@ File: scss
     .main-sidebar {
         border-right: 0px solid rgba($dx-blue,0.16);
         /*background-color: $dark; */
-        background-image: url('/images/sidebar.png') !important;
+        background-image: url(/images/sidebar.png) !important;
     }
 
     .user-panel {

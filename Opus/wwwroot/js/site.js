@@ -7,9 +7,54 @@ var countSelect = 0;
 var equTr = 0;
 var famTr = 0;
 var defTr = 0;
+var fullScr = false;
+
+var fn11 = jQuery.Event("keydown", {
+    keyCode: 116
+    //f11    122
+});
+
+function requestFullScreen() {
+    var el = document.documentElement
+        , rfs = // for newer Webkit and Firefox
+            el.requestFullscreen
+            || el.webkitRequestFullScreen
+            || el.mozRequestFullScreen
+            || el.msRequestFullscreen
+        ;
+    if (typeof rfs != "undefined" && rfs) {
+        rfs.call(el);
+    } else if (typeof window.ActiveXObject != "undefined") {
+        // for Internet Explorer
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript != null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+}
 
 $(document).ready(function () {
+    //location.reload(true);
     getFullName();
+    /*
+    $(".full-screen").on("click", function (e) {
+        var be = jQuery.Event("keypress");
+        be.which = 122;
+        be.keyCode = 122;
+        $(window).trigger(be);
+
+        console.log(be);
+        console.log(e);
+
+    });
+    */
+
+    $(".full-screen").on("click", function (e) {
+        var elem = document.body; // Make the body go full screen.
+        requestFullScreen(elem);
+    });
+
+
 
     $("#add_row").on("click", function () {
         // Dynamic Rows Code
@@ -817,6 +862,30 @@ function calcDefault(day,docDate){
     });
 }
 
+function forceFullScreen() {
+
+
+};
+
+
+/*
+ * fullscreen working
+ * 
+document.addEventListener('fullscreenchange', fullscreenchanged);
+// or
+document.onfullscreenchange = fullscreenchanged;
+
+// When the toggle button is clicked, enter/exit fullscreen
+document.getElementById('toggle-fullscreen').addEventListener('click', (event) => {
+    if (document.fullscreenElement) {
+        // exitFullscreen is only available on the Document object.
+        document.exitFullscreen();
+    } else {
+        el.requestFullscreen();
+    }
+});
+
+*/
 /*Term*/
 
 /*Foreign-Currency*/

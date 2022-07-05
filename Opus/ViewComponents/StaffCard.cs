@@ -10,7 +10,6 @@ namespace Opus.ViewComponents
         {
             _uow = uow;
         }
-
         public IViewComponentResult Invoke()
         {
             var _staff = _uow.Staff.GetAll();

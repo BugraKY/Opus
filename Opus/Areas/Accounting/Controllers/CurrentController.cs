@@ -21,7 +21,8 @@ namespace Opus.Areas.Accounting.Controllers
         public IActionResult Index()
         {
             var comps = _uow.Accounting_Company.GetAll().OrderBy(s => s.Sorting);
-            return View(comps);
+            return View("Index",comps);
+            //return PartialView("Index", comps);
         }
         [Route("accounting/curr/{id}")]
         public IActionResult SelectFunc(string id)
