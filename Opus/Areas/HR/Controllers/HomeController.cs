@@ -6,6 +6,7 @@ using static Opus.Utility.ProjectConstant;
 using Microsoft.AspNetCore.Identity;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
+using IronOcr;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -79,6 +80,27 @@ namespace Opus.Areas.HR.Controllers
             _uow.VacationDates.Add(_vacation);
             //_uow.Save();
             return RedirectToAction("AddVacationDays");
+        }
+
+        [HttpGet("api/test-ocr")]
+        public string TestOCR()
+        {
+            var Ocr = new IronTesseract();
+            using (var Input = new OcrInput("ocr-test-files/image.jpeg"))
+            {
+                // Input.Deskew();  // use if image not straight
+                // Input.DeNoise(); // use if image contains digital noise
+                var Result = Ocr.Read(Input);
+                var ResultString = "";
+                foreach (var item in Result.Words)
+                {
+                    ResultString += item.Text+",";
+                }
+
+                //string[] List = Result.Split(", ");
+                //return Result.Text;
+                return ResultString;
+            }
         }
     }
 }
