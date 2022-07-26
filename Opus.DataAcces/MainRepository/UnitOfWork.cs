@@ -13,11 +13,13 @@ namespace Opus.DataAcces.MainRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly AccountingDbContext _dbAc;
-        public UnitOfWork(ApplicationDbContext db, AccountingDbContext dbAc)
+        private readonly ReferenceVerifDbContext _dbRV;
+        public UnitOfWork(ApplicationDbContext db, AccountingDbContext dbAc, ReferenceVerifDbContext dbRV)
         {
             #region Dependency-Injection
             _db = db;
             _dbAc = dbAc;
+            _dbRV = dbRV;
 
             #region Main And HR
             ApplicationUser = new ApplicationUserRepository(_db);
@@ -59,6 +61,10 @@ namespace Opus.DataAcces.MainRepository
             #endregion Accounting
 
             #endregion Dependency-Injection
+
+            #region ReferenceVerif
+            ReferenceVerif_Company = new ReferenceVerifRepository.CompaniesRepository(_dbRV);
+            #endregion ReferenceVerif
         }
 
         #region Variables
@@ -103,17 +109,23 @@ namespace Opus.DataAcces.MainRepository
 
         #endregion Accounting
 
+        #region ReferenceVerif
+        public IMainRepository.IReferenceVerifRepository.ICompaniesRepository ReferenceVerif_Company { get; private set; }
+        #endregion ReferenceVerif
+
         #endregion Variables
 
         public void Dispose()
         {
             _db.Dispose();
             _dbAc.Dispose();
+            _dbRV.Dispose();
         }
         public void Save()
         {
             _db.SaveChanges();
             _dbAc.SaveChanges();
+            _dbRV.SaveChanges();
         }
     }
 }

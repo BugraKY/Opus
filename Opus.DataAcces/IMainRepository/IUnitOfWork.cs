@@ -48,6 +48,11 @@ namespace Opus.DataAcces.IMainRepository
         IAccountingRepository.IExchangeRateRepository Accounting_ExchangeRate { get; }
         #endregion Accounting
 
+
+        #region ReferenceVerification
+        IReferenceVerifRepository.ICompaniesRepository ReferenceVerif_Company { get; }
+        #endregion ReferenceVerification
+
         void Save();
     }
 }

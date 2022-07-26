@@ -15,6 +15,7 @@ namespace Opus.DataAcces.MainRepository
 
         private readonly ApplicationDbContext _db;
         private readonly AccountingDbContext _acDb;
+        private readonly ReferenceVerifDbContext _RVdb;
         internal DbSet<T> dbSet;
         //internal Task<DbSet<T>> dbSetTask;
 
@@ -28,6 +29,11 @@ namespace Opus.DataAcces.MainRepository
             _acDb=acDb;
             dbSet = _acDb.Set<T>();
 
+        }
+        public Repository(ReferenceVerifDbContext RVdb)
+        {
+            _RVdb=RVdb;
+            dbSet = _RVdb.Set<T>();
         }
         public void Add(T entity)
         {
