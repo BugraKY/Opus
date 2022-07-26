@@ -23,6 +23,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddDbContext<AccountingDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AccountingConnection")));
 
+builder.Services.AddDbContext<ReferenceVerifDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("ReferenceVerifConnection")));
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 6;

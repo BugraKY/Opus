@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model IEnumerable<Opus.Models.DbModels.ReferenceVerifDb.Company>
+<div class="container-full">
+    <div class="content-header">
+        <div class="me-auto">
+            <h3 class="page-title">Quality Service</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/qs">QS Dashboard</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Reference Verification</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="pb-10"></div>
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body">
+
+
+
+                        <ul class="nav nav-tabs justify-content-center" role="tablist">
+                            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#list" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">Reference List</span></a> </li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#add" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">Add Company</span></a> </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content tabcontent-border">
+                            <div class="tab-pane active" id="list" role="tabpanel">
+
+                                <div class="p-15">
+                                    <h4>Add Reference</h4>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Company:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="rounded">
+                                                <select class="form-select select2 input-col" id="companyId" tabindex="5" style="max-width:200px;">
+                                                    <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Companies</option>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Reference Code:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <input class="form-control custom-date" type="text" name="ReferenceCode" style="max-width:200px;" placeholder="REF57" value="">
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Reference Number:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <input class="form-control custom-date" type="text" name="ReferenceNum" style="max-width:200px;" placeholder="9835572847" value="">
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn-opus" style="float:right;" id="refAjx">Add refAjx</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="p-15">
+                                    <div class="row">
+                                        <div class="col">
+                                            <table id="reference_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="d-none"></th>
+                                                        <th>Company</th>
+                                                        <th>Reference</th>
+                                                        <th>Reference Code</th>
+                                                        <th>State</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="add" role="tabpanel">
+                                <div class="p-15">
+                                    <form asp-area="QS" asp-controller="RV" asp-action="PostCompany" method="post">
+                                        <h4>Add Company</h4>
+                                        <div class="row">
+                                            <div class="col-lg-2 col-12">
+                                                <h6 class="my-10">Company Name:</h6>
+                                            </div>
+                                            <div class="col-lg-4 col-12">
+                                                <input class="form-control custom-date" type="text" name="CompanyName" style="max-width:200px;" placeholder="Expert Quality Service" value="">
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button class="btn btn-opus" style="float:right;" type="submit">Add</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        var compId = '00000000-0000-0000-0000-000000000000';
+        var refCode = '';
+        var refNum = '';
+
+        function postRefAjax() {
+
+            refCode = $('input[name="ReferenceCode"]').val();
+            refNum = $('input[name="ReferenceNum"]').val();
+
+            var json = {
+                referenceCode: refCode,
+                referenceNum: refNum,
+                companyId: compId,
+                active: true,
+                activeSTR:'Live'
+            };
+            console.log(json);
+            if (compId === "00000000-0000-0000-0000-000000000000") {
+                alert("Please select a company");
+            }
+            else {
+                console.log("postRefAjax() event");
+                $.ajax({
+                    url: "/api/qs/post-ref",
+                    data: JSON.stringify(json),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (received) {
+                        listRef();
+                        $('input[name="ReferenceCode"]').val("");
+                        $('input[name="ReferenceNum"]').val("");
+                    }
+                });
+            }
+
+        }
+
+        $(document).on('click', '#refAjx', function () {
+            postRefAjax();
+        });
+        $(document.body).on("change", "#companyId", function (e) {
+
+            compId = this.value;
+            console.log(compId);
+        });
+        function listRef() {
+            var table = $('#reference_list').DataTable({
+                order: [[4, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/qs/get-verif',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                    // call your function here
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "company.name" },
+                    { "data": "referenceNum" },
+                    { "data": "referenceCode", "width": "45" },
+                    { "data": "activeSTR" }
+                    /*
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return '<a class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                        }
+                    },*/
+
+                ]
+            });
+            $("#categoryId").select2({ width: '200px' });
+        }
+        $(document).ready(function () {
+            listRef();
+
+        });
+    </script>
+}
