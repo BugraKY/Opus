@@ -81,7 +81,7 @@ namespace Opus.Areas.HR.Controllers
             //_uow.Save();
             return RedirectToAction("AddVacationDays");
         }
-
+        /*
         [HttpGet("api/test-ocr")]
         public string TestOCR()
         {
@@ -102,5 +102,6 @@ namespace Opus.Areas.HR.Controllers
                 return ResultString;
             }
         }
+        */
     }
 }
