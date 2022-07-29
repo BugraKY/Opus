@@ -5,6 +5,7 @@ using Opus.Areas.HR.Controllers;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using Opus.Models.DbModels.ReferenceVerifDb;
+using System.Text;
 using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.QS.Controllers
@@ -49,13 +50,25 @@ namespace Opus.Areas.QS.Controllers
 
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
-        [HttpGet("api/qs/get-verif")]
-        public IEnumerable<Verifications> GetVerifications()
+        [Route("qs/references-verify/edit-user/{id}")]
+        public IActionResult EditUser(string id)
         {
-            return _uow.ReferenceVerif_Verification.GetAll(includeProperties:"Company").Where(a=>a.Company.Active);
+            return View(_uow.ReferenceVerif_User.GetFirstOrDefault(i=>i.Id==Guid.Parse(id)));
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
-        [HttpPost("api/qs/post-ref")]
+        [HttpGet("api/qs/rv/get-verif")]
+        public IEnumerable<Verifications> GetVerifications()
+        {
+            return _uow.ReferenceVerif_Verification.GetAll(includeProperties: "Company").Where(a => a.Company.Active);
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpGet("api/qs/rv/get-userlist")]
+        public IEnumerable<User> GetUsers()
+        {
+            return _uow.ReferenceVerif_User.GetAll();
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("api/qs/rv/post-ref")]
         public bool PostReference([FromBody] Verifications verification)
         {
             //Live
@@ -64,5 +77,49 @@ namespace Opus.Areas.QS.Controllers
             _uow.Save();
             return true;
         }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("api/qs/rv/generate-pass")]
+        public string GeneratePassword([FromBody] string key)
+        {
+            var length = 6;
+            StringBuilder res = new StringBuilder();
+            /*
+            var _password = "";
+            if (key == "vasd7564as52d9c7s")
+            {
+                _password = Guid.NewGuid().ToString().Replace("-", "").Substring(1,6);
+            }
+            return _password;
+            */
+            if (key == "vasd7564as52d9c7s")
+            {
+                const string valid = "abcdefghijkmnopqrstuvwxyz1234567890";
+
+                Random rnd = new Random();
+                while (0 < length--)
+                {
+                    res.Append(valid[rnd.Next(valid.Length)]);
+                }
+                
+            }
+            return res.ToString();
+        }
+
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("api/qs/rv/post-user")]
+        public bool PostReference([FromBody] User _user)
+        {
+            var check = _uow.ReferenceVerif_User.GetFirstOrDefault(i=>i.UserName==_user.UserName);
+            if (check == null)
+            {
+                _uow.ReferenceVerif_User.Add(_user);
+                _uow.Save();
+                return true;
+            }
+            return false;
+
+
+        }
     }
+
 }

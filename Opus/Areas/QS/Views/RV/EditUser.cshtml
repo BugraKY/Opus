@@ -1,0 +1,71 @@
+﻿@model Opus.Models.DbModels.ReferenceVerifDb.User
+@{
+    ViewData["Title"] = "EditUser";
+}
+<div class="container-full">
+    <div class="content-header">
+        <div class="me-auto">
+            <h3 class="page-title">Quality Service</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/qs">QS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/qs/references-verif">Reference Verification</a></li>
+                        <li class="breadcrumb-item" aria-current="page">User</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="pb-10"></div>
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="p-15">
+                            <h4>User</h4>
+                            <div class="row">
+                                <div class="col-lg-2 col-12">
+                                    <h6 class="my-10">UserName:</h6>
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <input class="form-control custom-date" type="text" asp-for="UserName" style="max-width:200px;" value="@Model.UserName">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-12">
+                                    <h6 class="my-10">Password:</h6>
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <input class="form-control custom-date" type="text" asp-for="Password" style="max-width:200px;" value="@Model.Password" readonly="readonly">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2 col-12">
+                                    <h6 class="my-10">Full Name:</h6>
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <input class="form-control custom-date" type="text" asp-for="FullName" style="max-width:200px;" value="@Model.FullName">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-opus" style="float:right;" type="submit">Save</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>

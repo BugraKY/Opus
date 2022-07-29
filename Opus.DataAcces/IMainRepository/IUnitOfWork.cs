@@ -52,6 +52,7 @@ namespace Opus.DataAcces.IMainRepository
         #region ReferenceVerification
         IReferenceVerifRepository.ICompaniesRepository ReferenceVerif_Company { get; }
         IReferenceVerifRepository.IVerificationRepository ReferenceVerif_Verification { get; }
+        IReferenceVerifRepository.IUserRepository ReferenceVerif_User { get; }
         #endregion ReferenceVerification
 
         void Save();

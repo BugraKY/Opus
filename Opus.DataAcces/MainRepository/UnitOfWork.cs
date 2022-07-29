@@ -65,6 +65,7 @@ namespace Opus.DataAcces.MainRepository
             #region ReferenceVerif
             ReferenceVerif_Company = new ReferenceVerifRepository.CompaniesRepository(_dbRV);
             ReferenceVerif_Verification = new ReferenceVerifRepository.VerificationRepository(_dbRV);
+            ReferenceVerif_User = new ReferenceVerifRepository.UserRepository(_dbRV);
             #endregion ReferenceVerif
         }
 
@@ -113,6 +114,7 @@ namespace Opus.DataAcces.MainRepository
         #region ReferenceVerif
         public IMainRepository.IReferenceVerifRepository.ICompaniesRepository ReferenceVerif_Company { get; private set; }
         public IMainRepository.IReferenceVerifRepository.IVerificationRepository ReferenceVerif_Verification { get; private set; }
+        public IMainRepository.IReferenceVerifRepository.IUserRepository ReferenceVerif_User { get; private set; }
         #endregion ReferenceVerif
 
         #endregion Variables

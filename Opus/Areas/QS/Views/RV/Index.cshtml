@@ -18,7 +18,9 @@
             </div>
         </div>
     </div>
+
     <div class="pb-10"></div>
+
     <section class="content">
         <div class="row">
             <div class="col-12">
@@ -29,7 +31,8 @@
 
                         <ul class="nav nav-tabs justify-content-center" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#list" role="tab"><span><i class="ion-home"></i></span> <span class="hidden-xs-down ms-15">Reference List</span></a> </li>
-                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#add" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">Add Company</span></a> </li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#add" role="tab"><span><i class="fa fa-building-o"></i></span> <span class="hidden-xs-down ms-15">Add Company</span></a> </li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#user" role="tab"><span><i class="ion-person"></i></span> <span class="hidden-xs-down ms-15">Add User</span></a> </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content tabcontent-border">
@@ -74,7 +77,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <button class="btn btn-opus" style="float:right;" id="refAjx">Add refAjx</button>
+                                            <button class="btn btn-opus" style="float:right;" id="refAjx">Add reference</button>
                                         </div>
 
                                     </div>
@@ -117,12 +120,96 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <button class="btn btn-opus" style="float:right;" type="submit">Add</button>
+                                                <button class="btn btn-opus" style="float:right;" type="submit">Add Company</button>
                                             </div>
 
                                         </div>
                                     </form>
 
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="user" role="tabpanel">
+                                <div class="p-15">
+                                    <h4>Add User</h4>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">User Name(Login ID):</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <input class="form-control custom-date" type="text" id="userNameId" name="UserName" style="max-width:200px;" placeholder="User Name" value="" maxlength="10">
+                                        </div>
+                                    </div>
+
+                                    <div class="row my-2">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Password:</h6>
+                                        </div>
+                                        <div class="col-lg-2 col-12">
+                                            <input class="form-control custom-date" type="text" name="Password" style="max-width:200px;background-color:#FFFFFF;" readonly maxlength="6">
+                                        </div>
+                                        <div class="col-lg-4 col-12 my-1">
+                                            <button class="btn btn-sm btn-primary" id="generatePass">Generate</button>
+                                        </div>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Full Name:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <input class="form-control custom-date" type="text" name="FullName" style="max-width:200px;" placeholder="Name Surname" value="">
+                                        </div>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Is Active:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12 my-2">
+                                            <input type="checkbox" id="active_check" class="filled-in chk-col-success" checked="checked">
+                                            <label for="active_check">Active</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Is Officer:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12 my-2">
+                                            <input type="checkbox" id="admin_check" class="filled-in chk-col-success">
+                                            <label for="admin_check" id="adminCheckLabel">User</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div id="message">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn-opus" style="float:right;" id="addUser">Add User</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-15">
+                                    <div class="row">
+                                        <div class="col">
+                                            <table id="user_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="d-none"></th>
+                                                        <th>UserName</th>
+                                                        <th>FullName</th>
+                                                        <th>Active</th>
+                                                        <th>User State</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -144,8 +231,14 @@
         var refCode = '';
         var refNum = '';
 
-        function postRefAjax() {
+        var userName = '';
+        var password = '';
+        var fullName = '';
+        var active = true;
+        var admin = false;
 
+        function postRefAjax() {
+            $('#message').html("");
             refCode = $('input[name="ReferenceCode"]').val();
             refNum = $('input[name="ReferenceNum"]').val();
 
@@ -154,7 +247,7 @@
                 referenceNum: refNum,
                 companyId: compId,
                 active: true,
-                activeSTR:'Live'
+                activeSTR: 'Live'
             };
             console.log(json);
             if (compId === "00000000-0000-0000-0000-000000000000") {
@@ -163,7 +256,7 @@
             else {
                 console.log("postRefAjax() event");
                 $.ajax({
-                    url: "/api/qs/post-ref",
+                    url: "/api/qs/rv/post-ref",
                     data: JSON.stringify(json),
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -176,14 +269,93 @@
             }
 
         }
+        function generatePass() {
+            $('#message').html("");
+            /*
+            var json = {
+                referenceCode: refCode,
+                referenceNum: refNum,
+                companyId: compId,
+                active: true,
+                activeSTR: 'Live'
+            };*/
+            $.ajax({
+                url: "/api/qs/rv/generate-pass",
+                data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (received) {
+                    $('input[name="Password"]').val(received);
+                }
+            });
+        }
+        function postUserAjax() {
+            $('#message').html("");
+            userName = $('input[name="UserName"]').val();
+            password = $('input[name="Password"]').val();
+            fullName = $('input[name="FullName"]').val();
+
+            var json = {
+                fullName: fullName,
+                userName: userName,
+                password: password,
+                admin: admin,
+                active: active
+            };
+            console.log(json);
+            if (userName.length < 3) {
+                $('#message').html(`<span class="badge badge-danger">UserName field required and at least 3 characters must be entered</span>`);
+            }
+            else if (password.length < 6) {
+                $('#message').html(`<span class="badge badge-danger">Password field required and at least 6 characters must be entered</span>`);
+            }
+            else if (fullName.length < 5) {
+                $('#message').html(`<span class="badge badge-danger">FullName field required and at least 5 characters must be entered</span>`);
+            }
+            else {
+                $.ajax({
+                    url: "/api/qs/rv/post-user",
+                    data: JSON.stringify(json),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (received) {
+                        //listRef();List Users;
+                        if (received) {
+                            $('input[name="UserName"]').val('');
+                            $('input[name="Password"]').val('');
+                            $('input[name="FullName"]').val('');
+                            $('#active_check').prop('checked', true);
+                            $('#admin_check').prop('checked', false);
+                            $('label[for="active_check"]').html("Active");
+                            $('label[for="admin_check"]').html("User");
+                            listUser();
+                        }
+                        else {
+                            $('#message').html(`<span class="badge badge-danger">The user could not be added. This username is already added before.</span>`);
+                        }
+
+                    }
+                });
+            }
+            $('#addUser').prop("disabled", false);
+        }
 
         $(document).on('click', '#refAjx', function () {
             postRefAjax();
         });
+        $(document).on('click', '#generatePass', function () {
+            generatePass();
+        });
         $(document.body).on("change", "#companyId", function (e) {
-
             compId = this.value;
             console.log(compId);
+        });
+        $(document.body).on("change", "#userNameId", function (e) {
+            $('#message').html("");
+        });
+        $(document).on('click', '#addUser', function () {
+            $('#addUser').prop("disabled", true);
+            postUserAjax();
         });
         function listRef() {
             var table = $('#reference_list').DataTable({
@@ -194,7 +366,7 @@
                 "bPaginate": true,
                 "ajax": {
                     "type": "GET",
-                    "url": '/api/qs/get-verif',
+                    "url": '/api/qs/rv/get-verif',
                     'dataSrc': '',
                 },
                 "initComplete": function (settings, json) {
@@ -218,9 +390,94 @@
             });
             $("#categoryId").select2({ width: '200px' });
         }
+        function listUser() {
+            var tableUser = $('#user_list').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/qs/rv/get-userlist',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "userName" },
+                    { "data": "fullName" },
+                    {
+                        "data": "active",
+                        render: function (data, type, row) {
+                            if (data)
+                                return 'Active';
+                            else
+                                return 'Deactive';
+                        }
+                    },
+                    {
+                        "data": "admin",
+                        render: function (data, type, row) {
+                            if (data)
+                                return 'Officer';
+                            else
+                                return 'User';
+                        }
+                    },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            return '<a class="fa-exp-font" href="/qs/references-verify/edit-user/' + data + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                        }
+                    }
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
+        function disablewhitespaceinusername() {
+            var field = document.querySelector('[name="UserName"]');
+
+            field.addEventListener('keypress', function (event) {
+                var key = event.keyCode;
+                if (key === 32) {
+                    event.preventDefault();
+                }
+            });
+        }
+        function active_checkBox() {
+            $("#active_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    active = true;
+                    $('label[for="active_check"]').html("Active");
+                }
+                else {
+                    active = false;
+                    $('label[for="active_check"]').html("Deactive");
+                }
+            });
+        }
+        function admin_checkBox() {
+            $("#admin_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    admin = true;
+                    $('label[for="admin_check"]').html("Officer");
+                }
+                else {
+                    admin = false;
+                    $('label[for="admin_check"]').html("User");
+                }
+            });
+        }
         $(document).ready(function () {
             listRef();
-
+            listUser();
+            disablewhitespaceinusername();
+            active_checkBox();
+            admin_checkBox();
         });
     </script>
 }
