@@ -26,13 +26,13 @@ namespace Opus.DataAcces.MainRepository
         }
         public Repository(AccountingDbContext acDb)
         {
-            _acDb=acDb;
+            _acDb = acDb;
             dbSet = _acDb.Set<T>();
 
         }
         public Repository(ReferenceVerifDbContext RVdb)
         {
-            _RVdb=RVdb;
+            _RVdb = RVdb;
             dbSet = _RVdb.Set<T>();
         }
         public void Add(T entity)
@@ -138,8 +138,9 @@ namespace Opus.DataAcces.MainRepository
                     query = query.Include(item).AsNoTracking();
                 }
             }
-
             return query.FirstOrDefault();
+
+
         }
         /*
         public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, string includeProperties = null)

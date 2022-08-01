@@ -53,7 +53,15 @@ namespace Opus.Areas.QS.Controllers
         [Route("qs/references-verify/edit-user/{id}")]
         public IActionResult EditUser(string id)
         {
-            return View(_uow.ReferenceVerif_User.GetFirstOrDefault(i=>i.Id==Guid.Parse(id)));
+            return View(_uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id)));
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("qs/references-verify/edit-user/post/")]
+        public IActionResult EditUserPost(User user)
+        {
+            _uow.ReferenceVerif_User.Update(user);
+            _uow.Save();
+            return Redirect("/qs/references-verify/edit-user/" + user.Id);
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [HttpGet("api/qs/rv/get-verif")]
@@ -100,7 +108,7 @@ namespace Opus.Areas.QS.Controllers
                 {
                     res.Append(valid[rnd.Next(valid.Length)]);
                 }
-                
+
             }
             return res.ToString();
         }
@@ -109,7 +117,7 @@ namespace Opus.Areas.QS.Controllers
         [HttpPost("api/qs/rv/post-user")]
         public bool PostReference([FromBody] User _user)
         {
-            var check = _uow.ReferenceVerif_User.GetFirstOrDefault(i=>i.UserName==_user.UserName);
+            var check = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.UserName == _user.UserName);
             if (check == null)
             {
                 _uow.ReferenceVerif_User.Add(_user);

@@ -27,39 +27,66 @@
                     <div class="box-body">
                         <div class="p-15">
                             <h4>User</h4>
-                            <div class="row">
-                                <div class="col-lg-2 col-12">
-                                    <h6 class="my-10">UserName:</h6>
+                            <form asp-area="QS" asp-controller="RV" asp-action="EditUserPost" asp-route-id="@Model.Id">
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">UserName:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control custom-date" type="text" asp-for="UserName" style="max-width:200px;" value="@Model.UserName">
+                                    </div>
                                 </div>
-                                <div class="col-lg-4 col-12">
-                                    <input class="form-control custom-date" type="text" asp-for="UserName" style="max-width:200px;" value="@Model.UserName">
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Password:</h6>
+                                    </div>
+                                    <div class="col-lg-2 col-12">
+                                        <input class="form-control custom-date" type="text" asp-for="Password" style="max-width:200px;" value="@Model.Password" readonly="readonly">
+                                    </div>
+                                    <div class="col-lg-4 col-12 my-1">
+                                        <a class="btn btn-sm btn-primary" id="generatePass">Generate</a>
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-2 col-12">
-                                    <h6 class="my-10">Password:</h6>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Full Name:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control custom-date" type="text" asp-for="FullName" style="max-width:200px;" value="@Model.FullName">
+                                    </div>
                                 </div>
-                                <div class="col-lg-4 col-12">
-                                    <input class="form-control custom-date" type="text" asp-for="Password" style="max-width:200px;" value="@Model.Password" readonly="readonly">
+                                <div class="row my-2">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Is Active:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12 my-2">
+                                        @*<input type="text" asp-for="Active" id="active_val" class="d-none" value="" />*@
+                                        <input type="checkbox" id="active_check" class="filled-in chk-col-success" asp-for="Active">
+                                        <label for="active_check">@if (Model.Active){<text>Active</text>}else{<text>Deactive</text>}</label>
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-2 col-12">
-                                    <h6 class="my-10">Full Name:</h6>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Is Officer:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12 my-2">
+                                        @*<input type="text" asp-for="Admin" id="admin_val" class="d-none" value=""/>*@
+                                        <input type="checkbox" id="admin_check" class="filled-in chk-col-success" asp-for="Admin">
+                                        <label for="admin_check" id="adminCheckLabel">@if (Model.Admin){<text>Officer</text>}else{<text>User</text>}</label>
+                                    </div>
                                 </div>
-                                <div class="col-lg-4 col-12">
-                                    <input class="form-control custom-date" type="text" asp-for="FullName" style="max-width:200px;" value="@Model.FullName">
+                                <div class="row">
+                                    <div class="col">
+                                        <div id="message">
+                                        </div>
+                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <button class="btn btn-opus" style="float:right;" type="submit">Save</button>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-opus" style="float:right;" type="submit">Save</button>
+                                    </div>
                                 </div>
-
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -69,3 +96,77 @@
 
 
 </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            active_checkBox();
+            admin_checkBox();
+
+        });
+        $(document).on('click', '#generatePass', function () {
+            generatePass();
+        });/*
+        $(document.body).on("change", "#admin_check", function (e) {
+            console.clear();
+            admin_checkBox();
+        });
+        $(document.body).on("change", "#active_check", function (e) {
+            console.clear();
+            active_checkBox();
+        });*/
+        function active_checkBox() {
+            $("#active_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    active = true;
+                    $('label[for="active_check"]').html("Active");
+                    $('#active_check').attr('checked', true);
+                    //$('#active_check').val("true");
+                }
+                else {
+                    active = false;
+                    $('label[for="active_check"]').html("Deactive");
+                    $('#active_check').attr('checked', false);
+                    //$('#active_check').val("false");
+                }
+                $('#active_check').val(active);
+                console.log(active);
+            });
+        }
+        function admin_checkBox() {
+            $("#admin_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    admin = true;
+                    $('label[for="admin_check"]').html("Officer");
+                    $('#admin_check').attr('checked', true);
+                    //$('#admin_check').val("true");
+                }
+                else {
+                    admin = false;
+                    $('label[for="admin_check"]').html("User");
+                    $('#admin_check').attr('checked', false);
+                    //$('#admin_check').val("false");
+                }
+                $('#admin_check').val(admin);
+                console.log(admin);
+            });
+        }
+        function generatePass() {
+            $('#message').html("");
+            $.ajax({
+                url: "/api/qs/rv/generate-pass",
+                data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (received) {
+                    $('input[name="Password"]').val(received);
+                }
+            });
+        }
+    </script>
+}
