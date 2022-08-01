@@ -1,0 +1,185 @@
+﻿@model Opus.Models.ViewModels.ReferenceVerif.ReferenceDefsIndexVM
+@{
+    ViewData["Title"] = "ReferenceDefs";
+}
+<div class="container-full">
+    <div class="content-header">
+        <div class="me-auto">
+            <h3 class="page-title">Quality Service</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/qs">QS Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/qs/references-verif">Reference Verification</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Reference Definitions</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="pb-10"></div>
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="p-15">
+                            <h4>User</h4>
+                            <form asp-area="QS" asp-controller="RV" asp-action="AddDef" asp-route-userid="@Model.UserId">
+                                <input value="@Model.User.Id" readonly="readonly" class="d-none" />
+                                <input value="@Model.UserId" readonly="readonly" class="d-none" />
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">UserName: </h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control custom-date" id="username" type="text" style="max-width:200px;background-color:white;" value="@Model.User.UserName" readonly />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Full Name:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control custom-date" id="fullname" type="text" style="max-width:200px;background-color:white;" value="@Model.User.FullName" readonly />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">References:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <div class="rounded">
+                                            <select class="form-select select2 input-col" asp-for="RefId" style="max-width:200px;" required>
+                                                <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">References</option>
+                                                @foreach (var item in Model.Enum_References)
+                                                {
+                                                    <option value="@item.Id">@item.ReferenceNum</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div id="message">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-opus" style="float:right;" type="submit">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="p-15">
+                            <small>User-defined references table</small>
+                        </div>
+                        <div class="p-15">
+                            <table id="definition_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none"></th>
+                                        <th>Reference</th>
+                                        <th>Code</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Enum_ReferenceDefinitions)
+                                    {
+                                        <tr>
+                                            <td class="d-none">@item.Id</td>
+                                            <td>@item.Verifications.ReferenceNum</td>
+                                            <td>@item.Verifications.ReferenceCode</td>
+                                            <td><a class="fa-exp-font" href="/qs/references-verify/reference-definitions/@Model.UserId/del/@item.Id"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            active_checkBox();
+            admin_checkBox();
+
+        });
+        $(document).on('click', '#generatePass', function () {
+            generatePass();
+        });/*
+            $(document.body).on("change", "#admin_check", function (e) {
+                console.clear();
+                admin_checkBox();
+            });
+            $(document.body).on("change", "#active_check", function (e) {
+                console.clear();
+                active_checkBox();
+            });*/
+        function active_checkBox() {
+            $("#active_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    active = true;
+                    $('label[for="active_check"]').html("Active");
+                    $('#active_check').attr('checked', true);
+                    //$('#active_check').val("true");
+                }
+                else {
+                    active = false;
+                    $('label[for="active_check"]').html("Deactive");
+                    $('#active_check').attr('checked', false);
+                    //$('#active_check').val("false");
+                }
+                $('#active_check').val(active);
+                console.log(active);
+            });
+        }
+        function admin_checkBox() {
+            $("#admin_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    admin = true;
+                    $('label[for="admin_check"]').html("Officer");
+                    $('#admin_check').attr('checked', true);
+                    //$('#admin_check').val("true");
+                }
+                else {
+                    admin = false;
+                    $('label[for="admin_check"]').html("User");
+                    $('#admin_check').attr('checked', false);
+                    //$('#admin_check').val("false");
+                }
+                $('#admin_check').val(admin);
+                console.log(admin);
+            });
+        }
+        function generatePass() {
+            $('#message').html("");
+            $.ajax({
+                url: "/api/qs/rv/generate-pass",
+                data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (received) {
+                    $('input[name="Password"]').val(received);
+                }
+            });
+        }
+    </script>
+}

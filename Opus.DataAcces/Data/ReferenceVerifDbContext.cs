@@ -18,5 +18,6 @@ namespace Opus.DataAcces.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Verifications> Verifications { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<ReferenceDefinitions> ReferenceDefinitions { get; set; }
     }
 }

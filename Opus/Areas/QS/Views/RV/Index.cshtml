@@ -222,7 +222,7 @@
                                 <div class="p-15">
                                     <div class="row">
                                         <div class="col">
-                                            <table id="def_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                            <table id="userlistforDef" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
                                                 <thead>
                                                     <tr>
                                                         <th class="d-none"></th>
@@ -464,6 +464,44 @@
             });
             //$("#categoryId").select2({ width: '200px' });
         }
+
+        function listUserforDef() {
+            var userlistforDef = $('#userlistforDef').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/qs/rv/get-userlist',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "userName" },
+                    { "data": "fullName" },
+                    {
+                        "data": "active",
+                        render: function (data, type, row) {
+                            if (data)
+                                return 'Active';
+                            else
+                                return 'Deactive';
+                        }
+                    },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            return '<a class="fa-exp-font" href="/qs/references-verify/reference-definitions/' + data + '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                        }
+                    }
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
         function disablewhitespaceinusername() {
             var field = document.querySelector('[name="UserName"]');
 
@@ -503,6 +541,7 @@
         $(document).ready(function () {
             listRef();
             listUser();
+            listUserforDef();
             disablewhitespaceinusername();
             active_checkBox();
             admin_checkBox();

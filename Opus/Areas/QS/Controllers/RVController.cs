@@ -6,6 +6,7 @@ using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels;
 using Opus.Models.DbModels.ReferenceVerifDb;
 using System.Text;
+using Opus.Models.ViewModels.ReferenceVerif;
 using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.QS.Controllers
@@ -64,6 +65,55 @@ namespace Opus.Areas.QS.Controllers
             return Redirect("/qs/references-verify/edit-user/" + user.Id);
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [Route("qs/references-verify/reference-definitions/{id}")]
+        public IActionResult ReferenceDefs(string id)
+        {
+            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+            _user = new User()
+            {
+                UserName = _user.UserName,
+                FullName = _user.FullName,
+                Id = _user.Id
+            };
+            var referenceDefs = new ReferenceDefsIndexVM()
+            {
+                Enum_ReferenceDefinitions = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => i.UserId == Guid.Parse(id),includeProperties: "Verifications"),
+                Enum_References = _uow.ReferenceVerif_Verification.GetAll(a => a.Active),
+                User =_user,
+                UserId=_user.Id.ToString()
+            };
+            //var _definitions = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => i.UserId == Guid.Parse(id));
+            return View(referenceDefs);
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("qs/references-verify/reference-definitions/add")]
+        public IActionResult AddDef(ReferenceDefsIndexVM referenceDefinitions)
+        {
+            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(referenceDefinitions.UserId));
+            var _reference = _uow.ReferenceVerif_Verification.GetFirstOrDefault(i=>i.Id== Guid.Parse(referenceDefinitions.RefId));
+            var _COUNT = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => (i.VerificationsId == Guid.Parse(referenceDefinitions.RefId)&&i.UserId==Guid.Parse(referenceDefinitions.UserId))).Count();
+            if (_COUNT < 1)
+            {
+                var referenceDefs = new ReferenceDefinitions()
+                {
+                    UserId = Guid.Parse(referenceDefinitions.UserId),
+                    VerificationsId = Guid.Parse(referenceDefinitions.RefId)
+                };
+                _uow.ReferenceVerif_ReferenceDefinitions.Add(referenceDefs);
+                _uow.Save();
+            }
+            return Redirect("/qs/references-verify/reference-definitions/"+referenceDefinitions.UserId);
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [Route("qs/references-verify/reference-definitions/{id}/del/{refid}")]
+        public IActionResult DelDef(string id,string refid)
+        {
+            _uow.ReferenceVerif_ReferenceDefinitions.Remove(_uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(i=>i.Id==Guid.Parse(refid)));
+            _uow.Save();
+
+            return Redirect("/qs/references-verify/reference-definitions/" + id);
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [HttpGet("api/qs/rv/get-verif")]
         public IEnumerable<Verifications> GetVerifications()
         {
@@ -74,6 +124,26 @@ namespace Opus.Areas.QS.Controllers
         public IEnumerable<User> GetUsers()
         {
             return _uow.ReferenceVerif_User.GetAll();
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpGet("api/qs/rv/get-user/{id}")]
+        public User GetUser(string id)
+        {
+            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+
+            _user = new User()
+            {
+                Id = _user.Id,
+                UserName = _user.UserName,
+                FullName = _user.FullName
+            };
+            return _user;
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpGet("api/qs/rv/get-references/")]
+        public IEnumerable<Verifications> GetAllRefs(string id)
+        {
+            return _uow.ReferenceVerif_Verification.GetAll(a => a.Active);
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [HttpPost("api/qs/rv/post-ref")]

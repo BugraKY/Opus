@@ -60,13 +60,16 @@ namespace Opus.DataAcces.MainRepository
             Accounting_ExchangeRate = new AccountingRepository.ExchangeRateRepository(_dbAc);
             #endregion Accounting
 
-            #endregion Dependency-Injection
-
             #region ReferenceVerif
             ReferenceVerif_Company = new ReferenceVerifRepository.CompaniesRepository(_dbRV);
             ReferenceVerif_Verification = new ReferenceVerifRepository.VerificationRepository(_dbRV);
             ReferenceVerif_User = new ReferenceVerifRepository.UserRepository(_dbRV);
+            ReferenceVerif_ReferenceDefinitions = new ReferenceVerifRepository.ReferenceDefinitionsRepository(_dbRV);
             #endregion ReferenceVerif
+
+            #endregion Dependency-Injection
+
+
         }
 
         #region Variables
@@ -115,6 +118,7 @@ namespace Opus.DataAcces.MainRepository
         public IMainRepository.IReferenceVerifRepository.ICompaniesRepository ReferenceVerif_Company { get; private set; }
         public IMainRepository.IReferenceVerifRepository.IVerificationRepository ReferenceVerif_Verification { get; private set; }
         public IMainRepository.IReferenceVerifRepository.IUserRepository ReferenceVerif_User { get; private set; }
+        public IMainRepository.IReferenceVerifRepository.IReferenceDefinitionsRepository ReferenceVerif_ReferenceDefinitions { get; private set; }
         #endregion ReferenceVerif
 
         #endregion Variables
