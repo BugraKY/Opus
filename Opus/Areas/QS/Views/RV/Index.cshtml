@@ -405,7 +405,15 @@
                     { "data": "company.name" },
                     { "data": "referenceNum" },
                     { "data": "referenceCode", "width": "45" },
-                    { "data": "activeSTR" }
+                    {
+                        "data": "active",
+                        render: function (data, type, row) {
+                            if (data)
+                                return 'Live';
+                            else
+                                return 'Out of work';
+                        }
+                    },
                     /*
                     {
                         data: null,

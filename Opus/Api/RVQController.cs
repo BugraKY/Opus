@@ -42,8 +42,19 @@ namespace Opus.Api
                 else
                 {
                     //_verification = _refNum;
-                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
-                        includeProperties: "Verifications");
+                    if (_user.Admin)
+                    {
+                        _def = new ReferenceDefinitions
+                        {
+                            Verifications=_refNum
+                        };
+                    }
+                    else
+                    {
+                        _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
+                            includeProperties: "Verifications");
+                    }
+
                 }
 
 
@@ -65,11 +76,23 @@ namespace Opus.Api
             var _json = "";
             await Task.Run(() =>
             {
+                var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
                 var _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.ReferenceNum == num || v.ReferenceCode == code), includeProperties: "Company");
                 if (_verification != null)
                 {
-                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
-        includeProperties: "Verifications");
+                    if (_user.Admin)
+                    {
+                        _def = new ReferenceDefinitions
+                        {
+                            Verifications = _verification
+                        };
+                    }
+                    else
+                    {
+                        _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
+            includeProperties: "Verifications");
+                    }
+
                 }
 
                 if (_def != null)

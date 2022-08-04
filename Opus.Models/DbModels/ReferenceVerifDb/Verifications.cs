@@ -15,7 +15,6 @@ namespace Opus.Models.DbModels.ReferenceVerifDb
         public string ReferenceCode { get; set; }
         public string ReferenceNum { get; set; }
         public bool Active { get; set; }
-        public string ActiveSTR { get; set; }
         public Guid CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }

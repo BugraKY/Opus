@@ -12,7 +12,7 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations.ReferenceVerifDb
 {
     [DbContext(typeof(ReferenceVerifDbContext))]
-    [Migration("20220726101147_InitialMigration")]
+    [Migration("20220802124257_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,53 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.ToTable("Companies");
                 });
 
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.ReferenceDefinitions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VerificationsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VerificationsId");
+
+                    b.ToTable("ReferenceDefinitions");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Admin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.Verifications", b =>
                 {
                     b.Property<Guid>("Id")
@@ -67,6 +114,25 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Verifications");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.ReferenceDefinitions", b =>
+                {
+                    b.HasOne("Opus.Models.DbModels.ReferenceVerifDb.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Opus.Models.DbModels.ReferenceVerifDb.Verifications", "Verifications")
+                        .WithMany()
+                        .HasForeignKey("VerificationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("Verifications");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.Verifications", b =>

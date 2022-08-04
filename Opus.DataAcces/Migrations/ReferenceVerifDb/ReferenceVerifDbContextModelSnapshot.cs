@@ -98,9 +98,6 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ActiveSTR")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 

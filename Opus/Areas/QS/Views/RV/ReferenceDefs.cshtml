@@ -85,18 +85,35 @@
                                         <th class="d-none"></th>
                                         <th>Reference</th>
                                         <th>Code</th>
+                                        <th>State</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model.Enum_ReferenceDefinitions)
                                     {
-                                        <tr>
-                                            <td class="d-none">@item.Id</td>
-                                            <td>@item.Verifications.ReferenceNum</td>
-                                            <td>@item.Verifications.ReferenceCode</td>
-                                            <td><a class="fa-exp-font" href="/qs/references-verify/reference-definitions/@Model.UserId/del/@item.Id"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a></td>
-                                        </tr>
+
+                                        @if (item.Verifications.Active)
+                                        {
+                                            <tr>
+                                                <td class="d-none">@item.Id</td>
+                                                <td>@item.Verifications.ReferenceNum</td>
+                                                <td>@item.Verifications.ReferenceCode</td>
+                                                <td>Live</td>
+                                                <td><a class="fa-exp-font" href="/qs/references-verify/reference-definitions/@Model.UserId/del/@item.Id"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a></td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr class="text-danger">
+                                                <td class="d-none">@item.Id</td>
+                                                <td>@item.Verifications.ReferenceNum</td>
+                                                <td>@item.Verifications.ReferenceCode</td>
+                                                <td>Out of work</td>
+                                                <td><a class="fa-exp-font" href="/qs/references-verify/reference-definitions/@Model.UserId/del/@item.Id"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></a></td>
+                                            </tr>
+                                        }
+
                                     }
                                 </tbody>
                             </table>
@@ -123,14 +140,14 @@
         $(document).on('click', '#generatePass', function () {
             generatePass();
         });/*
-            $(document.body).on("change", "#admin_check", function (e) {
-                console.clear();
-                admin_checkBox();
-            });
-            $(document.body).on("change", "#active_check", function (e) {
-                console.clear();
-                active_checkBox();
-            });*/
+                            $(document.body).on("change", "#admin_check", function (e) {
+                                console.clear();
+                                admin_checkBox();
+                            });
+                            $(document.body).on("change", "#active_check", function (e) {
+                                console.clear();
+                                active_checkBox();
+                            });*/
         function active_checkBox() {
             $("#active_check").change(function () {
                 $('#message').html("");
