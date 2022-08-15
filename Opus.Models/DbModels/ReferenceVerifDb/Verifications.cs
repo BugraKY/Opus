@@ -12,11 +12,11 @@ namespace Opus.Models.DbModels.ReferenceVerifDb
     {
         [Key]
         public Guid Id { get; set; }
-        public string ReferenceCode { get; set; }
-        public string ReferenceNum { get; set; }
+        public string CompanyReference { get; set; }
+        public string CustomerReference { get; set; }
         public bool Active { get; set; }
-        public Guid CompanyId { get; set; }
-        [ForeignKey("CompanyId")]
-        public Company Company { get; set; }
+        public Guid CustomerDefinitionsId { get; set; }
+        [ForeignKey("CustomerDefinitionsId")]
+        public CustomerDefinitions CustomerDefinitions { get; set; }
     }
 }

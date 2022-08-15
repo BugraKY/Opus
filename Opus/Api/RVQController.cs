@@ -28,11 +28,12 @@ namespace Opus.Api
             var _json = "";
             await Task.Run(() =>
             {
+                /*
                 var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
-                var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.ReferenceNum == value, includeProperties: "Company");
+                var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CustomerReference == value, includeProperties: "Company");
                 if (_refNum == null)
                 {
-                    _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.ReferenceCode == value, includeProperties: "Company");
+                    _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CompanyReference == value, includeProperties: "Company");
                     if( _verification != null)
                     {
                         _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
@@ -56,9 +57,43 @@ namespace Opus.Api
                     }
 
                 }
-
+                */
 
             });
+
+
+            //TEST
+            var currenVal = value.Remove(0, 1);
+            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+            var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CompanyReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+            if (_refNum == null)
+            {
+                _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CustomerReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+                if (_verification != null)
+                {
+                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
+                        includeProperties: "Verifications");
+                }
+            }
+            else
+            {
+                //_verification = _refNum;
+                if (_user.Admin)
+                {
+                    _def = new ReferenceDefinitions
+                    {
+                        Verifications = _refNum
+                    };
+                }
+                else
+                {
+                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
+                        includeProperties: "Verifications");
+                }
+
+            }
+            //TEST
+
             if (_def != null)
                 _json = JsonSerializer.Serialize(_def.Verifications);
             else
@@ -77,7 +112,7 @@ namespace Opus.Api
             await Task.Run(() =>
             {
                 var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
-                var _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.ReferenceNum == num || v.ReferenceCode == code), includeProperties: "Company");
+                var _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.CustomerReference == num || v.CompanyReference == code), includeProperties: "Company");
                 if (_verification != null)
                 {
                     if (_user.Admin)

@@ -12,7 +12,7 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations.ReferenceVerifDb
 {
     [DbContext(typeof(ReferenceVerifDbContext))]
-    [Migration("20220802124257_InitialMigration")]
+    [Migration("20220815091233_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,46 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.Customer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.CustomerDefinitions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("CustomersDefinitions");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.ReferenceDefinitions", b =>
@@ -114,6 +154,36 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.HasIndex("CompanyId");
 
                     b.ToTable("Verifications");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.Customer", b =>
+                {
+                    b.HasOne("Opus.Models.DbModels.ReferenceVerifDb.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.CustomerDefinitions", b =>
+                {
+                    b.HasOne("Opus.Models.DbModels.ReferenceVerifDb.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Opus.Models.DbModels.ReferenceVerifDb.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.ReferenceDefinitions", b =>

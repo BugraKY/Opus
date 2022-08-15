@@ -29,18 +29,43 @@ namespace Opus.Areas.QS.Controllers
         [Route("qs/references-verif")]
         public IActionResult Index()
         {
-            return View(_uow.ReferenceVerif_Company.GetAll(a => a.Active));
+            var _models = new AllModelsVM()
+            {
+                Companies = _uow.ReferenceVerif_Company.GetAll(a => a.Active).OrderBy(N => N.Name),
+                Customers = _uow.ReferenceVerif_Customer.GetAll(a => a.Active, includeProperties: "Company").OrderBy(N => N.Company.Name)
+            };
+            return View(_models);
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("qs/references-verify/add-cust")]
+        public IActionResult PostCustomer(AllModelsVM allModels)
+        {
+            var _comp = _uow.ReferenceVerif_Company.GetFirstOrDefault(i => i.Id == allModels.Company.Id);
+            var _customer = new Customer()
+            {
+                CompanyId = allModels.Company.Id,
+                Active = true,
+            };
+            if (_uow.ReferenceVerif_Customer.GetFirstOrDefault(n => n.CompanyId == _customer.Id) == null)
+            {
+                _uow.ReferenceVerif_Customer.Add(_customer);
+                _uow.Save();
+                return RedirectToAction("Index");
+            }
+            else
+                return NoContent();
+
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [HttpPost("qs/references-verify/add-comp")]
-        public IActionResult PostCompany(string CompanyName)
+        public IActionResult PostCompany(AllModelsVM modelsVM)
         {
             var _company = new Company()
             {
-                Name = CompanyName,
+                Name = modelsVM.Company.Name,
                 Active = true,
             };
-            if (_uow.ReferenceVerif_Company.GetFirstOrDefault(n => n.Name == CompanyName) == null)
+            if (_uow.ReferenceVerif_Company.GetFirstOrDefault(n => n.Name == _company.Name) == null)
             {
                 _uow.ReferenceVerif_Company.Add(_company);
                 _uow.Save();
@@ -50,6 +75,26 @@ namespace Opus.Areas.QS.Controllers
                 return NoContent();
 
         }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpPost("qs/references-verify/add-cust-def")]
+        public IActionResult PostCustomerDef(AllModelsVM modelsVM)
+        {
+            var _customerDef = new CustomerDefinitions()
+            {
+                CompanyId = modelsVM.CustomerDefinitions.CompanyId,
+                CustomerId = modelsVM.CustomerDefinitions.CustomerId,
+            };
+            if (_uow.ReferenceVerif_CustomerDefinitions.GetFirstOrDefault(n => (n.CustomerId == _customerDef.CustomerId && n.CompanyId == _customerDef.CompanyId)) == null)
+            {
+                _uow.ReferenceVerif_CustomerDefinitions.Add(_customerDef);
+                _uow.Save();
+                return RedirectToAction("Index");
+            }
+            else
+                return NoContent();
+
+        }
+        /*PostCustomerDef*/
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [Route("qs/references-verify/edit-user/{id}")]
         public IActionResult EditUser(string id)
@@ -77,10 +122,10 @@ namespace Opus.Areas.QS.Controllers
             };
             var referenceDefs = new ReferenceDefsIndexVM()
             {
-                Enum_ReferenceDefinitions = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => i.UserId == Guid.Parse(id),includeProperties: "Verifications"),
+                Enum_ReferenceDefinitions = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => i.UserId == Guid.Parse(id), includeProperties: "Verifications"),
                 Enum_References = _uow.ReferenceVerif_Verification.GetAll(a => a.Active),
-                User =_user,
-                UserId=_user.Id.ToString()
+                User = _user,
+                UserId = _user.Id.ToString()
             };
             //var _definitions = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => i.UserId == Guid.Parse(id));
             return View(referenceDefs);
@@ -90,8 +135,8 @@ namespace Opus.Areas.QS.Controllers
         public IActionResult AddDef(ReferenceDefsIndexVM referenceDefinitions)
         {
             var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(referenceDefinitions.UserId));
-            var _reference = _uow.ReferenceVerif_Verification.GetFirstOrDefault(i=>i.Id== Guid.Parse(referenceDefinitions.RefId));
-            var _COUNT = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => (i.VerificationsId == Guid.Parse(referenceDefinitions.RefId)&&i.UserId==Guid.Parse(referenceDefinitions.UserId))).Count();
+            var _reference = _uow.ReferenceVerif_Verification.GetFirstOrDefault(i => i.Id == Guid.Parse(referenceDefinitions.RefId));
+            var _COUNT = _uow.ReferenceVerif_ReferenceDefinitions.GetAll(i => (i.VerificationsId == Guid.Parse(referenceDefinitions.RefId) && i.UserId == Guid.Parse(referenceDefinitions.UserId))).Count();
             if (_COUNT < 1)
             {
                 var referenceDefs = new ReferenceDefinitions()
@@ -102,13 +147,13 @@ namespace Opus.Areas.QS.Controllers
                 _uow.ReferenceVerif_ReferenceDefinitions.Add(referenceDefs);
                 _uow.Save();
             }
-            return Redirect("/qs/references-verify/reference-definitions/"+referenceDefinitions.UserId);
+            return Redirect("/qs/references-verify/reference-definitions/" + referenceDefinitions.UserId);
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [Route("qs/references-verify/reference-definitions/{id}/del/{refid}")]
-        public IActionResult DelDef(string id,string refid)
+        public IActionResult DelDef(string id, string refid)
         {
-            _uow.ReferenceVerif_ReferenceDefinitions.Remove(_uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(i=>i.Id==Guid.Parse(refid)));
+            _uow.ReferenceVerif_ReferenceDefinitions.Remove(_uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(i => i.Id == Guid.Parse(refid)));
             _uow.Save();
 
             return Redirect("/qs/references-verify/reference-definitions/" + id);
@@ -117,13 +162,21 @@ namespace Opus.Areas.QS.Controllers
         [HttpGet("api/qs/rv/get-verif")]
         public IEnumerable<Verifications> GetVerifications()
         {
-            return _uow.ReferenceVerif_Verification.GetAll(includeProperties: "Company").Where(a => a.Company.Active);
+            //return _uow.ReferenceVerif_Verification.GetAll(includeProperties: "Company").Where(a => a.Company.Active);
+            var test = _uow.ReferenceVerif_Verification.GetAll(includeProperties: "CustomerDefinitions.Company,CustomerDefinitions.Customer.Company");
+            return _uow.ReferenceVerif_Verification.GetAll(includeProperties: "CustomerDefinitions.Company,CustomerDefinitions.Customer.Company");
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [HttpGet("api/qs/rv/get-userlist")]
         public IEnumerable<User> GetUsers()
         {
             return _uow.ReferenceVerif_User.GetAll();
+        }
+        [HttpGet("api/qs/rv/get-custDef/{cusId}")]
+        public IEnumerable<CustomerDefinitions> GetCustDefs(string cusId)
+        {
+            var test = _uow.ReferenceVerif_CustomerDefinitions.GetAll(includeProperties: "Company,Customer.Company").Where(i=>i.CustomerId==Guid.Parse(cusId));
+            return test;
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
         [HttpGet("api/qs/rv/get-user/{id}")]
@@ -151,6 +204,12 @@ namespace Opus.Areas.QS.Controllers
         {
             //Live
             //Out of life
+            //var _status = _uow.ReferenceVerif_Verification.GetAll(i => (i.CustomerReference == verification.CustomerReference && i.CompanyId==verification.CompanyId)).Count();
+
+            //verification.CustomerDefinitions=_uow.ReferenceVerif_CustomerDefinitions.GetFirstOrDefault(i=>i.Id==verification.CustomerDefinitionsId, includeProperties: "Company,Customer.Company");
+            var _status = _uow.ReferenceVerif_Verification.GetAll(i => (i.CompanyReference == verification.CompanyReference)).Count();
+            if (_status > 0)
+                return false;
             _uow.ReferenceVerif_Verification.Add(verification);
             _uow.Save();
             return true;

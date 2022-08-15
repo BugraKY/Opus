@@ -8,16 +8,15 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.DbModels.ReferenceVerifDb
 {
-    public class Company
+    public class CustomerDefinitions
     {
         [Key]
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-        public bool Active { get; set; }
-        /*
         public Guid CustomerId { get; set; }
         [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }*/
+        public Customer Customer { get; set; }
+        public Guid CompanyId { get; set; }
+        [ForeignKey("CompanyId")]
+        public Company Company { get; set; }
     }
 }
