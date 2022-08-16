@@ -69,6 +69,14 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
+
+
+builder.Services.AddSignalR(options => 
+{
+    options.EnableDetailedErrors = true;//hata detayý açýk veya kapalý. Debug için olabilir!!!----------------------------------------------------------------------------------
+});
+
+
 /*
 builder.Services.AddLogging(
     builder =>
@@ -178,6 +186,7 @@ app.UseCookiePolicy();
 app.UseSession();
 app.UseWebSockets(webSocketOptions);
 app.UseFileServer();//testing..
+//app.usesi
 
 app.UseCors(builder =>
 {
