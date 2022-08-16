@@ -14,12 +14,14 @@ namespace Opus.DataAcces.MainRepository
         private readonly ApplicationDbContext _db;
         private readonly AccountingDbContext _dbAc;
         private readonly ReferenceVerifDbContext _dbRV;
-        public UnitOfWork(ApplicationDbContext db, AccountingDbContext dbAc, ReferenceVerifDbContext dbRV)
+        private readonly ReferenceVerifLOGContext _dbRVLOG;
+        public UnitOfWork(ApplicationDbContext db, AccountingDbContext dbAc, ReferenceVerifDbContext dbRV, ReferenceVerifLOGContext dbRVLOG)
         {
             #region Dependency-Injection
             _db = db;
             _dbAc = dbAc;
             _dbRV = dbRV;
+            _dbRVLOG = dbRVLOG;
 
             #region Main And HR
             ApplicationUser = new ApplicationUserRepository(_db);
@@ -68,6 +70,10 @@ namespace Opus.DataAcces.MainRepository
             ReferenceVerif_User = new ReferenceVerifRepository.UserRepository(_dbRV);
             ReferenceVerif_ReferenceDefinitions = new ReferenceVerifRepository.ReferenceDefinitionsRepository(_dbRV);
             #endregion ReferenceVerif
+
+            #region ReferenceVerifLOG
+            ReferenceVerif_Scanner_LOG = new ReferenceVerifLOGRepository.ScannerLOGRepository(_dbRVLOG);
+            #endregion ReferenceVerifLOG
 
             #endregion Dependency-Injection
 
@@ -125,6 +131,10 @@ namespace Opus.DataAcces.MainRepository
         public IMainRepository.IReferenceVerifRepository.IReferenceDefinitionsRepository ReferenceVerif_ReferenceDefinitions { get; private set; }
         #endregion ReferenceVerif
 
+        #region ReferenceVerifLOG
+        public IMainRepository.IReferenceVerifLOGRepository.IScannerLOGRepository ReferenceVerif_Scanner_LOG { get; private set; }
+        #endregion ReferenceVerifLOG
+
         #endregion Variables
 
         public void Dispose()
@@ -132,12 +142,14 @@ namespace Opus.DataAcces.MainRepository
             _db.Dispose();
             _dbAc.Dispose();
             _dbRV.Dispose();
+            _dbRVLOG.Dispose();
         }
         public void Save()
         {
             _db.SaveChanges();
             _dbAc.SaveChanges();
             _dbRV.SaveChanges();
+            _dbRVLOG.SaveChanges();
         }
     }
 }

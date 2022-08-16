@@ -11,6 +11,10 @@ using System.Globalization;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Builder;
 using static Opus.Utility.ProjectConstant;
+using System.Net.WebSockets;
+using System.Net;
+using System.Text;
+using Opus.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,13 +30,16 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("AccountingConnec
 builder.Services.AddDbContext<ReferenceVerifDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ReferenceVerifConnection")));
 
+builder.Services.AddDbContext<ReferenceVerifLOGContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("ReferenceVerifLOGConnection")));
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 6;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireDigit = false;
+    options.Password.RequireDigit = true;
     options.Password.RequiredUniqueChars = 0;
 })
     .AddDefaultTokenProviders()
@@ -83,6 +90,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+var webSocketOptions = new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(5)
+};
 
 app.Use(async (context, next) =>
 {
@@ -92,9 +103,72 @@ app.Use(async (context, next) =>
     {
         context.Request.Path = "/";
         await next();
-    }*/
-});
+    }
+    else
+    {
+        await next(context);
+    }
 
+    */
+    /*
+    if (context.Request.Path == "/send")
+    {
+        if (context.WebSockets.IsWebSocketRequest)
+        {
+            using (WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync())
+            {
+                await Send(context, webSocket);
+            }
+        }
+        else
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+    */
+
+
+});
+/*
+async Task Send(HttpContext context, WebSocket webSocket)
+{
+    var buffer = new byte[1024 * 4];
+    WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+    while (!result.CloseStatus.HasValue)
+    {
+        await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, CancellationToken.None);
+        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+    }
+    await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+}
+*/
+
+
+/*
+Task Send(WebSocket webSocket)
+{
+    var buffer = new byte[1024 * 4];
+    var receiveResult = await webSocket.ReceiveAsync(
+        new ArraySegment<byte>(buffer), CancellationToken.None);
+
+    while (!receiveResult.CloseStatus.HasValue)
+    {
+        await webSocket.SendAsync(
+            new ArraySegment<byte>(buffer, 0, receiveResult.Count),
+            receiveResult.MessageType,
+            receiveResult.EndOfMessage,
+            CancellationToken.None);
+
+        receiveResult = await webSocket.ReceiveAsync(
+            new ArraySegment<byte>(buffer), CancellationToken.None);
+    }
+
+    await webSocket.CloseAsync(
+        receiveResult.CloseStatus.Value,
+        receiveResult.CloseStatusDescription,
+        CancellationToken.None);
+}
+*/
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -102,11 +176,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 app.UseSession();
-/*
+app.UseWebSockets(webSocketOptions);
+app.UseFileServer();//testing..
+
 app.UseCors(builder =>
 {
-    builder.WithOrigins("https://manypointscreative.com", "http://manypointscreative.com").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-});*/
+    builder.WithOrigins("https://localhost:5001", "http://localhost:5000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+});
 /*
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -119,6 +195,7 @@ app.UseDeveloperExceptionPage();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapHub<OpusHub>("/hubs");
 
 Console.WriteLine("IPV4: " + GetAllLocalIPv4().FirstOrDefault());
 app.Run();

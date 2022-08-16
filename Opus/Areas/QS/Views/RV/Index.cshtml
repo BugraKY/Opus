@@ -36,6 +36,7 @@
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#addComp" role="tab"><span><i class="fa fa-building-o"></i></span> <span class="hidden-xs-down ms-15">Add Company</span></a> </li>
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#user" role="tab"><span><i class="ion-person"></i></span><span class="hidden-xs-down ms-15">Add User</span></a> </li>
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#definitions" role="tab"><span><i class="fa fa-address-book-o"></i></span> <span class="hidden-xs-down ms-15">Reference Definitions</span></a> </li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#logs" role="tab"><span><i class="fa fa-address-book-o"></i></span> <span class="hidden-xs-down ms-15">LOGS</span></a> </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content tabcontent-border">
@@ -159,7 +160,7 @@
                                                 <div class="rounded">
                                                     <select class="form-select select2 input-col" tabindex="5" style="max-width:200px;" asp-for="CustomerDefinitions.CompanyId">
                                                         <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Companies</option>
-                                                        
+
                                                         @foreach (var item in Model.Companies)
                                                         {
                                                             <option value="@item.Id">@item.Name</option>
@@ -365,6 +366,35 @@
                                 </div>
                             </div>
 
+                            <div id="logs" class="tab-pane">
+                                <div class="p-15">
+                                    <h4>Barcode Scan Logs</h4>
+                                </div>
+
+                                <div class="p-15">
+                                    <div class="row">
+                                        <div class="col">
+                                            @*
+                                                <table id="logTable" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="d-none"></th>
+                                                            <th>UserName</th>
+                                                            <th>FullName</th>
+                                                            <th>User State</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            *@
+                                            <textarea class="form-control" name="comment" id="log-output" style="background-color:transparent; resize:none; min-height:485px; max-height:600px;" disabled="disabled"> - fasdgasdfgdsfhdfghfg &#13;&#10; - asdfgasdgsdfgsdfgdsfg</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -379,6 +409,40 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
+        function websocketListiner_TEST() {
+            //var webSocket = new WebSocket("ws://localhost:5001/ws");
+            //webSocket.send("a test data");
+            //webSocket.onopen();
+            
+            let socket = new WebSocket("ws://localhost:5000/send");
+            /*
+            socket.onopen = function (e) {
+                alert("[open] Connection established");
+                alert("Sending to server");
+                socket.send("My name is John");
+            };
+
+            socket.onmessage = function (event) {
+                alert(`[message] Data received from server: ${event.data}`);
+            };
+
+            socket.onclose = function (event) {
+                if (event.wasClean) {
+                    alert(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+                } else {
+                    // e.g. server process killed or network down
+                    // event.code is usually 1006 in this case
+                    alert('[close] Connection died');
+                }
+            };
+
+            socket.onerror = function (error) {
+                alert(`[error] ${error.message}`);
+            };
+            */
+
+        }
+
         var compId = '00000000-0000-0000-0000-000000000000';
         var custId = '00000000-0000-0000-0000-000000000000';
         var custDefId = '00000000-0000-0000-0000-000000000000';
@@ -406,7 +470,7 @@
                 activeSTR: 'Live'
             };
             console.log(json);
-            if (compId === "00000000-0000-0000-0000-000000000000" || custId ==="00000000-0000-0000-0000-000000000000") {
+            if (compId === "00000000-0000-0000-0000-000000000000" || custId === "00000000-0000-0000-0000-000000000000") {
                 alert("Please select a customer and company");
             }
             else {
@@ -423,7 +487,7 @@
                             $('input[name="CustomerReference"]').val("");
                         }
                         else {
-                            $('#message_refList').html(`<span class="badge badge-danger">` + refNum +` number is already added before on this customer.</span`);
+                            $('#message_refList').html(`<span class="badge badge-danger">` + refNum + ` number is already added before on this customer.</span`);
                         }
                     }
                 });
@@ -522,7 +586,7 @@
                 dataType: "json",
                 success: function (data) {
 
-                    
+
                     console.log(data);
                     $.each(data, function (i, val) {
                         var _option = new Option(val.company.name, val.id);
@@ -735,6 +799,42 @@
                 }
             });
         }
+        function getLogs() {
+            var logHtml=``;
+            //$('#log-output').html();
+            $.ajax({
+                url: "/api/qs/rv/get-log",
+                type: "GET",
+                success: function (received) {
+                    //console.log(received);
+                    $.each(received, function (i, val) {
+                        /*
+                        let hour = addZero(date.getHours());
+                        let minute = addZero(date.getMinutes());
+                        let second = addZero(date.getSeconds());*/
+
+
+                        const date = new Date(val.date);
+                        var day = (date.getDate() <= 9 ? "0" + date.getDate() : date.getDate());
+                        var month = (date.getMonth() + 1 <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1));
+                        var hour = (date.getHours() + 1 <= 9 ? "0" + (date.getHours() + 1) : (date.getHours() + 1));
+                        var minute = (date.getMinutes() + 1 <= 9 ? "0" + (date.getMinutes() + 1) : (date.getMinutes() + 1));
+                        var second = (date.getSeconds() + 1 <= 9 ? "0" + (date.getSeconds() + 1) : (date.getSeconds() + 1));
+                        var dateString = day + "." + month + "." + date.getFullYear() + " - " + hour + ":" + minute + ":" + second;
+
+
+
+                        logHtml += `Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (` + val.barcodeNum +
+                            `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (` + val.customerReference +`) &#13;&#10;`;
+                    });
+                    $('#log-output').html(logHtml);
+                }
+            });
+        }
+        function addZero(i) {
+            if (i < 10) { i = "0" + i }
+            return i;
+        }
         $(document).ready(function () {
             listRef();
             listUser();
@@ -742,6 +842,8 @@
             disablewhitespaceinusername();
             active_checkBox();
             admin_checkBox();
+            getLogs();
+            websocketListiner_TEST();
         });
     </script>
 }

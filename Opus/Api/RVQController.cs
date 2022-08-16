@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels.ReferenceVerifDb;
 using System.Text.Json;
+using Opus.Models.DbModels.ReferenceVerifLOG;
 
 namespace Opus.Api
 {
@@ -99,6 +100,34 @@ namespace Opus.Api
             else
                 _json = JsonSerializer.Serialize(_verificationNULL);
 
+
+            bool _success = false;
+            if (_def.Verifications.CustomerReference != null)
+                _success = true;
+
+            var _LOG = new Scanner_LOG()
+            {
+                BarcodeNum= value,
+                CompanyReference=_def.Verifications.CompanyReference,
+                CustomerReference=_def.Verifications.CustomerReference,
+                UserId=_user.Id,
+                UserName=_user.UserName,
+                FullName=_user.FullName,
+                Date=DateTime.Now,
+                Success=_success,
+                Active=_def.Verifications.Active
+            };
+            try
+            {
+                _uow.ReferenceVerif_Scanner_LOG.Add(_LOG);
+                _uow.Save();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+            }
+
+            //var test = _uow.ReferenceVerif_Scanner_LOG.GetFirstOrDefault(i => i.Id == 1, includeProperties: "User");
             return _json;
         }
         [HttpGet]

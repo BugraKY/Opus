@@ -58,6 +58,10 @@ namespace Opus.DataAcces.IMainRepository
         IReferenceVerifRepository.IReferenceDefinitionsRepository ReferenceVerif_ReferenceDefinitions { get; }
         #endregion ReferenceVerification
 
+        #region ReferenceVerifLOG
+        IReferenceVerifLOGRepository.IScannerLOGRepository ReferenceVerif_Scanner_LOG { get; }
+        #endregion ReferenceVerifLOG
+
         void Save();
     }
 }

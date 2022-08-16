@@ -16,6 +16,7 @@ namespace Opus.DataAcces.MainRepository
         private readonly ApplicationDbContext _db;
         private readonly AccountingDbContext _acDb;
         private readonly ReferenceVerifDbContext _RVdb;
+        private readonly ReferenceVerifLOGContext _RVLOGdb;
         internal DbSet<T> dbSet;
         //internal Task<DbSet<T>> dbSetTask;
 
@@ -34,6 +35,11 @@ namespace Opus.DataAcces.MainRepository
         {
             _RVdb = RVdb;
             dbSet = _RVdb.Set<T>();
+        }
+        public Repository(ReferenceVerifLOGContext RVLOGdb)
+        {
+            _RVLOGdb = RVLOGdb;
+            dbSet = _RVLOGdb.Set<T>();
         }
         public void Add(T entity)
         {
@@ -173,12 +179,10 @@ namespace Opus.DataAcces.MainRepository
             T entitiy = dbSet.Find(id);
             Remove(entitiy);
         }
-
         public void Remove(T entity)
         {
             dbSet.Remove(entity);
         }
-
         public void RemoveRange(IEnumerable<T> entity)
         {
             dbSet.RemoveRange(entity);

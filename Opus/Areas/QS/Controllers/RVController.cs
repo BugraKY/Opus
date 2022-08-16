@@ -8,6 +8,7 @@ using Opus.Models.DbModels.ReferenceVerifDb;
 using System.Text;
 using Opus.Models.ViewModels.ReferenceVerif;
 using static Opus.Utility.ProjectConstant;
+using Opus.Models.DbModels.ReferenceVerifLOG;
 
 namespace Opus.Areas.QS.Controllers
 {
@@ -256,6 +257,13 @@ namespace Opus.Areas.QS.Controllers
             return false;
 
 
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpGet("api/qs/rv/get-log")]
+        public IEnumerable<Scanner_LOG> PostLog()
+        {
+            var _log = _uow.ReferenceVerif_Scanner_LOG.GetAll().OrderByDescending(i=>i.Id).Take(100);
+            return _log;
         }
     }
 
