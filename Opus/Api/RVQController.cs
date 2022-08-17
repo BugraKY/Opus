@@ -6,6 +6,11 @@ using Opus.DataAcces.IMainRepository;
 using Opus.Models.DbModels.ReferenceVerifDb;
 using System.Text.Json;
 using Opus.Models.DbModels.ReferenceVerifLOG;
+using Microsoft.EntityFrameworkCore;
+using Opus.Extensions;
+using Microsoft.AspNetCore.SignalR;
+using Opus.Hubs;
+using Newtonsoft.Json.Linq;
 
 namespace Opus.Api
 {
@@ -15,9 +20,11 @@ namespace Opus.Api
     public class RVQController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
-        public RVQController(IUnitOfWork uow)
+        protected IHubContext<OpusHub> _context;
+        public RVQController(IUnitOfWork uow, IHubContext<OpusHub> context)
         {
             _uow = uow;
+            _context = context;
         }
         [HttpGet()]
         [Route("query-reference/{value}/user/{id}")]
@@ -64,6 +71,7 @@ namespace Opus.Api
 
 
             //TEST
+            var auth = true;
             var currenVal = value.Remove(0, 1);
             var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
             var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CompanyReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
@@ -90,6 +98,10 @@ namespace Opus.Api
                 {
                     _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
                         includeProperties: "Verifications");
+
+                    if (_def == null)
+                        auth = false;
+
                 }
 
             }
@@ -102,25 +114,70 @@ namespace Opus.Api
 
 
             bool _success = false;
-            if (_def.Verifications.CustomerReference != null)
-                _success = true;
+            Scanner_LOG _LOG = null;
 
-            var _LOG = new Scanner_LOG()
+            if (_def == null)
             {
-                BarcodeNum= value,
-                CompanyReference=_def.Verifications.CompanyReference,
-                CustomerReference=_def.Verifications.CustomerReference,
-                UserId=_user.Id,
-                UserName=_user.UserName,
-                FullName=_user.FullName,
-                Date=DateTime.Now,
-                Success=_success,
-                Active=_def.Verifications.Active
-            };
+                //var _noverify = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => v.VerificationsId == _refNum.Id, includeProperties: "Verifications");
+                _LOG = new Scanner_LOG()
+                {
+                    BarcodeNum = value,
+                    CompanyReference = _refNum.CompanyReference,
+                    CustomerReference = _refNum.CustomerReference,
+                    UserId = _user.Id,
+                    UserName = _user.UserName,
+                    FullName = _user.FullName,
+                    Date = DateTime.Now,
+                    Success = true,
+                    Auth = auth,
+                    Active = _refNum.Active
+                };
+            }
+            else
+            {
+                if (_def.Verifications == null)
+                {
+                    _LOG = new Scanner_LOG()
+                    {
+                        BarcodeNum = value,
+                        CompanyReference = "",
+                        CustomerReference = "",
+                        UserId = _user.Id,
+                        UserName = _user.UserName,
+                        FullName = _user.FullName,
+                        Date = DateTime.Now,
+                        Success = _success,
+                        Auth = auth,
+                        Active = false
+                    };
+                }
+                else
+                {
+                    if (_def.Verifications.CustomerReference != null)
+                        _success = true;
+
+                    _LOG = new Scanner_LOG()
+                    {
+                        BarcodeNum = value,
+                        CompanyReference = _def.Verifications.CompanyReference,
+                        CustomerReference = _def.Verifications.CustomerReference,
+                        UserId = _user.Id,
+                        UserName = _user.UserName,
+                        FullName = _user.FullName,
+                        Date = DateTime.Now,
+                        Success = _success,
+                        Auth = auth,
+                        Active = _def.Verifications.Active
+                    };
+                }
+            }
+
             try
             {
                 _uow.ReferenceVerif_Scanner_LOG.Add(_LOG);
                 _uow.Save();
+                WebSocketAction WebSocAct = new WebSocketAction(_context, _uow);
+                await WebSocAct.JqueryTrigger_WebSocket();
             }
             catch (Exception ex)
             {
@@ -128,18 +185,21 @@ namespace Opus.Api
             }
 
             //var test = _uow.ReferenceVerif_Scanner_LOG.GetFirstOrDefault(i => i.Id == 1, includeProperties: "User");
+
+
+
             return _json;
         }
         [HttpGet]
-        [Route("query-manual/code/{code}/num/{num}/user/{id}")]
-        public async Task<string> GetByManual(string code, string num, string id)
+        [Route("query-manual/code/{compRef}/num/{reference}/user/{id}")]
+        public async Task<string> GetByManual(string compRef, string reference, string id)
         {
             Verifications _verification = new Verifications();
             Verifications _verificationNULL = new Verifications();
             ReferenceDefinitions _def = new ReferenceDefinitions();
             var _json = "";
             await Task.Run(() =>
-            {
+            {/*
                 var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
                 var _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.CustomerReference == num || v.CompanyReference == code), includeProperties: "Company");
                 if (_verification != null)
@@ -162,9 +222,134 @@ namespace Opus.Api
                 if (_def != null)
                     _json = JsonSerializer.Serialize(_def.Verifications);
                 else
-                    _json = JsonSerializer.Serialize(_verificationNULL);
+                    _json = JsonSerializer.Serialize(_verificationNULL);*/
             });
 
+
+
+            //TEST
+            var auth = true;
+            //var currenVal = reference;
+            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
+            var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.CompanyReference == compRef || v.CustomerReference == reference), includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+            if (_refNum == null)
+            {
+                _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CustomerReference == reference, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+                if (_verification != null)
+                {
+                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
+                        includeProperties: "Verifications");
+                }
+            }
+            else
+            {
+                //_verification = _refNum;
+                if (_user.Admin)
+                {
+                    _def = new ReferenceDefinitions
+                    {
+                        Verifications = _refNum
+                    };
+                }
+                else
+                {
+                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
+                        includeProperties: "Verifications");
+
+                    if (_def == null)
+                        auth = false;
+
+                }
+
+            }
+            //TEST
+
+            if (_def != null)
+                _json = JsonSerializer.Serialize(_def.Verifications);
+            else
+                _json = JsonSerializer.Serialize(_verificationNULL);
+
+
+            bool _success = false;
+            Input_LOG _LOG = null;
+
+            if (_def == null)
+            {
+                //var _noverify = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => v.VerificationsId == _refNum.Id, includeProperties: "Verifications");
+                _LOG = new Input_LOG()
+                {
+                    Input_Company = compRef,
+                    Input_Customer = reference,
+                    CompanyReference = _refNum.CompanyReference,
+                    CustomerReference = _refNum.CustomerReference,
+                    UserId = _user.Id,
+                    UserName = _user.UserName,
+                    FullName = _user.FullName,
+                    Date = DateTime.Now,
+                    Success = true,
+                    Auth = auth,
+                    Active = _refNum.Active
+                };
+            }
+            else
+            {
+                if (_def.Verifications == null)
+                {
+                    _LOG = new Input_LOG()
+                    {
+                        Input_Company = compRef,
+                        Input_Customer = reference,
+                        CompanyReference = "",
+                        CustomerReference = "",
+                        UserId = _user.Id,
+                        UserName = _user.UserName,
+                        FullName = _user.FullName,
+                        Date = DateTime.Now,
+                        Success = _success,
+                        Auth = auth,
+                        Active = false
+                    };
+                }
+                else
+                {
+                    if (_def.Verifications.CustomerReference != null)
+                        _success = true;
+
+                    _LOG = new Input_LOG()
+                    {
+                        Input_Company = compRef,
+                        Input_Customer = reference,
+                        CompanyReference = _def.Verifications.CompanyReference,
+                        CustomerReference = _def.Verifications.CustomerReference,
+                        UserId = _user.Id,
+                        UserName = _user.UserName,
+                        FullName = _user.FullName,
+                        Date = DateTime.Now,
+                        Success = _success,
+                        Auth = auth,
+                        Active = _def.Verifications.Active
+                    };
+                }
+            }
+
+
+
+            if (_def != null)
+                _json = JsonSerializer.Serialize(_def.Verifications);
+            else
+                _json = JsonSerializer.Serialize(_verificationNULL);
+
+            try
+            {
+                _uow.ReferenceVerif_Input_LOG.Add(_LOG);
+                _uow.Save();
+                WebSocketAction WebSocAct = new WebSocketAction(_context, _uow);
+                await WebSocAct.JqueryTrigger_WebSocket();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+            }
 
             return _json;
         }

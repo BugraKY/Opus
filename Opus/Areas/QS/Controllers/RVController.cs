@@ -259,11 +259,17 @@ namespace Opus.Areas.QS.Controllers
 
         }
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
-        [HttpGet("api/qs/rv/get-log")]
-        public IEnumerable<Scanner_LOG> PostLog()
+        [HttpGet("api/qs/rv/get-logscanner")]
+        public IEnumerable<Scanner_LOG> PostLogScanner()
         {
-            var _log = _uow.ReferenceVerif_Scanner_LOG.GetAll().OrderByDescending(i=>i.Id).Take(100);
-            return _log;
+            return _uow.ReferenceVerif_Scanner_LOG.GetAll().OrderByDescending(i=>i.Id).Take(100);
+
+        }
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.ProjectResponsible)]
+        [HttpGet("api/qs/rv/get-loginput")]
+        public IEnumerable<Input_LOG> PostLogInput()
+        {
+            return _uow.ReferenceVerif_Input_LOG.GetAll().OrderByDescending(i => i.Id).Take(100);
         }
     }
 

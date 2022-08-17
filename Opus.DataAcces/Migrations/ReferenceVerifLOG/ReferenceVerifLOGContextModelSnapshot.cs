@@ -22,6 +22,52 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifLOG
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifLOG.Input_LOG", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Auth")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CompanyReference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerReference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Input_Company")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Input_Customer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Input_LOG");
+                });
+
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifLOG.Scanner_LOG", b =>
                 {
                     b.Property<long>("Id")
@@ -31,6 +77,9 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifLOG
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Auth")
                         .HasColumnType("bit");
 
                     b.Property<string>("BarcodeNum")

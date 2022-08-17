@@ -60,6 +60,7 @@ namespace Opus.DataAcces.IMainRepository
 
         #region ReferenceVerifLOG
         IReferenceVerifLOGRepository.IScannerLOGRepository ReferenceVerif_Scanner_LOG { get; }
+        IReferenceVerifLOGRepository.IInputLOGRepository ReferenceVerif_Input_LOG { get; }
         #endregion ReferenceVerifLOG
 
         void Save();

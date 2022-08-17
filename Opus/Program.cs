@@ -70,11 +70,19 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
 
-
+/*
 builder.Services.AddSignalR(options => 
 {
     options.EnableDetailedErrors = true;//hata detayý açýk veya kapalý. Debug için olabilir!!!----------------------------------------------------------------------------------
-});
+});*/
+/*
+builder.Services.AddSignalR()
+    .AddJsonProtocol(options => {
+        options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+    });
+
+*/
+builder.Services.AddSignalR();
 
 
 /*
@@ -177,6 +185,9 @@ Task Send(WebSocket webSocket)
         CancellationToken.None);
 }
 */
+//app.UseWebSockets(webSocketOptions);
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -184,14 +195,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 app.UseSession();
-app.UseWebSockets(webSocketOptions);
-app.UseFileServer();//testing..
+//app.UseFileServer();//testing..
 //app.usesi
 
+/*
 app.UseCors(builder =>
 {
     builder.WithOrigins("https://localhost:5001", "http://localhost:5000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
 });
+*/
+
 /*
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Opus.Hubs
 {
-    public class OpusHub : Hub , ITransientDependency
+    public class OpusHub : Hub, ITransientDependency
     {
         protected IHubContext<OpusHub> _context;
         public IAbpSession AbpSession { get; set; }
@@ -19,13 +19,21 @@ namespace Opus.Hubs
             AbpSession = NullAbpSession.Instance;
             _context = context;
         }
-        public async Task SendData(string message)
+        public async Task SendMessage(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
+            await _context.Clients.All.SendAsync("ReceiveMessage", message);
         }
-        public async Task SendTrigger(string url)
+        public async Task SendTrigger()
         {
-            await Clients.All.SendAsync("ReceiveMessage", url);
+            await _context.Clients.All.SendAsync("ReceiveTrigger");
+        }
+        public async Task SendJson(object json)
+        {
+            await _context.Clients.All.SendAsync("ReceiveJson", json);
+        }
+        public async Task SendEnum(IEnumerable<object> _enum)
+        {
+            await _context.Clients.All.SendAsync("ReceiveEnum", _enum);
         }
         /*
         public async Task SendDataTable(ProjectListVM ProjectList)

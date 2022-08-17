@@ -21,6 +21,7 @@ namespace Opus.Models.DbModels.ReferenceVerifLOG
         public string CustomerReference { get; set; }
         public DateTime Date { get; set; }
         public bool Success { get; set; }
+        public bool Auth { get; set; }
         public bool Active { get; set; }
     }
 }

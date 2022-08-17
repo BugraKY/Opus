@@ -33,6 +33,20 @@ body::-webkit-scrollbar-thumb {
     /*border: 3px solid orange;*/ /* creates padding around scroll thumb */
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.07) !important;
 }
+div::-webkit-scrollbar {
+    width: 10px; /* width of the entire scrollbar */
+}
+
+div::-webkit-scrollbar-track {
+    background-color: #395E66 /* color of the tracking area */
+}
+
+div::-webkit-scrollbar-thumb {
+    background: #72A1E5; /* color of the scroll thumb */
+    /*border-radius: 5px;*/ /* roundness of the scroll thumb */
+    /*border: 3px solid orange;*/ /* creates padding around scroll thumb */
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.07) !important;
+}
 
 .opus-sidebar {
     border-right: 0px solid rgba(72, 94, 144, 0.16);

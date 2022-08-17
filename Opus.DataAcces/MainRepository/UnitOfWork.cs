@@ -73,6 +73,7 @@ namespace Opus.DataAcces.MainRepository
 
             #region ReferenceVerifLOG
             ReferenceVerif_Scanner_LOG = new ReferenceVerifLOGRepository.ScannerLOGRepository(_dbRVLOG);
+            ReferenceVerif_Input_LOG = new ReferenceVerifLOGRepository.InputLOGRepository(_dbRVLOG);
             #endregion ReferenceVerifLOG
 
             #endregion Dependency-Injection
@@ -133,6 +134,7 @@ namespace Opus.DataAcces.MainRepository
 
         #region ReferenceVerifLOG
         public IMainRepository.IReferenceVerifLOGRepository.IScannerLOGRepository ReferenceVerif_Scanner_LOG { get; private set; }
+        public IMainRepository.IReferenceVerifLOGRepository.IInputLOGRepository ReferenceVerif_Input_LOG { get; private set; }
         #endregion ReferenceVerifLOG
 
         #endregion Variables

@@ -36,7 +36,8 @@
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#addComp" role="tab"><span><i class="fa fa-building-o"></i></span> <span class="hidden-xs-down ms-15">Add Company</span></a> </li>
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#user" role="tab"><span><i class="ion-person"></i></span><span class="hidden-xs-down ms-15">Add User</span></a> </li>
                             <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#definitions" role="tab"><span><i class="fa fa-address-book-o"></i></span> <span class="hidden-xs-down ms-15">Reference Definitions</span></a> </li>
-                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#logs" role="tab"><span><i class="fa fa-address-book-o"></i></span> <span class="hidden-xs-down ms-15">LOGS</span></a> </li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#logscanner" role="tab"><span><i class="fa fa-address-book-o"></i></span> <span class="hidden-xs-down ms-15">Scanner Log</span></a> </li>
+                            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#loginput" role="tab"><span><i class="fa fa-address-book-o"></i></span> <span class="hidden-xs-down ms-15">Input Log</span></a> </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content tabcontent-border">
@@ -366,7 +367,7 @@
                                 </div>
                             </div>
 
-                            <div id="logs" class="tab-pane">
+                            <div id="logscanner" class="tab-pane">
                                 <div class="p-15">
                                     <h4>Barcode Scan Logs</h4>
                                 </div>
@@ -374,22 +375,21 @@
                                 <div class="p-15">
                                     <div class="row">
                                         <div class="col">
-                                            @*
-                                                <table id="logTable" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="d-none"></th>
-                                                            <th>UserName</th>
-                                                            <th>FullName</th>
-                                                            <th>User State</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>
-                                            *@
-                                            <textarea class="form-control" name="comment" id="log-output" style="background-color:transparent; resize:none; min-height:485px; max-height:600px;" disabled="disabled"> - fasdgasdfgdsfhdfghfg &#13;&#10; - asdfgasdgsdfgsdfgdsfg</textarea>
+                                            <div class="form-control" name="comment" id="log-scanneroutput" style="background-color:transparent; resize:none; min-height:485px; max-height:600px;overflow-y:scroll;" disabled="disabled"> - &#13;&#10; - </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="loginput" class="tab-pane">
+                                <div class="p-15">
+                                    <h4>Barcode Input Logs</h4>
+                                </div>
+
+                                <div class="p-15">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-control" name="comment" id="log-inputoutput" style="background-color:transparent; resize:none; min-height:485px; max-height:600px;overflow-y:scroll;" disabled="disabled"> - &#13;&#10; - </div>
                                         </div>
                                     </div>
                                 </div>
@@ -408,13 +408,16 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
+<script src="~/js/microsoft-signalr/signalr.min.js"></script>
+<script src="~/js/web-socket/qs/rv/log.socket.js"></script>
+
     <script>
         function websocketListiner_TEST() {
             //var webSocket = new WebSocket("ws://localhost:5001/ws");
             //webSocket.send("a test data");
             //webSocket.onopen();
             
-            let socket = new WebSocket("ws://localhost:5000/send");
+            //let socket = new WebSocket("ws://localhost:5000/send");
             /*
             socket.onopen = function (e) {
                 alert("[open] Connection established");
@@ -799,15 +802,16 @@
                 }
             });
         }
-        function getLogs() {
+        function getLogScanner() {
             var logHtml=``;
             //$('#log-output').html();
             $.ajax({
-                url: "/api/qs/rv/get-log",
+                url: "/api/qs/rv/get-logscanner",
                 type: "GET",
                 success: function (received) {
                     //console.log(received);
                     $.each(received, function (i, val) {
+                        var s = i + 1;
                         /*
                         let hour = addZero(date.getHours());
                         let minute = addZero(date.getMinutes());
@@ -817,17 +821,80 @@
                         const date = new Date(val.date);
                         var day = (date.getDate() <= 9 ? "0" + date.getDate() : date.getDate());
                         var month = (date.getMonth() + 1 <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1));
-                        var hour = (date.getHours() + 1 <= 9 ? "0" + (date.getHours() + 1) : (date.getHours() + 1));
-                        var minute = (date.getMinutes() + 1 <= 9 ? "0" + (date.getMinutes() + 1) : (date.getMinutes() + 1));
-                        var second = (date.getSeconds() + 1 <= 9 ? "0" + (date.getSeconds() + 1) : (date.getSeconds() + 1));
+                        var hour = (date.getHours() <= 9 ? "0" + (date.getHours()) : (date.getHours()));
+                        var minute = (date.getMinutes() <= 9 ? "0" + (date.getMinutes()) : (date.getMinutes()));
+                        var second = (date.getSeconds()<= 9 ? "0" + (date.getSeconds()) : (date.getSeconds()));
                         var dateString = day + "." + month + "." + date.getFullYear() + " - " + hour + ":" + minute + ":" + second;
 
 
+                        if (val.auth) {
+                            if (val.success) {
 
-                        logHtml += `Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (` + val.barcodeNum +
-                            `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (` + val.customerReference +`) &#13;&#10;`;
+                                logHtml += `<span class="text-success"><span style="font-weight: 900;">`+s+` - Trained Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (` + val.barcodeNum +
+                                    `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (` + val.customerReference + `) </span> <br/>`;
+                            }
+                            else {
+
+                                logHtml += `<span class="text-warning"><span style="font-weight: 900;">` + s +` - Invalid Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (<span style="font-weight: 900;">` + val.barcodeNum +
+                                    `</spsan>)</span> <br/>`;
+                            }
+                        }
+                        else {
+                            logHtml += `<span class="text-danger"><span style="font-weight: 900;">` + s + ` - Scanned Unauthorized Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (<span style="font-weight: 900;">` + val.fullName + `</span>) - Scanned Barcode: (` + val.barcodeNum +
+                                `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (<span style="font-weight: 900;">` + val.customerReference + `</span>)</span> <br/>`;
+                        }
+
+
                     });
-                    $('#log-output').html(logHtml);
+                    $('#log-scanneroutput').html(logHtml);
+                }
+            });
+        }
+        function getLogInput() {
+            var logHtml = ``;
+            //$('#log-inputoutput').html();
+            $.ajax({
+                url: "/api/qs/rv/get-loginput",
+                type: "GET",
+                success: function (received) {
+                    //console.log(received);
+                    $.each(received, function (i, val) {
+                        var s = i + 1;
+                        /*
+                        let hour = addZero(date.getHours());
+                        let minute = addZero(date.getMinutes());
+                        let second = addZero(date.getSeconds());*/
+
+
+                        const date = new Date(val.date);
+                        var day = (date.getDate() <= 9 ? "0" + date.getDate() : date.getDate());
+                        var month = (date.getMonth() + 1 <= 9 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1));
+                        var hour = (date.getHours() <= 9 ? "0" + (date.getHours()) : (date.getHours()));
+                        var minute = (date.getMinutes() <= 9 ? "0" + (date.getMinutes()) : (date.getMinutes()));
+                        var second = (date.getSeconds() <= 9 ? "0" + (date.getSeconds()) : (date.getSeconds()));
+                        var dateString = day + "." + month + "." + date.getFullYear() + " - " + hour + ":" + minute + ":" + second;
+
+
+                        if (val.auth) {
+                            if (val.success) {
+
+                                logHtml += `<span class="text-success"><span style="font-weight: 900;">` + s + ` - Trained Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Input Reference: (` + val.input_Customer +
+                                    `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (` + val.customerReference + `) </span> <br/>`;
+                            }
+                            else {
+
+                                logHtml += `<span class="text-warning"><span style="font-weight: 900;">` + s + ` - Invalid Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Input Reference: (<span style="font-weight: 900;">` + val.input_Customer +
+                                    `</spsan>)</span> <br/>`;
+                            }
+                        }
+                        else {
+                            logHtml += `<span class="text-danger"><span style="font-weight: 900;">` + s + ` - Entered Unauthorized Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (<span style="font-weight: 900;">` + val.fullName + `</span>) - Input Reference: (` + val.input_Customer +
+                                `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (<span style="font-weight: 900;">` + val.customerReference + `</span>)</span> <br/>`;
+                        }
+
+
+                    });
+                    $('#log-inputoutput').html(logHtml);
                 }
             });
         }
@@ -842,7 +909,8 @@
             disablewhitespaceinusername();
             active_checkBox();
             admin_checkBox();
-            getLogs();
+            getLogScanner();
+            getLogInput();
             websocketListiner_TEST();
         });
     </script>

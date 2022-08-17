@@ -13,6 +13,7 @@ namespace Opus.DataAcces.Data
 
         public ReferenceVerifLOGContext(DbContextOptions<ReferenceVerifLOGContext> options): base(options) { }
         public DbSet<Scanner_LOG> Scanner_LOG { get; set; }
+        public DbSet<Input_LOG> Input_LOG { get; set; }
 
     }
 }
