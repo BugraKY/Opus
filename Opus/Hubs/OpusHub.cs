@@ -3,6 +3,7 @@ using Abp.Runtime.Session;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Opus.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,10 @@ namespace Opus.Hubs
         public async Task SendEnum(IEnumerable<object> _enum)
         {
             await _context.Clients.All.SendAsync("ReceiveEnum", _enum);
+        }
+        public async Task SendNotify(string NotificationHTML)
+        {
+            await _context.Clients.All.SendAsync("ReceiveHtml", NotificationHTML);
         }
         /*
         public async Task SendDataTable(ProjectListVM ProjectList)

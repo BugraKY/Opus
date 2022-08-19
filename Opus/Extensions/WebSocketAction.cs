@@ -42,5 +42,10 @@ namespace Opus.Extensions
             OpusHub hub = new OpusHub(_context);
             await hub.SendEnum(_enum);
         }
+        public async Task JqueryNotify(IEnumerable<object> _enum)
+        {
+            OpusHub hub = new OpusHub(_context);
+            await hub.SendEnum(_enum);
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace Opus.DataAcces.Data
         public DbSet<EducationalStatus> EducationalStatus { get; set; }
         public DbSet<StaffResignation> StaffResignations { get; set; }
         public DbSet<VacationDates> VacationDates { get; set; }
+        public DbSet<Notification> Notification { get; set; }
         //public DbSet<Unit> Unit { get; set; }
 
         /*

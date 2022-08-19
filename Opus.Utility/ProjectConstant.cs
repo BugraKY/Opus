@@ -50,6 +50,22 @@ namespace Opus.Utility
             public static IEnumerable<string>? Localhost;
         }
 
+        public static class Notification
+        {
+            public static class TYPEUSER    
+            {
+                public const string DANGER_I_TAG = @"<i class=""fa fa-users text-danger"">";
+                public const string WARNING_I_TAG = @"<i class=""fa fa-users text-warning"">";
+                public const string INFO_I_TAG = @"<i class=""fa fa-users text-info"">";
+                public const string SUCCESS_I_TAG = @"<i class=""fa fa-users text-success"">";
+            }
+            public static class END_TAGS
+            {
+                public const string TAG_I = "</i>";
+                public const string TAG_A = "</a>";
+                public const string TAG_DIV = "</div>";
+            }
+        }
         public class Toast
         {
             public static class ShowHideTransition

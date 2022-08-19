@@ -47,7 +47,9 @@
         .sidebar {
             padding-bottom:0!important;
         }
-
+        .sidebar-menu {
+            padding: 15px 0px 150px 0px!important;
+        }
         .main-sidebar {
             z-index: 1111 !important;
             border-top-right-radius: 0 !important;
@@ -85,7 +87,7 @@
     </style>
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
-    <div class="wrapper">
+    <div class="wrapper" style="min-height: 100vh;">
         <div id="loader" style="">
             <div class="d-flex align-items-center justify-content-center" style="min-height:100vh;">
                 <img src="/loader.png" class="loader-anim" width="50" />
@@ -564,6 +566,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/configuration.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        var footerheight = $('footer').height().toFixed(2);
+        var calcedpfooter = 0;
+        $(document).ready(function () {
+            calcedpfooter = ((footerheight - (footerheight * 2)) - 20);
+            $('footer').css("margin-top", calcedpfooter);
+        });
+        window.onresize = function (e) {
+            footerheight = $('footer').height().toFixed(2);
+            calcedpfooter = ((footerheight - (footerheight * 2)) - 20);
+            $('footer').css("margin-top", (calcedpfooter));
+        };
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

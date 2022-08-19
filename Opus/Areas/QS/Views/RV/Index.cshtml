@@ -79,21 +79,22 @@
                                         </div>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-2 col-12">
-                                            <h6 class="my-10">Company Reference:</h6>
-                                        </div>
-                                        <div class="col-lg-4 col-12">
-                                            <input class="form-control custom-date" type="text" name="CompanyReference" style="max-width:200px;" placeholder="999999999X" autocomplete="off" value="">
-                                        </div>
 
-                                    </div>
                                     <div class="row">
                                         <div class="col-lg-2 col-12">
                                             <h6 class="my-10">Customer Reference:</h6>
                                         </div>
                                         <div class="col-lg-4 col-12">
                                             <input class="form-control custom-date" type="text" name="CustomerReference" style="max-width:200px;" placeholder="9999999999" autocomplete="" value="">
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Company Reference:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <input class="form-control custom-date" type="text" name="CompanyReference" style="max-width:200px;" placeholder="999999999X" autocomplete="off" value="">
                                         </div>
 
                                     </div>
@@ -635,8 +636,8 @@
                     { "data": "id", "className": "d-none" },
                     { "data": "customerDefinitions.customer.company.name" },
                     { "data": "customerDefinitions.company.name" },
-                    { "data": "companyReference" },
                     { "data": "customerReference" },
+                    { "data": "companyReference" },
 
                     {
                         "data": "active",
@@ -840,7 +841,7 @@
                             }
                         }
                         else {
-                            logHtml += `<span class="text-danger"><span style="font-weight: 900;">` + s + ` - Scanned Unauthorized Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (<span style="font-weight: 900;">` + val.fullName + `</span>) - Scanned Barcode: (` + val.barcodeNum +
+                            logHtml += `<span class="text-danger"><span style="font-weight: 900;">` + s + ` - Scanned Uneducated Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (<span style="font-weight: 900;">` + val.fullName + `</span>) - Scanned Barcode: (` + val.barcodeNum +
                                 `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (<span style="font-weight: 900;">` + val.customerReference + `</span>)</span> <br/>`;
                         }
 
@@ -888,7 +889,7 @@
                             }
                         }
                         else {
-                            logHtml += `<span class="text-danger"><span style="font-weight: 900;">` + s + ` - Entered Unauthorized Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (<span style="font-weight: 900;">` + val.fullName + `</span>) - Input Reference: (` + val.input_Customer +
+                            logHtml += `<span class="text-danger"><span style="font-weight: 900;">` + s + ` - Entered Uneducated Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (<span style="font-weight: 900;">` + val.fullName + `</span>) - Input Reference: (` + val.input_Customer +
                                 `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (<span style="font-weight: 900;">` + val.customerReference + `</span>)</span> <br/>`;
                         }
 
