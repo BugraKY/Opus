@@ -409,7 +409,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
-<script src="~/js/microsoft-signalr/signalr.min.js"></script>
+
 <script src="~/js/web-socket/qs/rv/log.socket.js"></script>
 
     <script>
@@ -831,12 +831,12 @@
                         if (val.auth) {
                             if (val.success) {
 
-                                logHtml += `<span class="text-success"><span style="font-weight: 900;">`+s+` - Trained Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (` + val.barcodeNum +
+                                logHtml += `<span class="text-success"><span style="font-weight: 900;">`+s+` - Trained Reference.</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (` + val.barcodeNum +
                                     `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (` + val.customerReference + `) </span> <br/>`;
                             }
                             else {
 
-                                logHtml += `<span class="text-warning"><span style="font-weight: 900;">` + s +` - Invalid Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (<span style="font-weight: 900;">` + val.barcodeNum +
+                                logHtml += `<span class="text-warning"><span style="font-weight: 900;">` + s +` - Invalid Reference!</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Scanned Barcode: (<span style="font-weight: 900;">` + val.barcodeNum +
                                     `</spsan>)</span> <br/>`;
                             }
                         }
@@ -879,12 +879,12 @@
                         if (val.auth) {
                             if (val.success) {
 
-                                logHtml += `<span class="text-success"><span style="font-weight: 900;">` + s + ` - Trained Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Input Reference: (` + val.input_Customer +
+                                logHtml += `<span class="text-success"><span style="font-weight: 900;">` + s + ` - Trained Reference.</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Input Reference: (` + val.input_Customer +
                                     `) - CompanyReference: (` + val.companyReference + `) - CustomerReference: (` + val.customerReference + `) </span> <br/>`;
                             }
                             else {
 
-                                logHtml += `<span class="text-warning"><span style="font-weight: 900;">` + s + ` - Invalid Reference</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Input Reference: (<span style="font-weight: 900;">` + val.input_Customer +
+                                logHtml += `<span class="text-warning"><span style="font-weight: 900;">` + s + ` - Invalid Reference.</span> Date: (` + dateString + `) - UserName: (` + val.userName + `) - Personel: (` + val.fullName + `) - Input Reference: (<span style="font-weight: 900;">` + val.input_Customer +
                                     `</spsan>)</span> <br/>`;
                             }
                         }

@@ -66,6 +66,21 @@ namespace Opus.Utility
                 public const string TAG_DIV = "</div>";
             }
         }
+        public static class RefVerf
+        {
+            public static class Header
+            {
+                public const string SUCCESS = "Trained Reference.";
+                public const string WARNING = "Invalid Reference.";
+                public const string DANGER = "Uneducated Reference!";
+            }
+            public static class Message
+            {
+                public const string SUCCESS = "Trained Reference by ";
+                public const string WARNING = "Invalid Reference by ";
+                public const string DANGER = "Scanned or Entered Uneducated Reference by ";
+            }
+        }
         public class Toast
         {
             public static class ShowHideTransition

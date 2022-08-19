@@ -33,14 +33,20 @@ namespace Opus.Utility
         }
         public enum NotifyType_User
         {
-            [Description(ProjectConstant.Notification.TYPEUSER.DANGER_I_TAG)]
+            //[Description(ProjectConstant.Notification.TYPEUSER.DANGER_I_TAG)]
             Danger = 1,
-            [Description(ProjectConstant.Notification.TYPEUSER.WARNING_I_TAG)]
+            //[Description(ProjectConstant.Notification.TYPEUSER.WARNING_I_TAG)]
             Warning = 2,
-            [Description(ProjectConstant.Notification.TYPEUSER.INFO_I_TAG)]
+            //[Description(ProjectConstant.Notification.TYPEUSER.INFO_I_TAG)]
             Info = 3,
-            [Description(ProjectConstant.Notification.TYPEUSER.SUCCESS_I_TAG)]
+            //[Description(ProjectConstant.Notification.TYPEUSER.SUCCESS_I_TAG)]
             Success = 4
+        }
+        public enum SocketTriggerType
+        {
+            Notification=0,
+            Chat=1,
+            QS_Ref_LOG=2
         }
     }
 }

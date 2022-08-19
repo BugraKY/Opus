@@ -11,6 +11,7 @@ using Opus.Extensions;
 using Microsoft.AspNetCore.SignalR;
 using Opus.Hubs;
 using Newtonsoft.Json.Linq;
+using Opus.Utility;
 
 namespace Opus.Api
 {
@@ -178,6 +179,24 @@ namespace Opus.Api
                 _uow.Save();
                 WebSocketAction WebSocAct = new WebSocketAction(_context, _uow);
                 await WebSocAct.JqueryTrigger_WebSocket();
+
+                var _auth = _LOG.Auth;
+                var _successs = _LOG.Success;
+                var _type = 0;
+
+                if (_auth)
+                {
+                    if (_success)
+                        _type = 4;
+                    else
+                        _type = 2;
+                }
+                else
+                    _type=1;
+
+
+
+                await WebSocAct.JqueryNotify(Notifications.SetHtmlRefs(_type));
             }
             catch (Exception ex)
             {

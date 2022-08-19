@@ -31,6 +31,11 @@ namespace Opus.Areas.HR.Controllers
         [Route("signin")]
         public IActionResult SignIn()
         {
+            if (GetClaim() != null)
+            {
+                return NoContent();
+            }
+
             return View();
         }
         [HttpPost("signin")]
