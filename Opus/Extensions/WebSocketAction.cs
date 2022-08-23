@@ -45,7 +45,7 @@ namespace Opus.Extensions
         public async Task JqueryNotify(string html)
         {
             OpusHub hub = new OpusHub(_context);
-            await hub.SendEnum(html);
+            await hub.SendNotify(html);
         }
     }
 }

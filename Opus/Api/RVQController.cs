@@ -196,7 +196,7 @@ namespace Opus.Api
 
 
 
-                await WebSocAct.JqueryNotify(Notifications.SetHtmlRefs(_type));
+                //await WebSocAct.JqueryNotify(Notifications.SetHtmlRefs(_type));
             }
             catch (Exception ex)
             {
