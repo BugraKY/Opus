@@ -69,6 +69,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
+builder.Services.AddControllers(options => options.EnableEndpointRouting = false);//testing
 
 /*
 builder.Services.AddSignalR(options => 
@@ -195,6 +196,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 app.UseSession();
+
 //app.UseFileServer();//testing..
 //app.usesi
 
