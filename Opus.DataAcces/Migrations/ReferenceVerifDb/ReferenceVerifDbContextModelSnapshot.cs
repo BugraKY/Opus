@@ -115,16 +115,19 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.Property<bool>("Admin")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("StaffId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StaffId")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -152,6 +155,112 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.HasIndex("CustomerDefinitionsId");
 
                     b.ToTable("Verifications");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.Staff", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("BirthPlace")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("BlackList")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("BloodTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClothingSizes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("CurrentSalary")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfEntry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateOfQuit")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EducationalStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FatherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IBAN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageFile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaritalStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MobileNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MotherName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfChildren")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumberSec")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegistrationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("TestD2_E")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TestD2_TNE")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("WhiteCollarWorker")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Staff");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.Customer", b =>
@@ -201,6 +310,17 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                     b.Navigation("User");
 
                     b.Navigation("Verifications");
+                });
+
+            modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.User", b =>
+                {
+                    b.HasOne("Opus.Models.DbModels.Staff", "Staff")
+                        .WithOne()
+                        .HasForeignKey("Opus.Models.DbModels.ReferenceVerifDb.User", "StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.ReferenceVerifDb.Verifications", b =>

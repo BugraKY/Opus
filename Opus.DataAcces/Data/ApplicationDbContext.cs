@@ -41,11 +41,14 @@ namespace Opus.DataAcces.Data
                         .HasIndex(u => new { u.IdentityNumber }).IsUnique();
         }
         */
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Staff>()
                         .HasIndex(u => new { u.Guid }).IsUnique();
+            //modelBuilder.Entity<Staff>().HasKey(i => i.Id);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Opus.Models.DbModels
     {
         [Key]
         public int Id { get; set; }
-        public int StaffId { get; set; }
+        public long StaffId { get; set; }
         public int DocumentTypeId { get; set; }
         public string FileName { get; set; }
         public bool Active { get; set; }

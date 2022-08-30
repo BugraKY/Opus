@@ -12,7 +12,7 @@ namespace Opus.Models.DbModels
     public class Staff
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Guid { get; set; }
         public string RegistrationNumber { get; set; }//Sicil No
         public string FirstName { get; set; }

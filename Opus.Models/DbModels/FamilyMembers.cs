@@ -15,7 +15,7 @@ namespace Opus.Models.DbModels
         [ForeignKey("FamilyRelationshipId")]
         public int FamilyRelationshipId { get; set; }//[TanimEsCocukTipiID] or [Tip] this is complicated
         public FamilyRelationship FamilyRelationship { get; set; }
-        public int StaffId { get; set; }//[PersonelBilgiID]
+        public long StaffId { get; set; }//[PersonelBilgiID]
         public string FullName { get; set; }//[AdiSoyadi]
         public string IdentityNumber { get; set; }//[TcKimlikNo]
         public string BirthPlace { get; set; }//[DogumYeri]

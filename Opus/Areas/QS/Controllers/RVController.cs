@@ -9,6 +9,7 @@ using System.Text;
 using Opus.Models.ViewModels.ReferenceVerif;
 using static Opus.Utility.ProjectConstant;
 using Opus.Models.DbModels.ReferenceVerifLOG;
+using System.Security.Claims;
 
 namespace Opus.Areas.QS.Controllers
 {
@@ -118,7 +119,8 @@ namespace Opus.Areas.QS.Controllers
             _user = new User()
             {
                 UserName = _user.UserName,
-                FullName = _user.FullName,
+                //FullName = _user.FullName,
+                FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                 Id = _user.Id
             };
             var referenceDefs = new ReferenceDefsIndexVM()
@@ -171,7 +173,26 @@ namespace Opus.Areas.QS.Controllers
         [HttpGet("api/qs/rv/get-userlist")]
         public IEnumerable<User> GetUsers()
         {
-            return _uow.ReferenceVerif_User.GetAll();
+            IEnumerable<User> test = null;
+            try
+            {
+                test = _uow.ReferenceVerif_User.GetAll();
+            }
+            catch (Exception ex)
+            {
+                var _appuser = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
+                var _appuserInfo = "USER: "+_appuser.Id + " || " + _appuser.FirstName + " " + _appuser.LastName +"( "+DateTime.Now.ToString("dd/MM/yyyy")+ " - "+ DateTime.Now.ToString("HH:mm:ss") + " )";
+
+                //Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Hata: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                if (ex.InnerException != null)
+                    Console.WriteLine(ex.InnerException.Message + " - "+_appuserInfo);
+                else
+                    Console.WriteLine(ex.Message + " - " + _appuserInfo);
+            }
+            return test;
         }
         [HttpGet("api/qs/rv/get-custDef/{cusId}")]
         public IEnumerable<CustomerDefinitions> GetCustDefs(string cusId)
@@ -188,7 +209,8 @@ namespace Opus.Areas.QS.Controllers
             _user = new User()
             {
                 Id = _user.Id,
-                UserName = _user.UserName,
+                //UserName = _user.UserName,
+                UserName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                 FullName = _user.FullName
             };
             return _user;
@@ -270,6 +292,19 @@ namespace Opus.Areas.QS.Controllers
         public IEnumerable<Input_LOG> PostLogInput()
         {
             return _uow.ReferenceVerif_Input_LOG.GetAll().OrderByDescending(i => i.Id).Take(100);
+        }
+
+
+
+        public Claim GetClaim()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var Claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (Claims != null)
+            {
+                return Claims;
+            }
+            return null;
         }
     }
 

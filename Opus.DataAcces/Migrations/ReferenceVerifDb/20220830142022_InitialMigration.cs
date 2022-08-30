@@ -24,19 +24,46 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Staff",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Admin = table.Column<bool>(type: "bit", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Guid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false),
+                    DateOfEntry = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfQuit = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MaritalStatusId = table.Column<int>(type: "int", nullable: false),
+                    MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberSec = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MotherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FatherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirthPlace = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NumberOfChildren = table.Column<int>(type: "int", nullable: false),
+                    BloodTypeId = table.Column<int>(type: "int", nullable: false),
+                    TestD2_TNE = table.Column<float>(type: "real", nullable: false),
+                    TestD2_E = table.Column<float>(type: "real", nullable: false),
+                    CurrentSalary = table.Column<float>(type: "real", nullable: false),
+                    IBAN = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    WhiteCollarWorker = table.Column<bool>(type: "bit", nullable: false),
+                    BlackList = table.Column<bool>(type: "bit", nullable: false),
+                    EducationalStatus = table.Column<int>(type: "int", nullable: false),
+                    ImageFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Degree = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClothingSizes = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Staff", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,6 +86,28 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StaffId = table.Column<long>(type: "bigint", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Admin = table.Column<bool>(type: "bit", nullable: false),
+                    Active = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Staff_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Staff",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CustomersDefinitions",
                 columns: table => new
                 {
@@ -74,13 +123,13 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                         column: x => x.CompanyId,
                         principalTable: "Companies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CustomersDefinitions_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,6 +204,12 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
                 column: "VerificationsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_StaffId",
+                table: "Users",
+                column: "StaffId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Verifications_CustomerDefinitionsId",
                 table: "Verifications",
                 column: "CustomerDefinitionsId");
@@ -170,6 +225,9 @@ namespace Opus.DataAcces.Migrations.ReferenceVerifDb
 
             migrationBuilder.DropTable(
                 name: "Verifications");
+
+            migrationBuilder.DropTable(
+                name: "Staff");
 
             migrationBuilder.DropTable(
                 name: "CustomersDefinitions");

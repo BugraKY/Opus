@@ -23,7 +23,7 @@ namespace Opus.Utility
             _uow = uow;
         }
         //private static readonly List<string> uploads;
-        public void Upload(DocumentFilesVM Files, string webRootPath, string _guid, int staffId,string _base64)
+        public void Upload(DocumentFilesVM Files, string webRootPath, string _guid, long staffId,string _base64)
         {
             List<DocumentVM> _documents = new List<DocumentVM>();
             var DIR_PerDoc = webRootPath + Personels.Root + _guid.ToString() + Personels.Documentation;
@@ -352,7 +352,7 @@ namespace Opus.Utility
 
         }
 
-        public void Upload_UPSERT(DocumentFilesVM Files, DocumentFilesReadVM _docs, string webRootPath, string _guid, int staffId,string _base64)
+        public void Upload_UPSERT(DocumentFilesVM Files, DocumentFilesReadVM _docs, string webRootPath, string _guid, long staffId,string _base64)
         {
             List<DocumentVM> _documents = new List<DocumentVM>();
             var DIR_PerDoc = webRootPath + Personels.Root + _guid.ToString() + Personels.Documentation;

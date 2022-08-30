@@ -342,7 +342,7 @@ namespace Opus.Areas.HR.Controllers
             //return NoContent();
             string webRootPath = _hostEnvironment.WebRootPath;
             Staff staffItem = new Staff();
-            int staffId = 0;
+            long staffId = 0;
             string StaffUid = "";
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();

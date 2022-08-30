@@ -188,14 +188,22 @@ Task Send(WebSocket webSocket)
 */
 //app.UseWebSockets(webSocketOptions);
 
+Console.OutputEncoding=System.Text.Encoding.UTF8;
 
 app.UseHttpsRedirection();
+Console.WriteLine("Https Redirection Started.");
 app.UseStaticFiles();
+Console.WriteLine("Static Files Started.");
 app.UseRouting();
+Console.WriteLine("Routing Started.");
 app.UseAuthentication();
+Console.WriteLine("Authentication Started.");
 app.UseAuthorization();
+Console.WriteLine("Authorization Started.");
 app.UseCookiePolicy();
+Console.WriteLine("Cookie Policy Started.");
 app.UseSession();
+Console.WriteLine("Sessions Started.");
 
 //app.UseFileServer();//testing..
 //app.usesi
@@ -221,7 +229,28 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapHub<OpusHub>("/hubs");
 
-Console.WriteLine("IPV4: " + GetAllLocalIPv4().FirstOrDefault());
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("Hub Started with Web Socket.");
+Console.ForegroundColor = ConsoleColor.White;
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("---------------------------------------------------------------");
+Console.ForegroundColor = ConsoleColor.White;
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("");
+Console.WriteLine("API STARTED!");
+Console.WriteLine("");
+Console.Write("LOCAL IPV4: ");
+Console.ForegroundColor = ConsoleColor.White;
+
+Console.WriteLine(GetAllLocalIPv4().FirstOrDefault());
+
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("Opus is working..");
+Console.WriteLine("---------------------------------------------------------------");
+Console.ForegroundColor = ConsoleColor.White;
 app.Run();
 
 
