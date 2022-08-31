@@ -10,13 +10,13 @@ namespace Opus.Models.DbModels
     public class Location
     {
         [Key]
-        public Guid Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public string Active { get; set; }
         public string LocationUrl { get; set; }
         public string CountryId { get; set; }
-        public int IntId { get; set; }
+        public string ColorHex { get; set; }
     }
 }
