@@ -45,5 +45,10 @@ namespace Opus.Models.DbModels
         public string ImageFile { get; set; }
         public string Degree { get; set; }
         public string ClothingSizes { get; set; }
+        public bool IsUser { get; set; }
+        public string ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
+        public ApplicationUser ApplicationUser { get; set; }
+
     }
 }

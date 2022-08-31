@@ -120,7 +120,7 @@ namespace Opus.Areas.QS.Controllers
             {
                 UserName = _user.UserName,
                 //FullName = _user.FullName,
-                FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                 Id = _user.Id
             };
             var referenceDefs = new ReferenceDefsIndexVM()
@@ -210,7 +210,7 @@ namespace Opus.Areas.QS.Controllers
             {
                 Id = _user.Id,
                 //UserName = _user.UserName,
-                UserName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                //UserName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                 FullName = _user.FullName
             };
             return _user;

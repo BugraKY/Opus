@@ -48,6 +48,7 @@ namespace Opus.DataAcces.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Staff>()
                         .HasIndex(u => new { u.Guid }).IsUnique();
+            modelBuilder.Entity<Location>().HasNoKey();
             //modelBuilder.Entity<Staff>().HasKey(i => i.Id);
         }
     }
