@@ -62,7 +62,7 @@ namespace Opus.Areas.QS.Controllers
         [HttpPost("qs/references-verify/add-comp")]
         public IActionResult PostCompany(AllModelsVM modelsVM)
         {
-            var _company = new Company()
+            var _company = new Opus.Models.DbModels.ReferenceVerifDb.Company()
             {
                 Name = modelsVM.Company.Name,
                 Active = true,

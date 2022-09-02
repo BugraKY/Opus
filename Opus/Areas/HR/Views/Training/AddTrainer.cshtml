@@ -1,0 +1,187 @@
+﻿
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Locations</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/training">Training</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Add</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Add Trainer</h4>
+                </div>
+                <div class="box-body">
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2">Location</label>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <select class="form-control select2" style="width: 100%;" id="locationselect">
+                                    <option selected="selected" value="0" disabled="disabled">Select Location</option>
+                                    <option>Arif Yılmaz</option>
+                                    <option>Semih İnanç</option>
+                                    <option>Sinan Er</option>
+                                    <option>Hatice Şahiner</option>
+                                    <option>Semali Çelik</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2">Full Name</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" name="fullName" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-primary waves-effect waves-dark" onclick="postTrainer()"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="border-bottom" style="margin-bottom: 20px;"></div>
+                    <h4>Trainer List</h4>
+                    <p></p>
+                    <p></p>
+
+
+
+                    <!------Training List------>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                                    <thead>
+                                        <tr>
+                                            <th hidden></th>
+                                            <th>Full Name</th>
+                                            <th>Location</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        var getLocationUrl = '/api/hr/get-location';
+        var getTrainerUrl = '/api/hr/get-trainer';
+        var postTrainerUrl = '/api/hr/add-trainer';
+        $(document).ready(function () {
+            getLocationAjx();
+            getTrainer();
+        });
+        function getLocationAjx() {
+            $('#locationselect').empty().trigger("change");
+
+            var locationSelect = $('#locationselect');
+            //staffSelect.val(null).trigger('change');
+            var option = new Option('Select Location', '0', true, true);
+            option.setAttribute('disabled', 'disabled');
+            locationSelect.append(option).trigger('change');
+
+            $.ajax({
+                url: getLocationUrl,
+                //data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                /*success: function (received) {
+                    console.log(received);
+                }*/
+            }).then(function (data) {
+                $.each(data, function (key, value) {
+                    // create the option and append to Select2
+                    var option = new Option(value.name, value.id, false, false);
+                    locationSelect.append(option).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    locationSelect.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: value
+                        }
+                    });
+
+
+                });
+
+            });
+        }
+        function getTrainer() {
+            $('#locationTable').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "POST",
+                    "url": getTrainerUrl,
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                    // call your function here
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "fullName" },
+                    { "data": "location.name" },
+                    /*
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            return '<a class="fa-exp-font"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                        }
+                    },*/
+
+                ]
+            });
+        }
+        function postTrainer() {
+            var trainer = {
+                fullName: $("input[name='fullName']").val(),
+                locationId: $('#locationselect').find(':selected').val()
+            };
+            
+            $.ajax({
+                url: postTrainerUrl,
+                type: "POST",
+                data: JSON.stringify(trainer),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    getTrainer();
+                    getLocationAjx();
+                    $("input[name='fullName']").val("");
+                }
+            });
+        }
+    </script>
+}

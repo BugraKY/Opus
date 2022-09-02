@@ -1,0 +1,70 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<Opus.Models.DbModels.Location>
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Locations</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page">Locations</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Add Location</h4>
+                    <a href="#/add" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Country</th>
+                                    <th>Status</th>
+                                    <th>Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@item.CountryId</td>
+                                        <td>@item.Active</td>
+                                        <td>@item.ColorHex</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#locationTable').DataTable({});
+        })
+    </script>
+}
+

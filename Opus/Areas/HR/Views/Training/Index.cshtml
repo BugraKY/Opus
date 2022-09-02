@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Locations</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page">Training</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body">
+
+
+
+                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#trainingtab" role="tab"><span><i class="ion-home"></i></span><span class="hidden-xs-down ms-15">Training</span></a> </li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#trainertab" role="tab"><span><i class="ion-home"></i></span><span class="hidden-xs-down ms-15">Trainer</span></a> </li>
+                    </ul>
+                    <div class="tab-content tabcontent-border">
+                        <div class="tab-pane active" id="trainingtab" role="tabpanel">
+
+                            <div class="p-15">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">Training</h4>
+                                    <a href="/training/add" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject</th>
+                                                <th>Description</th>
+                                                <th>Location</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @*
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Name</td>
+                                                        <td>@item.CountryId</td>
+                                                        <td>@item.Active</td>
+                                                        <td>@item.ColorHex</td>
+                                                    </tr>
+                                                }*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="trainertab" role="tabpanel">
+                            <div class="p-15">
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">Trainer</h4>
+                                    <a href="/training/add-trainer" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                                </div>
+                                Trainers
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#locationTable').DataTable({});
+        })
+    </script>
+}
+

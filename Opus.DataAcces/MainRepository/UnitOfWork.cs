@@ -42,6 +42,11 @@ namespace Opus.DataAcces.MainRepository
             StaffResignation = new StaffResignationRepository(_db);
             VacationDates = new VacationDatesRepository(_db);
             Notification = new NotificationRepository(_db);
+            Company = new CompanyRepository(_db);
+            Trainer = new TrainerRepository(_db);
+            References = new ReferencesRepository(_db);
+            Training = new TrainingRepository(_db);
+            StaffTraining = new StaffTrainingRepository(_db);
             #endregion Main And HR
 
             #region Accounting
@@ -103,6 +108,11 @@ namespace Opus.DataAcces.MainRepository
         public IStaffResignationRepository StaffResignation { get; private set; }
         public IVacationDatesRepository VacationDates { get; private set; }
         public INotificationRepository Notification { get; private set; }
+        public ICompanyRepository Company { get; private set; }
+        public ITrainerRepository Trainer { get; private set; }
+        public IReferencesRepository References { get; private set; }
+        public ITrainingRepository Training { get; private set; }
+        public IStaffTrainingRepository StaffTraining { get; private set; }
         #endregion Main And HR
 
         #region Accounting

@@ -27,6 +27,11 @@ namespace Opus.DataAcces.IMainRepository
         IStaffResignationRepository StaffResignation { get; }
         IVacationDatesRepository VacationDates { get; }
         INotificationRepository Notification { get; }
+        ICompanyRepository Company { get; }
+        ITrainerRepository Trainer { get; }
+        IReferencesRepository References { get; }
+        ITrainingRepository Training { get; }
+        IStaffTrainingRepository StaffTraining { get; }
         #endregion Main And HR
 
 

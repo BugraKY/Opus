@@ -31,6 +31,11 @@ namespace Opus.DataAcces.Data
         public DbSet<StaffResignation> StaffResignations { get; set; }
         public DbSet<VacationDates> VacationDates { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<Company> Company { get; set; }
+        public DbSet<Trainer> Trainer { get; set; }
+        public DbSet<References> References { get; set; }
+        public DbSet<Training> Training { get; set; }
+        public DbSet<StaffTraining> StaffTraining { get; set; }
         //public DbSet<Unit> Unit { get; set; }
 
         /*

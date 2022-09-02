@@ -14,9 +14,10 @@ namespace Opus.Models.DbModels
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public string Active { get; set; }
+        public bool Active { get; set; }
+        public bool IsDelete { get; set; }
         public string LocationUrl { get; set; }
-        public string CountryId { get; set; }
+        public long CountryId { get; set; }
         public string ColorHex { get; set; }
     }
 }

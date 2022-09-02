@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Opus.Models.DbModels;
 using Opus.Models.DbModels.ReferenceVerifDb;
 using System;
 using System.Collections.Generic;
