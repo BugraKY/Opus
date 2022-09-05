@@ -21,5 +21,7 @@ namespace Opus.Models.DbModels
         public long LocationId { get; set; }
         [ForeignKey("LocationId")]
         public Location Location { get; set; }
+
+        public bool Active { get; set; }
     }
 }

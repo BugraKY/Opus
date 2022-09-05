@@ -61,7 +61,7 @@ namespace Opus
                 options.Cookie.IsEssential = true;
             });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, IUnitofwork>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
             services.AddLogging(

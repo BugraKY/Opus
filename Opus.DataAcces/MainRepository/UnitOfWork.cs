@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Opus.DataAcces.MainRepository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class IUnitofwork : IUnitOfWork
     {
         private readonly ApplicationDbContext _db;
         private readonly AccountingDbContext _dbAc;
         private readonly ReferenceVerifDbContext _dbRV;
         private readonly ReferenceVerifLOGContext _dbRVLOG;
-        public UnitOfWork(ApplicationDbContext db, AccountingDbContext dbAc, ReferenceVerifDbContext dbRV, ReferenceVerifLOGContext dbRVLOG)
+        public IUnitofwork(ApplicationDbContext db, AccountingDbContext dbAc, ReferenceVerifDbContext dbRV, ReferenceVerifLOGContext dbRVLOG)
         {
             #region Dependency-Injection
             _db = db;

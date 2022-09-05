@@ -53,6 +53,36 @@ namespace Opus.Api
             //return null;
         }
         [HttpPost()]
+        [Route("get-reference-locid")]
+        public async Task<IEnumerable<References>> GetReferenceBylocid(long locationid)
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.References.GetAll(i => i.LocationId == locationid, includeProperties: "Location");
+            });
+            //return null;
+        }
+        [HttpGet()]
+        [Route("get-references")]
+        public async Task<IEnumerable<References>> GetReferences()
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.References.GetAll(includeProperties: "Location");
+            });
+            //return null;
+        }
+        [HttpGet()]
+        [Route("get-companies/{id}")]
+        public async Task<IEnumerable<Company>> GetCompanies(long id)
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.Company.GetAll(i=>i.LocationId==id,includeProperties: "Location");
+            });
+            //return null;
+        }
+        [HttpPost()]
         [Route("add-trainer")]
         public async Task<ToastMessageVM> AddTrainer([FromBody] Trainer _trainer)
         {
@@ -90,6 +120,56 @@ namespace Opus.Api
                 });
             }
             
+            var _toast = new ToastMessageVM()
+            {
+                Message = "This trainer already added before",
+                Header = "Status",
+                Icon = "warning",
+                HideAfter = 0
+            };
+            return _toast;
+
+            //return null;
+        }
+
+        [HttpPost()]
+        [Route("add-Reference")]
+        public async Task<ToastMessageVM> AddReference([FromBody] References _reference)
+        {
+            var reference = _uow.References.GetAll(i => i.Reference == _reference.Reference).Count();
+
+            if (reference == 0)
+            {
+                return await Task.Run(() =>
+                {
+                    try
+                    {
+                        _uow.References.Add(_reference);
+                        _uow.Save();
+                        var _toast = new ToastMessageVM()
+                        {
+                            Message = "success",
+                            Header = "Status",
+                            Icon = "Success",
+                            HideAfter = 0
+                        };
+                        return _toast;
+                    }
+                    catch (Exception ex)
+                    {
+                        var _toast = new ToastMessageVM()
+                        {
+                            Message = ex.Message,
+                            Header = "Fail",
+                            Icon = "danger",
+                            HideAfter = 0
+                        };
+                        return _toast;
+                    }
+
+                });
+            }
+
             var _toast = new ToastMessageVM()
             {
                 Message = "This trainer already added before",

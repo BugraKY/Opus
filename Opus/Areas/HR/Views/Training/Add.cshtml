@@ -3,7 +3,7 @@
 *@
 @{
 }
-
+@model Opus.Models.ViewModels.TrainingVM
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
@@ -29,104 +29,105 @@
                     <h4 class="box-title">Add Training Form</h4>
                 </div>
                 <div class="box-body">
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Subject</label>
-                        <div class="col-md-10">
-                            <input class="form-control datepicker" type="text" name="subject" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Description</label>
-                        <div class="col-md-10">
-                            <input class="form-control datepicker" type="text" name="description" autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Location</label>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <select class="form-control select2" style="width: 100%;" id="locationselect">
-                                    <option selected="selected" value="0" disabled="disabled">Select Location</option>
-                                    <option>Arif Yılmaz</option>
-                                    <option>Semih İnanç</option>
-                                    <option>Sinan Er</option>
-                                    <option>Hatice Şahiner</option>
-                                    <option>Semali Çelik</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Document</label>
-                        <div class=" col-md-10 imageform d-none">
-                            <form action="#" class="dropzone text-center" id="image-dropzone">
-                                <div class="fallback">
-                                    <input class="drop-image" name="document" type="file" />
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div id="exp-alert" class="d-none">
+                    <form method="post">
                         <div class="form-group row">
-                            <div class="col-md-2"></div>
-                            <div class=" col-md-10 imageform d-none">
-                                <div class="alert alert-danger" id="exp-alert-message">
-                                    <p>We have some problem!</p>
+                            <label class="col-form-label col-md-2">Location</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <select class="form-control select2" style="width: 100%;" id="locationselect">
+                                        <option selected="selected" value="0" disabled="disabled">Select Location</option>
+                                        <option>Arif Yılmaz</option>
+                                        <option>Semih İnanç</option>
+                                        <option>Sinan Er</option>
+                                        <option>Hatice Şahiner</option>
+                                        <option>Semali Çelik</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-
-
-                    <div class="border-bottom" style="margin-bottom: 20px;"></div>
-                    <h4>Staff Training</h4>
-                    <p></p>
-                    <p></p>
-
-
-                    <!------Form Details------>
-
-
-
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Date</label>
-                        <div class="col-md-10">
-                            <input class="form-control datepicker" type="date" name="date" value="@DateTime.Now.ToString("yyyy-MM-dd")">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Trainer</label>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <select class="form-control select2" style="width: 100%;" id="trainerselect">
-                                    <option selected="selected" value="0" disabled="disabled">Select Trainer</option>
-                                </select>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Subject</label>
+                            <div class="col-md-10">
+                                <input class="form-control datepicker" type="text" name="subject" autocomplete="off">
                             </div>
                         </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Staff</label>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <select class="form-control select2" style="width: 100%;" id="staffselect">
-                                    <option selected="selected" value="0" disabled="disabled">Select Staff</option>
-                                </select>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Description</label>
+                            <div class="col-md-10">
+                                <input class="form-control datepicker" type="text" name="description" autocomplete="off">
                             </div>
                         </div>
-                    </div>
 
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Document</label>
+                            <div class=" col-md-10 imageform d-none">
+                                <div action="#" class="dropzone text-center" id="image-dropzone">
+                                    <div class="fallback">
+                                        <input class="drop-image" name="document" type="file" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="exp-alert" class="d-none">
+                            <div class="form-group row">
+                                <div class="col-md-2"></div>
+                                <div class=" col-md-10 imageform d-none">
+                                    <div class="alert alert-danger" id="exp-alert-message">
+                                        <p>We have some problem!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="border-bottom" style="margin-bottom: 20px;"></div>
+                        <h4>Staff Training</h4>
+                        <p></p>
+                        <p></p>
+
+
+                        <!------Form Details------>
+
+
+
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Date</label>
+                            <div class="col-md-10">
+                                <input class="form-control datepicker" type="date" name="date" id="dateval" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Trainer</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <select class="form-control select2" style="width: 100%;" id="trainerselect">
+                                        <option selected="selected" value="0" disabled="disabled">Select Trainer</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Staff</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <select class="form-control select2" style="width: 100%;" id="staffselect">
+                                        <option selected="selected" value="0" disabled="disabled">Select Staff</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <div class="form-group row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <button class="btn btn-primary waves-effect waves-dark"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-primary waves-effect waves-dark" style="float" id="addDetailRow"><i class="fa fa-plus"></i></button>
                             </div>
                         </div>
                     </div>
@@ -137,13 +138,14 @@
                                 <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
                                     <thead>
                                         <tr>
+                                            <th class="d-none"></th>
                                             <th>Date</th>
                                             <th>Trainer</th>
                                             <th>Staff</th>
                                             <th>Reference</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="locationTbody">
                                         @*
                                             @foreach (var item in Model)
                                             {
@@ -160,6 +162,14 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="btn btn-primary waves-effect waves-dark">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -170,10 +180,19 @@
 <script src="~/lib/vendor_components/dropzone/dropzone.js"></script>
 @section Scripts{
     <script>
+        const guidNULL = '00000000-0000-0000-0000-000000000000';
         var getLocationUrl = '/api/hr/get-location';
         var getStaffActiveUrl = '/api/hr/get-staff-active';
         var getTrainerUrl = '/api/hr/get-trainer';
         var maxfilesize = 3;
+
+        var seq = 0;
+        var trainerid = '';
+        var trainer_name = '';
+        var staffid = 0;
+        var staff_name = '';
+
+
         Dropzone.autoDiscover = true;
 
         Dropzone.options.imageDropzone = {
@@ -211,13 +230,31 @@
             },
         };
         $(document).ready(function () {
-
+            trainerid = guidNULL;
             $('.dz-message').html("<div style='font-size:small;'><span>Drop image here to upload</span></br><span>or select an image from your local files</span></br><span>or take a photo from your smartphone</span></div>");
             $('.imageform').removeClass('d-none');
 
             getLocationAjx();
             getStaffAjx();
             getTrainerAjx();
+
+            $(document.body).on("change", "#trainerselect", function (e) {
+                console.log(this.value);
+                trainerid = this.value;
+                if ($('#trainerselect').find(':selected')[0].innerText != null || $('#trainerselect').find(':selected')[0].innerText != '')
+                trainer_name = $('#trainerselect').find(':selected')[0].innerText;
+                $('#addDetailRow').prop('disabled', false);
+                console.log(trainer_name);
+            });
+            $(document.body).on("change", "#staffselect", function () {
+                console.log(this.value);
+                staffid = this.value;
+                if ($('#staffselect').find(':selected')[0].innerText != null || $('#staffselect').find(':selected')[0].innerText != '')
+                    staff_name = $('#staffselect').find(':selected')[0].innerText;
+                $('#add_buyingDetail_row').prop('disabled', false);
+                console.log(staff_name);
+            });
+
         });
         function getLocationAjx() {
             $('#locationselect').empty().trigger("change");
@@ -333,6 +370,332 @@
             } catch (error) {
                 console.error(error);
             }
+        }
+
+
+        async function disable_button() {
+
+            result = await $('#addDetailRow').prop('disabled', true);
+            return result;
+        }
+
+
+
+        $("#addDetailRow").on("click", function () {
+            $('#addDetailRow').prop('disabled', true);
+            //disable_button();
+
+            //var date_val = $("#dateval").val();
+            var date = new Date($('#dateval').val());
+            var dayStr = '';
+            var monthStr = '';
+            var yearStr = '';
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (day < 10)
+                dayStr = '0' + day;
+            else
+                dayStr = '' + day;
+
+            if (month < 10)
+                monthStr = '0' + month;
+            else
+                monthStr = ''+month;
+
+
+
+            var date_val = [dayStr, monthStr, year].join('.');
+            //alert([day, month, year].join('/'));
+
+            var subject = $("input[name=subject]").val();
+            var description = $("input[name=description]").val();
+
+
+            /*
+            var idVal = $("#identification").val();
+            var docNo = $("#PurchaseInvoice_DocNo").val();
+            if (docNo == null || docNo == '') {
+                checkDocNum();
+            }
+            if (idVal == null) {
+                checkId();
+            }
+            else {
+
+                $('#buying-submit').prop('disabled', true);
+                $('#addDetailRow').prop('disabled', true);
+                const selectedText = $("#departmantid option:selected").text();
+                const selectedValue = $("#departmantid option:selected").val();
+
+                if (selectedValue == -1) {
+                    $.toast({
+                        heading: 'Required family member selection',
+                        text: 'Please select a family member.',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (piece == "" || piece == null || piece == 0) {
+                    $.toast({
+                        heading: 'Required Piece Field',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (unit_price == "" || unit_price == null || unit_price == 0) {
+                    $.toast({
+                        heading: 'Required unit price field',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (vat == "" || vat == null || vat < 1) {
+                    $.toast({
+                        heading: 'Required select vat field',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (categoryId == "00000000-0000-0000-0000-000000000000" || categoryId == null) {
+                    $.toast({
+                        heading: 'Required Category',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (subCategoryId == "00000000-0000-0000-0000-000000000000" || subCategoryId == null) {
+                    $.toast({
+                        heading: 'Required SubCategory',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else if (tagId == "00000000-0000-0000-0000-000000000000" || tagId == null) {
+                    $.toast({
+                        heading: 'Required Tag',
+                        text: '',
+                        icon: 'warning',
+                        showHideTransition: 'slide',
+                        loader: false,        // Change it to false to disable loader
+                        loaderBg: '#9EC600',  // To change the background
+                        position: 'top-right',
+                        hideAfter: 5000
+                    });
+                }
+                else {
+
+
+                    if (vat == 1)
+                        vatRate = "%0"
+                    if (vat == 1.01)
+                        vatRate = "%1";
+                    if (vat == 1.08)
+                        vatRate = "%8";
+                    if (vat == 1.18)
+                        vatRate = "%18";
+
+                    console.log("%1: "+vat_1);
+                    console.log("%8: " + vat_8);
+                    console.log("%18: " + vat_18);
+
+                    if (discount == 1)
+                        discountrate = "%0";
+                    if (discount == 1.08)
+                        discountrate = "%8";
+                    if (discount == 1.1)
+                        discountrate = "%10";
+                    if (discount == 1.18)
+                        discountrate = "%18";
+
+
+                    //var selectedElementTxt = `<input type="text" class="form-control" value="` + selectedText + `" title="` + selectedText + `" readonly="readonly" />`;
+                    //var selectedElementVal = `<input type="text" class="form-control departmantid d-none" value="` + selectedValue + `" hidden/>`;
+
+
+
+                }
+
+            }
+            */
+            if (date_val == "" || date_val == null) {
+                $.toast({
+                    heading: 'Required date field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+                setTimeout(function () {
+                    //getSumVals();
+
+                    $('#addDetailRow').prop('disabled', false);
+                }, 500);
+            }
+            else if (trainerid == guidNULL || trainerid == null || trainerid=='0') {
+                $.toast({
+                    heading: 'Required trainer field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+                setTimeout(function () {
+                    //getSumVals();
+
+                    $('#addDetailRow').prop('disabled', false);
+                }, 500);
+            }
+            else if (staffid == 0 || staffid == null) {
+                $.toast({
+                    heading: 'Required Staff field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+                setTimeout(function () {
+                    //getSumVals();
+
+                    $('#addDetailRow').prop('disabled', false);
+                }, 500);
+            }
+
+            else {
+                seq++;
+                var tbody_location_item = `
+                                                    <tr data-id="`+ seq + `">
+                                                        <td data-name="seq" class="fitwidth d-none">
+                                                                <input type="text" class="box-shadow-none seq-training d-none" value="`+ seq + `" title="` + seq + `" readonly="readonly"/>
+                                                                <span class="seq-buying-spn">`+ seq + `</span>
+
+                                                        </td>
+                                                        <td data-name="date" class="fitwidth">
+                                                                <input type="text" class="box-shadow-none date-training d-none" value="`+ date_val + `" title="` + date_val + `" readonly="readonly"/>
+                                                                <span title="">`+ date_val + `</span>
+                                                        </td>
+                                                        <td data-name="trainer" class="fitwidth">
+                                                                <input type="text" class="box-shadow-none trainer-training d-none" value="`+ trainer_name + `" title="` + trainer_name + `" readonly="readonly"/>
+                                                                <input type="text" class="subCategoryId-buying d-none" value="`+ trainerid + `" title="` + trainerid + `" readonly="readonly"/>
+                                                                <span title="">`+ trainer_name + `</span>
+                                                        </td>
+                                                        <td data-name="staff" class="fitwidth">
+                                                                <input type="text" class="box-shadow-none staff-training d-none" value="`+ staff_name + `" title="` + staff_name + `" readonly="readonly"/>
+                                                                <input type="text" class="staff-training d-none" value="`+ staffid + `" title="` + staffid + `" readonly="readonly"/>
+                                                                <span title="">`+ staff_name + `</span>
+                                                        </td>
+                                                        <td data-name="reference" class="fitwidth">
+                                                                <input type="text" class="box-shadow-none reference-training d-none" value="`+ "reference" + `" title="` + "reference" + `" readonly="readonly"/>
+                                                                <input type="text" class="reference-training d-none" value="`+ "reference" + `" title="` + "reference" + `" readonly="readonly"/>
+                                                                <span title="">`+ "reference" + `</span>
+                                                        </td>
+                                                        @*
+                                                        <td data-name="deliveryDate" class="fitwidth">
+
+                                                                <input type="text" class="box-shadow-none discountRate-buying d-none" value=`+ discount.toString().replace(/\./g, ',') + ` title="` + discountrate.toString().replace(/\./g, ',') + `" readonly="readonly"/>
+                                                                <span title="">`+ discountrate + `</span>
+
+                                                        </td>
+                                                        <td data-name="deliveryDate" class="fitwidth">
+
+                                                                <input type="text" class="box-shadow-none discount-buying d-none" value=`+ calcedDis.toString().replace(/\./g, ',') + ` title="` + calcedDis.toString().replace(/\./g, ',') + `" readonly="readonly"/>
+                                                                <span title="">`+ calcedDis.toFixed(2).toString().replace(/\./g, ',') + `</span>
+
+                                                        </td>
+                                                        *@
+                                                    </tr>
+
+`;
+                $("#locationTbody").append(tbody_location_item);
+                /*
+                $('.seq-buying-spn').each(function (i) {
+                    $(this).html(Number(i + 1));
+                });
+                $('.tagId-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].TagDefinitionsId');
+                });
+                $('.piece-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Piece');
+                });
+                $('.unitPrice-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Price');
+                });
+                $('.vatRate-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat_Rate');
+                });
+                $('.calcedVat-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat');
+                });
+                $('.discount-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount');
+                });
+                $('.discountRate-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount_Rate');
+                });
+                $('.outVat-buying').each(function (i) {
+                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
+                });
+                */
+                setTimeout(function () {
+                    //getSumVals();
+
+                    //clearTrainingInputs();
+                }, 500);
+                clearTrainingInputs();
+            }
+
+        });
+
+        function clearTrainingInputs() {
+            //getTrainerAjx();
+            //getStaffAjx();
+            $('#staffselect').val('0');
+            $('#staffselect').select2().trigger('change');
+
+
+            setTimeout(function () {
+                //getSumVals();
+
+                $('#addDetailRow').prop('disabled', false);
+            }, 500);
         }
     </script>
 }

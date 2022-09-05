@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewData["Title"] = "AddReference";
+}
+
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Locations</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/training">Training</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Add Reference</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Add References</h4>
+                </div>
+                <div class="box-body">
+                    <form >
+                        <div class="row">
+                            <div class="col-lg-2 col-12">
+                                <h6 class="my-10">Location:</h6>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <div class="rounded">
+                                    <select class="form-select select2 input-col" id="locationselect" tabindex="5" style="max-width:200px;">
+                                        <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Companies</option>
+                                        @*@foreach (var item in Model.Customers)
+                                            {
+                                                <option value="@item.Id">@item.Company.Name</option>
+                                            }*@
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-12">
+                                <h6 class="my-10">Company:</h6>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <div class="rounded">
+                                    <select class="form-select select2 input-col" id="companySelect" tabindex="5" style="max-width:200px;">
+                                        <option value="00000000-0000-0000-0000-000000000000" selected="selected" disabled class="d-none">Companies</option>
+                                        @*@foreach (var item in Model.Companies)
+                                            {
+
+                                            }*@
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-2 col-12">
+                                <h6 class="my-10">Reference:</h6>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <input class="form-control custom-date" type="text" name="Reference" style="max-width:200px;" placeholder="9999999999" autocomplete="" value="">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2 col-12">
+                                <h6 class="my-10">Company Reference:</h6>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <input class="form-control custom-date" type="text" name="CompanyReference" style="max-width:200px;" placeholder="999999999X" autocomplete="off" value="">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-primary" style="float:right">Add</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+
+    <script>
+        var getLocationUrl = '/api/hr/get-location';
+        var getCompanyUrl = '/api/hr/get-companies/';
+        $(document).ready(function () {
+            getLocationAjx();
+            /*
+            $(document.body).on("change", "#customerid_CustomerDefs", function (e) {
+                getCompanyAjx(this.value);
+            });*/
+            $(document.body).on("change", "#locationselect", function (e) {
+                getCompanyAjx(this.value);
+            });
+
+        });
+        function getLocationAjx() {
+            $('#locationselect').empty().trigger("change");
+
+            var locationSelect = $('#locationselect');
+            //staffSelect.val(null).trigger('change');
+            var option = new Option('Select Location', '0', true, true);
+            option.setAttribute('disabled', 'disabled');
+            locationSelect.append(option).trigger('change');
+
+            $.ajax({
+                url: getLocationUrl,
+                //data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                /*success: function (received) {
+                    console.log(received);
+                }*/
+            }).then(function (data) {
+                $.each(data, function (key, value) {
+                    // create the option and append to Select2
+                    var option = new Option(value.name, value.id, false, false);
+                    locationSelect.append(option).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    locationSelect.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: value
+                        }
+                    });
+
+
+                });
+
+            });
+        }
+        function getCompanyAjx(locationid) {
+            $('#companySelect').empty().trigger("change");
+
+            var companySelect = $('#companySelect');
+            //staffSelect.val(null).trigger('change');
+            var option = new Option('Select Location', '0', true, true);
+            option.setAttribute('disabled', 'disabled');
+            companySelect.append(option).trigger('change');
+            if (locationid != 0) {
+                $.ajax({
+                    url: getCompanyUrl + locationid,
+                    //data: JSON.stringify("vasd7564as52d9c7s"),
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    /*success: function (received) {
+                        console.log(received);
+                    }*/
+                }).then(function (data) {
+                    $.each(data, function (key, value) {
+                        // create the option and append to Select2
+                        var option = new Option(value.name, value.id, false, false);
+                        companySelect.append(option).trigger('change');
+
+                        // manually trigger the `select2:select` event
+                        companySelect.trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: value
+                            }
+                        });
+
+
+                    });
+
+                });
+            }
+        }
+        function postRefAjax() {
+            $('#message').html("");
+            $('#message_refList').html("");
+            CompanyRef = $('input[name="CompanyReference"]').val();
+            CustomerRef = $('input[name="CustomerReference"]').val();
+
+            var json = {
+                CompanyReference: CompanyRef,
+                CustomerReference: CustomerRef,
+                customeryId: compId,
+                customerDefinitionsId: compId,
+                active: true,
+                activeSTR: 'Live'
+            };
+            console.log(json);
+            if (compId === "00000000-0000-0000-0000-000000000000" || custId === "00000000-0000-0000-0000-000000000000") {
+                alert("Please select a customer and company");
+            }
+            else {
+                console.log("postRefAjax() event");
+                $.ajax({
+                    url: "/api/qs/rv/post-ref",
+                    data: JSON.stringify(json),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (received) {
+                        if (received) {
+                            listRef();
+                            $('input[name="CompanyReference"]').val("");
+                            $('input[name="CustomerReference"]').val("");
+                        }
+                        else {
+                            $('#message_refList').html(`<span class="badge badge-danger">` + refNum + ` number is already added before on this customer.</span`);
+                        }
+                    }
+                });
+            }
+
+        }
+    </script>
+
+
+}

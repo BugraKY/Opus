@@ -3,6 +3,7 @@
 *@
 @{
 }
+@model Opus.Models.ViewModels.ReferenceVerif.AllModelsVM
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
@@ -30,6 +31,8 @@
                     <ul class="nav nav-tabs justify-content-center" role="tablist">
                         <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#trainingtab" role="tab"><span><i class="ion-home"></i></span><span class="hidden-xs-down ms-15">Training</span></a> </li>
                         <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#trainertab" role="tab"><span><i class="ion-home"></i></span><span class="hidden-xs-down ms-15">Trainer</span></a> </li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#referencelist" role="tab"><span><i class="ion-home"></i></span><span class="hidden-xs-down ms-15">Reference List</span></a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#companylist" role="tab"><span><i class="ion-home"></i></span><span class="hidden-xs-down ms-15">Companies</span></a></li>
                     </ul>
                     <div class="tab-content tabcontent-border">
                         <div class="tab-pane active" id="trainingtab" role="tabpanel">
@@ -76,6 +79,80 @@
 
                             </div>
                         </div>
+
+                        <div class="tab-pane" id="referencelist" role="tabpanel">
+                            <div class="p-15">
+
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">Reference</h4>
+                                    <a href="/training/add-reference" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div id="message_refList"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="p-15">
+                                <div class="row">
+                                    <div class="col">
+                                        <table id="reference_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="d-none"></th>
+                                                    <th>Location</th>
+                                                    <th>Company</th>
+                                                    <th>Reference</th>
+                                                    <th>Company Reference</th>
+                                                    <th>State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="companylist" role="tabpanel">
+                            <div class="p-15">
+
+                                <div class="box-header with-border">
+                                    <h4 class="box-title">Companies</h4>
+                                    <a href="/training/add-company" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div id="message_refList"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="p-15">
+                                <div class="row">
+                                    <div class="col">
+                                        <table id="company_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="d-none"></th>
+                                                    <th>Location</th>
+                                                    <th>Company</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -87,9 +164,137 @@
 
 @section Scripts{
     <script type="text/javascript">
+
+        var compId = '00000000-0000-0000-0000-000000000000';
+        var locId = '00000000-0000-0000-0000-000000000000';
+        var custDefId = '00000000-0000-0000-0000-000000000000';
+        var reference = '';
+        var CustomerRef = '';
+
         $(document).ready(function () {
             $('#locationTable').DataTable({});
+
+            $(document.body).on("change", "#locationId", function (e) {
+                locId = this.value;
+                //console.log(compId);
+                /*Query in CustomerDefinitions with ajax*/
+
+                //$('#companyId').val(null).trigger('change');
+                $("#companyId").empty();
+                var _optionemp = new Option("Select Company", "00000000-0000-0000-0000-000000000000", true, true);
+                $('#companyId').append(_optionemp).trigger('change');
+                $.ajax({
+                    url: '/api/qs/rv/get-custDef/' + this.value,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+
+
+                        console.log(data);
+                        $.each(data, function (i, val) {
+                            var _option = new Option(val.company.name, val.id);
+                            $('#companyId').append(_option).trigger('change');
+                        });
+                    }
+                });
+
+            });
+
+            $(document.body).on("change", "#companyId", function (e) {
+                compId = this.value;
+                //listCustDef(this.value);
+            });
+            listCompany();
+            listReference();
         })
+        //companylist
+        function listCustDef(cusId) {
+            //cust_def_list
+            var customerlistforDef = $('#cust_def_list').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/qs/rv/get-custDef/' + cusId,
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "customer.company.name" },
+                    { "data": "company.name" },
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
+        function listCompany() {
+            //cust_def_list
+            var companylistforDef = $('#company_list').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/hr/get-companies/',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "location.name" },
+                    { "data": "name" },
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
+        function listReference() {
+            //cust_def_list
+            var referencelist = $('#reference_list').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/hr/get-references/',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "location.name" },
+                    { "data": "company.name" },
+                    { "data": "reference" },
+                    { "data": "companyReference" },
+                    { "data": "active" },
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
     </script>
 }
 
+@*
+    [Key]
+    public Guid Id { get; set; }
+    public string Reference { get; set; }
+    public string CompanyReference { get; set; }
+    public string BarcodeNum { get; set; }
+    public Guid CompanyId { get; set; }
+    [ForeignKey("CompanyId")]
+    public Company Company { get; set; }
+    public long LocationId { get; set; }
+    [ForeignKey("LocationId")]
+    public Location Location { get; set; }
+
+
+*@
