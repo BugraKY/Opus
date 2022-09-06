@@ -44,12 +44,14 @@
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                                    <table id="trainingTable" class="table table-hover table-bordered table-striped dataTables">
                                         <thead>
                                             <tr>
+                                                <th class="d-none"></th>
                                                 <th>Subject</th>
                                                 <th>Description</th>
                                                 <th>Location</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,7 +174,7 @@
         var CustomerRef = '';
 
         $(document).ready(function () {
-            $('#locationTable').DataTable({});
+            $('#trainingTable').DataTable({});
 
             $(document.body).on("change", "#locationId", function (e) {
                 locId = this.value;
@@ -206,6 +208,7 @@
             });
             listCompany();
             listReference();
+            listTraining();
         })
         //companylist
         function listCustDef(cusId) {
@@ -241,7 +244,7 @@
                 "bPaginate": true,
                 "ajax": {
                     "type": "GET",
-                    "url": '/api/hr/get-companies/',
+                    "url": '/api/hr/get-companies-all/',
                     'dataSrc': '',
                 },
                 "initComplete": function (settings, json) {
@@ -276,6 +279,37 @@
                     { "data": "reference" },
                     { "data": "companyReference" },
                     { "data": "active" },
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
+        function listTraining() {
+            //cust_def_list
+            var referencelist = $('#trainingTable').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": '/api/hr/list-training/',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "subject" },
+                    { "data": "description" },
+                    { "data": "location.name" },
+                    {
+                        "data": "id",
+                        /*"type": "num-fmt",*/
+                        render: function (data, type, row) {
+                            return `<a href="training/view/`+data+`" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> View</a>`
+                        },
+                    },
                 ]
             });
             //$("#categoryId").select2({ width: '200px' });

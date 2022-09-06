@@ -33,5 +33,8 @@ namespace Opus.Models.DbModels
         [ForeignKey("ReferencesId")]
         public References References { get; set; }
 
+
+        public DateTime Date { get; set; }
+
     }
 }

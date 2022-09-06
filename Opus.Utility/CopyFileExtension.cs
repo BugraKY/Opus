@@ -12,6 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using Opus.Models.ViewModels.DocumentsObj;
 
 namespace Opus.Utility
 {
@@ -770,6 +771,24 @@ namespace Opus.Utility
             }
             
 
+        }
+
+        public void Upload_TrainingDoc(IFormFile TrainingDoc, Guid _guid, string webRootPath)
+        {
+            var DIR_Training = webRootPath + Personels.TrainingDIR + _guid.ToString()+@"\";
+
+            if (!(Directory.Exists(DIR_Training)))
+                Directory.CreateDirectory(DIR_Training);
+
+            //string[] Name = ImageFile.Name.Split('.');
+            var _fileName = "training-form"+Path.GetExtension(TrainingDoc.FileName);
+
+            var location = Path.Combine(DIR_Training + _fileName);
+
+            using (var fileStream = new FileStream(location, FileMode.Create))
+            {
+                TrainingDoc.CopyTo(fileStream);
+            }
         }
     }
 }

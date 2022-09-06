@@ -4,6 +4,10 @@
 @{
 }
 @model Opus.Models.ViewModels.TrainingVM
+
+<link href="~/lib/vendor_components/dropzone/basic.css" />
+<link href="~/lib/vendor_components/dropzone/dropzone.css" />
+
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
@@ -29,12 +33,12 @@
                     <h4 class="box-title">Add Training Form</h4>
                 </div>
                 <div class="box-body">
-                    <form method="post">
+                    <form id="myform" method="post" enctype="multipart/form-data" data-parsley-validate>
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Location</label>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="locationselect">
+                                    <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
                                         <option selected="selected" value="0" disabled="disabled">Select Location</option>
                                         <option>Arif Yılmaz</option>
                                         <option>Semih İnanç</option>
@@ -49,26 +53,35 @@
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Subject</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" name="subject" autocomplete="off">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Subject">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Description</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" name="description" autocomplete="off">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Description">
                             </div>
                         </div>
 
 
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Document</label>
+
                             <div class=" col-md-10 imageform d-none">
-                                <div action="#" class="dropzone text-center" id="image-dropzone">
-                                    <div class="fallback">
-                                        <input class="drop-image" name="document" type="file" />
-                                    </div>
+                                @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
+                                        <div class="fallback">
+                                            <input class="drop-image" type="file" name="FormFile" />
+                                        </div>
+                                    </div>*@
+                                <div class="input-group">
+                                    <input class="form-control" type="file" name="FormFile" />
                                 </div>
                             </div>
+                            @*
+                                <div class="col-md-10">
+                                    <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
+                                    <input class="drop-image" type="file" asp-for="FormFile" />
+                                </div>*@
                         </div>
 
                         <div id="exp-alert" class="d-none">
@@ -98,7 +111,7 @@
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Date</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="date" name="date" id="dateval" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                <input class="form-control datepicker" type="date" id="dateval" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                             </div>
                         </div>
 
@@ -123,53 +136,63 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Reference</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <select class="form-control select2" style="width: 100%;" id="referenceselect">
+                                        <option selected="selected" value="0" disabled="disabled">Select Reference</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button class="btn btn-primary waves-effect waves-dark" style="float:right" id="addDetailRow"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <th>Date</th>
+                                                <th>Trainer</th>
+                                                <th>Staff</th>
+                                                <th>Reference</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="locationTbody">
+                                            @*
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@item.Name</td>
+                                                        <td>@item.CountryId</td>
+                                                        <td>@item.Active</td>
+                                                        <td>@item.ColorHex</td>
+                                                    </tr>
+                                                }*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button class="btn btn-primary waves-effect waves-dark" type="submit">Save</button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <button class="btn btn-primary waves-effect waves-dark" style="float" id="addDetailRow"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
-                                    <thead>
-                                        <tr>
-                                            <th class="d-none"></th>
-                                            <th>Date</th>
-                                            <th>Trainer</th>
-                                            <th>Staff</th>
-                                            <th>Reference</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="locationTbody">
-                                        @*
-                                            @foreach (var item in Model)
-                                            {
-                                                <tr>
-                                                    <td>@item.Name</td>
-                                                    <td>@item.CountryId</td>
-                                                    <td>@item.Active</td>
-                                                    <td>@item.ColorHex</td>
-                                                </tr>
-                                            }*@
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <button class="btn btn-primary waves-effect waves-dark">Save</button>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -177,20 +200,27 @@
 </section>
 
 <!--<script src="../assets/vendor_components/dropzone/dropzone.js"></script>-->
-<script src="~/lib/vendor_components/dropzone/dropzone.js"></script>
+
 @section Scripts{
+    <script src="~/lib/vendor_components/dropzone/dropzone.js"></script>
     <script>
         const guidNULL = '00000000-0000-0000-0000-000000000000';
         var getLocationUrl = '/api/hr/get-location';
         var getStaffActiveUrl = '/api/hr/get-staff-active';
         var getTrainerUrl = '/api/hr/get-trainer';
+        var getReferenceByRef = '/api/hr/get-reference-locid/';
         var maxfilesize = 3;
 
         var seq = 0;
+
         var trainerid = '';
         var trainer_name = '';
+
         var staffid = 0;
         var staff_name = '';
+
+        var referenceid = '';
+        var reference_name = '';
 
 
         Dropzone.autoDiscover = true;
@@ -231,6 +261,7 @@
         };
         $(document).ready(function () {
             trainerid = guidNULL;
+            referenceid = guidNULL;
             $('.dz-message').html("<div style='font-size:small;'><span>Drop image here to upload</span></br><span>or select an image from your local files</span></br><span>or take a photo from your smartphone</span></div>");
             $('.imageform').removeClass('d-none');
 
@@ -238,6 +269,9 @@
             getStaffAjx();
             getTrainerAjx();
 
+            $(document.body).on("change", "#locationselect", function () {
+                getReferenceByLocation(this.value);
+            });
             $(document.body).on("change", "#trainerselect", function (e) {
                 console.log(this.value);
                 trainerid = this.value;
@@ -254,6 +288,11 @@
                 $('#add_buyingDetail_row').prop('disabled', false);
                 console.log(staff_name);
             });
+            $("#referenceselect").on("select2:select", function (e) {
+                referenceid = $(e.currentTarget).val();
+                reference_name = $('#referenceselect').find(':selected')[0].innerText;
+            });
+
 
         });
         function getLocationAjx() {
@@ -356,6 +395,37 @@
                 });
 
             });
+        }
+        function getReferenceByLocation(locationid) {
+            $('#referenceselect').empty().trigger("change");
+            var referenceselect = $('#referenceselect');
+            //staffSelect.val(null).trigger('change');
+            var option = new Option('Select Reference', '0', true, true);
+            option.setAttribute('disabled', 'disabled');
+            referenceselect.append(option).trigger('change');
+            console.clear();
+            $.ajax({
+                url: getReferenceByRef+locationid,
+                //data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+            }).then(function (data) {
+                $.each(data, function (key, value) {
+                    var option = new Option(value.reference, value.id, false, false);
+                    referenceselect.append(option).trigger('change');
+                    // manually trigger the `select2:select` event
+                    referenceselect.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: value
+                        }
+                    });
+
+
+                });
+
+            });
+
         }
         async function doAjax() {
             let result;
@@ -605,7 +675,7 @@
                                                     <tr data-id="`+ seq + `">
                                                         <td data-name="seq" class="fitwidth d-none">
                                                                 <input type="text" class="box-shadow-none seq-training d-none" value="`+ seq + `" title="` + seq + `" readonly="readonly"/>
-                                                                <span class="seq-buying-spn">`+ seq + `</span>
+                                                                <span class="seq-training-spn">`+ seq + `</span>
 
                                                         </td>
                                                         <td data-name="date" class="fitwidth">
@@ -614,18 +684,18 @@
                                                         </td>
                                                         <td data-name="trainer" class="fitwidth">
                                                                 <input type="text" class="box-shadow-none trainer-training d-none" value="`+ trainer_name + `" title="` + trainer_name + `" readonly="readonly"/>
-                                                                <input type="text" class="subCategoryId-buying d-none" value="`+ trainerid + `" title="` + trainerid + `" readonly="readonly"/>
+                                                                <input type="text" class="trainerid-training d-none" value="`+ trainerid + `" title="` + trainerid + `" readonly="readonly"/>
                                                                 <span title="">`+ trainer_name + `</span>
                                                         </td>
                                                         <td data-name="staff" class="fitwidth">
                                                                 <input type="text" class="box-shadow-none staff-training d-none" value="`+ staff_name + `" title="` + staff_name + `" readonly="readonly"/>
-                                                                <input type="text" class="staff-training d-none" value="`+ staffid + `" title="` + staffid + `" readonly="readonly"/>
+                                                                <input type="text" class="staffid-training d-none" value="`+ staffid + `" title="` + staffid + `" readonly="readonly"/>
                                                                 <span title="">`+ staff_name + `</span>
                                                         </td>
                                                         <td data-name="reference" class="fitwidth">
                                                                 <input type="text" class="box-shadow-none reference-training d-none" value="`+ "reference" + `" title="` + "reference" + `" readonly="readonly"/>
-                                                                <input type="text" class="reference-training d-none" value="`+ "reference" + `" title="` + "reference" + `" readonly="readonly"/>
-                                                                <span title="">`+ "reference" + `</span>
+                                                                <input type="text" class="referenceid-training d-none" value="`+ referenceid + `" title="` + "reference" + `" readonly="readonly"/>
+                                                                <span title="">`+reference_name+`</span>
                                                         </td>
                                                         @*
                                                         <td data-name="deliveryDate" class="fitwidth">
@@ -645,35 +715,23 @@
 
 `;
                 $("#locationTbody").append(tbody_location_item);
-                /*
-                $('.seq-buying-spn').each(function (i) {
+
+                $('.seq-training-spn').each(function (i) {
                     $(this).html(Number(i + 1));
                 });
-                $('.tagId-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].TagDefinitionsId');
+                $('.date-training').each(function (i) {
+                    $(this).attr('name', 'Enumerable_StaffTraining[' + i + '].Date');
                 });
-                $('.piece-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Piece');
+                $('.trainerid-training').each(function (i) {
+                    $(this).attr('name', 'Enumerable_StaffTraining[' + i + '].TrainerId');
                 });
-                $('.unitPrice-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Price');
+                $('.staffid-training').each(function (i) {
+                    $(this).attr('name', 'Enumerable_StaffTraining[' + i + '].StaffId');
                 });
-                $('.vatRate-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat_Rate');
+                $('.referenceid-training').each(function (i) {
+                    $(this).attr('name', 'Enumerable_StaffTraining[' + i + '].ReferencesId');
                 });
-                $('.calcedVat-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Vat');
-                });
-                $('.discount-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount');
-                });
-                $('.discountRate-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Discount_Rate');
-                });
-                $('.outVat-buying').each(function (i) {
-                    $(this).attr('name', 'Enumerable_PurchaseInvoiceDetails[' + i + '].Total');
-                });
-                */
+
                 setTimeout(function () {
                     //getSumVals();
 

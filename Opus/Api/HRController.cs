@@ -52,8 +52,18 @@ namespace Opus.Api
             });
             //return null;
         }
+        [HttpGet()]
+        [Route("list-training")]
+        public async Task<IEnumerable<Training>> GetListTraining()
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.Training.GetAll(includeProperties: "Location").OrderBy(s=>s.Subject);
+            });
+            //return null;
+        }
         [HttpPost()]
-        [Route("get-reference-locid")]
+        [Route("get-reference-locid/{locationid}")]
         public async Task<IEnumerable<References>> GetReferenceBylocid(long locationid)
         {
             return await Task.Run(() =>
@@ -68,7 +78,7 @@ namespace Opus.Api
         {
             return await Task.Run(() =>
             {
-                return _uow.References.GetAll(includeProperties: "Location");
+                return _uow.References.GetAll(includeProperties: "Location,Company");
             });
             //return null;
         }
@@ -79,6 +89,16 @@ namespace Opus.Api
             return await Task.Run(() =>
             {
                 return _uow.Company.GetAll(i=>i.LocationId==id,includeProperties: "Location");
+            });
+            //return null;
+        }
+        [HttpGet()]
+        [Route("get-companies-all")]
+        public async Task<IEnumerable<Company>> GetCompaniesAll()
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.Company.GetAll(includeProperties: "Location");
             });
             //return null;
         }
