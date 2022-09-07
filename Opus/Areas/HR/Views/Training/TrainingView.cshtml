@@ -30,20 +30,19 @@
                     <h4 class="box-title">Add Training Form</h4>
                 </div>
                 <div class="box-body">
-                    <form id="myform" method="post" enctype="multipart/form-data" data-parsley-validate>
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Location</label>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    @*
-                                        <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
-                                            <option selected="selected" value="0" disabled="disabled">Select Location</option>
-                                            <option>Arif Yılmaz</option>
-                                            <option>Semih İnanç</option>
-                                            <option>Sinan Er</option>
-                                            <option>Hatice Şahiner</option>
-                                            <option>Semali Çelik</option>
-                                        </select>*@
+                    <div class="form-group row">
+                        <label class="col-form-label col-md-2">Location</label>
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                @*
+                                    <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
+                                        <option selected="selected" value="0" disabled="disabled">Select Location</option>
+                                        <option>Arif Yılmaz</option>
+                                        <option>Semih İnanç</option>
+                                        <option>Sinan Er</option>
+                                        <option>Hatice Şahiner</option>
+                                        <option>Semali Çelik</option>
+                                    </select>*@
                                 <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Location.Name">
                             </div>
                         </div>
@@ -66,7 +65,7 @@
                     <div class="form-group row">
                         <label class="col-form-label col-md-2">Document</label>
 
-                        <img style="max-height:600px;height:auto;width:auto;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false"/>
+                        <img style="max-height:600px;height:auto;width:auto;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false" />
 
                         <div class=" col-md-10 imageform d-none">
                             @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
@@ -124,9 +123,9 @@
 
                                         @foreach (var item in Model.Enumerable_StaffTraining)
                                         {
-                                            
-                                                var fullname = item.Staff.FirstName + " " + item.Staff.LastName; 
-                                                
+
+                                            var fullname = item.Staff.FirstName + " " + item.Staff.LastName;
+
                                             <tr>
                                                 <td>@item.Date.ToString("dd.MM.yyyy")</td>
                                                 <td>@item.Trainer.FullName</td>
@@ -139,18 +138,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <button class="btn btn-primary waves-effect waves-dark" type="submit">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 

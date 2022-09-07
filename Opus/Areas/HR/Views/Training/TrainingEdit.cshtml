@@ -1,12 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "TrainingEdit";
 }
-@model Opus.Models.ViewModels.TrainingVM
 
-<link href="~/lib/vendor_components/dropzone/basic.css" />
-<link href="~/lib/vendor_components/dropzone/dropzone.css" />
+@model Opus.Models.ViewModels.TrainingVM
 
 <div class="content-header">
     <div class="d-flex align-items-center">
@@ -17,7 +14,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
                         <li class="breadcrumb-item"><a href="/training">Training</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Add</li>
+                        <li class="breadcrumb-item" aria-current="page">Edit</li>
                     </ol>
                 </nav>
             </div>
@@ -30,7 +27,7 @@
         <div class="col-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h4 class="box-title">Add Training Form</h4>
+                    <h4 class="box-title">Edit Training Form</h4>
                 </div>
                 <div class="box-body">
                     <form id="training-form" method="post" enctype="multipart/form-data" data-parsley-validate>
@@ -38,14 +35,16 @@
                             <label class="col-form-label col-md-2">Location</label>
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
-                                        <option selected="selected" value="0" disabled="disabled">Select Location</option>
-                                        <option>Arif Yılmaz</option>
-                                        <option>Semih İnanç</option>
-                                        <option>Sinan Er</option>
-                                        <option>Hatice Şahiner</option>
-                                        <option>Semali Çelik</option>
-                                    </select>
+                                    @*
+                                        <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
+                                            <option selected="selected" value="0" disabled="disabled">Select Location</option>
+                                            <option>Arif Yılmaz</option>
+                                            <option>Semih İnanç</option>
+                                            <option>Sinan Er</option>
+                                            <option>Hatice Şahiner</option>
+                                            <option>Semali Çelik</option>
+                                        </select>*@
+                                    <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Location.Name" readonly="readonly" disabled>
                                 </div>
                             </div>
                         </div>
@@ -53,19 +52,24 @@
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Subject</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Subject">
+                                <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Subject" asp-for="Subject" />
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Description</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Description">
+                                <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Description" asp-for="Description">
                             </div>
                         </div>
 
 
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Document</label>
+                            <div class="input-group">
+                                <input class="form-control" type="file" name="FormFile" />
+                            </div>
+                            <small>(for update)</small>
+                            <img style="max-height:600px;height:auto;width:auto;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false" class="mt-10" />
 
                             <div class=" col-md-10 imageform d-none">
                                 @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
@@ -73,9 +77,7 @@
                                             <input class="drop-image" type="file" name="FormFile" />
                                         </div>
                                     </div>*@
-                                <div class="input-group">
-                                    <input class="form-control" type="file" name="FormFile" />
-                                </div>
+
                             </div>
                             @*
                                 <div class="col-md-10">
@@ -104,10 +106,6 @@
 
 
                         <!------Form Details------>
-
-
-
-
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Date</label>
                             <div class="col-md-10">
@@ -155,6 +153,7 @@
                             </div>
                         </div>
 
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
@@ -169,16 +168,47 @@
                                             </tr>
                                         </thead>
                                         <tbody id="locationTbody">
-                                            @*
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td>@item.Name</td>
-                                                        <td>@item.CountryId</td>
-                                                        <td>@item.Active</td>
-                                                        <td>@item.ColorHex</td>
-                                                    </tr>
-                                                }*@
+                                            @{ int i = 0;}
+                                            @foreach (var item in Model.Enumerable_StaffTraining)
+                                            {
+
+                                                var fullname = item.Staff.FirstName + " " + item.Staff.LastName;
+
+
+
+                                                <tr data-id="@i">
+                                                    <td data-name="seq" class="fitwidth d-none">
+                                                        <input type="text" class="box-shadow-none seq-training d-none" value="@i" title="1" readonly="readonly">
+                                                        <input type="text" class="box-shadow-none id-training d-none" value="@item.Id" title="@item.Id" readonly="readonly" name="Enumerable_StaffTraining[@i].Id" />
+                                                        <span class="seq-training-spn">@i</span>
+                                                    </td>
+
+                                                    <td data-name="date" class="fitwidth">
+                                                        <input type="text" class="box-shadow-none date-training d-none" value="@item.Date.ToString("dd.MM.yyyy")" title="@item.Date.ToString("dd.MM.yyyy")" readonly="readonly" name="Enumerable_StaffTraining[@i].Date">
+                                                        <span title="">@item.Date.ToString("dd.MM.yyyy")</span>
+                                                    </td>
+
+                                                    <td data-name="trainer" class="fitwidth">
+                                                        <input type="text" class="box-shadow-none trainer-training d-none" value="@item.Trainer.FullName" title="@item.Trainer.FullName" readonly="readonly">
+                                                        <input type="text" class="trainerid-training d-none" value="@item.Trainer.Id" title="fcd3d20b-8bd1-4fe1-93c8-08da8cea0649" readonly="readonly" name="Enumerable_StaffTraining[@i].TrainerId">
+                                                        <span title="">@item.Trainer.FullName</span>
+                                                    </td>
+
+                                                    <td data-name="staff" class="fitwidth">
+                                                        <input type="text" class="box-shadow-none staff-training d-none" value="@fullname" title="@fullname" readonly="readonly">
+                                                        <input type="text" class="staffid-training d-none" value="@item.Staff.Id" title="@item.Staff.Id" readonly="readonly" name="Enumerable_StaffTraining[@i].StaffId">
+                                                        <span title="">@fullname</span>
+                                                    </td>
+
+                                                    <td data-name="reference">
+                                                        <input type="text" class="box-shadow-none reference-training d-none" value="reference" title="reference" readonly="readonly">
+                                                        <input type="text" class="referenceid-training d-none" value="@item.References.Id" title="reference" readonly="readonly" name="Enumerable_StaffTraining[@i].ReferencesId">
+                                                        <span title="">@item.References.Reference</span>
+                                                    </td>
+                                                    <td data-name="del"><a id="delCont" name="delTrainingColumn" class="fa-exp-font"><i class="fa fa-trash fa-3" aria-hidden="true"></i><span class="d-none">@item.Id</span></a></td>
+                                                </tr>
+                                                i++;
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -188,10 +218,21 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button class="btn btn-primary waves-effect waves-dark" style="float:right" type="submit">Save</button>
+                                    <button id="updatetraining" class="btn btn-primary waves-effect waves-dark" type="submit">Update</button>
                                 </div>
                             </div>
                         </div>
+
+                        <table id="delsection" class="table table-hover table-bordered table-striped dataTables d-none" hidden>
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                </tr>
+                            </thead>
+                            <tbody id="delsectionTbody">
+                            </tbody>
+                        </table>
+
                     </form>
                 </div>
             </div>
@@ -199,7 +240,6 @@
     </div>
 </section>
 
-<!--<script src="../assets/vendor_components/dropzone/dropzone.js"></script>-->
 
 @section Scripts{
     <script src="~/lib/vendor_components/dropzone/dropzone.js"></script>
@@ -212,6 +252,7 @@
         var maxfilesize = 3;
 
         var seq = 0;
+        var Delseq = 0;
 
         var trainerid = '';
         var trainer_name = '';
@@ -268,6 +309,7 @@
             getLocationAjx();
             getStaffAjx();
             getTrainerAjx();
+            getReferenceByLocation('@Model.Location.Id');
 
             $(document.body).on("change", "#locationselect", function () {
                 getReferenceByLocation(this.value);
@@ -748,9 +790,25 @@
 
         });
 
-        $("#training-form").on('click', "#delCont", function () {
+        $("#training-form").on('click', "#delCont", function (e) {
+            //Enumerable_StaffTrainingIds for delete id
+            //delsectionTbody
+
+            var staffTrainigId = e.currentTarget.text;
+            var tbody_location_delSection = `
+                                                    <tr>
+                                                        <td>
+                                                                <input type="text" class="box-shadow-none seq-training" name="Enumerable_StaffTrainingIds[`+ Delseq + `]" value="` + staffTrainigId + `" title="` + staffTrainigId + `" readonly="readonly"/>
+                                                        </td>
+                                                    </tr>
+`;
+            $("#delsectionTbody").append(tbody_location_delSection);
+            Delseq++;
+
             $('#addDetailRow').prop('disabled', true);
-            console.log("removed: ");
+            $('#updatetraining').prop('disabled', true);
+
+            console.log(staffTrainigId);
 
             //var totalamount_del = 0;
             //var total_del = 0;
@@ -794,6 +852,9 @@
             $('.seq-training-spn').each(function (i) {
                 $(this).html(Number(i + 1));
             });
+            $('.id-training').each(function (i) {
+                $(this).attr('name', 'Enumerable_StaffTraining[' + i + '].Id');
+            });
             $('.date-training').each(function (i) {
                 $(this).attr('name', 'Enumerable_StaffTraining[' + i + '].Date');
             });
@@ -809,6 +870,7 @@
             setTimeout(function () {
                 //getSumVals();
                 $('#addDetailRow').prop('disabled', false);
+                $('#updatetraining').prop('disabled', false);
             }, 500);
 
         });
@@ -824,6 +886,7 @@
                 //getSumVals();
 
                 $('#addDetailRow').prop('disabled', false);
+                $('#updatetraining').prop('disabled', false);
             }, 500);
         }
     </script>

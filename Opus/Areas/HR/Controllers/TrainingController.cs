@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using Opus.DataAcces.IMainRepository;
 using Opus.DataAcces.MainRepository;
 using Opus.Models.DbModels;
@@ -77,6 +78,8 @@ namespace Opus.Areas.HR.Controllers
         [HttpPost("training/add")]
         public async Task<IActionResult> AddPost(TrainingVM TrainingInput)
         {
+            TrainingInput.DocumentImgUrl = "training-form" + Path.GetExtension(TrainingInput.FormFile.FileName);
+
             _uow.Training.Add(TrainingInput);
             var StaffTrainingEnumerable = new List<StaffTraining>();
             foreach (var item in TrainingInput.Enumerable_StaffTraining)
@@ -91,38 +94,137 @@ namespace Opus.Areas.HR.Controllers
                 };
                 StaffTrainingEnumerable.Add(StaffTrainingItem);
             }
-            _uow.StaffTraining.AddRange(StaffTrainingEnumerable);
-            _uow.Save();
             string webRootPath = _hostEnvironment.WebRootPath;
+
             if (TrainingInput.FormFile != null)
             {
                 CopyFileExtension copyFile = new CopyFileExtension(_uow);
-                copyFile.Upload_TrainingDoc(TrainingInput.FormFile, TrainingInput.Id, webRootPath);
+                copyFile.Upload_TrainingDoc(TrainingInput.FormFile,null, TrainingInput.Id, webRootPath);
             }
+            _uow.StaffTraining.AddRange(StaffTrainingEnumerable);
+            _uow.Save();
 
-            return NoContent();
+
+            //return NoContent();
             return await Task.Run(() =>
             {
-                return RedirectToAction("Add");
+                return RedirectToAction("Index");
             });
         }
         [Route("training/view/{id}")]
         public async Task<IActionResult> TrainingView(string id)
         {
+            var _training = _uow.Training.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "Location");
+            if (_training == null)
+                return Redirect("/training");
+            else
+            {
+                return await Task.Run(() =>
+                {
+
+                    var _trainingVM = new TrainingVM
+                    {
+                        Id = _training.Id,
+                        Subject = _training.Subject,
+                        Description = _training.Description,
+                        Location = _training.Location,
+                        DocumentImgUrl = _training.DocumentImgUrl,
+                        Enumerable_StaffTraining = _uow.StaffTraining.GetAll(i => i.TrainingId == _training.Id, includeProperties: "Staff,Trainer,References")
+                    };
+                    return View(_trainingVM);
+                });
+            }
+        }
+        [Route("training/edit/{id}")]
+        public async Task<IActionResult> TrainingEdit(string id)
+        {
+            var _training = _uow.Training.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "Location");
+            if (_training == null)
+                return Redirect("/training");
+            else
+            {
+                return await Task.Run(() =>
+                {
+
+                    var _trainingVM = new TrainingVM
+                    {
+                        Id = _training.Id,
+                        Subject = _training.Subject,
+                        Description = _training.Description,
+                        Location = _training.Location,
+                        DocumentImgUrl = _training.DocumentImgUrl,
+                        Enumerable_StaffTraining = _uow.StaffTraining.GetAll(i => i.TrainingId == _training.Id, includeProperties: "Staff,Trainer,References")
+                    };
+                    return View(_trainingVM);
+                });
+            }
+        }
+        [HttpPost("training/edit/{id}")]
+        public async Task<IActionResult> TrainingEditPost(TrainingVM TrainingInput)
+        {
+            var _currentTrainig = _uow.Training.GetFirstOrDefault(i => i.Id == TrainingInput.Id, includeProperties: "Location");
+            TrainingInput.LocationId = _currentTrainig.LocationId;
+            if (TrainingInput.FormFile == null)
+            {
+                if (TrainingInput.DocumentImgUrl == null)
+                    TrainingInput.DocumentImgUrl = _currentTrainig.DocumentImgUrl;
+            }
+            else
+                TrainingInput.DocumentImgUrl = "training-form" + Path.GetExtension(TrainingInput.FormFile.FileName);
+
+            int i = 0;
+            foreach (var item in TrainingInput.Enumerable_StaffTraining)
+            {
+                item.TrainingId = TrainingInput.Id;
+                if (item.Id == 0)
+                {
+                    _uow.StaffTraining.Add(item);
+                }
+                i++;
+            }
+            i = 0;
+            if (TrainingInput.Enumerable_StaffTrainingIds != null)
+            {
+                foreach (var item in TrainingInput.Enumerable_StaffTrainingIds)
+                {
+                    var _removeStaffTraining = _uow.StaffTraining.GetFirstOrDefault(i => i.Id == item);
+                    _uow.StaffTraining.Remove(_removeStaffTraining);
+                    i++;
+                }
+            }
+            //Training _trainig = TrainingInput;
+            _uow.Training.Update((Training)TrainingInput);
+            string webRootPath = _hostEnvironment.WebRootPath;
+
+            if (TrainingInput.FormFile != null)
+            {
+                CopyFileExtension copyFile = new CopyFileExtension(_uow);
+                copyFile.Upload_TrainingDoc(TrainingInput.FormFile, _currentTrainig.DocumentImgUrl, TrainingInput.Id, webRootPath);
+            }
+            _uow.Save();
+
+            return Redirect("/training/edit/" + TrainingInput.Id);
+            /*
             return await Task.Run(() =>
             {
-                var _training = _uow.Training.GetFirstOrDefault(i => i.Id == Guid.Parse(id),includeProperties:"Location");
 
                 var _trainingVM = new TrainingVM
                 {
-                    Id = _training.Id,
-                    Subject = _training.Subject,
-                    Description = _training.Description,
-                    Location = _training.Location,
-                    Enumerable_StaffTraining = _uow.StaffTraining.GetAll(i => i.TrainingId == _training.Id,includeProperties:"Staff,Trainer,References")
+                    Id = TrainingInput.Id,
+                    Subject = TrainingInput.Subject,
+                    Description = TrainingInput.Description,
+                    Location = TrainingInput.Location,
+                    DocumentImgUrl = TrainingInput.DocumentImgUrl,
+                    Enumerable_StaffTraining = _uow.StaffTraining.GetAll(i => i.TrainingId == TrainingInput.Id, includeProperties: "Staff,Trainer,References")
                 };
-                return View(_trainingVM);
+                return Redirect("/training/edit/" + _trainingVM.Id);
             });
+            */
+        }
+        [Route("training/{route}")]
+        public async Task<IActionResult> NonRoute(string route)
+        {
+            return await Task.Run(() => { return Redirect("/training"); });
         }
     }
 }

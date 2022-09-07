@@ -307,7 +307,10 @@
                         "data": "id",
                         /*"type": "num-fmt",*/
                         render: function (data, type, row) {
-                            return `<a href="training/view/`+data+`" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> View</a>`
+                            return `<a href="training/view/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> View</a>
+                                    <a href="training/edit/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-edit"></i> Edit</a>
+
+`
                         },
                     },
                 ]

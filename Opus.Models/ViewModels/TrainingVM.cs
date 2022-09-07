@@ -19,5 +19,6 @@ namespace Opus.Models.ViewModels
         public References References { get; set; }
         public string ReferencesId { get; set; }*/
         public IEnumerable<StaffTraining> Enumerable_StaffTraining { get; set; }
+        public IEnumerable<long> Enumerable_StaffTrainingIds { get; set; }
     }
 }

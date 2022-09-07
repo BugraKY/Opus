@@ -773,22 +773,25 @@ namespace Opus.Utility
 
         }
 
-        public void Upload_TrainingDoc(IFormFile TrainingDoc, Guid _guid, string webRootPath)
+        public void Upload_TrainingDoc(IFormFile TrainingDoc,string? upgradeDocName, Guid _guid, string webRootPath)
         {
-            var DIR_Training = webRootPath + Personels.TrainingDIR + _guid.ToString()+@"\";
+            var DIR_Training = webRootPath + ProjectConstant.Path.Training.TrainingDIR + _guid.ToString()+@"\";
 
             if (!(Directory.Exists(DIR_Training)))
                 Directory.CreateDirectory(DIR_Training);
-
+            if ((File.Exists(DIR_Training + upgradeDocName)))
+                File.Delete(DIR_Training + upgradeDocName);
             //string[] Name = ImageFile.Name.Split('.');
             var _fileName = "training-form"+Path.GetExtension(TrainingDoc.FileName);
 
             var location = Path.Combine(DIR_Training + _fileName);
 
+
             using (var fileStream = new FileStream(location, FileMode.Create))
             {
                 TrainingDoc.CopyTo(fileStream);
             }
+
         }
     }
 }

@@ -144,7 +144,6 @@ namespace Opus.Utility
                 public const string Root = @"\assets\personels\";
                 public const string Documentation = @"\doc\";
                 public const string ProfileIMG = @"\img\";
-                public const string TrainingDIR = @"\training\";
             }
             public static class AccountingPath
             {
@@ -153,6 +152,10 @@ namespace Opus.Utility
                     public const string Root = @"\assets\accounting\company\";
                     public const string ProfileIMG = @"\img\";
                 }
+            }
+            public static class Training
+            {
+                public const string TrainingDIR = @"\assets\training\";
             }
         }
 

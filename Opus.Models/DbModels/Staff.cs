@@ -49,6 +49,9 @@ namespace Opus.Models.DbModels
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
+        public string AppUser { get; set; }
+        public string AppPassword { get; set; }
+        public int Auth { get; set; }
 
     }
 }
