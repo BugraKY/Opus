@@ -1,4 +1,4 @@
-﻿﻿if (typeof mSoft_Common === 'undefined')
+﻿if (typeof mSoft_Common === 'undefined')
     mSoft_Common = {
         function: {},
         variable: {}
@@ -32,25 +32,25 @@ mSoft_Common.function.ajaxCall = function (url, type, data, _return_function) {
 
 $("#move").click(function () {
 
-    $("form").attr("action", "Personmotion/Move");     
+    $("form").attr("action", "Personmotion/Move");
     //$("form").submit();
-    
-    
-    
-    
+
+
+
+
 });
 
-    $("#nw").click(function () {
+$("#nw").click(function () {
 
-        $("form").attr("action", "Personmotion/Nw");
-       // $("form").submit();
-    });  
+    $("form").attr("action", "Personmotion/Nw");
+    // $("form").submit();
+});
 
 $("#ul").click(function () {
 
     $("form").attr("action", "Personmotion/Ul");
     $("form").submit();
-});  
+});
 
 
 
@@ -74,7 +74,7 @@ function Move() {
 
     $("form").attr("action", "Personmotion/Move");
     var data = $("#myform").serialize()
-   
+
     $.ajax({
 
         url: "/Personmotion/Move/",
@@ -170,7 +170,7 @@ function Ul() {
 
 function Exit() {
 
-    
+
     var data = $("#myform").serialize()
 
     $.ajax({
@@ -209,6 +209,15 @@ function Exit() {
         }
 
     });
+}
+
+function showLoader() {
+    $('#loader').attr('style', 'opacity: 0.99');
+    $('#loader').attr('style', 'display: block');
+}
+function hideLoader() {
+    $('#loader').attr('style', 'opacity: 0.01');
+    $('#loader').attr('style', 'display: none');
 }
 
 

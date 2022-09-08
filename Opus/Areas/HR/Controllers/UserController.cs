@@ -23,7 +23,7 @@ namespace Opus.Areas.HR.Controllers
         [Route("users/")]
         public IActionResult Index()
         {
-            IEnumerable<Staff> _users = _uow.Staff.GetAll().Where(a => (a.Active && a.Status==1));
+            IEnumerable<Staff> _users = _uow.Staff.GetAll().Where(a => (a.Active && a.Status==1&&a.IsUser));
             return View(_users);
         }
         [Route("users/staff")]

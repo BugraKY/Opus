@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.SignalR;
 using Opus.Hubs;
 using Newtonsoft.Json.Linq;
 using Opus.Utility;
+using Opus.Models.DbModels;
 
 namespace Opus.Api
 {
@@ -31,9 +32,14 @@ namespace Opus.Api
         [Route("query-reference/{value}/user/{id}")]
         public async Task<string> GetByBarcode(string value, string id)
         {
-            Verifications _verification = new Verifications();
-            Verifications _verificationNULL = new Verifications();
-            ReferenceDefinitions _def = new ReferenceDefinitions();
+            //Verifications _verification = new Verifications();
+            //Verifications _verificationNULL = new Verifications();
+            References _references = new References();
+            References _referencesNULL = new References();
+
+
+            //ReferenceDefinitions _def = new ReferenceDefinitions();
+            StaffTraining _def = new StaffTraining();
             var _json = "";
             await Task.Run(() =>
             {
@@ -74,44 +80,50 @@ namespace Opus.Api
             //TEST
             var auth = true;
             var currenVal = value.Remove(0, 1);
-            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
-            var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CompanyReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+            var _user = _uow.Staff.GetFirstOrDefault(i => i.Guid == id);
+            //var _refNum = _uow.References.GetFirstOrDefault(v => v.CompanyReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+            var _refNum = _uow.References.GetFirstOrDefault(v => v.BarcodeNum == value);
             if (_refNum == null)
             {
-                _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CustomerReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
-                if (_verification != null)
+                _references = _uow.References.GetFirstOrDefault(v => v.BarcodeNum == value);
+                if (_references != null)
                 {
-                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
-                        includeProperties: "Verifications");
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id),includeProperties: "References");
                 }
+                _json = JsonSerializer.Serialize(_referencesNULL);
             }
             else
             {
                 //_verification = _refNum;
-                if (_user.Admin)
+                if (_user.Auth==1)
                 {
-                    _def = new ReferenceDefinitions
-                    {
-                        Verifications = _refNum
-                    };
+                    _json = JsonSerializer.Serialize(_refNum);//test
                 }
-                else
+                else if(_user.Auth == 2)
                 {
-                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
-                        includeProperties: "Verifications");
-
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id),includeProperties: "References");
                     if (_def == null)
+                    {
                         auth = false;
+                        _json = JsonSerializer.Serialize(_referencesNULL);
+                    }
+                    else
+                    {
+                        auth = true;
+                        _json = JsonSerializer.Serialize(_refNum);
+                    }
 
                 }
 
             }
             //TEST
 
-            if (_def != null)
-                _json = JsonSerializer.Serialize(_def.Verifications);
+
+            /*
+            if (_refNum != null)
+                _json = JsonSerializer.Serialize(_refNum);
             else
-                _json = JsonSerializer.Serialize(_verificationNULL);
+                _json = JsonSerializer.Serialize(_referencesNULL);*/
 
 
             bool _success = false;
@@ -124,9 +136,9 @@ namespace Opus.Api
                 {
                     BarcodeNum = value,
                     CompanyReference = _refNum.CompanyReference,
-                    CustomerReference = _refNum.CustomerReference,
-                    UserId = _user.Id,
-                    UserName = _user.UserName,
+                    CustomerReference = _refNum.Reference,
+                    UserId = Guid.Parse(_user.Guid),
+                    UserName = _user.AppUser,
                     //FullName = _user.FullName,
                     //FullName = _user.Staff.FirstName + " "+_user.Staff.LastName,
                     Date = DateTime.Now,
@@ -137,15 +149,15 @@ namespace Opus.Api
             }
             else
             {
-                if (_def.Verifications == null)
+                if (_def.References == null)
                 {
                     _LOG = new Scanner_LOG()
                     {
                         BarcodeNum = value,
                         CompanyReference = "",
                         CustomerReference = "",
-                        UserId = _user.Id,
-                        UserName = _user.UserName,
+                        UserId = Guid.Parse(_user.Guid),
+                        UserName = _user.AppUser,
                         //FullName = _user.FullName,
                         //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                         Date = DateTime.Now,
@@ -156,22 +168,22 @@ namespace Opus.Api
                 }
                 else
                 {
-                    if (_def.Verifications.CustomerReference != null)
+                    if (_def.References.Reference != null)
                         _success = true;
 
                     _LOG = new Scanner_LOG()
                     {
                         BarcodeNum = value,
-                        CompanyReference = _def.Verifications.CompanyReference,
-                        CustomerReference = _def.Verifications.CustomerReference,
-                        UserId = _user.Id,
-                        UserName = _user.UserName,
+                        CompanyReference = _def.References.CompanyReference,
+                        CustomerReference = _def.References.Reference,
+                        UserId = Guid.Parse(_user.Guid),
+                        UserName = _user.AppUser,
                         //FullName = _user.FullName,
                         //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                         Date = DateTime.Now,
                         Success = _success,
                         Auth = auth,
-                        Active = _def.Verifications.Active
+                        Active = _def.References.Active
                     };
                 }
             }
@@ -216,12 +228,17 @@ namespace Opus.Api
         [Route("query-manual/code/{compRef}/num/{reference}/user/{id}")]
         public async Task<string> GetByManual(string compRef, string reference, string id)
         {
+            /*
             Verifications _verification = new Verifications();
             Verifications _verificationNULL = new Verifications();
-            ReferenceDefinitions _def = new ReferenceDefinitions();
+            ReferenceDefinitions _def = new ReferenceDefinitions();*/
+            References _references = new References();
+            References _referencesNULL = new References();
+            StaffTraining _def = new StaffTraining();
             var _json = "";
+            /*
             await Task.Run(() =>
-            {/*
+            {
                 var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
                 var _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.CustomerReference == num || v.CompanyReference == code), includeProperties: "Company");
                 if (_verification != null)
@@ -244,52 +261,55 @@ namespace Opus.Api
                 if (_def != null)
                     _json = JsonSerializer.Serialize(_def.Verifications);
                 else
-                    _json = JsonSerializer.Serialize(_verificationNULL);*/
+                    _json = JsonSerializer.Serialize(_verificationNULL);
             });
-
+            */
 
 
             //TEST
             var auth = true;
             //var currenVal = reference;
-            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(i => i.Id == Guid.Parse(id));
-            var _refNum = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => (v.CompanyReference == compRef || v.CustomerReference == reference), includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
+            var _user = _uow.Staff.GetFirstOrDefault(i => i.Guid == id);
+            var _refNum = _uow.References.GetFirstOrDefault(v => v.Reference == reference);
             if (_refNum == null)
             {
-                _verification = _uow.ReferenceVerif_Verification.GetFirstOrDefault(v => v.CustomerReference == reference, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
-                if (_verification != null)
+                _references = _uow.References.GetFirstOrDefault(v => v.Reference == reference);
+                if (_references != null)
                 {
-                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _verification.Id && v.UserId == Guid.Parse(id)),
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _references.Id && v.StaffId == _user.Id),
                         includeProperties: "Verifications");
                 }
             }
             else
             {
                 //_verification = _refNum;
-                if (_user.Admin)
+                if (_user.Auth == 1)
                 {
-                    _def = new ReferenceDefinitions
-                    {
-                        Verifications = _refNum
-                    };
+                    _json = JsonSerializer.Serialize(_refNum);//test
                 }
-                else
+                else if (_user.Auth == 2)
                 {
-                    _def = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => (v.VerificationsId == _refNum.Id && v.UserId == Guid.Parse(id)),
-                        includeProperties: "Verifications");
-
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id), includeProperties: "References");
                     if (_def == null)
+                    {
                         auth = false;
+                        _json = JsonSerializer.Serialize(_referencesNULL);
+                    }
+                    else
+                    {
+                        auth = true;
+                        _json = JsonSerializer.Serialize(_refNum);
+                    }
 
                 }
 
             }
             //TEST
-
+            /*
             if (_def != null)
                 _json = JsonSerializer.Serialize(_def.Verifications);
             else
-                _json = JsonSerializer.Serialize(_verificationNULL);
+                _json = JsonSerializer.Serialize(_verificationNULL);*/
 
 
             bool _success = false;
@@ -303,9 +323,9 @@ namespace Opus.Api
                     Input_Company = compRef,
                     Input_Customer = reference,
                     CompanyReference = _refNum.CompanyReference,
-                    CustomerReference = _refNum.CustomerReference,
-                    UserId = _user.Id,
-                    UserName = _user.UserName,
+                    CustomerReference = _refNum.Reference,
+                    UserId = Guid.Parse(_user.Guid),
+                    UserName = _user.AppUser,
                     //FullName = _user.FullName,
                     //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                     Date = DateTime.Now,
@@ -316,7 +336,7 @@ namespace Opus.Api
             }
             else
             {
-                if (_def.Verifications == null)
+                if (_def.References == null)
                 {
                     _LOG = new Input_LOG()
                     {
@@ -324,8 +344,8 @@ namespace Opus.Api
                         Input_Customer = reference,
                         CompanyReference = "",
                         CustomerReference = "",
-                        UserId = _user.Id,
-                        UserName = _user.UserName,
+                        UserId = Guid.Parse(_user.Guid),
+                        UserName = _user.AppUser,
                         //FullName = _user.FullName,
                         //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                         Date = DateTime.Now,
@@ -336,33 +356,33 @@ namespace Opus.Api
                 }
                 else
                 {
-                    if (_def.Verifications.CustomerReference != null)
+                    if (_def.References.Reference != null)
                         _success = true;
 
                     _LOG = new Input_LOG()
                     {
                         Input_Company = compRef,
                         Input_Customer = reference,
-                        CompanyReference = _def.Verifications.CompanyReference,
-                        CustomerReference = _def.Verifications.CustomerReference,
-                        UserId = _user.Id,
-                        UserName = _user.UserName,
+                        CompanyReference = _def.References.CompanyReference,
+                        CustomerReference = _def.References.Reference,
+                        UserId = Guid.Parse(_user.Guid),
+                        UserName = _user.AppUser,
                         //FullName = _user.FullName,
                         //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
                         Date = DateTime.Now,
                         Success = _success,
                         Auth = auth,
-                        Active = _def.Verifications.Active
+                        Active = _def.References.Active
                     };
                 }
             }
 
 
-
+            /*
             if (_def != null)
-                _json = JsonSerializer.Serialize(_def.Verifications);
+                _json = JsonSerializer.Serialize(_def.References);
             else
-                _json = JsonSerializer.Serialize(_verificationNULL);
+                _json = JsonSerializer.Serialize(_referencesNULL);*/
 
             try
             {
@@ -416,20 +436,27 @@ namespace Opus.Api
         [Route("login-post")]
         public string LoginPostAsync([FromBody] User user)
         {
-            var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(u => (u.UserName == user.UserName && u.Password == user.Password));
+            bool _admin = false;
+            //var _user = _uow.ReferenceVerif_User.GetFirstOrDefault(u => (u.UserName == user.UserName && u.Password == user.Password));
+            var _user = _uow.Staff.GetFirstOrDefault(u => (u.AppUser == user.UserName && u.AppPassword == user.Password));
             if (_user == null)
                 return null;
 
-            _user = new User()
+            if(_user.Auth==1)
+                _admin = true;
+            else if(_user.Auth==2)
+                _admin = false;
+
+            var _userview = new User()
             {
-                Id = _user.Id,
-                UserName = _user.UserName,
+                Id = Guid.Parse(_user.Guid),
+                UserName = _user.AppUser,
                 //FullName = _user.FullName,
-                //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                FullName = _user.FirstName + " " + _user.LastName,
                 Active = _user.Active,
-                Admin = _user.Admin,
+                Admin = _admin,
             };
-            return JsonSerializer.Serialize(_user);
+            return JsonSerializer.Serialize(_userview);
         }
         [HttpGet()]
         [Route("ver-check/{ver}")]

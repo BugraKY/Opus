@@ -5,6 +5,8 @@ using Opus.DataAcces.IMainRepository;
 using Opus.Hubs;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
+using System.Collections.Generic;
+using System.Text;
 using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Api
@@ -58,7 +60,7 @@ namespace Opus.Api
         {
             return await Task.Run(() =>
             {
-                return _uow.Training.GetAll(includeProperties: "Location").OrderBy(s=>s.Subject);
+                return _uow.Training.GetAll(includeProperties: "Location").OrderBy(s => s.Subject);
             });
             //return null;
         }
@@ -88,7 +90,7 @@ namespace Opus.Api
         {
             return await Task.Run(() =>
             {
-                return _uow.Company.GetAll(i=>i.LocationId==id,includeProperties: "Location");
+                return _uow.Company.GetAll(i => i.LocationId == id, includeProperties: "Location");
             });
             //return null;
         }
@@ -107,8 +109,8 @@ namespace Opus.Api
         public async Task<ToastMessageVM> AddTrainer([FromBody] Trainer _trainer)
         {
             var trainer = _uow.Trainer.GetAll(i => i.FullName == _trainer.FullName, includeProperties: "Location").OrderBy(n => n.FullName).Count();
-            
-            if(trainer == 0)
+
+            if (trainer == 0)
             {
                 return await Task.Run(() =>
                 {
@@ -125,7 +127,7 @@ namespace Opus.Api
                         };
                         return _toast;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         var _toast = new ToastMessageVM()
                         {
@@ -139,7 +141,7 @@ namespace Opus.Api
 
                 });
             }
-            
+
             var _toast = new ToastMessageVM()
             {
                 Message = "This trainer already added before",
@@ -201,7 +203,79 @@ namespace Opus.Api
 
             //return null;
         }
+        [HttpPost()]
+        [Route("staff-user-add")]
+        public async Task<IEnumerable<Staff>> AddStaffUserPost([FromBody]Staff user)
+        {
 
+            return await Task.Run(() =>
+            {
+                var _staff = _uow.Staff.GetFirstOrDefault(i=>i.Id==user.Id);
+                if (_staff != null)
+                {
+                    _staff.Auth = user.Auth;
+                    _staff.AppUser = user.AppUser;
+                    _staff.AppPassword = user.AppPassword;
+                    _staff.IsUser = true;
+                }
+                _uow.Staff.Update(_staff);
+                _uow.Save();
+                return _uow.Staff.GetAll().Where(a => (a.Active && a.Status == 1 && a.IsUser));
+            });
+        }
+        [HttpGet()]
+        [Route("staff-user-added")]
+        public async Task<IEnumerable<Staff>> GetAddedStaffUser()
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.Staff.GetAll().Where(a => (a.Active && a.Status == 1 && a.IsUser));
+            });
+        }
+        [HttpGet()]
+        [Route("staff-user-non-added")]
+        public async Task<IEnumerable<Staff>> GetNonAddedStaffUser()
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.Staff.GetAll().Where(a => (a.Active && a.Status == 1 && a.IsUser==false)).
+                OrderBy(n=>n.FirstName);
+            });
+        }
+        [HttpPost()]
+        [Route("generate-pass")]
+        public string GeneratePassword([FromBody] string key)
+        {
+            var length = 6;
+            StringBuilder res = new StringBuilder();
+            /*
+            var _password = "";
+            if (key == "vasd7564as52d9c7s")
+            {
+                _password = Guid.NewGuid().ToString().Replace("-", "").Substring(1,6);
+            }
+            return _password;
+            */
+            if (key == "vasd7564as52d9c7s")
+            {
+                const string valid = "abcdefghijkmnopqrstuvwxyz1234567890";
+
+                Random rnd = new Random();
+                while (0 < length--)
+                {
+                    res.Append(valid[rnd.Next(valid.Length)]);
+                }
+
+            }
+            return res.ToString();
+        }
+        [HttpPost()]
+        [Route("generate-username")]
+        public string GenerateUserName([FromBody] string FullName)
+        {
+            var multiwords = FullName.ToLower().Replace('ı', 'i').Replace('ğ', 'g').Replace('ü', 'u').Replace('ş', 's').Replace('ö', 'o').Replace('ç', 'c').Replace(' ','.').Split('.');
+            return multiwords.First() +"."+ multiwords.Last();
+        }
         /*
         [HttpPost()]
         [Route("remove-trainer")]

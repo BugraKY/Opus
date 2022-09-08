@@ -84,6 +84,20 @@
             pointer-events: none;
             opacity: 0.4;
         }
+        .theme-primary .jq-icon-success {
+            background-color: #2aa377 !important;
+        }
+        @@media only screen and (max-width: 767px) {
+            .jq-toast-wrap.top-right {
+                top: 150px;
+            }
+        }
+        @@media only screen and (min-width: 768px) {
+            .jq-toast-wrap.top-right {
+                top: 100px;
+            }
+        }
+
     </style>
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
@@ -97,7 +111,7 @@
         <partial name="_header" />
         <!--Header-->
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" id="opus-content">
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->
