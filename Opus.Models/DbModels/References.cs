@@ -23,5 +23,8 @@ namespace Opus.Models.DbModels
         public Location Location { get; set; }
 
         public bool Active { get; set; }
+
+        [NotMapped]
+        public bool Valid { get; set; }
     }
 }

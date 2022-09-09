@@ -90,20 +90,27 @@ namespace Opus.Api
                 {
                     _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id),includeProperties: "References");
                 }
+                _referencesNULL.CompanyReference = value;
+                _referencesNULL.Valid = false;
                 _json = JsonSerializer.Serialize(_referencesNULL);
             }
             else
             {
-                //_verification = _refNum;
+                _refNum.Valid = true;
+                _referencesNULL.Valid = true;
                 if (_user.Auth==1)
                 {
-                    _json = JsonSerializer.Serialize(_refNum);//test
+
+                    auth = true;
+                    _json = JsonSerializer.Serialize(_refNum);
                 }
                 else if(_user.Auth == 2)
                 {
                     _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id),includeProperties: "References");
                     if (_def == null)
                     {
+                        _referencesNULL.CompanyReference = value;
+                        _referencesNULL.Reference = _refNum.Reference;
                         auth = false;
                         _json = JsonSerializer.Serialize(_referencesNULL);
                     }
@@ -114,7 +121,7 @@ namespace Opus.Api
                     }
 
                 }
-
+                
             }
             //TEST
 
@@ -140,7 +147,7 @@ namespace Opus.Api
                     UserId = Guid.Parse(_user.Guid),
                     UserName = _user.AppUser,
                     //FullName = _user.FullName,
-                    //FullName = _user.Staff.FirstName + " "+_user.Staff.LastName,
+                    FullName = _user.FirstName + " "+_user.LastName,
                     Date = DateTime.Now,
                     Success = true,
                     Auth = auth,
@@ -159,7 +166,7 @@ namespace Opus.Api
                         UserId = Guid.Parse(_user.Guid),
                         UserName = _user.AppUser,
                         //FullName = _user.FullName,
-                        //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                        FullName = _user.FirstName + " " + _user.LastName,
                         Date = DateTime.Now,
                         Success = _success,
                         Auth = auth,
@@ -179,7 +186,7 @@ namespace Opus.Api
                         UserId = Guid.Parse(_user.Guid),
                         UserName = _user.AppUser,
                         //FullName = _user.FullName,
-                        //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                        FullName = _user.FirstName + " " + _user.LastName,
                         Date = DateTime.Now,
                         Success = _success,
                         Auth = auth,
@@ -187,6 +194,33 @@ namespace Opus.Api
                     };
                 }
             }
+            /*
+            #region TEST
+            if (_refNum != null)
+            {
+                if (_user.Auth == 1)
+                {
+                    auth = true;
+                    _json = JsonSerializer.Serialize(_refNum);
+                }
+                else if (_user.Auth == 2)
+                {
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id), includeProperties: "References");
+                    if (_def == null)
+                    {
+                        auth = false;
+                        _json = JsonSerializer.Serialize(_referencesNULL);
+                    }
+                    else
+                    {
+                        auth = true;
+                        _json = JsonSerializer.Serialize(_refNum);
+                    }
+
+                }
+            }
+            #endregion TEST
+            */
 
             try
             {
@@ -327,7 +361,7 @@ namespace Opus.Api
                     UserId = Guid.Parse(_user.Guid),
                     UserName = _user.AppUser,
                     //FullName = _user.FullName,
-                    //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                    FullName = _user.FirstName + " " + _user.LastName,
                     Date = DateTime.Now,
                     Success = true,
                     Auth = auth,
@@ -347,7 +381,7 @@ namespace Opus.Api
                         UserId = Guid.Parse(_user.Guid),
                         UserName = _user.AppUser,
                         //FullName = _user.FullName,
-                        //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                        FullName = _user.FirstName + " " + _user.LastName,
                         Date = DateTime.Now,
                         Success = _success,
                         Auth = auth,
@@ -368,7 +402,7 @@ namespace Opus.Api
                         UserId = Guid.Parse(_user.Guid),
                         UserName = _user.AppUser,
                         //FullName = _user.FullName,
-                        //FullName = _user.Staff.FirstName + " " + _user.Staff.LastName,
+                        FullName = _user.FirstName + " " + _user.LastName,
                         Date = DateTime.Now,
                         Success = _success,
                         Auth = auth,
