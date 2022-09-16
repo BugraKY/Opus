@@ -19,5 +19,13 @@ namespace Opus.Models.DbModels
         public long LocationId { get; set; }
         [ForeignKey("LocationId")]
         public Location Location { get; set; }
+
+        public Guid ReferencesId { get; set; }
+        [ForeignKey("ReferencesId")]
+        public References References { get; set; }
+
+        public Guid TrainerId { get; set; }
+        [ForeignKey("TrainerId")]
+        public Trainer Trainer { get; set; }
     }
 }

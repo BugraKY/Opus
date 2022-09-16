@@ -23,6 +23,7 @@ namespace Opus.Utility
             public const string FieldOfficer = "FieldOfficer";//Saha yetkilisi
             public const string ProjectResponsible = "ProjectResponsible";
             public const string OperationResponsible = "OperationResponsible";
+            public const string TrainingRegistrationResp = "TrainingRegistrationResp";
 
             public const string OperationScannerApp = "OperatorScanResponsible";
         }
@@ -35,6 +36,7 @@ namespace Opus.Utility
             public const string FieldOfficer = "Field Officer";//Saha yetkilisi
             public const string ProjectResponsible = "Project Responsible";
             public const string OperationResponsible = "Operation Responsible";
+            public const string TrainingRegistrationResp = "Training Registration Responsible";
 
             public const string OperationScannerApp = "Operator Scan Responsible";
         }
@@ -47,6 +49,7 @@ namespace Opus.Utility
             public const string FieldOfficer = "Saha Yetkilisi";//Saha yetkilisi
             public const string ProjectResponsible = "Proje Yetkilisi";
             public const string OperationResponsible = "Operasyon Yetkilisi";
+            public const string TrainingRegistrationResp = "Eğitim Kaydı Sorumlusu";
 
             public const string OperationScannerApp = "Operator Tarama Sorumlusu";
         }

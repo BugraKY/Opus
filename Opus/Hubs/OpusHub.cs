@@ -40,6 +40,11 @@ namespace Opus.Hubs
         {
             await _context.Clients.All.SendAsync("ReceiveHtml", NotificationHTML);
         }
+        public async Task Chat(string message)
+        {
+            Console.WriteLine(message);
+            await _context.Clients.All.SendAsync("Chat", message);
+        }
         /*
         public async Task SendDataTable(ProjectListVM ProjectList)
         {

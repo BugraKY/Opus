@@ -4,11 +4,32 @@
 }
 
 @model Opus.Models.ViewModels.TrainingVM
+<style>
+    #container {
+        /*border: 1px solid red;
+        border-radius: .5em;*/
+        padding: 10px;
+    }
+
+        #container:-webkit-full-screen,
+        #container:-moz-full-screen,
+        #container:-ms-fullscreen,
+        #container:fullscreen {
+            width: 100vw;
+            height: 100vh;
+        }
+
+    .scrollbar {
+        max-height: 100%;
+        overflow-y: auto;
+    }
+</style>
+<link rel="stylesheet" href="~/lib/pan_zoom/src/css/jquery.pan.css" />
 
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
-            <h3 class="page-title">Locations</h3>
+            <h3 class="page-title">View Training Form</h3>
             <div class="d-inline-block align-items-center">
                 <nav>
                     <ol class="breadcrumb">
@@ -27,11 +48,11 @@
         <div class="col-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h4 class="box-title">Add Training Form</h4>
+                    <h4 class="box-title">View Training Form</h4>
                 </div>
                 <div class="box-body">
                     <div class="form-group row">
-                        <label class="col-form-label col-md-2">Location</label>
+                        <label class="col-form-label col-md-2">Location (Firma)</label>
                         <div class="col-md-10">
                             <div class="form-group">
                                 @*
@@ -49,39 +70,35 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-form-label col-md-2">Subject</label>
+                        <label class="col-form-label col-md-2">Subject (Konu)</label>
                         <div class="col-md-10">
                             <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Subject">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-md-2">Description</label>
+                        <label class="col-form-label col-md-2">Description (Açıklama)</label>
                         <div class="col-md-10">
                             <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Description">
                         </div>
                     </div>
 
-
-                    <div class="form-group row">
-                        <label class="col-form-label col-md-2">Document</label>
-
-                        <img style="max-height:600px;height:auto;width:auto;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false" />
-
-                        <div class=" col-md-10 imageform d-none">
-                            @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
-                                    <div class="fallback">
-                                        <input class="drop-image" type="file" name="FormFile" />
-                                    </div>
-                                </div>*@
-                            <div class="input-group">
-                                <input class="form-control" type="file" name="FormFile" />
+                    @*
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Document (Eğitim Formu - Resim)</label>
+                            <div class="text-center">
+                                <a class="pan text-center" data-big="/assets/training/@Model.Id/@Model.DocumentImgUrl">
+                                    <img class="pan-zoom" style="max-height:600px;height:auto;width:auto;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false"/>
+                                </a>
                             </div>
                         </div>
-                        @*
-                            <div class="col-md-10">
-                                <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
-                                <input class="drop-image" type="file" asp-for="FormFile" />
-                            </div>*@
+                    *@
+                    <div class="form-group row">
+                        <div id="container" style="overflow-y: auto;">
+                            <p class="text-center">
+                                <a href="#" id="toggle_fullscreen"><img class="exp_zoom" style="max-height:600px;height:auto;width:auto; zoom:1.5;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false" /></a>
+                            <p class="fllscr_info d-none" style="position: fixed; bottom: 0; left: 50%; color: white; text-shadow: 2px 2px #000;">Tam ekrandan çıkmak için resme tıklatın veya dokunun.</p>
+                            </p>
+                        </div>
                     </div>
 
                     <div id="exp-alert" class="d-none">
@@ -138,9 +155,84 @@
                             </div>
                         </div>
                     </div>
+
+                    <div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+@section Scripts{
+    <script src="~/lib/pan_zoom/dist/jquery.pan.min.js"></script>
+    <script src="~/lib/pan_zoom/src/js/jquery.pan.js"></script>
+
+    @*<script src="js/directive.js"></script>*@
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>*@
+    @*<script src="/lib/zoom-master/index.js"></script>*@
+    <script src="/lib/zoom-master/directive.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //$(".pan").pan();
+            /*
+            $(document).keyup(function (e) {
+                if (e.key === "Escape") { // escape key maps to keycode `27`
+
+                    $('.exp_zoom').attr("style", "max-height:600px; height:auto;");
+                    $('.fllscr_info').addClass("d-none");
+
+                }
+            });
+            */
+        });
+        $('#toggle_fullscreen').on('click', function () {
+            // if already full screen; exit
+            // else go fullscreen
+            fullScreenInit();
+        });
+        jQuery(document).on('keyup', function (evt) {
+            if (evt.keyCode == 27) {
+
+            }
+        });
+        function fullScreenInit() {
+            if (
+                document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement
+            ) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                $('.exp_zoom').attr("style", "max-height:600px; height:auto;");
+                $('.fllscr_info').addClass("d-none");
+
+            } else {
+                element = $('#container').get(0);
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullScreen) {
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+                $('.exp_zoom').attr("style", "max-height:auto;");
+                $('.fllscr_info').removeClass("d-none");
+
+            }
+        }
+    </script>
+}

@@ -60,7 +60,7 @@ namespace Opus.Api
         {
             return await Task.Run(() =>
             {
-                return _uow.Training.GetAll(includeProperties: "Location").OrderBy(s => s.Subject);
+                return _uow.Training.GetAll(includeProperties: "Location,References,Trainer").OrderBy(s => s.Subject);
             });
             //return null;
         }

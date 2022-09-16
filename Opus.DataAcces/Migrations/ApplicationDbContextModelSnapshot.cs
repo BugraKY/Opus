@@ -821,12 +821,22 @@ namespace Opus.DataAcces.Migrations
                     b.Property<long>("LocationId")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid>("ReferencesId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Subject")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TrainerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("ReferencesId");
+
+                    b.HasIndex("TrainerId");
 
                     b.ToTable("Training");
                 });
@@ -1068,7 +1078,23 @@ namespace Opus.DataAcces.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Opus.Models.DbModels.References", "References")
+                        .WithMany()
+                        .HasForeignKey("ReferencesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Opus.Models.DbModels.Trainer", "Trainer")
+                        .WithMany()
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Location");
+
+                    b.Navigation("References");
+
+                    b.Navigation("Trainer");
                 });
 #pragma warning restore 612, 618
         }

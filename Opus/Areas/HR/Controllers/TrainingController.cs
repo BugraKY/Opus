@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
 using Opus.DataAcces.IMainRepository;
 using Opus.DataAcces.MainRepository;
@@ -6,6 +7,7 @@ using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 using Opus.Models.ViewModels.ReferenceVerif;
 using Opus.Utility;
+using static Opus.Utility.ProjectConstant;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -20,6 +22,7 @@ namespace Opus.Areas.HR.Controllers
             _uow = uow;
         }
         [Route("training")]
+        [Authorize(Roles = UserRoles.Admin+","+UserRoles.HR_Responsible+","+UserRoles.TrainingRegistrationResp)]
         public IActionResult Index()
         {/*
             var _models = new AllModelsVM()
@@ -31,26 +34,31 @@ namespace Opus.Areas.HR.Controllers
             return View();
         }
         [Route("training/add")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public IActionResult Add()
         {
             return View();
         }
         [Route("training/add-trainer")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public IActionResult AddTrainer()
         {
             return View();
         }
         [Route("training/add-reference")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public IActionResult AddReference()
         {
             return View();
         }
         [Route("training/add-company")]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult AddCompany()
         {
             return View();
         }
         [HttpPost("training/add-company")]
+        [Authorize(Roles=UserRoles.Admin)]
         public async Task<IActionResult> AddCompanyPost(Company company)
         {
             return await Task.Run(() =>
@@ -61,6 +69,7 @@ namespace Opus.Areas.HR.Controllers
             });
         }
         [HttpPost("training/add-reference")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> AddReferencePost(References references)
         {
             return await Task.Run(() =>
@@ -76,10 +85,10 @@ namespace Opus.Areas.HR.Controllers
             });
         }
         [HttpPost("training/add")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> AddPost(TrainingVM TrainingInput)
         {
-            TrainingInput.DocumentImgUrl = "training-form" + Path.GetExtension(TrainingInput.FormFile.FileName);
-
+            TrainingInput.DocumentImgUrl = "training-form" + System.IO.Path.GetExtension(TrainingInput.FormFile.FileName);
             _uow.Training.Add(TrainingInput);
             var StaffTrainingEnumerable = new List<StaffTraining>();
             foreach (var item in TrainingInput.Enumerable_StaffTraining)
@@ -106,12 +115,14 @@ namespace Opus.Areas.HR.Controllers
 
 
             //return NoContent();
+            
             return await Task.Run(() =>
             {
                 return RedirectToAction("Index");
             });
         }
         [Route("training/view/{id}")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> TrainingView(string id)
         {
             var _training = _uow.Training.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "Location");
@@ -136,9 +147,10 @@ namespace Opus.Areas.HR.Controllers
             }
         }
         [Route("training/edit/{id}")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> TrainingEdit(string id)
         {
-            var _training = _uow.Training.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "Location");
+            var _training = _uow.Training.GetFirstOrDefault(i => i.Id == Guid.Parse(id), includeProperties: "Location,References,Trainer");
             if (_training == null)
                 return Redirect("/training");
             else
@@ -152,6 +164,10 @@ namespace Opus.Areas.HR.Controllers
                         Subject = _training.Subject,
                         Description = _training.Description,
                         Location = _training.Location,
+                        References = _training.References,
+                        ReferencesId = _training.ReferencesId,
+                        Trainer = _training.Trainer,
+                        TrainerId = _training.TrainerId,
                         DocumentImgUrl = _training.DocumentImgUrl,
                         Enumerable_StaffTraining = _uow.StaffTraining.GetAll(i => i.TrainingId == _training.Id, includeProperties: "Staff,Trainer,References")
                     };
@@ -160,6 +176,7 @@ namespace Opus.Areas.HR.Controllers
             }
         }
         [HttpPost("training/edit/{id}")]
+        [Authorize(Roles=UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> TrainingEditPost(TrainingVM TrainingInput)
         {
             var _currentTrainig = _uow.Training.GetFirstOrDefault(i => i.Id == TrainingInput.Id, includeProperties: "Location");
@@ -170,7 +187,7 @@ namespace Opus.Areas.HR.Controllers
                     TrainingInput.DocumentImgUrl = _currentTrainig.DocumentImgUrl;
             }
             else
-                TrainingInput.DocumentImgUrl = "training-form" + Path.GetExtension(TrainingInput.FormFile.FileName);
+                TrainingInput.DocumentImgUrl = "training-form" + System.IO.Path.GetExtension(TrainingInput.FormFile.FileName);
 
             int i = 0;
             foreach (var item in TrainingInput.Enumerable_StaffTraining)
@@ -221,7 +238,21 @@ namespace Opus.Areas.HR.Controllers
             });
             */
         }
+        [HttpGet("training/changeref-state/{RefId}")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
+        public IActionResult ReferenceChangeState(string RefId)
+        {
+            var _ref = _uow.References.GetFirstOrDefault(i => i.Id == Guid.Parse(RefId));
+            if (_ref.Active)
+                _ref.Active = false;
+            else
+                _ref.Active = true;
+            _uow.References.Update(_ref);
+            _uow.Save();
+            return NoContent();
+        }
         [Route("training/{route}")]
+        [Authorize(Roles=UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> NonRoute(string route)
         {
             return await Task.Run(() => { return Redirect("/training"); });

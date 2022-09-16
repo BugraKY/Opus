@@ -43,15 +43,16 @@
                                     <a href="/training/add" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
                                 </div>
 
-                                <div class="table-responsive">
+                                <div class="table-responsive-lg">
                                     <table id="trainingTable" class="table table-hover table-bordered table-striped dataTables">
                                         <thead>
                                             <tr>
                                                 <th class="d-none"></th>
-                                                <th>Subject</th>
-                                                <th>Description</th>
-                                                <th>Location</th>
-                                                <th></th>
+                                                <th style="max-width:75px; width:auto;">Reference</th>
+                                                <th style="max-width:150px; width:auto;">Subject</th>
+                                                <th style="max-width:200px; width:auto;">Description</th>
+                                                <th style="min-width:100px; width:auto;">Location</th>
+                                                <th style="max-width:70px; min-width: 70px; width: auto; "></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -101,20 +102,23 @@
                             <div class="p-15">
                                 <div class="row">
                                     <div class="col">
-                                        <table id="reference_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th class="d-none"></th>
-                                                    <th>Location</th>
-                                                    <th>Company</th>
-                                                    <th>Reference</th>
-                                                    <th>Company Reference</th>
-                                                    <th>State</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive-lg">
+                                            <table id="reference_list" class="table table-hover table-bordered table-striped dataTables dataTable no-footer" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="d-none"></th>
+                                                        <th>Location</th>
+                                                        <th>Company</th>
+                                                        <th>Reference</th>
+                                                        <th>Company Reference</th>
+                                                        <th>State</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -206,6 +210,11 @@
                 compId = this.value;
                 //listCustDef(this.value);
             });
+            $(document.body).on("click", ".changeref", function (e) {
+                setTimeout(function () {
+                    listReference();
+                }, 500);
+            });
             listCompany();
             listReference();
             listTraining();
@@ -278,7 +287,26 @@
                     { "data": "company.name" },
                     { "data": "reference" },
                     { "data": "companyReference" },
-                    { "data": "active" },
+                    {
+                        "data": "active",
+                        /*"type": "num-fmt",*/
+                        render: function (data, type, row) {
+                            if (data == true) {
+                                return `Active`;
+                            }
+                            else {
+                                return `Deactive`;
+                            }
+                        },
+                    },
+                    {
+                        "data": "id",
+                        /*"type": "num-fmt",*/
+                        render: function (data, type, row) {
+                            return `<a href="training/changeref-state/` + data + `" role="button" class="list-icons-item me-10 card-btn changeref"><i class="fa fa-id-card"></i> Change State</a>
+`
+                        },
+                    },
                 ]
             });
             //$("#categoryId").select2({ width: '200px' });
@@ -300,6 +328,7 @@
                 },
                 "columns": [
                     { "data": "id", "className": "d-none" },
+                    { "data": "references.reference" },
                     { "data": "subject" },
                     { "data": "description" },
                     { "data": "location.name" },
@@ -308,7 +337,7 @@
                         /*"type": "num-fmt",*/
                         render: function (data, type, row) {
                             return `<a href="training/view/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> View</a>
-                                    <a href="training/edit/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-edit"></i> Edit</a>
+                                        <a href="training/edit/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-edit"></i> Edit</a>
 
 `
                         },

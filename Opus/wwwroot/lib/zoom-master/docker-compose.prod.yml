@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  zoom-nginx:
+    image: ironex/zoom-nginx:1.0.0
+    networks:
+      - external
+      - internal
+      - shared
+    user: $GROUP_ID:$USER_ID
+
+networks:
+  external:
+  internal:
+  shared:
+    external: true
+    name: shared

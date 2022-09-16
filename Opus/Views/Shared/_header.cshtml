@@ -182,7 +182,7 @@
 </header>
 <aside class="main-sidebar">
 
-    <div class="d-flex align-items-center justify-content-start" style="max-height:80px;height:80px;">
+    <div class="d-flex align-items-center justify-content-center" style="max-height:80px;height:80px;">
         <a href="#" class="waves-effect waves-light nav-link d-none d-md-inline-block mx-10 push-btn bg-transparent text-white" data-toggle="push-menu" role="button">
             <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
         </a>
@@ -203,52 +203,20 @@
                 <div class="multinav-scroll" style="height: 100%;">
                     <!-- sidebar menu-->
                     <ul class="sidebar-menu" data-widget="tree">
-                        @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.HR_Responsible))
+                        @if (User.IsInRole(UserRoles.TrainingRegistrationResp))
+                        {
+                            <li class="@Html.ActiveClass("User")"><a href="/users"><i class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Users</span></a></li>
+                        }
+                        else if(User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.HR_Responsible))
                         {
                             <li class="header">Human Resources</li>
                             <li class="@Html.ActiveClass("Staff")"><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Staff</span></a></li>
-                            @*
-            <li class="treeview">
-                <a href="#">
-                    <i class="icon-User"><span class="path1"></span><span class="path2"></span></i>
-                    <span>Staff</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-right pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.ActiveClass("Staff")"><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Staff List</a></li>
-
-                </ul>
-            </li>
-                            *@
-
                             <li class="@Html.ActiveClass("Products")"><a href="/hr-products"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Products</span></a></li>
-                            @*
-            <li class="treeview">
-                <a href="#">
-                    <i span class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i>
-                    <span class="sidebar-title">Training</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-right pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="~/Training/AddTraining"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Training</span></a></li>
-                    <li><a href="~/Training/AddTrainingAuthorized"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Authorized</span></a></li>
-                    <li><a href="~/Training/AddTrainingPlan"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Add Training Plan</span></a></li>
-                    <li><a href="~/Training/TrainingPlans"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Training Plans</span></a></li>
-                </ul>
-            </li>
-                            *@
-
-
                             <li class="@Html.ActiveClass("Training")"><a href="/training"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Training</span></a></li>
                             <li class="@Html.ActiveClass("Location")"><a href="/locations"><i class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Locations</span></a></li>
                             <li class="@Html.ActiveClass("User")"><a href="/users"><i class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Users</span></a></li>
 
                             <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>
-
 
                             <li><a href="~/Personmotion"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Person Motion</span></a></li>
                             <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>

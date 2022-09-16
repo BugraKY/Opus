@@ -82,13 +82,13 @@ namespace Opus.Api
             var currenVal = value.Remove(0, 1);
             var _user = _uow.Staff.GetFirstOrDefault(i => i.Guid == id);
             //var _refNum = _uow.References.GetFirstOrDefault(v => v.CompanyReference == currenVal, includeProperties: "CustomerDefinitions.Customer.Company,CustomerDefinitions.Company");
-            var _refNum = _uow.References.GetFirstOrDefault(v => v.BarcodeNum == value);
+            var _refNum = _uow.References.GetFirstOrDefault(v => (v.BarcodeNum == value && v.Active));
             if (_refNum == null)
             {
-                _references = _uow.References.GetFirstOrDefault(v => v.BarcodeNum == value);
+                _references = _uow.References.GetFirstOrDefault(v => (v.BarcodeNum == value && v.Active));
                 if (_references != null)
                 {
-                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id),includeProperties: "References");
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id), includeProperties: "References");
                 }
                 _referencesNULL.CompanyReference = value;
                 _referencesNULL.Valid = false;
@@ -98,15 +98,15 @@ namespace Opus.Api
             {
                 _refNum.Valid = true;
                 _referencesNULL.Valid = true;
-                if (_user.Auth==1)
+                if (_user.Auth == 1)
                 {
 
                     auth = true;
                     _json = JsonSerializer.Serialize(_refNum);
                 }
-                else if(_user.Auth == 2)
+                else if (_user.Auth == 2)
                 {
-                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id),includeProperties: "References");
+                    _def = _uow.StaffTraining.GetFirstOrDefault(v => (v.ReferencesId == _refNum.Id && v.StaffId == _user.Id), includeProperties: "References");
                     if (_def == null)
                     {
                         _referencesNULL.CompanyReference = value;
@@ -121,7 +121,7 @@ namespace Opus.Api
                     }
 
                 }
-                
+
             }
             //TEST
 
@@ -147,7 +147,7 @@ namespace Opus.Api
                     UserId = Guid.Parse(_user.Guid),
                     UserName = _user.AppUser,
                     //FullName = _user.FullName,
-                    FullName = _user.FirstName + " "+_user.LastName,
+                    FullName = _user.FirstName + " " + _user.LastName,
                     Date = DateTime.Now,
                     Success = true,
                     Auth = auth,
@@ -241,7 +241,7 @@ namespace Opus.Api
                         _type = 2;
                 }
                 else
-                    _type=1;
+                    _type = 1;
 
 
 
@@ -476,9 +476,9 @@ namespace Opus.Api
             if (_user == null)
                 return null;
 
-            if(_user.Auth==1)
+            if (_user.Auth == 1)
                 _admin = true;
-            else if(_user.Auth==2)
+            else if (_user.Auth == 2)
                 _admin = false;
 
             var _userview = new User()

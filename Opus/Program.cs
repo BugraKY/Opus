@@ -190,8 +190,8 @@ Task Send(WebSocket webSocket)
 
 Console.OutputEncoding=System.Text.Encoding.UTF8;
 
-app.UseHttpsRedirection();
-Console.WriteLine("Https Redirection Started.");
+//app.UseHttpsRedirection();
+//Console.WriteLine("Https Redirection Started.");
 app.UseStaticFiles();
 Console.WriteLine("Static Files Started.");
 app.UseRouting();
@@ -228,6 +228,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapHub<OpusHub>("/hubs");
+//app.MapHub<OpusHub>("/pub");
 
 Console.ForegroundColor = ConsoleColor.Green;
 Console.WriteLine("Hub Started with Web Socket.");

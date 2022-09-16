@@ -11,7 +11,7 @@
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
-            <h3 class="page-title">Locations</h3>
+            <h3 class="page-title">Add Training</h3>
             <div class="d-inline-block align-items-center">
                 <nav>
                     <ol class="breadcrumb">
@@ -30,60 +30,83 @@
         <div class="col-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <h4 class="box-title">Add Training Form</h4>
+                    <h4 class="box-title">Add Training Form (Yeni Eğitim Katılım Formu)</h4>
                 </div>
                 <div class="box-body">
                     <form id="training-form" method="post" enctype="multipart/form-data" data-parsley-validate>
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Location</label>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
-                                        <option selected="selected" value="0" disabled="disabled">Select Location</option>
-                                        <option>Arif Yılmaz</option>
-                                        <option>Semih İnanç</option>
-                                        <option>Sinan Er</option>
-                                        <option>Hatice Şahiner</option>
-                                        <option>Semali Çelik</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Subject</label>
-                            <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Subject">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Description</label>
-                            <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Description">
-                            </div>
-                        </div>
+                        <div class="trainig-form">
 
 
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Document</label>
-
-                            <div class=" col-md-10 imageform d-none">
-                                @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
-                                        <div class="fallback">
-                                            <input class="drop-image" type="file" name="FormFile" />
-                                        </div>
-                                    </div>*@
-                                <div class="input-group">
-                                    <input class="form-control" type="file" name="FormFile" />
-                                </div>
-                            </div>
-                            @*
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Location (Firma)</label>
                                 <div class="col-md-10">
-                                    <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
-                                    <input class="drop-image" type="file" asp-for="FormFile" />
-                                </div>*@
-                        </div>
+                                    <div class="form-group">
+                                        <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
+                                            <option selected="selected" value="0" disabled="disabled">Select Location</option>
+                                            <option>Arif Yılmaz</option>
+                                            <option>Semih İnanç</option>
+                                            <option>Sinan Er</option>
+                                            <option>Hatice Şahiner</option>
+                                            <option>Semali Çelik</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Subject (Konu)</label>
+                                <div class="col-md-10">
+                                    <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Subject">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Description (Açıklama)</label>
+                                <div class="col-md-10">
+                                    <input class="form-control datepicker" type="text" autocomplete="off" asp-for="Description">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Reference (Referans)</label>
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <select class="form-control select2" style="width: 100%;" id="referenceselect" asp-for="ReferencesId">
+                                            <option selected="selected" value="0" disabled="disabled">Select Reference</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Trainer (Eğitmen)</label>
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <select class="form-control select2" style="width: 100%;" id="trainerselect" asp-for="TrainerId">
+                                            <option selected="selected" value="0" disabled="disabled">Select Trainer</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-2">Document (Eğitim Formu - Resim)</label>
+
+                                <div class=" col-md-10 imageform d-none">
+                                    @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
+                    <div class="fallback">
+                        <input class="drop-image" type="file" name="FormFile" />
+                    </div>
+                </div>*@
+                                    <div class="input-group">
+                                        <input class="form-control" type="file" name="FormFile" />
+                                    </div>
+                                </div>
+                                @*
+            <div class="col-md-10">
+                <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
+                <input class="drop-image" type="file" asp-for="FormFile" />
+            </div>*@
+                            </div>
+                        </div>
                         <div id="exp-alert" class="d-none">
                             <div class="form-group row">
                                 <div class="col-md-2"></div>
@@ -98,7 +121,7 @@
 
 
                         <div class="border-bottom" style="margin-bottom: 20px;"></div>
-                        <h4>Staff Training</h4>
+                        <h4>Staff Training (Personel Eğitimi)</h4>
                         <p></p>
                         <p></p>
 
@@ -109,56 +132,45 @@
 
 
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Date</label>
+                            <label class="col-form-label col-md-2">Date (Tarih)</label>
                             <div class="col-md-10">
                                 <input class="form-control datepicker" type="date" id="dateval" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Trainer</label>
+                            <label class="col-form-label col-md-2">Staff (Personel)</label>
                             <div class="col-md-10">
-                                <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="trainerselect">
-                                        <option selected="selected" value="0" disabled="disabled">Select Trainer</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                                <div class="row">
+                                    <div class="col-10 col-sm-10">
+                                        <div class="form-group">
+                                            <select class="form-control select2" style="width: 100%;" id="staffselect">
+                                                <option selected="selected" value="0" disabled="disabled">Select Staff</option>
+                                            </select>
 
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Staff</label>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="staffselect">
-                                        <option selected="selected" value="0" disabled="disabled">Select Staff</option>
-                                    </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 col-sm-2">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary waves-effect waves-dark" style="float:right" id="addDetailRow"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Reference</label>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="referenceselect">
-                                        <option selected="selected" value="0" disabled="disabled">Select Reference</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <button class="btn btn-primary waves-effect waves-dark" style="float:right" id="addDetailRow"><i class="fa fa-plus"></i></button>
-                                </div>
-                            </div>
-                        </div>
-
+                        @*
+        <div class="form-group row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button class="btn btn-primary waves-effect waves-dark" style="float:right" id="addDetailRow"><i class="fa fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+                        *@
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
-                                    <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                                    <table id="stafftrainingTable" class="table table-hover table-bordered table-striped dataTables">
                                         <thead>
                                             <tr>
                                                 <th class="d-none"></th>
@@ -170,15 +182,15 @@
                                         </thead>
                                         <tbody id="locationTbody">
                                             @*
-                                                @foreach (var item in Model)
-                                                {
-                                                    <tr>
-                                                        <td>@item.Name</td>
-                                                        <td>@item.CountryId</td>
-                                                        <td>@item.Active</td>
-                                                        <td>@item.ColorHex</td>
-                                                    </tr>
-                                                }*@
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.CountryId</td>
+                                    <td>@item.Active</td>
+                                    <td>@item.ColorHex</td>
+                                </tr>
+                            }*@
                                         </tbody>
                                     </table>
                                 </div>
@@ -188,7 +200,7 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button class="btn btn-primary waves-effect waves-dark" style="float:right" type="submit">Save</button>
+                                    <button class="btn btn-primary waves-effect waves-dark" id="trainingSave" style="float:right" type="submit" disabled="disabled">Save (Kaydet)</button>
                                 </div>
                             </div>
                         </div>
@@ -445,6 +457,12 @@
             }
         }
 
+        function hideTrainigForm() {
+            $('.trainig-form').addClass("d-none");
+        }
+        function showTrainigForm() {
+            $('.trainig-form').removeClass("d-none");
+        }
 
         async function disable_button() {
 
@@ -456,9 +474,11 @@
 
         $("#addDetailRow").on("click", function () {
             $('#addDetailRow').prop('disabled', true);
+            $('#trainingSave').prop("disabled", true);
             //disable_button();
 
             //var date_val = $("#dateval").val();
+            var rowCount = $('#stafftrainingTable >tbody >tr').length;
             var date = new Date($('#dateval').val());
             var dayStr = '';
             var monthStr = '';
@@ -633,6 +653,18 @@
                 });
                 setTimeout(function () {
                     //getSumVals();
+                    if (rowCount > 0) {
+                        $('#trainingSave').prop("disabled", false);
+                        $('#referenceselect').prop("disabled", true);
+                        $('#trainerselect').prop("disabled", true);
+                        $('#locationselect').prop("disabled", true);
+                    }
+                    else {
+                        $('#trainingSave').prop("disabled", true);
+                        $('#referenceselect').prop("disabled", false);
+                        $('#trainerselect').prop("disabled", false);
+                        $('#locationselect').prop("disabled", false);
+                    }
 
                     $('#addDetailRow').prop('disabled', false);
                 }, 500);
@@ -649,7 +681,18 @@
                     hideAfter: 5000
                 });
                 setTimeout(function () {
-                    //getSumVals();
+                    if (rowCount > 0) {
+                        $('#trainingSave').prop("disabled", false);
+                        $('#referenceselect').prop("disabled", true);
+                        $('#trainerselect').prop("disabled", true);
+                        $('#locationselect').prop("disabled", true);
+                    }
+                    else {
+                        $('#trainingSave').prop("disabled", true);
+                        $('#referenceselect').prop("disabled", false);
+                        $('#trainerselect').prop("disabled", false);
+                        $('#locationselect').prop("disabled", false);
+                    }
 
                     $('#addDetailRow').prop('disabled', false);
                 }, 500);
@@ -666,12 +709,50 @@
                     hideAfter: 5000
                 });
                 setTimeout(function () {
-                    //getSumVals();
+                    if (rowCount > 0) {
+                        $('#trainingSave').prop("disabled", false);
+                        $('#referenceselect').prop("disabled", true);
+                        $('#trainerselect').prop("disabled", true);
+                        $('#locationselect').prop("disabled", true);
+                    }
+                    else {
+                        $('#trainingSave').prop("disabled", true);
+                        $('#referenceselect').prop("disabled", false);
+                        $('#trainerselect').prop("disabled", false);
+                        $('#locationselect').prop("disabled", false);
+                    }
 
                     $('#addDetailRow').prop('disabled', false);
                 }, 500);
             }
+            else if (referenceid == guidNULL || referenceid == null || referenceid =='0') {
+                $.toast({
+                    heading: 'Required Reference field',
+                    text: '',
+                    icon: 'warning',
+                    showHideTransition: 'slide',
+                    loader: false,        // Change it to false to disable loader
+                    loaderBg: '#9EC600',  // To change the background
+                    position: 'top-right',
+                    hideAfter: 5000
+                });
+                setTimeout(function () {
+                    if (rowCount > 0) {
+                        $('#trainingSave').prop("disabled", false);
+                        $('#referenceselect').prop("disabled", true);
+                        $('#trainerselect').prop("disabled", true);
+                        $('#locationselect').prop("disabled", true);
+                    }
+                    else {
+                        $('#trainingSave').prop("disabled", true);
+                        $('#referenceselect').prop("disabled", false);
+                        $('#trainerselect').prop("disabled", false);
+                        $('#locationselect').prop("disabled", false);
+                    }
 
+                    $('#addDetailRow').prop('disabled', false);
+                }, 500);
+            }
             else {
                 seq++;
                 var tbody_location_item = `
@@ -739,17 +820,33 @@
                 });
 
                 setTimeout(function () {
+                    if (seq > 0) {
+                        $('#trainingSave').prop("disabled", false);
+                        $('#referenceselect').prop("disabled", true);
+                        $('#trainerselect').prop("disabled", true);
+                        $('#locationselect').prop("disabled", true);
+                    }
+                    else {
+                        $('#trainingSave').prop("disabled", true);
+                        $('#referenceselect').prop("disabled", false);
+                        $('#trainerselect').prop("disabled", false);
+                        $('#locationselect').prop("disabled", false);
+                    }
+
                     //getSumVals();
 
                     //clearTrainingInputs();
                 }, 500);
                 clearTrainingInputs();
+
+
             }
 
         });
 
         $("#training-form").on('click', "#delCont", function () {
             $('#addDetailRow').prop('disabled', true);
+            $('#trainingSave').prop("disabled", true);
             console.log("removed: ");
 
             //var totalamount_del = 0;
@@ -771,8 +868,7 @@
             console.log("Total Amount: " + totalamount_del);*/
 
             $(this).parent().parent().remove();
-
-
+            var rowCount = $('#stafftrainingTable >tbody >tr').length;
 
             /*seq-buying-spn*/
             $('.seq-training-spn').each(function (i) {
@@ -792,6 +888,7 @@
             */
 
             $('.seq-training-spn').each(function (i) {
+
                 $(this).html(Number(i + 1));
             });
             $('.date-training').each(function (i) {
@@ -809,9 +906,29 @@
             setTimeout(function () {
                 //getSumVals();
                 $('#addDetailRow').prop('disabled', false);
+                if (rowCount > 0) {
+                    $('#trainingSave').prop("disabled", false);
+                    $('#referenceselect').prop("disabled", true);
+                    $('#trainerselect').prop("disabled", true);
+                    $('#locationselect').prop("disabled", true);
+                }
+                else {
+                    $('#trainingSave').prop("disabled", true);
+                    $('#referenceselect').prop("disabled", false);
+                    $('#trainerselect').prop("disabled", false);
+                    $('#locationselect').prop("disabled", false);
+                }
             }, 500);
 
         });
+
+        $('#training-form').submit(function () {
+            $('#referenceselect').prop("disabled", false);
+            $('#trainerselect').prop("disabled", false);
+            $('#locationselect').prop("disabled", false);
+
+            //Rest of code
+        })
 
         function clearTrainingInputs() {
             //getTrainerAjx();

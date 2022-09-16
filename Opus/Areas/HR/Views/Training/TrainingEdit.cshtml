@@ -32,31 +32,31 @@
                 <div class="box-body">
                     <form id="training-form" method="post" enctype="multipart/form-data" data-parsley-validate>
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Location</label>
+                            <label class="col-form-label col-md-2">Location (Firma)</label>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     @*
-                                        <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
-                                            <option selected="selected" value="0" disabled="disabled">Select Location</option>
-                                            <option>Arif Yılmaz</option>
-                                            <option>Semih İnanç</option>
-                                            <option>Sinan Er</option>
-                                            <option>Hatice Şahiner</option>
-                                            <option>Semali Çelik</option>
-                                        </select>*@
+                    <select class="form-control select2" style="width: 100%;" id="locationselect" asp-for="LocationId">
+                        <option selected="selected" value="0" disabled="disabled">Select Location</option>
+                        <option>Arif Yılmaz</option>
+                        <option>Semih İnanç</option>
+                        <option>Sinan Er</option>
+                        <option>Hatice Şahiner</option>
+                        <option>Semali Çelik</option>
+                    </select>*@
                                     <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Location.Name" readonly="readonly" disabled>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Subject</label>
+                            <label class="col-form-label col-md-2">Subject (Konu)</label>
                             <div class="col-md-10">
                                 <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Subject" asp-for="Subject" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Description</label>
+                            <label class="col-form-label col-md-2">Description (Açıklama)</label>
                             <div class="col-md-10">
                                 <input class="form-control datepicker" type="text" autocomplete="off" value="@Model.Description" asp-for="Description">
                             </div>
@@ -64,26 +64,49 @@
 
 
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Document</label>
+                            <label class="col-form-label col-md-2">Reference (Referans)</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <select class="form-control select2" style="width: 100%;" asp-for="ReferencesId" id="referenceselect">
+                                        <!--referenceselect-->
+                                        <option selected="selected" value="@Model.ReferencesId">@Model.References.Reference</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Trainer (Eğitmen)</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <select class="form-control select2" style="width: 100%;" asp-for="TrainerId" id="trainerselect">
+                                        <!--trainerselect-->
+                                        <option selected="selected" value="@Model.TrainerId">@Model.Trainer.FullName</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Document (Eğitim Formu - Resim)</label>
                             <div class="input-group">
                                 <input class="form-control" type="file" name="FormFile" />
                             </div>
-                            <small>(for update)</small>
+                            <small>(for update - güncelleme için)</small>
                             <img style="max-height:600px;height:auto;width:auto;" src="/assets/training/@Model.Id/@Model.DocumentImgUrl" draggable="false" class="mt-10" />
 
                             <div class=" col-md-10 imageform d-none">
                                 @*<div action="/training/add" class="dropzone text-center" id="image-dropzone">
-                                        <div class="fallback">
-                                            <input class="drop-image" type="file" name="FormFile" />
-                                        </div>
-                                    </div>*@
+                    <div class="fallback">
+                        <input class="drop-image" type="file" name="FormFile" />
+                    </div>
+                </div>*@
 
                             </div>
                             @*
-                                <div class="col-md-10">
-                                    <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
-                                    <input class="drop-image" type="file" asp-for="FormFile" />
-                                </div>*@
+            <div class="col-md-10">
+                <input asp-for="Files.TetanusVaccine" type="file" placeholder="Debit Form" class="input_email form-control">
+                <input class="drop-image" type="file" asp-for="FormFile" />
+            </div>*@
                         </div>
 
                         <div id="exp-alert" class="d-none">
@@ -100,32 +123,21 @@
 
 
                         <div class="border-bottom" style="margin-bottom: 20px;"></div>
-                        <h4>Staff Training</h4>
+                        <h4>Staff Training (Personel Eğitimi)</h4>
                         <p></p>
                         <p></p>
 
 
                         <!------Form Details------>
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Date</label>
+                            <label class="col-form-label col-md-2">Date (Tarih)</label>
                             <div class="col-md-10">
                                 <input class="form-control datepicker" type="date" id="dateval" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-form-label col-md-2">Trainer</label>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="trainerselect">
-                                        <option selected="selected" value="0" disabled="disabled">Select Trainer</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Staff</label>
+                            <label class="col-form-label col-md-2">Staff (Personel)</label>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <select class="form-control select2" style="width: 100%;" id="staffselect">
@@ -134,16 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-form-label col-md-2">Reference</label>
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <select class="form-control select2" style="width: 100%;" id="referenceselect">
-                                        <option selected="selected" value="0" disabled="disabled">Select Reference</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <div class="form-group row">
                             <div class="col-md-12">
@@ -254,14 +257,14 @@
         var seq = 0;
         var Delseq = 0;
 
-        var trainerid = '';
-        var trainer_name = '';
+        var trainerid = '@Model.TrainerId';
+        var trainer_name = '@Model.Trainer.FullName';
 
         var staffid = 0;
         var staff_name = '';
 
-        var referenceid = '';
-        var reference_name = '';
+        var referenceid = '@Model.ReferencesId';
+        var reference_name = '@Model.References.Reference';
 
 
         Dropzone.autoDiscover = true;
@@ -301,15 +304,20 @@
             },
         };
         $(document).ready(function () {
-            trainerid = guidNULL;
-            referenceid = guidNULL;
+            //trainerid = guidNULL;
+            //referenceid = guidNULL;
+            trainerid = '@Model.TrainerId';
+            trainer_name = '@Model.Trainer.FullName';
+            referenceid = '@Model.ReferencesId';
+            reference_name = '@Model.References.Reference';
+
             $('.dz-message').html("<div style='font-size:small;'><span>Drop image here to upload</span></br><span>or select an image from your local files</span></br><span>or take a photo from your smartphone</span></div>");
             $('.imageform').removeClass('d-none');
 
             getLocationAjx();
             getStaffAjx();
-            getTrainerAjx();
-            getReferenceByLocation('@Model.Location.Id');
+            //getTrainerAjx();
+            //getReferenceByLocation('Model.Location.Id');
 
             $(document.body).on("change", "#locationselect", function () {
                 getReferenceByLocation(this.value);
@@ -662,41 +670,7 @@
 
             }
             */
-            if (date_val == "" || date_val == null) {
-                $.toast({
-                    heading: 'Required date field',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-                setTimeout(function () {
-                    //getSumVals();
-
-                    $('#addDetailRow').prop('disabled', false);
-                }, 500);
-            }
-            else if (trainerid == guidNULL || trainerid == null || trainerid=='0') {
-                $.toast({
-                    heading: 'Required trainer field',
-                    text: '',
-                    icon: 'warning',
-                    showHideTransition: 'slide',
-                    loader: false,        // Change it to false to disable loader
-                    loaderBg: '#9EC600',  // To change the background
-                    position: 'top-right',
-                    hideAfter: 5000
-                });
-                setTimeout(function () {
-                    //getSumVals();
-
-                    $('#addDetailRow').prop('disabled', false);
-                }, 500);
-            }
-            else if (staffid == 0 || staffid == null) {
+            if (staffid == 0 || staffid == null) {
                 $.toast({
                     heading: 'Required Staff field',
                     text: '',
