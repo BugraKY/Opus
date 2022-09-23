@@ -344,6 +344,17 @@ namespace Opus.Areas.HR.Controllers
             Staff staffItem = new Staff();
             long staffId = 0;
             string StaffUid = "";
+            var _guid = "";
+
+            while (true)
+            {
+                _guid = Guid.NewGuid().ToString();
+                var _status = _uow.Staff.GetFirstOrDefault(i=>i.Guid==_guid);
+                if (_status == null)
+                    break;
+            }
+
+            //return NoContent();//no content
             IList<Products> _products = new List<Products>();
             List<StaffEquipment> _staffEquipments = new List<StaffEquipment>();
             List<FamilyMembers> _familyMembers = new List<FamilyMembers>();
@@ -382,7 +393,7 @@ namespace Opus.Areas.HR.Controllers
                         RegistrationNumber = staffVm.RegistrationNumber,
                         Status = staffVm.Status,
                         WhiteCollarWorker = staffVm.WhiteCollarWorker,
-                        Guid = Guid.NewGuid().ToString()
+                        Guid = _guid,
                     };
                     _uow.Staff.Add(_staff);
                     _uow.Save();

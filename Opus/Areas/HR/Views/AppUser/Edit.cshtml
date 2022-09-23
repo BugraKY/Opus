@@ -1,0 +1,73 @@
+﻿@model Opus.Models.ViewModels.AppUserVM
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Application Users</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item"><a href="/app-users">Application Users</a></li>
+                        <li class="breadcrumb-item"><a aria-current="page">Edit</a></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Edit Application User</h4>
+                </div>
+                <div class="box-body">
+                    <form id="appuser-form" method="post">
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">First Name</label>
+                            <div class="col-md-10">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppFirstName" value="@Model.AppFirstName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Last Name</label>
+                            <div class="col-md-10">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppLastName" value="@Model.AppLastName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2">Password</label>
+                            <div class="col-md-8">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppPass" value="@Model.AppPass" readonly="readonly">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn d-grid btn-opus waves-effect waves-light">Generate New Pass</button>
+                            </div>
+                        </div>
+                        @*<div class="form-group row">
+            <label class="col-form-label col-md-2">Role</label>
+            <div class="col-md-10">
+
+                <select class="select2 form-control" asp-for="SelectedRole.Id">
+                    <option value="value">Select a Role</option>
+                    foreach (var item in Model.IdentityRole)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+        </div>*@
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn d-grid btn-opus waves-effect waves-light">Update</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

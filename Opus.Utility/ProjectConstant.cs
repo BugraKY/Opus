@@ -17,13 +17,13 @@ namespace Opus.Utility
         public static class UserRoles
         {
             public const string Admin = "Admin";
-            public const string HR_Responsible = "HR_Responsible";
+            public const string HR_Responsible = "HR Responsible";
             public const string Accounting = "Accounting";
-            public const string QS_Operation = "QS_Operation";//Kalite ve Operasyon Görevlisi
-            public const string FieldOfficer = "FieldOfficer";//Saha yetkilisi
-            public const string ProjectResponsible = "ProjectResponsible";
-            public const string OperationResponsible = "OperationResponsible";
-            public const string TrainingRegistrationResp = "TrainingRegistrationResp";
+            public const string QS_Operation = "QS Operation";//Kalite ve Operasyon Görevlisi
+            public const string FieldOfficer = "Field Officer";//Saha yetkilisi
+            public const string ProjectResponsible = "Project Responsible";
+            public const string OperationResponsible = "Operation Responsible";
+            public const string TrainingRegistrationResp = "Training RegistrationResp";
 
             public const string OperationScannerApp = "OperatorScanResponsible";
         }

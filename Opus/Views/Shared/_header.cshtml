@@ -202,7 +202,7 @@
             <div class="multinav">
                 <div class="multinav-scroll" style="height: 100%;">
                     <!-- sidebar menu-->
-                    <ul class="sidebar-menu" data-widget="tree">
+                    <ul class="sidebar-menu" data-widget="tree" style="font-size:12px;">
                         @if (User.IsInRole(UserRoles.TrainingRegistrationResp))
                         {
                             <li class="@Html.ActiveClass("User")"><a href="/users"><i class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Users</span></a></li>
@@ -210,16 +210,17 @@
                         else if(User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.HR_Responsible))
                         {
                             <li class="header">Human Resources</li>
-                            <li class="@Html.ActiveClass("Staff")"><a href="/staff"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Staff</span></a></li>
-                            <li class="@Html.ActiveClass("Products")"><a href="/hr-products"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Products</span></a></li>
-                            <li class="@Html.ActiveClass("Training")"><a href="/training"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Training</span></a></li>
-                            <li class="@Html.ActiveClass("Location")"><a href="/locations"><i class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Locations</span></a></li>
-                            <li class="@Html.ActiveClass("User")"><a href="/users"><i class="icon-Layout-grid"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Users</span></a></li>
+                            <li class="@Html.ActiveClass("Staff")"><a href="/staff"><i class="fa fa-id-card-o"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Staff</span></a></li>
+                            @*<li class="@Html.ActiveClass("Products")"><a href="/hr-products"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Products</span></a></li>*@
+                            <li class="@Html.ActiveClass("Training")"><a href="/training"><i class="glyphicon glyphicon-education"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Training</span></a></li>
+                            <li class="@Html.ActiveClass("Location")"><a href="/locations"><i class="ti-location-pin"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Locations</span></a></li>
+                            <li class="@Html.ActiveClass("AppUser")"><a href="/app-users"><i class="fa fa-user-o"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Application Users</span></a></li>
+                            <li class="@Html.ActiveClass("User")"><a href="/users"><i class="fa fa-user-circle"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Users (for staff)</span></a></li>
 
-                            <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>
+                            <li><a href="/time-keeping"><i class="fa fa-calendar-check-o"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>
 
-                            <li><a href="~/Personmotion"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Person Motion</span></a></li>
-                            <li><a href="~/Personmotion/PersonelPuantaj"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Time Keeping</span></a></li>
+                            <li><a href="/person-motion"><i class="fa fa-exclamation-circle"><span class="path1"></span><span class="path2"></span></i><span class="sidebar-title">Person Motion</span></a></li>
+
                         }
                         @*
             <li class="header">Components & UI </li>
@@ -493,7 +494,7 @@
                         <li class="header">Quality Services</li>
 
                         <li class="@Html.ActiveClass("RV")">
-                            <a asp-area="QS" asp-controller="RV" asp-action="Index"><i class="si-notebook si"></i><span class="sidebar-title">Reference Verification</span></a>
+                            <a asp-area="QS" asp-controller="RV" asp-action="Index"><i class="si-info si"></i><span class="sidebar-title">Reference Verification</span></a>
                         </li>
                     </ul>
                 </div>
