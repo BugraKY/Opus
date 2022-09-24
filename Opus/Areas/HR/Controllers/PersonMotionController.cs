@@ -27,7 +27,9 @@ namespace Opus.Areas.HR.Controllers
             //List<Staff> staffs = new List<Staff>();
             //var staffStamp = _uow.StaffStamp.GetAll(i => i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"));
             var staffStamp = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp");
-            var timeekeeping = _uow.TimeKeeping.GetAll(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month));
+            var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month));
+            var activeStaff = _uow.Staff.GetAll(i => i.Status = 1);
+
             /*
             var orn = _uow.Staff.GetAll()
                 .Join(staffStamp,
@@ -44,7 +46,7 @@ namespace Opus.Areas.HR.Controllers
             i.Staff.WhiteCollarWorker == false && i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"))).OrderBy(n => n.Stamp.Id);
             */
             /*
-            var orn = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
+            var test = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
             i.Staff.WhiteCollarWorker == false && i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"))).OrderBy(n => n.Stamp.Id);
             */
 
@@ -60,7 +62,7 @@ namespace Opus.Areas.HR.Controllers
                 .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
                 .OrderBy(n => n.staffStamp.Staff.FirstName);
 
-            
+
 
 
             IEnumerable<PersonMotionVM> _personMotion = null;
@@ -318,14 +320,17 @@ namespace Opus.Areas.HR.Controllers
                     break;
             }
 
-
-
-
-
             var _locations = _uow.Location.GetAll();
             var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
             //result = 131
             return View(_personMotion);
         }
+
+
+        public bool CheckTimeKeeping()
+        {
+            return false;
+        }
+
     }
 }
