@@ -28,7 +28,7 @@ namespace Opus.Areas.HR.Controllers
             //var staffStamp = _uow.StaffStamp.GetAll(i => i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"));
             var staffStamp = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp");
             var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month));
-            var activeStaff = _uow.Staff.GetAll(i => i.Status = 1);
+            var activeStaff = _uow.Staff.GetAll(i => i.Status == 1);//activestaff ve timekeeping ile beraber countları karşılaştırılıp aylık bazında time keeping kayıtları eklenilebilir. Test edilmedi.!!!!
 
             /*
             var orn = _uow.Staff.GetAll()
