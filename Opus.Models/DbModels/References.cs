@@ -15,6 +15,7 @@ namespace Opus.Models.DbModels
         public string Reference { get; set; }
         public string CompanyReference { get; set; }
         public string BarcodeNum { get; set; }
+        public DateTime Date { get; set; }
         public Guid CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }

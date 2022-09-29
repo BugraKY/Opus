@@ -1,0 +1,266 @@
+﻿@model IEnumerable<Opus.Models.DbModels.Staff>
+<style>
+    .progress {
+        background-color: #ffffff !important;
+    }
+
+    a.locations:hover {
+        color: white !important;
+    }
+
+    a.locations:focus {
+        color: white !important;
+    }
+
+    .locations {
+        color: white !important;
+    }
+
+    .box-inverse {
+        height: 135px;
+    }
+
+    h5 {
+        color: white !important;
+    }
+</style>
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Person Motion</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page">Person Motion</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="box-header">
+                                <h4 class="text-success">Person List</h4>
+                            </div>
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table id="personlist" class="table table-bordered table-hover table-striped dataTables mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Work Status</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Info</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td scope="row">1</td>
+                                                    <td>@item.FirstName @item.LastName</td>
+                                                    <td>3</td>
+                                                    <td>
+                                                        <div class="progress shadow-1-strong">
+                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                                <span class="sr-only">0% Complete (success)</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span class="badge badge-success shadow-2-strong">Active</span>
+                                                    </td>
+                                                    <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                                                </tr>
+                                            }
+
+
+                                            @*
+        <tr>
+            <td scope="row">1</td>
+            <td>ABDULLAH AKTEPE - EX-48</td>
+            <td>3</td>
+            <td>
+                <div class="progress shadow-1-strong">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                        <span class="sr-only">0% Complete (success)</span>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center">
+                <span class="badge badge-success shadow-2-strong">Active</span>
+            </td>
+            <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+        </tr>
+        <tr>
+            <td scope="row">2</td>
+            <td>ALEYNA TANRIVERDİ - EX-94</td>
+            <td>1</td>
+            <td>
+                <div class="progress shadow-1-strong">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 15%">
+                        <span class="sr-only">0% Complete (success)</span>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center">
+                <span class="badge badge-success shadow-2-strong">Active</span>
+            </td>
+            <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+        </tr>
+        <tr>
+            <td scope="row">3</td>
+            <td>ASLI TUFAN - EX-266</td>
+            <td>UL</td>
+            <td>
+                <div class="progress shadow-1-strong">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                        <span class="sr-only">0% Complete (success)</span>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center">
+                <span class="badge badge-success shadow-2-strong">Active</span>
+            </td>
+            <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+        </tr>
+                                            *@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="box-header">
+                                <h4 class="text-success">Active Location List</h4>
+                            </div>
+
+                            <div class="box-body" style="height:750px;">
+                                <div class="inner-content-div border-3 p-10">
+                                    <div class="row">
+                                        @*
+                                        foreach (var item in Model)
+                                        {
+                                            <div class="col-12 col-xl-4">
+                                                <div class="box box-inverse box-dangers shadow-selected waves-effect waves-light">
+                                                    <a class="locations" href="#@item.Name">
+                                                        <div class="box-body">
+                                                            <div class="text-center pt-lg-10">
+                                                                <h5 style="color:white!important;">@item.Name</h5>
+                                                            </div>
+                                                            <div class="text-center my-2">
+                                                                <span style="font-size:x-large">5</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                        *@
+                                        @*
+                                        <div class="col-12 col-xl-4">
+                                            <div class="box box-inverse box-success shadow-selected waves-effect waves-light">
+                                                <a class="locations" href="#COSKUNOZ">
+                                                    <div class="box-body">
+                                                        <div class="text-center pt-lg-10">
+                                                            <h5 style="color:white!important;">COSKUNOZ</h5>
+                                                        </div>
+                                                        <div class="text-center my-2">
+                                                            <span style="font-size:x-large">5</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-4">
+                                            <div class="box box-inverse box-warning shadow-selected waves-effect waves-light">
+                                                <a class="locations" href="#COSKUNOZ">
+                                                    <div class="box-body">
+                                                        <div class="text-center pt-lg-10">
+                                                            <h5 style="color:white!important;">COSKUNOZ</h5>
+                                                        </div>
+                                                        <div class="text-center my-2">
+                                                            <span style="font-size:x-large">5</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-4">
+                                            <div class="box box-inverse box-info shadow-selected waves-effect waves-light">
+                                                <a class="locations" href="#COSKUNOZ">
+                                                    <div class="box-body">
+                                                        <div class="text-center pt-lg-10">
+                                                            <h5 style="color:white!important;">COSKUNOZ</h5>
+                                                        </div>
+                                                        <div class="text-center my-2">
+                                                            <span style="font-size:x-large">5</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-4">
+                                            <div class="box box-inverse box-dangers shadow-selected waves-effect waves-light">
+                                                <a class="locations" href="#COSKUNOZ">
+                                                    <div class="box-body">
+                                                        <div class="text-center pt-lg-10">
+                                                            <h5 style="color:white!important;">COSKUNOZ</h5>
+                                                        </div>
+                                                        <div class="text-center my-2">
+                                                            <span style="font-size:x-large">5</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-4">
+                                            <div class="box box-inverse box-danger shadow-selected waves-effect waves-light">
+                                                <a class="locations" href="#COSKUNOZ">
+                                                    <div class="box-body">
+                                                        <div class="text-center pt-lg-10">
+                                                            <h5 style="color:white!important;">COSKUNOZ</h5>
+                                                        </div>
+                                                        <div class="text-center my-2">
+                                                            <span style="font-size:x-large">5</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#personlist').DataTable({});
+            $('.slimScrollDiv').css("height", "500px");
+            $('.inner-content-div').css("height", "500px");
+        })
+    </script>
+}

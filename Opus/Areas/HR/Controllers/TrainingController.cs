@@ -22,7 +22,7 @@ namespace Opus.Areas.HR.Controllers
             _uow = uow;
         }
         [Route("training")]
-        [Authorize(Roles = UserRoles.Admin+","+UserRoles.HR_Responsible+","+UserRoles.TrainingRegistrationResp)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public IActionResult Index()
         {/*
             var _models = new AllModelsVM()
@@ -58,7 +58,7 @@ namespace Opus.Areas.HR.Controllers
             return View();
         }
         [HttpPost("training/add-company")]
-        [Authorize(Roles=UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> AddCompanyPost(Company company)
         {
             return await Task.Run(() =>
@@ -74,7 +74,7 @@ namespace Opus.Areas.HR.Controllers
         {
             return await Task.Run(() =>
             {
-                var check = _uow.References.GetFirstOrDefault(i => (i.BarcodeNum == references.BarcodeNum || i.CompanyReference == references.CompanyReference));
+                var check = _uow.References.GetFirstOrDefault(i => i.Reference == references.Reference);
                 if (check == null)
                 {
                     references.Active = true;
@@ -89,6 +89,8 @@ namespace Opus.Areas.HR.Controllers
         public async Task<IActionResult> AddPost(TrainingVM TrainingInput)
         {
             TrainingInput.DocumentImgUrl = "training-form" + System.IO.Path.GetExtension(TrainingInput.FormFile.FileName);
+            TrainingInput.Date = TrainingInput.Enumerable_StaffTraining.FirstOrDefault().Date;
+            return NoContent();
             _uow.Training.Add(TrainingInput);
             var StaffTrainingEnumerable = new List<StaffTraining>();
             foreach (var item in TrainingInput.Enumerable_StaffTraining)
@@ -108,14 +110,14 @@ namespace Opus.Areas.HR.Controllers
             if (TrainingInput.FormFile != null)
             {
                 CopyFileExtension copyFile = new CopyFileExtension(_uow);
-                copyFile.Upload_TrainingDoc(TrainingInput.FormFile,null, TrainingInput.Id, webRootPath);
+                copyFile.Upload_TrainingDoc(TrainingInput.FormFile, null, TrainingInput.Id, webRootPath);
             }
             _uow.StaffTraining.AddRange(StaffTrainingEnumerable);
             _uow.Save();
 
 
             //return NoContent();
-            
+
             return await Task.Run(() =>
             {
                 return RedirectToAction("Index");
@@ -176,7 +178,7 @@ namespace Opus.Areas.HR.Controllers
             }
         }
         [HttpPost("training/edit/{id}")]
-        [Authorize(Roles=UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> TrainingEditPost(TrainingVM TrainingInput)
         {
             var _currentTrainig = _uow.Training.GetFirstOrDefault(i => i.Id == TrainingInput.Id, includeProperties: "Location");
@@ -252,7 +254,7 @@ namespace Opus.Areas.HR.Controllers
             return NoContent();
         }
         [Route("training/{route}")]
-        [Authorize(Roles=UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> NonRoute(string route)
         {
             return await Task.Run(() => { return Redirect("/training"); });
