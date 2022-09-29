@@ -36,6 +36,8 @@ namespace Opus.DataAcces.Data
         public DbSet<References> References { get; set; }
         public DbSet<Training> Training { get; set; }
         public DbSet<StaffTraining> StaffTraining { get; set; }
+        public DbSet<StaffStamp> StaffStamp { get; set; }
+        public DbSet<Stamp> Stamp { get; set; }
         //public DbSet<Unit> Unit { get; set; }
 
         /*

@@ -4,6 +4,8 @@ using static Opus.Utility.ProjectConstant;
 using System.Data;
 using Opus.DataAcces.IMainRepository;
 using Microsoft.Extensions.Hosting;
+using Opus.Models.DbModels;
+using Opus.Models.ViewModels;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -21,28 +23,30 @@ namespace Opus.Areas.HR.Controllers
         public IActionResult Index()
         {
 
+            //List<Staff> staffs = new List<Staff>();
+            //var staffStamp = _uow.StaffStamp.GetAll(i => i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"));
+            var staffStamp = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp");
             /*
-                         List<Staff> staffs = new List<Staff>();
-            var staffResignation = _uow.StaffResignation.GetAll();
-
             var orn = _uow.Staff.GetAll()
-                .Join(staffResignation,
+                .Join(staffStamp,
                 s => s.Id,
                 r => r.StaffId,
-                (s, r) => new { staffs = s, staffResignation = r })
-                .Where(i => (i.staffs.Active && i.staffs.Status == 0) || (i.staffs.Active == false && i.staffs.Status == 1) && i.staffs.BlackList == false)
-                .Select(s => s.staffs)
-                .OrderBy(n => n.FirstName);
+                (s, r) => new { staffs = s, staffStamp = r })
+                .Where(i => (i.staffs.Active && i.staffs.Status == 1 && i.staffStamp.Stamp.Lost == 0 && i.staffStamp.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
+                .Select(s => s.staffStamp)
+                .OrderBy(n => n.Staff.FirstName);
+            */
+            var orn = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
+            i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"))).OrderBy(n => n.Stamp.Id);
+            //var personmotiopn = (IEnumerable<PersonMotionVM>)orn;
 
 
 
-             
-             
-             */
+
             var _locations = _uow.Location.GetAll();
             var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
 
-            return View(_motion);
+            return View(orn);
         }
     }
 }

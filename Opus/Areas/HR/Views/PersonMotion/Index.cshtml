@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Opus.Models.DbModels.Staff>
+﻿@model IEnumerable<Opus.Models.DbModels.StaffStamp>
 <style>
     .progress {
         background-color: #ffffff !important;
@@ -68,7 +68,7 @@
                                             {
                                                 <tr>
                                                     <td scope="row">1</td>
-                                                    <td>@item.FirstName @item.LastName</td>
+                                                    <td>@item.Staff.FirstName @item.Staff.LastName - @item.Stamp.StampNumber</td>
                                                     <td>3</td>
                                                     <td>
                                                         <div class="progress shadow-1-strong">

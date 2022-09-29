@@ -32,6 +32,8 @@ namespace Opus.DataAcces.IMainRepository
         IReferencesRepository References { get; }
         ITrainingRepository Training { get; }
         IStaffTrainingRepository StaffTraining { get; }
+        IStaffStampRepository StaffStamp { get; }
+        IStampRepository Stamp { get; }
         #endregion Main And HR
 
 

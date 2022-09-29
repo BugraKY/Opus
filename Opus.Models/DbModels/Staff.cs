@@ -52,6 +52,7 @@ namespace Opus.Models.DbModels
         public string AppUser { get; set; }
         public string AppPassword { get; set; }
         public int Auth { get; set; }
-
+        [NotMapped]
+        public string StampNumber { get; set; }
     }
 }

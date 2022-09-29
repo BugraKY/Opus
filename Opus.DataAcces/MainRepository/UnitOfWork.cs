@@ -47,6 +47,8 @@ namespace Opus.DataAcces.MainRepository
             References = new ReferencesRepository(_db);
             Training = new TrainingRepository(_db);
             StaffTraining = new StaffTrainingRepository(_db);
+            StaffStamp = new StaffStampRepository(_db);
+            Stamp = new StampRepository(_db);
             #endregion Main And HR
 
             #region Accounting
@@ -113,6 +115,8 @@ namespace Opus.DataAcces.MainRepository
         public IReferencesRepository References { get; private set; }
         public ITrainingRepository Training { get; private set; }
         public IStaffTrainingRepository StaffTraining { get; private set; }
+        public IStaffStampRepository StaffStamp { get; private set; }
+        public IStampRepository Stamp { get;private set; }
         #endregion Main And HR
 
         #region Accounting
