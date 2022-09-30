@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Opus.DataAcces.Data;
 
@@ -11,9 +12,10 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220930070433_InitialMigration27")]
+    partial class InitialMigration27
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,40 +416,6 @@ namespace Opus.DataAcces.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Location");
-                });
-
-            modelBuilder.Entity("Opus.Models.DbModels.LocationInOut", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Break")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Hour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InOutType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LocationId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ProcessingDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StaffId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserIntId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LocationInOut");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.MaritalStatus", b =>

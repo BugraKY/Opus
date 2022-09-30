@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Opus.Utility
 {
@@ -44,9 +46,45 @@ namespace Opus.Utility
         }
         public enum SocketTriggerType
         {
-            Notification=0,
-            Chat=1,
-            QS_Ref_LOG=2
+            Notification = 0,
+            Chat = 1,
+            QS_Ref_LOG = 2
+        }
+
+        public enum TimeKeeping:int
+        {
+            D00,
+            D01,
+            D02,
+            D03,
+            D04,
+            D05,
+            D06,
+            D07,
+            D08,
+            D09,
+            D10,
+            D11,
+            D12,
+            D13,
+            D14,
+            D15,
+            D16,
+            D17,
+            D18,
+            D19,
+            D20,
+            D21,
+            D22,
+            D23,
+            D24,
+            D25,
+            D26,
+            D27,
+            D28,
+            D29,
+            D30,
+            D31,
         }
     }
 }

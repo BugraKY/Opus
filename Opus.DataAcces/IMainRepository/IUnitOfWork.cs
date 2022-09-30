@@ -34,6 +34,9 @@ namespace Opus.DataAcces.IMainRepository
         IStaffTrainingRepository StaffTraining { get; }
         IStaffStampRepository StaffStamp { get; }
         IStampRepository Stamp { get; }
+        ITimeKeepingRepository TimeKeeping { get; }
+        ITimeKeepingDescreptionRepository TimeKeepingDescreption { get; }
+        ILocationInOutRepository LocationInOut { get; }
         #endregion Main And HR
 
 

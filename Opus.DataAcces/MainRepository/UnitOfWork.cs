@@ -49,6 +49,9 @@ namespace Opus.DataAcces.MainRepository
             StaffTraining = new StaffTrainingRepository(_db);
             StaffStamp = new StaffStampRepository(_db);
             Stamp = new StampRepository(_db);
+            TimeKeeping = new TimeKeepingRepository(_db);
+            TimeKeepingDescreption = new TimeKeepingDescreptionRepository(_db);
+            LocationInOut = new LocationInOutRepository(_db);
             #endregion Main And HR
 
             #region Accounting
@@ -116,14 +119,17 @@ namespace Opus.DataAcces.MainRepository
         public ITrainingRepository Training { get; private set; }
         public IStaffTrainingRepository StaffTraining { get; private set; }
         public IStaffStampRepository StaffStamp { get; private set; }
-        public IStampRepository Stamp { get;private set; }
+        public IStampRepository Stamp { get; private set; }
+        public ITimeKeepingRepository TimeKeeping { get; private set; }
+        public ITimeKeepingDescreptionRepository TimeKeepingDescreption { get; private set; }
+        public ILocationInOutRepository LocationInOut { get; private set; }
         #endregion Main And HR
 
         #region Accounting
         public IMainRepository.IAccountingRepository.ICompaniesRepository Accounting_Company { get; private set; }
         public IMainRepository.IAccountingRepository.IIdentificationtypeRepository Accounting_Identificationtype { get; private set; }
         public IMainRepository.IAccountingRepository.ICategoryRepository Accounting_Category { get; private set; }
-        public IMainRepository.IAccountingRepository.ICompanydepartmantRepository Accounting_Companydepartmant { get; private set;}
+        public IMainRepository.IAccountingRepository.ICompanydepartmantRepository Accounting_Companydepartmant { get; private set; }
         public IMainRepository.IAccountingRepository.IContactRepository Accounting_Contact { get; private set; }
         public IMainRepository.IAccountingRepository.IDepartmantRepository Accounting_Departmant { get; private set; }
         public IMainRepository.IAccountingRepository.ISubcategoryRepository Accounting_Subcategory { get; private set; }

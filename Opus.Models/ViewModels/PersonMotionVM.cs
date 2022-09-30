@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Opus.Models.ViewModels
 {
-    public class PersonMotionVM:Staff
+    public class PersonMotionVM
     {
+        public StaffStamp StaffStamp { get; set; }
+        public TimeKeeping TimeKeeping { get; set; }
+        public string Today { get; set; }
     }
 }

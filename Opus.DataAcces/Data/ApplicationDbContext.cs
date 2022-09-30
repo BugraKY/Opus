@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Opus.DataAcces.Data
 {
-    public class ApplicationDbContext:IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options) { }//14 Model
@@ -38,6 +38,9 @@ namespace Opus.DataAcces.Data
         public DbSet<StaffTraining> StaffTraining { get; set; }
         public DbSet<StaffStamp> StaffStamp { get; set; }
         public DbSet<Stamp> Stamp { get; set; }
+        public DbSet<TimeKeeping> TimeKeeping { get; set; }
+        public DbSet<TimeKeepingDescreption> TimeKeepingDescreption { get; set; }
+        public DbSet<LocationInOut> LocationInOut { get; set; }
         //public DbSet<Unit> Unit { get; set; }
 
         /*
