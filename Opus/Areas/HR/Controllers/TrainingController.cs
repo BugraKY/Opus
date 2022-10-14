@@ -88,9 +88,11 @@ namespace Opus.Areas.HR.Controllers
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible + "," + UserRoles.TrainingRegistrationResp)]
         public async Task<IActionResult> AddPost(TrainingVM TrainingInput)
         {
-            TrainingInput.DocumentImgUrl = "training-form" + System.IO.Path.GetExtension(TrainingInput.FormFile.FileName);
+
+            if(TrainingInput.FormFile != null)
+                TrainingInput.DocumentImgUrl = "training-form" + System.IO.Path.GetExtension(TrainingInput.FormFile.FileName);
+
             TrainingInput.Date = TrainingInput.Enumerable_StaffTraining.FirstOrDefault().Date;
-            return NoContent();
             _uow.Training.Add(TrainingInput);
             var StaffTrainingEnumerable = new List<StaffTraining>();
             foreach (var item in TrainingInput.Enumerable_StaffTraining)
