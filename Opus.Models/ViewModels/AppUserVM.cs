@@ -12,19 +12,20 @@ namespace Opus.Models.ViewModels
     public class AppUserVM
     {
         public string Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The First Name field is required.")]
         public string AppFirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The Last Name field is required.")]
         public string AppLastName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The Password field is required.")]
         public string AppPass { get; set; }
-        [Required]
+        [Required(ErrorMessage = "The Email field is required.")]
+        [Display(Name = "Mail")]
         public string AppMail { get; set; }
-        [Required]
         public string AddRole { get; set; }
         public string RoleString { get; set; }
         public IdentityRole SelectedRole { get; set; }
         public IQueryable<string> IdentityRole { get; set; }
+        public IQueryable<IdentityRole> Roles { get; set; }
         public IEnumerable<ApplicationUser> ApplicationUsersEnumeralbe { get; set; }
     }
 }

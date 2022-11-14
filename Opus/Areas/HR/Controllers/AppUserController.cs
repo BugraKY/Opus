@@ -55,17 +55,19 @@ namespace Opus.Areas.HR.Controllers
             }).OrderBy(i => i.FirstName);*/
             var _appuserVM = new AppUserVM
             {
-                IdentityRole = _rmgr.Roles.Select(n=>n.Name),
+                //IdentityRole = _rmgr.Roles.Select(n=>n.Name),
+                Roles = _rmgr.Roles,
                 ApplicationUsersEnumeralbe = users
             };
             return View(_appuserVM);
         }
-        [HttpPost("app-users/add")]
+        [HttpPost("app-users")]
         public async Task<IActionResult> OnPostAsync(AppUserVM Input)
         {
             var _currentuser = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
             var _loguser = _currentuser.UserName + " - " + DateTime.Now.ToString("dd.MM.yyyy");
-
+            Input.SelectedRole = _rmgr.Roles.FirstOrDefault(i=>i.Id==Input.SelectedRole.Id);
+            //Input.SelectedRole = _rmgr.
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -77,6 +79,7 @@ namespace Opus.Areas.HR.Controllers
                     EmailConfirmed = true,
                 };
                 var _adduserLOG = "Added User and Role .. User name(" + user.UserName + ")" + " Role name(" + Input.SelectedRole.Name + ")" + " by " + _loguser;
+                return NoContent();
                 var result = await _umgr.CreateAsync(user, Input.AppPass);
                 if (result.Succeeded)
                 {

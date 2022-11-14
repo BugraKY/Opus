@@ -109,21 +109,42 @@ namespace Opus.Areas.HR.Controllers
         [Route("account/profile")]
         public async Task<IActionResult> Profile()
         {
-            
             var _user = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == GetClaim().Value);
             var userRoles = await _userManager.GetRolesAsync(_user);
             var _uservm = new UserVM()
             {
+                Id = _user.Id,
                 FirstName=_user.FirstName,
                 LastName=_user.LastName,
                 UserRoles = userRoles,
                 Email = _user.Email,
                 PhoneNumber = _user.PhoneNumber,
             };
-
             return View(_uservm);
         }
+        [Authorize]
+        [HttpPost("account/profile")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ProfilePost(UserVM userVM)
+        {
+            var _currentpasswd = userVM.CurrentPasswd;
+            var _newpasswd = userVM.NewPasswd;
+            var _verifynewpasswd = userVM.VerifyNewPasswd;
 
+            if (_newpasswd == _verifynewpasswd)
+            {
+                var _user = _uow.ApplicationUser.GetFirstOrDefault(i => i.Id == userVM.Id);
+                //var userRoles = await _userManager.GetRolesAsync(_user);
+
+                
+                var status=await _userManager.ChangePasswordAsync(_user,_currentpasswd, _newpasswd);
+                if(status.Succeeded)
+                    return View("Profile");
+                else
+                    return NoContent();
+            }
+            return NoContent();
+        }
         #region API
         [HttpPost("/api/account/get-fullname")]
         public string GetFullName()

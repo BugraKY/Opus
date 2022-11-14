@@ -1460,7 +1460,7 @@
         };
         $(document).ready(function () {
             $("#bloodtype select").val("@Model.BloodTypeId").change();
-
+            @*
             const ibanStatic = '@Model.IBAN';
             const bankCodeStatic = ibanStatic.substring(8, 11).replace(/\s/g, '');
 
@@ -1507,7 +1507,10 @@
                     }
                 }
             });
+            *@
 
+
+            @*
             $('input[id=IBAN]').on('input', function (ev) {
                 var countLetters = 0;
                 const bankCode = ev.target.value.substring(8, 11).replace(/\s/g, '');
@@ -1581,6 +1584,7 @@
 
             });
 
+            *@
 
             $("#idnum").on('input', function () {
                 var idval = $("#idnum").val();

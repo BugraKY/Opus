@@ -10,5 +10,8 @@ namespace Opus.Models.ViewModels
     public class UserVM : ApplicationUser
     {
         public IList<string> UserRoles { get; set; }
+        public string CurrentPasswd { get; set; }
+        public string NewPasswd { get; set; }
+        public string VerifyNewPasswd { get; set; }
     }
 }

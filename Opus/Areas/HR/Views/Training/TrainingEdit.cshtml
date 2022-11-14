@@ -143,6 +143,7 @@
                                     <select class="form-control select2" style="width: 100%;" id="staffselect">
                                         <option selected="selected" value="0" disabled="disabled">Select Staff</option>
                                     </select>
+                                    <small id="staffCount"></small>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +161,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="table-responsive">
-                                    <table id="locationTable" class="table table-hover table-bordered table-striped dataTables">
+                                    <table id="locationTable" class="table table-hover table-bordered table-striped dataTable dataTables">
                                         <thead>
                                             <tr>
                                                 <th class="d-none"></th>
@@ -250,6 +251,7 @@
         const guidNULL = '00000000-0000-0000-0000-000000000000';
         var getLocationUrl = '/api/hr/get-location';
         var getStaffActiveUrl = '/api/hr/get-staff-active';
+        var getstaffwithPassiveUrl = '/api/hr/get-staff-withpassive';
         var getTrainerUrl = '/api/hr/get-trainer';
         var getReferenceByRef = '/api/hr/get-reference-locid/';
         var maxfilesize = 3;
@@ -304,6 +306,7 @@
             },
         };
         $(document).ready(function () {
+            //$('#locationTable').DataTable({});
             //trainerid = guidNULL;
             //referenceid = guidNULL;
             trainerid = '@Model.TrainerId';
@@ -394,7 +397,7 @@
             staffSelect.append(option).trigger('change');
 
             $.ajax({
-                url: getStaffActiveUrl,
+                url: getStaffActiveUrl,//getstaffwithPassiveUrl //getStaffActiveUrl
                 //data: JSON.stringify("vasd7564as52d9c7s"),
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -414,7 +417,7 @@
 
 
                 });
-
+                $('#staffCount').html(data.length+' staff counted.');
             });
         }
         function getTrainerAjx() {

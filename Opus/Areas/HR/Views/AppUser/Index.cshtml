@@ -33,24 +33,30 @@
                 <div class="box-body">
                     <form id="appuser-form" method="post">
                         <div class="form-group row">
+                            <label class="col-form-label col-md-2">Email</label>
+                            <div class="col-md-10">
+                                <input class="form-control datepicker" type="email" autocomplete="off" asp-for="AppMail" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="col-form-label col-md-2">First Name</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppFirstName">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppFirstName" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Last Name</label>
                             <div class="col-md-10">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppLastName">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppLastName" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-form-label col-md-2">Password</label>
                             <div class="col-md-8">
-                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppPass" readonly="readonly">
+                                <input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppPass" readonly="readonly" required>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" class="btn d-grid btn-opus waves-effect waves-light">Generate</button>
+                                <button type="button" class="btn d-grid btn-opus waves-effect waves-light" id="generatePass">Generate</button>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -59,11 +65,19 @@
                                 @*<input class="form-control datepicker" type="text" autocomplete="off" asp-for="AppPass">*@
                                 <select class="select2 form-control" asp-for="SelectedRole.Id">
                                     <option value="value">Select a Role</option>
-                                    @foreach (var item in Model.IdentityRole)
+                                    @foreach (var item in Model.Roles)
                                     {
-                                        <option value="@item">@item</option>
+                                        <option value="@item.Id">@item.Name</option>
                                     }
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn d-grid btn-opus waves-effect waves-light">Add</button>
+                        </div>
+                        <div class="row pt-10">
+                            <div class="col-12">
+                                <div asp-validation-summary="All" class="badge-warning z-depth-3"></div>
                             </div>
                         </div>
                     </form>
@@ -104,12 +118,28 @@
 </section>
 
 @section Scripts{
+    <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function ($) {
             $(".clickable-row").click(function () {
                 window.location = $(this).data("href");
             });
         });
+        $(document).on('click', '#generatePass', function () {
+            generatePass();
+        });
+        function generatePass() {
+            $('#message').html("");
+            $.ajax({
+                url: "/api/hr/generate-pass",
+                data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (received) {
+                    $('input[name="AppPass"]').val(received);
+                }
+            });
+        }
     </script>
 }
 

@@ -138,6 +138,15 @@ namespace Opus.Api
 
             if (_def == null)
             {
+                /*
+                if (auth)
+                {
+
+                }
+                else
+                {
+
+                }*/
                 //var _noverify = _uow.ReferenceVerif_ReferenceDefinitions.GetFirstOrDefault(v => v.VerificationsId == _refNum.Id, includeProperties: "Verifications");
                 _LOG = new Scanner_LOG()
                 {
@@ -193,6 +202,49 @@ namespace Opus.Api
                         Active = _def.References.Active
                     };
                 }
+            }
+
+            if (_user.Auth == 1 && _refNum != null)
+            {
+
+                if (_refNum.Reference != null)
+                    _success = true;
+                else
+                    _success = false;
+
+
+
+                _LOG = new Scanner_LOG()
+                {
+                    BarcodeNum = value,
+                    CompanyReference = _refNum.CompanyReference,
+                    CustomerReference = _refNum.Reference,
+                    UserId = Guid.Parse(_user.Guid),
+                    UserName = _user.AppUser,
+                    //FullName = _user.FullName,
+                    FullName = _user.FirstName + " " + _user.LastName,
+                    Date = DateTime.Now,
+                    Success = true,
+                    Auth = auth,
+                    Active = _refNum.Active
+                };
+
+                /*
+                _LOG = new Scanner_LOG()
+                {
+                    BarcodeNum = value,
+                    CompanyReference = _def.References.CompanyReference,
+                    CustomerReference = _def.References.Reference,
+                    UserId = Guid.Parse(_user.Guid),
+                    UserName = _user.AppUser,
+                    //FullName = _user.FullName,
+                    FullName = _user.FirstName + " " + _user.LastName,
+                    Date = DateTime.Now,
+                    Success = _success,
+                    Auth = auth,
+                    Active = _def.References.Active
+                };*/
+
             }
             /*
             #region TEST

@@ -27,8 +27,8 @@ namespace Opus.Areas.HR.Controllers
             //List<Staff> staffs = new List<Staff>();
             //var staffStamp = _uow.StaffStamp.GetAll(i => i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"));
             var staffStamp = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp");
-            var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month));
-            var activeStaff = _uow.Staff.GetAll(i => i.Status == 1);//activestaff ve timekeeping ile beraber countları karşılaştırılıp aylık bazında time keeping kayıtları eklenilebilir. Test edilmedi.!!!!
+            var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == 8));
+            var activeStaff = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active));//activestaff ve timekeeping ile beraber countları karşılaştırılıp aylık bazında time keeping kayıtları eklenilebilir. Test edilmedi.!!!!
 
             /*
             var orn = _uow.Staff.GetAll()
@@ -52,7 +52,17 @@ namespace Opus.Areas.HR.Controllers
 
             //var _persMotion = new PersonMotionVM();
 
-
+            //WORKING SOME
+            /*
+            var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
+            i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
+                .Join(timeekeeping,
+                s => s.StaffId,
+                r => r.StaffId,
+                (s, r) => new { staffStamp = s, timeKeeping = r })
+                .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
+                .OrderBy(n => n.staffStamp.Staff.FirstName);
+            */
             var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
             i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
                 .Join(timeekeeping,
@@ -62,6 +72,7 @@ namespace Opus.Areas.HR.Controllers
                 .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
                 .OrderBy(n => n.staffStamp.Staff.FirstName);
 
+            CheckTimeKeeping();
 
 
 
@@ -323,13 +334,64 @@ namespace Opus.Areas.HR.Controllers
             var _locations = _uow.Location.GetAll();
             var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
             //result = 131
+
+
             return View(_personMotion);
         }
 
 
         public bool CheckTimeKeeping()
         {
-            return false;
+            new Thread(() =>
+            {
+                //Thread.CurrentThread.IsBackground = true;
+                try
+                {
+                    var _TKQuery = new List<TimeKeeping>();
+                    int eklenmeyenler = 0;
+                    int eklenenler = 0;
+                    var activestaff = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active)).ToList();
+                    foreach (var item in activestaff)
+                    {
+                        //var _timekeepingQuery = _uow.TimeKeeping.GetFirstOrDefault(i => (i.StaffId == item.Id && i.Month == DateTime.Now.Month && i.Year == DateTime.Now.Year));
+                        var _timekeepingQuery = _uow.TimeKeeping.GetFirstOrDefault(i => (i.StaffId == item.Id && i.Month == 8 && i.Year == DateTime.Now.Year));
+                        if (_timekeepingQuery != null)
+                        {
+                            eklenenler++;
+
+                        }
+                        else
+                        {
+                            eklenmeyenler++;
+                            var _TK = new TimeKeeping
+                            {
+                                Month = DateTime.Now.Month,
+                                Year = DateTime.Now.Year,
+                                StaffId = item.Id
+                            };
+                            _TKQuery.Add(_TK);
+                        }
+                    }
+
+                    if (_TKQuery.Count > 0)
+                        _uow.TimeKeeping.AddRange(_TKQuery);
+
+                    Console.WriteLine("");
+                    Console.WriteLine("eklenenler: " + eklenenler.ToString());
+                    Console.WriteLine("eklenmeyenler: " + eklenmeyenler.ToString());
+                    Console.WriteLine("personeller: " + activestaff.Count().ToString());
+                    Console.WriteLine("");
+                    Console.WriteLine("---------------------------------------------------------------");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("EROOR: ");
+                    Console.WriteLine(ex.Message.ToString());
+                }
+
+            }).Start();
+            return true;
         }
 
     }

@@ -19,7 +19,7 @@
             <div class="col-12">
                 <div class="row justify-content-center g-0">
                     <div class="col-lg-5 col-md-5 col-12">
-                        <div class="bg-white rounded10 shadow-lg">
+                        <div class="bg-white rounded10 shadow-lg" style="opacity: 0.95">
                             <div class="content-top-agile p-20 pb-0">
                                 <img src="/images/opus_logo.png" />
                                 <hr />
@@ -40,7 +40,7 @@
                                     <div class="form-group">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
-                                            <input asp-for="Email" type="text" class="form-control ps-15 bg-transparent" placeholder="Username" />
+                                            <input asp-for="Email" type="text" class="form-control ps-15 bg-transparent" placeholder="Username" autocomplete="off"/>
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>

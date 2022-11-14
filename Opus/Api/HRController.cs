@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.CodeAnalysis.Differencing;
 using Opus.DataAcces.IMainRepository;
+using Opus.Extensions;
 using Opus.Hubs;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using static Opus.Utility.ProjectConstant;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Opus.Api
 {
@@ -19,6 +23,8 @@ namespace Opus.Api
     {
         private readonly IUnitOfWork _uow;
         protected IHubContext<OpusHub> _context;
+        int PassLength = 0;
+        StringBuilder res;
         public HRController(IUnitOfWork uow, IHubContext<OpusHub> context)
         {
             _uow = uow;
@@ -31,6 +37,16 @@ namespace Opus.Api
             return await Task.Run(() =>
             {
                 return _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(i => (i.Active && i.Status == 1));
+            });
+            //return null;
+        }
+        [HttpPost()]
+        [Route("get-staff-withpassive")]
+        public async Task<IEnumerable<Staff>> GetStaffWithActive()
+        {
+            return await Task.Run(() =>
+            {
+                return _uow.Staff.GetAll().OrderBy(n => n.FirstName).Where(i => (i.Active));
             });
             //return null;
         }
@@ -205,12 +221,12 @@ namespace Opus.Api
         }
         [HttpPost()]
         [Route("staff-user-add")]
-        public async Task<IEnumerable<Staff>> AddStaffUserPost([FromBody]Staff user)
+        public async Task<IEnumerable<Staff>> AddStaffUserPost([FromBody] Staff user)
         {
 
             return await Task.Run(() =>
             {
-                var _staff = _uow.Staff.GetFirstOrDefault(i=>i.Id==user.Id);
+                var _staff = _uow.Staff.GetFirstOrDefault(i => i.Id == user.Id);
                 if (_staff != null)
                 {
                     _staff.Auth = user.Auth;
@@ -232,22 +248,21 @@ namespace Opus.Api
                 return _uow.Staff.GetAll().Where(a => (a.Active && a.Status == 1 && a.IsUser));
             });
         }
-        [HttpGet()]
+        [HttpGet]
         [Route("staff-user-non-added")]
         public async Task<IEnumerable<Staff>> GetNonAddedStaffUser()
         {
             return await Task.Run(() =>
             {
-                return _uow.Staff.GetAll().Where(a => (a.Active && a.Status == 1 && a.IsUser==false)).
-                OrderBy(n=>n.FirstName);
+                return _uow.Staff.GetAll().Where(a => (a.Active && a.Status == 1 && a.IsUser == false)).
+                OrderBy(n => n.FirstName);
             });
         }
-        [HttpPost()]
+        [HttpPost]
         [Route("generate-pass")]
         public string GeneratePassword([FromBody] string key)
         {
-            var length = 6;
-            StringBuilder res = new StringBuilder();
+            PassLength = 8;
             /*
             var _password = "";
             if (key == "vasd7564as52d9c7s")
@@ -258,23 +273,67 @@ namespace Opus.Api
             */
             if (key == "vasd7564as52d9c7s")
             {
-                const string valid = "abcdefghijkmnopqrstuvwxyz1234567890";
-
-                Random rnd = new Random();
-                while (0 < length--)
-                {
-                    res.Append(valid[rnd.Next(valid.Length)]);
-                }
-
+                ResLoopback();
             }
             return res.ToString();
         }
-        [HttpPost()]
+        [HttpPost]
         [Route("generate-username")]
         public string GenerateUserName([FromBody] string FullName)
         {
-            var multiwords = FullName.ToLower().Replace('ı', 'i').Replace('ğ', 'g').Replace('ü', 'u').Replace('ş', 's').Replace('ö', 'o').Replace('ç', 'c').Replace(' ','.').Split('.');
-            return multiwords.First() +"."+ multiwords.Last();
+            var multiwords = FullName.ToLower().Replace('ı', 'i').Replace('ğ', 'g').Replace('ü', 'u').Replace('ş', 's').Replace('ö', 'o').Replace('ç', 'c').Replace(' ', '.').Split('.');
+            return multiwords.First() + "." + multiwords.Last();
+        }
+
+        public void ResLoopback()
+        {
+            res = new StringBuilder();
+            const string valid = "a0A1b2B3c4C5d6D7e8E9f0F1g2G3h4H5i6I7j8J9k0K1m2M3n4N567p8P9q0Q1r2R3s4S5t6T7u8U9v0V1w2W3x4X5y6Y7z8Z9";
+            int length = PassLength;
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+            int z = 0;
+            for (int i = 0; i < res.Length; i++)
+            {
+                if (Char.IsDigit(res[i]))
+                    z++;
+            }
+            //var matches = Regex.Matches(res.ToString(), @"(.)\1+");
+            var Matches = res.ToString().GroupBy(c => c).Where(c => c.Count() > 1).Select(c => new { charName = c.Key, charCount = c.Count() });
+            var UpperString = res.ToString().Count(char.IsUpper);
+            var LowerString = res.ToString().Count(char.IsLower);
+            //Console.WriteLine("Number Counted: " + z);
+            if (z != (PassLength / 2) || Matches.Count() > 0 || (UpperString > (PassLength / 2)/2) || (LowerString > (PassLength / 2) / 2))
+            {
+                if (Matches.Count() > 0)
+                {
+                    foreach (var match in Matches)
+                    {
+                        Console.WriteLine("Tekrarlayan: " + match.ToString());
+                    }
+                }
+                if((UpperString > (PassLength / 2) / 2) || (LowerString > (PassLength / 2) / 2))
+                    Console.WriteLine("UYUŞMAYAN KARAKTER SAYISI: Büyük Karakter Sayısı: " + UpperString + " - Küçük Karakter Sayısı: " + LowerString);
+                ResLoopback();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Güvenli şifre oluşturuldu! - " + "'"+res.ToString() +"'"+ " Büyük Karakter Sayısı: " + UpperString + " - Küçük Karakter Sayısı: " + LowerString);
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.WriteLine("\n");
+                Console.WriteLine("-------------------------------------------------------------");
+                Console.WriteLine("\n");
+                //SMTPExtension.SENDMAIL();
+                //SendSMSExtension.SEND();
+                //SendSMSExtension.TestASPSMSAsync();
+            }
+
+            //const var numbers = Regex.Match(res, @"\d+").Value;
         }
         /*
         [HttpPost()]
