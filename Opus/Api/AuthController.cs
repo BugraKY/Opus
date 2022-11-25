@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Opus.Hubs;
 using System.Security.Claims;
+using Opus.Models.ViewModels;
 
 namespace Opus.Api
 {
@@ -39,6 +40,14 @@ namespace Opus.Api
                 return Claims;
             }
             return null;
+        }
+        [HttpPost]
+        [Route("user")]
+        [AllowAnonymous]
+        public SignInVM CheckUser(SignInVM form)
+        {
+            var test = form;
+            return test;
         }
     }
 }

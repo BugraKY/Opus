@@ -1,1 +1,564 @@
-﻿<h1>Time Keeping</h1>
+﻿@{
+    int MR = 0, AL = 0, NW = 0, UL = 0, S = 0;
+}
+
+@model IEnumerable<Opus.Models.ViewModels.TimeKeepingVM>
+@*foreach (var item in Model)
+    {
+
+        @if (item.Today == "MR")
+            MR++;
+        if (item.Today == "AL")
+            AL++;
+        if (item.Today == "NW")
+            NW++;
+        if (item.Today == "UL")
+            UL++;
+
+    }*@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/devexpress-diagram/2.1.65/dx-diagram.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/devexpress-gantt/4.1.33/dx-gantt.min.css" rel="stylesheet">
+
+
+<!-- Theme stylesheets (reference only one of them) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/devextreme/22.1.6/css/dx.greenmist.compact.css" rel="stylesheet">
+<style>
+    #loader {
+        display: none;
+    }
+    .dx-datagrid {
+
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    }
+    .dx-header-row {
+        background-color: #f5f5f5;
+    }
+    tbody {
+        background-color: #ffffff;
+    }
+    .dx-toolbar-items-container{
+
+    }
+    input[type="text"]{
+
+    }
+    .dx-toolbar .dx-toolbar-after {
+        padding-left: 0px;
+        padding-right: 2px;
+        padding-top: 2px;
+    }
+
+    @*
+
+    h5 {
+        color: white !important;
+    }
+
+    tr { /*
+        height:20px!important;
+        min-height: 20px;
+        max-height:50px;*/
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th {
+        padding: 0.4rem;
+    }
+
+    thead {
+        /*
+        position: sticky;
+        top: 100px;*/
+    }
+
+    #timekeeping {
+        /*
+        text-align: left;
+        position: relative;
+        border-collapse: collapse;*/
+    }
+
+    tbody {
+        height: 600px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    tbody {
+        display: block;
+    }
+
+    table {
+        height: 600px;
+        display: block;
+    }*@
+</style>
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Time Keeping</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page">Time Keeping</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="box-body">
+                            @*
+                                <div>
+                                    <div class="row">
+                                        <div class="col-6"><h6>MR:@MR</h6></div>
+                                        <div class="col-6"><h6>AL:@AL</h6></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6"><h6>NW:@NW</h6></div>
+                                        <div class="col-6"><h6>UL:@UL</h6></div>
+                                    </div>
+                                </div>
+                            *@
+                            @*
+                                <div class="">
+                                    <!--table-responsive-->
+                                    <table id="" class="table table-bordered table-hover">
+                                        <!--table table-bordered table-hover-->
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="width:40px!important;">#</th>
+                                                <th scope="col" style="min-width:150px">FullName</th>
+                                                <th scope="col">1</th>
+                                                <th scope="col">2</th>
+                                                <th scope="col">3</th>
+                                                <th scope="col">4</th>
+                                                <th scope="col">5</th>
+                                                <th scope="col">6</th>
+                                                <th scope="col">7</th>
+                                                <th scope="col">8</th>
+                                                <th scope="col">9</th>
+                                                <th scope="col">10</th>
+                                                <th scope="col">11</th>
+                                                <th scope="col">12</th>
+                                                <th scope="col">13</th>
+                                                <th scope="col">14</th>
+                                                <th scope="col">15</th>
+                                                <th scope="col">16</th>
+                                                <th scope="col">17</th>
+                                                <th scope="col">18</th>
+                                                <th scope="col">19</th>
+                                                <th scope="col">20</th>
+                                                <th scope="col">21</th>
+                                                <th scope="col">22</th>
+                                                <th scope="col">23</th>
+                                                <th scope="col">24</th>
+                                                <th scope="col">25</th>
+                                                <th scope="col">26</th>
+                                                <th scope="col">27</th>
+                                                <th scope="col">28</th>
+                                                <th scope="col">29</th>
+                                                <th scope="col">30</th>
+                                                <th scope="col">31</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            foreach (var item in Model)
+                                            {
+                                                S++;
+                                                <tr>
+                                                    <td style="width:40px">@S.ToString()</td>
+                                                    <td style="min-width:150px">item.Staff.FirstName item.Staff.LastName</td>
+                                                    <td>item.TimeKeeping.D01</td>
+                                                    <td>item.TimeKeeping.D02</td>
+                                                    <td>item.TimeKeeping.D03</td>
+                                                    <td>item.TimeKeeping.D04</td>
+                                                    <td>item.TimeKeeping.D05</td>
+                                                    <td>item.TimeKeeping.D06</td>
+                                                    <td>item.TimeKeeping.D07</td>
+                                                    <td>item.TimeKeeping.D08</td>
+                                                    <td>item.TimeKeeping.D09</td>
+                                                    <td>item.TimeKeeping.D10</td>
+                                                    <td>item.TimeKeeping.D11</td>
+                                                    <td>item.TimeKeeping.D12</td>
+                                                    <td>item.TimeKeeping.D13</td>
+                                                    <td>item.TimeKeeping.D14</td>
+                                                    <td>item.TimeKeeping.D15</td>
+                                                    <td>item.TimeKeeping.D16</td>
+                                                    <td>item.TimeKeeping.D17</td>
+                                                    <td>item.TimeKeeping.D18</td>
+                                                    <td>item.TimeKeeping.D19</td>
+                                                    <td>item.TimeKeeping.D20</td>
+                                                    <td>item.TimeKeeping.D21</td>
+                                                    <td>item.TimeKeeping.D22</td>
+                                                    <td>item.TimeKeeping.D23</td>
+                                                    <td>item.TimeKeeping.D24</td>
+                                                    <td>item.TimeKeeping.D25</td>
+                                                    <td>item.TimeKeeping.D26</td>
+                                                    <td>item.TimeKeeping.D27</td>
+                                                    <td>item.TimeKeeping.D28</td>
+                                                    <td>item.TimeKeeping.D29</td>
+                                                    <td>item.TimeKeeping.D30</td>
+                                                    <td>item.TimeKeeping.D31</td>
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            *@
+                            <div class="">
+                                <div class="demo-container">
+                                    <div id="gridContainer" style="height:600px;" class="vertical-align text-center">
+                                        <img src="/loader.png" class="loader-anim" width="50">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+
+
+
+@section Scripts{
+    @*
+        <!-- Diagram and Gantt -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devexpress-diagram/2.1.65/dx-diagram.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devexpress-gantt/4.1.33/dx-gantt.min.js"></script>
+
+        <!-- DevExtreme Quill (required by the HtmlEditor UI component) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-quill/1.5.18/dx-quill.min.js"></script>
+
+        <!-- DevExtreme library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme/22.1.6/js/dx.all.js"></script>
+
+        <!-- DevExpress.AspNet.Data -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-aspnet-data/2.8.6/dx.aspnet.data.min.js"></script>
+
+        <!-- Development scripts -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/devexpress-diagram/2.1.65/dx-diagram.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/devexpress-gantt/4.1.33/dx-gantt.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-quill/1.5.18/dx-quill.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/devextreme-aspnet-data/2.8.6/dx.aspnet.data.js"></script> -->
+    *@
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loader').hide();
+            //$("thead").floatThead({top:100});
+            $('#timekeeping').DataTable({
+                paging: false,
+                ordering: false,
+                info: false,
+            });
+            $('.slimScrollDiv').css("height", "500px");
+            $('.inner-content-div').css("height", "500px");
+            
+            /*
+            $('#medium-indicator').dxLoadIndicator({
+                height: 40,
+                width: 40,
+            });*/
+            $.ajax({
+                type: "get",
+                url: "/get-time-keeping",
+                success: function (data) {
+                    console.log(data);
+                    var countlist = 0;
+                    $(() => {
+                        $('#gridContainer').dxDataGrid({
+                            dataSource: data,
+                            showBorders: true,
+                            showRowLines: true,
+                            paging: false,
+                            /*loadPanel: {
+                                enabled: true
+                            },*/
+                            selection: {
+                                mode: 'single',
+                            },
+                            columnFixing: {
+                                enabled: true
+                            },
+                            scrolling: {
+                                useNative: false,
+                                scrollByContent: true,
+                                scrollByThumb: true,
+                                mode: "standard",
+                                showScrollbar: "onHover" // or "onScroll" | "always" | "never"
+                            },
+                            editing: {
+                                allowUpdating: true,
+                                allowAdding: false,
+                                allowDeleting: false,
+                                mode: 'row' // 'batch' | 'cell' | 'form' | 'popup'
+                            },
+                            columnMinWidth: 0,
+                            hoverStateEnabled: true,
+                            searchPanel: { visible: true },
+                            headerFilter: { visible: true },
+                            //columns: [html]
+
+                            columns: [
+                                    /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
+                                /*{
+                                    calculateCellValue: function (rowData) {
+                                        var count = countlist++;
+                                        count = countlist - (data.length * 2);
+                                        console.log(rowData);
+                                        return count;
+                                    },
+                                    caption: "#",
+                                    width: 'auto',
+                                    allowFiltering: false,
+                                    allowFixing: true,
+                                    fixed: true,
+                                    fixedPosition: "left",
+                                    summaryType: 'count'
+                                },*/
+                                {
+                                    calculateCellValue: function (rowData) {
+                                        return rowData.staff.firstName + " " + rowData.staff.lastName;
+                                    },
+                                    caption: "Full Name",
+                                    width: 'auto',
+                                    allowFiltering: true,
+                                    fixed: true,
+                                    fixedPosition: "left",
+                                    allowEditing: false
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d01',
+                                    caption: '1',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d02',
+                                    caption: '2',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d03',
+                                    caption: '3',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d04',
+                                    caption: '4',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d05',
+                                    caption: '5',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d06',
+                                    caption: '6',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d07',
+                                    caption: '7',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d08',
+                                    caption: '8',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d09',
+                                    caption: '9',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d10',
+                                    caption: '10',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d11',
+                                    caption: '11',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d12',
+                                    caption: '12',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d13',
+                                    caption: '13',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d14',
+                                    caption: '14',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d15',
+                                    caption: '15',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d16',
+                                    caption: '16',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d17',
+                                    caption: '17',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d18',
+                                    caption: '18',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d19',
+                                    caption: '19',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d20',
+                                    caption: '20',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d21',
+                                    caption: '21',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d22',
+                                    caption: '22',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d23',
+                                    caption: '23',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d24',
+                                    caption: '24',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d25',
+                                    caption: '25',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d26',
+                                    caption: '26',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d27',
+                                    caption: '27',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d28',
+                                    caption: '28',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d29',
+                                    caption: '29',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d30',
+                                    caption: '30',
+                                    width: 'auto'
+                                },
+
+                                {
+                                    dataField: 'timeKeeping.d31',
+                                    caption: '31',
+                                    width: 'auto'
+                                },
+                            ],
+                        });
+                    });
+                    $('#gridContainer').removeClass('vertical-align');
+                    $('#gridContainer').removeClass('text-center');
+                }
+            });
+
+            console.clear();
+        });
+
+            /*
+        $('#dx-texteditor-input').on('input', function (e) {
+            console.log("changed!");
+        });
+        */
+
+        /*
+        $('.dx-texteditor-input').on('input', function (e) {
+            console.log("Changed :)");
+        });
+        */
+
+
+
+            //dx-texteditor-input
+
+    </script>
+}

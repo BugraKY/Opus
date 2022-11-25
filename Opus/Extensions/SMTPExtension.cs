@@ -7,16 +7,16 @@ namespace Opus.Extensions
 {
     public class SMTPExtension
     {
-        static string From = "opus-system@expert-qs.com";
+        static string From = "system@opus-sys.com";
         static string To = "bugra.kaya@expert-qs.com";
-        static string Subject = "Opus Verification Code";
+        static string Subject = "Opus 2FA Code";
         static string Body = @"";
 
-        static string Username = "bugrakaya16@gmail.com"; // get from Mailtrap
-        static string Password = "EyXmRh4HCsYagPpt"; // get from Mailtrap
+        static string Username = "system@opus-sys.com"; // get from Mailtrap
+        static string Password = "Lc36H8Pq"; // get from Mailtrap
 
-        static string Host = "smtp-relay.sendinblue.com";
-        static int Port = 587;
+        static string Host = "smtp.opus-sys.com";
+        static int Port = 465;
         public static void SENDMAIL()
         {
             /*
@@ -35,17 +35,17 @@ namespace Opus.Extensions
             {
                 SmtpClient smtpClient = new SmtpClient()
                 {
-                    Host = "smtp-relay.sendinblue.com",
-                    Port = 587,
-                    EnableSsl = true,
+                    Host = Host,
+                    Port = Port,
+                    EnableSsl = false,
                     Timeout = 60000,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential("bugrakaya16@gmail.com", "EyXmRh4HCsYagPpt")
+                    Credentials = new NetworkCredential(Username, Password)
                 };
                 MailMessage msg = new MailMessage();
                 msg.To.Add("bugra.kaya@expert-qs.com");
-                msg.From = new MailAddress("opus-system@expert-qs.com", "Opus System");
-                msg.Subject = "Opus System Verify Code";
+                msg.From = new MailAddress(From, "Opus System");
+                msg.Subject = Subject;
                 msg.Body = HTMLtemplates.MAILVERF;
                 msg.IsBodyHtml = true;
                 smtpClient.Send(msg);

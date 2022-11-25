@@ -55,6 +55,7 @@
             padding: 15px 0px 150px 0px!important;
         }
         .main-sidebar {
+            
             z-index: 1111 !important;
             border-top-right-radius: 0 !important;
             padding-top: 0!important;
@@ -106,6 +107,12 @@
         }
         input[type="text"] {
             font-size: 12px;
+        }
+        .fa-sm{
+            font-size:18px!important;
+        }
+        .sidebar-collapse .sidebar-menu.tree{
+
         }
         /*filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);*/
         @@media only screen and (max-width: 767px) {
@@ -609,6 +616,7 @@
         $(document).ready(function () {
             calcedpfooter = ((footerheight - (footerheight * 2)) - 20);
             $('footer').css("margin-top", calcedpfooter);
+
         });
         window.onresize = function (e) {
             footerheight = $('footer').height().toFixed(2);

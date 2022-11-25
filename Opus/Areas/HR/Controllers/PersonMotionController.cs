@@ -53,6 +53,16 @@ namespace Opus.Areas.HR.Controllers
             //var _persMotion = new PersonMotionVM();
 
             //WORKING SOME
+            
+            var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
+            i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
+                .Join(timeekeeping,
+                s => s.StaffId,
+                r => r.StaffId,
+                (s, r) => new { staffStamp = s, timeKeeping = r })
+                .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
+                .OrderBy(n => n.staffStamp.Staff.FirstName);
+            
             /*
             var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
             i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
@@ -61,18 +71,9 @@ namespace Opus.Areas.HR.Controllers
                 r => r.StaffId,
                 (s, r) => new { staffStamp = s, timeKeeping = r })
                 .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
-                .OrderBy(n => n.staffStamp.Staff.FirstName);
-            */
-            var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
-            i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
-                .Join(timeekeeping,
-                s => s.StaffId,
-                r => r.StaffId,
-                (s, r) => new { staffStamp = s, timeKeeping = r })
-                .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
-                .OrderBy(n => n.staffStamp.Staff.FirstName);
+                .OrderBy(n => n.staffStamp.Staff.FirstName);*/
 
-            CheckTimeKeeping();
+            //CheckTimeKeeping();
 
 
 
@@ -338,8 +339,6 @@ namespace Opus.Areas.HR.Controllers
 
             return View(_personMotion);
         }
-
-
         public bool CheckTimeKeeping()
         {
             new Thread(() =>

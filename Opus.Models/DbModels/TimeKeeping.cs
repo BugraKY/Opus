@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,5 +48,7 @@ namespace Opus.Models.DbModels
         public string D31 { get; set; }
         public string S1 { get; set; }
         public string T1 { get; set; }
+        [NotMapped]
+        public int Sequance { get; set; }
     }
 }
