@@ -4,6 +4,7 @@ using Opus.DataAcces.IMainRepository;
 using static Opus.Utility.ProjectConstant;
 using System.Data;
 using Opus.Models.ViewModels;
+using Opus.Models.DbModels;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -77,10 +78,20 @@ namespace Opus.Areas.HR.Controllers
                     //Sequance.Sum(t.stafff.Status),
                     Staff = t.stafff,
                     TimeKeeping = t.timeKeepingg
-                    })
+                })
                 .OrderBy(n => n.Staff.FirstName);
 
 
+        }
+        [HttpPost]
+        [Route("upd-time-keeping")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
+        public IResult UpdateTimeKeeping(TimeKeeping TimeKeeping)
+        {
+            if (TimeKeeping.Id == 0 || TimeKeeping.StaffId == 0 || TimeKeeping.Year == 0 || TimeKeeping.Month == 0)
+                return Results.UnprocessableEntity(TimeKeeping);
+
+            return Results.Ok(TimeKeeping);
         }
     }
 }
