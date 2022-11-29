@@ -290,6 +290,7 @@
             getTimeKeeping();
 
             console.clear();
+            $('.dx-scrollable-scrollbar').removeClass('dx-scrollable-scrollbar');
         });
         function updateTimeKeeping(data) {
             console.clear();
@@ -356,7 +357,7 @@
                     console.log("Error Response: ", err.responseText);
                 }
             });*/
-
+            $('.dx-scrollable-scrollbar').removeClass('dx-scrollable-scrollbar');
         }
         function getTimeKeeping() {
             $.ajax({
@@ -400,7 +401,7 @@
                             //columns: [html]
 
                             columns: [
-                                                                                    /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
+                                                                                        /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
                                 /*{
                                     calculateCellValue: function (rowData) {
                                         var count = countlist++;
@@ -618,20 +619,27 @@
                                 updateTimeKeeping(e.data.timeKeeping);
                             },
                             onSelectionChanged(e) {
+                                console.clear();
                                 var timeKeeping = e.selectedRowsData[0].timeKeeping;
-                                var h1 = 0, h2 = 0, h3 = 0, h4 = 0, h5 = 0, h6 = 0, h7 = 0, h8 = 0, h9 = 0, h10;
+                                var d01 = 0, d02 = 0, d03 = 0, d04 = 0, d05 = 0, d06 = 0, d07 = 0, d08 = 0, d09 = 0, d10;
+                                var d11 = 0, d12 = 0, d13 = 0, d14 = 0, d15 = 0, d16 = 0, d17 = 0, d18 = 0, d19 = 0, d20;
+                                var d21 = 0, d22 = 0, d23 = 0, d24 = 0, d25 = 0, d26 = 0, d27 = 0, d28 = 0, d29 = 0, d30;
+                                var d31;
                                 var totalMonthly = 0;
                                 var totalAL = 0, totalMR = 0, totalNW = 0, totalUL = 0;
-                                var maxHours = 0, minHours = 99999;
+                                var maxHours = 0.0, minHours = 99999.0;
+
 
 
                                 if (timeKeeping.d01 != null) {
                                     if ($.isNumeric(timeKeeping.d01.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d01.replace(',', '.'));
-                                        if (timeKeeping.d01 > maxHours)
-                                            maxHours == parseFloat(timeKeeping.d01.replace(',', '.'));
-                                        if (timeKeeping.d01 < minHours)
-                                            minHours == parseFloat(timeKeeping.d01.replace(',', '.'));
+                                        d01 = parseFloat(timeKeeping.d01.replace(',', '.'));
+                                        console.log(d01);
+                                        if (d01 > maxHours)
+                                            maxHours = d01;
+                                        if (d01 < minHours)
+                                            minHours = d01
                                     }
                                     if (timeKeeping.d01 == "AL")
                                         totalAL++;
@@ -645,10 +653,11 @@
                                 if (timeKeeping.d02 != null) {
                                     if ($.isNumeric(timeKeeping.d02.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d02.replace(',', '.'));
-                                        if (timeKeeping.d02 > maxHours)
-                                            maxHours == timeKeeping.d02;
-                                        if (timeKeeping.d02 < minHours)
-                                            minHours == timeKeeping.d02;
+                                        d02 = parseFloat(timeKeeping.d02.replace(',', '.'));
+                                        if (d02 > maxHours)
+                                            maxHours = d02;
+                                        if (d02 < minHours)
+                                            minHours = d02;
                                     }
                                     if (timeKeeping.d02 == "AL")
                                         totalAL++;
@@ -663,10 +672,11 @@
                                 if (timeKeeping.d03 != null) {
                                     if ($.isNumeric(timeKeeping.d03.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d03.replace(',', '.'));
-                                        if (timeKeeping.d03 > maxHours)
-                                            maxHours == timeKeeping.d03;
-                                        if (timeKeeping.d03 < minHours)
-                                            minHours == timeKeeping.d03;
+                                        d03 = parseFloat(timeKeeping.d03.replace(',', '.'));
+                                        if (d03 > maxHours)
+                                            maxHours = d03;
+                                        if (d03 < minHours)
+                                            minHours = d03;
                                     }
 
                                     if (timeKeeping.d03 == "AL")
@@ -681,10 +691,11 @@
                                 if (timeKeeping.d04 != null) {
                                     if ($.isNumeric(timeKeeping.d04.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d04.replace(',', '.'));
-                                        if (timeKeeping.d04 > maxHours)
-                                            maxHours == timeKeeping.d04;
-                                        if (timeKeeping.d04 < minHours)
-                                            minHours == timeKeeping.d04;
+                                        d04 = parseFloat(timeKeeping.d04.replace(',', '.'));
+                                        if (d04 > maxHours)
+                                            maxHours = d04;
+                                        if (d04 < minHours)
+                                            minHours = d04;
                                     }
                                     if (timeKeeping.d04 == "AL")
                                         totalAL++;
@@ -698,10 +709,11 @@
                                 if (timeKeeping.d05 != null) {
                                     if ($.isNumeric(timeKeeping.d05.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d05.replace(',', '.'));
-                                        if (timeKeeping.d05 > maxHours)
-                                            maxHours == timeKeeping.d05;
-                                        if (timeKeeping.d05 < minHours)
-                                            minHours == timeKeeping.d05;
+                                        d05 = parseFloat(timeKeeping.d05.replace(',', '.'));
+                                        if (d05 > maxHours)
+                                            maxHours = d05;
+                                        if (d05 < minHours)
+                                            minHours = d05;
                                     }
                                     if (timeKeeping.d05 == "AL")
                                         totalAL++;
@@ -715,10 +727,11 @@
                                 if (timeKeeping.d06 != null) {
                                     if ($.isNumeric(timeKeeping.d06.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d06.replace(',', '.'));
-                                        if (timeKeeping.d06 > maxHours)
-                                            maxHours == timeKeeping.d06;
-                                        if (timeKeeping.d06 < minHours)
-                                            minHours == timeKeeping.d06;
+                                        d06 = parseFloat(timeKeeping.d06.replace(',', '.'));
+                                        if (d06 > maxHours)
+                                            maxHours = d06;
+                                        if (d06 < minHours)
+                                            minHours = d06;
                                     }
                                     if (timeKeeping.d06 == "AL")
                                         totalAL++;
@@ -732,10 +745,11 @@
                                 if (timeKeeping.d07 != null) {
                                     if ($.isNumeric(timeKeeping.d07.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d07.replace(',', '.'));
-                                        if (timeKeeping.d07 > maxHours)
-                                            maxHours == timeKeeping.d07;
-                                        if (timeKeeping.d07 < minHours)
-                                            minHours == timeKeeping.d07;
+                                        d07 = parseFloat(timeKeeping.d07.replace(',', '.'));
+                                        if (d07 > maxHours)
+                                            maxHours = d07;
+                                        if (d07 < minHours)
+                                            minHours = d07;
                                     }
                                     if (timeKeeping.d07 == "AL")
                                         totalAL++;
@@ -749,10 +763,11 @@
                                 if (timeKeeping.d08 != null) {
                                     if ($.isNumeric(timeKeeping.d08.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d08.replace(',', '.'));
-                                        if (timeKeeping.d08 > maxHours)
-                                            maxHours == timeKeeping.d08;
-                                        if (timeKeeping.d08 < minHours)
-                                            minHours == timeKeeping.d08;
+                                        d08 = parseFloat(timeKeeping.d08.replace(',', '.'));
+                                        if (d08 > maxHours)
+                                            maxHours = d08;
+                                        if (d08 < minHours)
+                                            minHours = d08;
                                     }
                                     if (timeKeeping.d08 == "AL")
                                         totalAL++;
@@ -766,10 +781,11 @@
                                 if (timeKeeping.d09 != null) {
                                     if ($.isNumeric(timeKeeping.d09.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d09.replace(',', '.'));
-                                        if (timeKeeping.d09 > maxHours)
-                                            maxHours == timeKeeping.d09;
-                                        if (timeKeeping.d09 < minHours)
-                                            minHours == timeKeeping.d09;
+                                        d09 = parseFloat(timeKeeping.d09.replace(',', '.'));
+                                        if (d09 > maxHours)
+                                            maxHours = d09;
+                                        if (d09 < minHours)
+                                            minHours = d09;
                                     }
                                     if (timeKeeping.d09 == "AL")
                                         totalAL++;
@@ -783,10 +799,11 @@
                                 if (timeKeeping.d10 != null) {
                                     if ($.isNumeric(timeKeeping.d10.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d10.replace(',', '.'));
-                                        if (timeKeeping.d10 > maxHours)
-                                            maxHours == timeKeeping.d10;
-                                        if (timeKeeping.d10 < minHours)
-                                            minHours == timeKeeping.d10;
+                                        d10 = parseFloat(timeKeeping.d10.replace(',', '.'));
+                                        if (d10 > maxHours)
+                                            maxHours = d10;
+                                        if (d10 < minHours)
+                                            minHours = d10;
                                     }
                                     if (timeKeeping.d10 == "AL")
                                         totalAL++;
@@ -801,10 +818,11 @@
                                 if (timeKeeping.d11 != null) {
                                     if ($.isNumeric(timeKeeping.d11.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d11.replace(',', '.'));
-                                        if (timeKeeping.d11 > maxHours)
-                                            maxHours == timeKeeping.d11;
-                                        if (timeKeeping.d11 < minHours)
-                                            minHours == timeKeeping.d11;
+                                        d11 = parseFloat(timeKeeping.d11.replace(',', '.'));
+                                        if (d11 > maxHours)
+                                            maxHours = d11;
+                                        if (d11 < minHours)
+                                            minHours = d11;
                                     }
                                     if (timeKeeping.d11 == "AL")
                                         totalAL++;
@@ -818,10 +836,11 @@
                                 if (timeKeeping.d12 != null) {
                                     if ($.isNumeric(timeKeeping.d12.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d12.replace(',', '.'));
-                                        if (timeKeeping.d12 > maxHours)
-                                            maxHours == timeKeeping.d12;
-                                        if (timeKeeping.d12 < minHours)
-                                            minHours == timeKeeping.d12;
+                                        d12 = parseFloat(timeKeeping.d12.replace(',', '.'));
+                                        if (d12 > maxHours)
+                                            maxHours = d12;
+                                        if (d12 < minHours)
+                                            minHours = d12;
                                     }
                                     if (timeKeeping.d12 == "AL")
                                         totalAL++;
@@ -835,10 +854,11 @@
                                 if (timeKeeping.d13 != null) {
                                     if ($.isNumeric(timeKeeping.d13.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d13.replace(',', '.'));
-                                        if (timeKeeping.d13 > maxHours)
-                                            maxHours == timeKeeping.d13;
-                                        if (timeKeeping.d13 < minHours)
-                                            minHours == timeKeeping.d13;
+                                        d13 = parseFloat(timeKeeping.d13.replace(',', '.'));
+                                        if (d13 > maxHours)
+                                            maxHours = d13;
+                                        if (d13 < minHours)
+                                            minHours = d13;
                                     }
                                     if (timeKeeping.d13 == "AL")
                                         totalAL++;
@@ -852,10 +872,11 @@
                                 if (timeKeeping.d14 != null) {
                                     if ($.isNumeric(timeKeeping.d14.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d14.replace(',', '.'));
-                                        if (timeKeeping.d14 > maxHours)
-                                            maxHours == timeKeeping.d14;
-                                        if (timeKeeping.d14 < minHours)
-                                            minHours == timeKeeping.d14;
+                                        d14 = parseFloat(timeKeeping.d14.replace(',', '.'));
+                                        if (d14 > maxHours)
+                                            maxHours = d14;
+                                        if (d14 < minHours)
+                                            minHours = d14;
                                     }
                                     if (timeKeeping.d14 == "AL")
                                         totalAL++;
@@ -869,10 +890,11 @@
                                 if (timeKeeping.d15 != null) {
                                     if ($.isNumeric(timeKeeping.d15.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d15.replace(',', '.'));
-                                        if (timeKeeping.d15 > maxHours)
-                                            maxHours == timeKeeping.d15;
-                                        if (timeKeeping.d15 < minHours)
-                                            minHours == timeKeeping.d15;
+                                        d15 = parseFloat(timeKeeping.d15.replace(',', '.'));
+                                        if (d15 > maxHours)
+                                            maxHours = d15;
+                                        if (d15 < minHours)
+                                            minHours = d15;
                                     }
                                     if (timeKeeping.d15 == "AL")
                                         totalAL++;
@@ -886,10 +908,11 @@
                                 if (timeKeeping.d16 != null) {
                                     if ($.isNumeric(timeKeeping.d16.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d16.replace(',', '.'));
-                                        if (timeKeeping.d16 > maxHours)
-                                            maxHours == timeKeeping.d16;
-                                        if (timeKeeping.d16 < minHours)
-                                            minHours == timeKeeping.d16;
+                                        d16 = parseFloat(timeKeeping.d16.replace(',', '.'));
+                                        if (d16 > maxHours)
+                                            maxHours = d16;
+                                        if (d16 < minHours)
+                                            minHours = d16;
                                     }
                                     if (timeKeeping.d16 == "AL")
                                         totalAL++;
@@ -903,10 +926,11 @@
                                 if (timeKeeping.d17 != null) {
                                     if ($.isNumeric(timeKeeping.d17.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d17.replace(',', '.'));
-                                        if (timeKeeping.d17 > maxHours)
-                                            maxHours == timeKeeping.d17;
-                                        if (timeKeeping.d17 < minHours)
-                                            minHours == timeKeeping.d17;
+                                        d17 = parseFloat(timeKeeping.d17.replace(',', '.'));
+                                        if (d17 > maxHours)
+                                            maxHours = d17;
+                                        if (d17 < minHours)
+                                            minHours = d17;
                                     }
                                     if (timeKeeping.d17 == "AL")
                                         totalAL++;
@@ -920,10 +944,11 @@
                                 if (timeKeeping.d18 != null) {
                                     if ($.isNumeric(timeKeeping.d18.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d18.replace(',', '.'));
-                                        if (timeKeeping.d18 > maxHours)
-                                            maxHours == timeKeeping.d18;
-                                        if (timeKeeping.d18 < minHours)
-                                            minHours == timeKeeping.d18;
+                                        d18 = parseFloat(timeKeeping.d18.replace(',', '.'));
+                                        if (d18 > maxHours)
+                                            maxHours = d18;
+                                        if (d18 < minHours)
+                                            minHours = d18;
                                     }
                                     if (timeKeeping.d18 == "AL")
                                         totalAL++;
@@ -937,10 +962,11 @@
                                 if (timeKeeping.d19 != null) {
                                     if ($.isNumeric(timeKeeping.d19.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d19.replace(',', '.'));
-                                        if (timeKeeping.d19 > maxHours)
-                                            maxHours == timeKeeping.d19;
-                                        if (timeKeeping.d19 < minHours)
-                                            minHours == timeKeeping.d19;
+                                        d19 = parseFloat(timeKeeping.d19.replace(',', '.'));
+                                        if (d19 > maxHours)
+                                            maxHours = d19;
+                                        if (d19 < minHours)
+                                            minHours = d19;
                                     }
                                     if (timeKeeping.d19 == "AL")
                                         totalAL++;
@@ -954,10 +980,11 @@
                                 if (timeKeeping.d20 != null) {
                                     if ($.isNumeric(timeKeeping.d20.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d20.replace(',', '.'));
-                                        if (timeKeeping.d20 > maxHours)
-                                            maxHours == timeKeeping.d20;
-                                        if (timeKeeping.d20 < minHours)
-                                            minHours == timeKeeping.d20;
+                                        d20 = parseFloat(timeKeeping.d20.replace(',', '.'));
+                                        if (d20 > maxHours)
+                                            maxHours = d20;
+                                        if (d20 < minHours)
+                                            minHours = d20;
                                     }
                                     if (timeKeeping.d20 == "AL")
                                         totalAL++;
@@ -971,10 +998,11 @@
                                 if (timeKeeping.d21 != null) {
                                     if ($.isNumeric(timeKeeping.d21.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d21.replace(',', '.'));
-                                        if (timeKeeping.d21 > maxHours)
-                                            maxHours == timeKeeping.d21;
-                                        if (timeKeeping.d21 < minHours)
-                                            minHours == timeKeeping.d21;
+                                        d21 = parseFloat(timeKeeping.d21.replace(',', '.'));
+                                        if (d21 > maxHours)
+                                            maxHours = d21;
+                                        if (d21 < minHours)
+                                            minHours = d21;
                                     }
                                     if (timeKeeping.d21 == "AL")
                                         totalAL++;
@@ -988,10 +1016,11 @@
                                 if (timeKeeping.d22 != null) {
                                     if ($.isNumeric(timeKeeping.d22.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d22.replace(',', '.'));
-                                        if (timeKeeping.d22 > maxHours)
-                                            maxHours == timeKeeping.d22;
-                                        if (timeKeeping.d22 < minHours)
-                                            minHours == timeKeeping.d22;
+                                        d22 = parseFloat(timeKeeping.d22.replace(',', '.'));
+                                        if (d22 > maxHours)
+                                            maxHours = d22;
+                                        if (d22 < minHours)
+                                            minHours = d22;
                                     }
                                     if (timeKeeping.d22 == "AL")
                                         totalAL++;
@@ -1005,10 +1034,11 @@
                                 if (timeKeeping.d23 != null) {
                                     if ($.isNumeric(timeKeeping.d23.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d23.replace(',', '.'));
-                                        if (timeKeeping.d23 > maxHours)
-                                            maxHours == timeKeeping.d23;
-                                        if (timeKeeping.d23 < minHours)
-                                            minHours == timeKeeping.d23;
+                                        d23 = parseFloat(timeKeeping.d23.replace(',', '.'));
+                                        if (d23 > maxHours)
+                                            maxHours = d23;
+                                        if (d23 < minHours)
+                                            minHours = d23;
                                     }
                                     if (timeKeeping.d23 == "AL")
                                         totalAL++;
@@ -1022,10 +1052,11 @@
                                 if (timeKeeping.d24 != null) {
                                     if ($.isNumeric(timeKeeping.d24.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d24.replace(',', '.'));
-                                        if (timeKeeping.d24 > maxHours)
-                                            maxHours == timeKeeping.d24;
-                                        if (timeKeeping.d24 < minHours)
-                                            minHours == timeKeeping.d24;
+                                        d24 = parseFloat(timeKeeping.d24.replace(',', '.'));
+                                        if (d24 > maxHours)
+                                            maxHours = d24;
+                                        if (d24 < minHours)
+                                            minHours = d24;
                                     }
                                     if (timeKeeping.d24 == "AL")
                                         totalAL++;
@@ -1039,10 +1070,11 @@
                                 if (timeKeeping.d25 != null) {
                                     if ($.isNumeric(timeKeeping.d25.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d25.replace(',', '.'));
-                                        if (timeKeeping.d25 > maxHours)
-                                            maxHours == timeKeeping.d25;
-                                        if (timeKeeping.d25 < minHours)
-                                            minHours == timeKeeping.d25;
+                                        d25 = parseFloat(timeKeeping.d25.replace(',', '.'));
+                                        if (d25 > maxHours)
+                                            maxHours = d25;
+                                        if (d25 < minHours)
+                                            minHours = d25;
                                     }
                                     if (timeKeeping.d25 == "AL")
                                         totalAL++;
@@ -1056,10 +1088,11 @@
                                 if (timeKeeping.d26 != null) {
                                     if ($.isNumeric(timeKeeping.d26.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d26.replace(',', '.'));
-                                        if (timeKeeping.d26 > maxHours)
-                                            maxHours == timeKeeping.d26;
-                                        if (timeKeeping.d26 < minHours)
-                                            minHours == timeKeeping.d26;
+                                        d26 = parseFloat(timeKeeping.d26.replace(',', '.'));
+                                        if (d26 > maxHours)
+                                            maxHours = d26;
+                                        if (d26 < minHours)
+                                            minHours = d26;
                                     }
                                     if (timeKeeping.d26 == "AL")
                                         totalAL++;
@@ -1073,10 +1106,11 @@
                                 if (timeKeeping.d27 != null) {
                                     if ($.isNumeric(timeKeeping.d27.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d27.replace(',', '.'));
-                                        if (timeKeeping.d27 > maxHours)
-                                            maxHours == timeKeeping.d27;
-                                        if (timeKeeping.d27 < minHours)
-                                            minHours == timeKeeping.d27;
+                                        d27 = parseFloat(timeKeeping.d27.replace(',', '.'));
+                                        if (d27 > maxHours)
+                                            maxHours = d27;
+                                        if (d27 < minHours)
+                                            minHours = d27;
                                     }
                                     if (timeKeeping.d27 == "AL")
                                         totalAL++;
@@ -1090,10 +1124,11 @@
                                 if (timeKeeping.d28 != null) {
                                     if ($.isNumeric(timeKeeping.d28.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d28.replace(',', '.'));
-                                        if (timeKeeping.d28 > maxHours)
-                                            maxHours == timeKeeping.d28;
-                                        if (timeKeeping.d28 < minHours)
-                                            minHours == timeKeeping.d28;
+                                        d28 = parseFloat(timeKeeping.d28.replace(',', '.'));
+                                        if (d28 > maxHours)
+                                            maxHours = d28;
+                                        if (d28 < minHours)
+                                            minHours = d28;
                                     }
                                     if (timeKeeping.d28 == "AL")
                                         totalAL++;
@@ -1107,10 +1142,11 @@
                                 if (timeKeeping.d29 != null) {
                                     if ($.isNumeric(timeKeeping.d29.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d29.replace(',', '.'));
-                                        if (timeKeeping.d29 > maxHours)
-                                            maxHours == timeKeeping.d29;
-                                        if (timeKeeping.d29 < minHours)
-                                            minHours == timeKeeping.d29;
+                                        d29 = parseFloat(timeKeeping.d29.replace(',', '.'));
+                                        if (d29 > maxHours)
+                                            maxHours = d29;
+                                        if (d29 < minHours)
+                                            minHours = d29;
                                     }
                                     if (timeKeeping.d29 == "AL")
                                         totalAL++;
@@ -1124,10 +1160,11 @@
                                 if (timeKeeping.d30 != null) {
                                     if ($.isNumeric(timeKeeping.d30.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d30.replace(',', '.'));
-                                        if (timeKeeping.d30 > maxHours)
-                                            maxHours == timeKeeping.d30;
-                                        if (timeKeeping.d30 < minHours)
-                                            minHours == timeKeeping.d30;
+                                        d30 = parseFloat(timeKeeping.d30.replace(',', '.'));
+                                        if (d30 > maxHours)
+                                            maxHours = d30;
+                                        if (d30 < minHours)
+                                            minHours = d30;
                                     }
                                     if (timeKeeping.d30 == "AL")
                                         totalAL++;
@@ -1141,10 +1178,11 @@
                                 if (timeKeeping.d31 != null) {
                                     if ($.isNumeric(timeKeeping.d31.replace(',', '.'))) {
                                         totalMonthly += parseFloat(timeKeeping.d31.replace(',', '.'));
-                                        if (timeKeeping.d31 > maxHours)
-                                            maxHours == timeKeeping.d31;
-                                        if (timeKeeping.d31 < minHours)
-                                            minHours == timeKeeping.d31;
+                                        d31 = parseFloat(timeKeeping.d31.replace(',', '.'));
+                                        if (d31 > maxHours)
+                                            maxHours = d31;
+                                        if (d31 < minHours)
+                                            minHours = d31;
                                     }
                                     if (timeKeeping.d31 == "AL")
                                         totalAL++;
@@ -1159,8 +1197,12 @@
 
                                 if (minHours == 99999)
                                     minHours = 0;
-                                console.clear();
+
                                 console.log(totalMonthly);
+
+                                console.log(`Max hours in daily: ` + maxHours);
+                                console.log(`Min hours: ` + minHours);
+
 
 
                                 //console.clear();
@@ -1178,25 +1220,30 @@
 
                                 $('#gridstatus').html(`<div class='alert alert-success shadow-lg'><h6>Total: ` + data.length + ` Staff </h6>` +
                                     `<div class="pb-10">` + imgHTML + `</div>` +
-                                    `<h6>Name: ` + e.selectedRowsData[0].staff.firstName + ` ` + e.selectedRowsData[0].staff.lastName +`</h6>`+
+                                    `<h6>Name: ` + e.selectedRowsData[0].staff.firstName + ` ` + e.selectedRowsData[0].staff.lastName + `</h6>` +
                                     `<div class="row">` +
-                                    `<div class="col">`  + `<h6>Mountly Total: ` + totalMonthly + ` Hours</h6>` + `</div>` +
+                                    `<div class="col">` + `<h6>Mountly Total: ` + totalMonthly + ` Hours</h6>` + `</div>` +
                                     `<div class="col">` + `<h6>Max hours in daily: ` + maxHours + ` - Min hours: ` + minHours + `</h6>` + `</div></div>` +
                                     `<div class="row">` +
                                     `<div class="col">` +
-                                    `<h6> AL Total: ` + totalAL + `</h6>` +
-                                    `<h6> MR Total: ` + totalMR + `</h6>` +
+                                    `<h6> AL Total: ` + totalAL + ` DAYS</h6>` +
+                                    `<h6> MR Total: ` + totalMR + ` DAYS</h6>` +
                                     `</div>` +
                                     `<div class="col-6">` + `<h6> NW Total: ` + totalNW + `</h6>` +
-                                    `<h6> UL Total: ` + totalUL + `</h6>` + `</div>` +
+                                    `<h6> UL Total: ` + totalUL + ` DAYS</h6>` + `</div>` +
                                     ` </div>` +
 
                                     `</div>`)
+
+
+                                $('.dx-scrollable-scrollbar').removeClass('dx-scrollable-scrollbar');
                                 /*
                                 var rowstatus = `<div class="alert alert-success shadow-lg">
                                                     <h6>`+ data.length +`</h6>
                                                     <h6>
                                                 </div>`*/
+
+
                             },
                             /*
                             getSelectedRowsData(e) {
@@ -1213,8 +1260,9 @@
                     $('#gridstatus').html('<h6> Total: ' + data.length + '<h6>')
                 }
             });
+            $('.dx-scrollable-scrollbar').removeClass('dx-scrollable-scrollbar');
         }
-                                                            /*
+                                                                /*
 $('#dx-texteditor-input').on('input', function (e) {
 console.log("changed!");
 });
@@ -1228,7 +1276,7 @@ console.log("changed!");
 
 
 
-                                                            //dx-texteditor-input
+                                                                //dx-texteditor-input
 
     </script>
 }
