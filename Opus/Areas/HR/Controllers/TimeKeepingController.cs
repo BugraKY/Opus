@@ -5,6 +5,9 @@ using static Opus.Utility.ProjectConstant;
 using System.Data;
 using Opus.Models.ViewModels;
 using Opus.Models.DbModels;
+using System.Text.Json;
+using System.Net.Mime;
+using System.Net;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -83,15 +86,37 @@ namespace Opus.Areas.HR.Controllers
 
 
         }
+
         [HttpPost]
         [Route("upd-time-keeping")]
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
-        public IResult UpdateTimeKeeping(TimeKeeping TimeKeeping)
+        public IResult UpdateTimeKeeping([FromBody]TimeKeeping _timeKeeping)
         {
-            if (TimeKeeping.Id == 0 || TimeKeeping.StaffId == 0 || TimeKeeping.Year == 0 || TimeKeeping.Month == 0)
-                return Results.UnprocessableEntity(TimeKeeping);
+            try
+            {
+                if (_timeKeeping.Id == 0 || _timeKeeping.StaffId == 0 || _timeKeeping.Year == 0 || _timeKeeping.Month == 0)
+                    return Results.UnprocessableEntity(_timeKeeping);
 
-            return Results.Ok(TimeKeeping);
+                _uow.TimeKeeping.Update(_timeKeeping);
+                _uow.Save();
+
+                //_uow.Accounting_Bank.Add(_timeKeeping);
+                return Results.Ok(_timeKeeping);
+            }
+            catch (Exception ex)
+            {
+                JsonSerializerOptions options = new JsonSerializerOptions();
+                object _Error = new ErrorMessage
+                {
+                    Value = _timeKeeping,
+                    Exception = ex,
+                    ContentType= Types.ContentType.AppJson_UTF8,
+                    StatusCode=500
+                };
+                return Results.Json(data:ex.Message,options:options, contentType: Types.ContentType.AppJson_UTF8,statusCode: 500);
+                //return StatusCode((int)HttpStatusCode.InternalServerError, _Error);
+            }
+            return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

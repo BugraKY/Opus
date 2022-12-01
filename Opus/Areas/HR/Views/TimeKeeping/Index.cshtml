@@ -36,10 +36,10 @@
     tbody {
         background-color: #ffffff;
     }
-    .dx-toolbar-items-container{
+    .dx-toolbar-items-container {
 
     }
-    input[type="text"]{
+    input[type="text"] {
 
     }
     .dx-toolbar .dx-toolbar-after {
@@ -47,7 +47,9 @@
         padding-right: 2px;
         padding-top: 2px;
     }
-
+    .dx-texteditor-input {
+        width:50px;
+    }
     @*
 
     h5 {
@@ -270,6 +272,128 @@
     <script type="text/javascript">
 
         var dataObj = {};
+        const times = [
+            {
+                Value: '0.5',
+                Display: '0,5',
+            }, {
+                Value: '1',
+                Display: '1',
+            }, {
+                Value: '1,5',
+                Display: '1,5',
+            }, {
+                Value: '2',
+                Display: '2',
+            }, {
+                Value: '2,5',
+                Display: '2,5',
+            }, {
+                Value: '3',
+                Display: '3',
+            }, {
+                Value: '3,5',
+                Display: '3,5',
+            }, {
+                Value: '4',
+                Display: '4',
+            }, {
+                Value: '4,5',
+                Display: '4,5',
+            }, {
+                Value: '5',
+                Display: '5',
+            }, {
+                Value: '5,5',
+                Display: '5,5',
+            }, {
+                Value: '6',
+                Display: '6',
+            }, {
+                Value: '6,5',
+                Display: '6,5',
+            }, {
+                Value: '7',
+                Display: '7',
+            }, {
+                Value: '7,5',
+                Display: '7,5',
+            }, {
+                Value: '8',
+                Display: '8',
+            }, {
+                Value: '8,5',
+                Display: '8,5',
+            }, {
+                Value: '9',
+                Display: '9',
+            }, {
+                Value: '9,5',
+                Display: '9,5',
+            }, {
+                Value: '10',
+                Display: '10',
+            }, {
+                Value: '10,5',
+                Display: '10,5',
+            }, {
+                Value: '11',
+                Display: '11',
+            }, {
+                Value: '11,5',
+                Display: '11,5',
+            }, {
+                Value: '12',
+                Display: '12',
+            }, {
+                Value: '12,5',
+                Display: '12,5',
+            }, {
+                Value: '13',
+                Display: '13',
+            }, {
+                Value: '13,5',
+                Display: '13,5',
+            }, {
+                Value: '14',
+                Display: '14',
+            }, {
+                Value: '14,5',
+                Display: '14,5',
+            }, {
+                Value: '15',
+                Display: '15',
+            }, {
+                Value: '15,5',
+                Display: '15,5',
+            }, {
+                Value: '16',
+                Display: '16',
+            }, {
+                Value: '16,5',
+                Display: '16,5',
+            }, {
+                Value: '17',
+                Display: '17',
+            }, {
+                Value: '17,5',
+                Display: '17,5',
+            }, {
+                Value: '18',
+                Display: '18',
+            }, {
+                Value: 'AL',
+                Display: 'AL',
+            }, {
+                Value: 'MR',
+                Display: 'MR',
+            }, {
+                Value: 'NW',
+                Display: 'NW',
+            }, {
+                Value: 'UL',
+                Display: 'UL',
+            }];
 
         $(document).ready(function () {
             $('#loader').hide();
@@ -303,6 +427,7 @@
                 contentType: "application/json; charset=utf-8",
                 error: function (err) {
                     console.clear();
+                    console.log("Error Main: ", err);
                     console.log("Fail Response Data: ", data);
                     console.log("Error Code: ", err.status);
                     console.log("Error Response: ", err.responseText);
@@ -401,7 +526,7 @@
                             //columns: [html]
 
                             columns: [
-                                                                                        /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
+                                                                                            /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
                                 /*{
                                     calculateCellValue: function (rowData) {
                                         var count = countlist++;
@@ -428,191 +553,352 @@
                                     fixedPosition: "left",
                                     allowEditing: false
                                 },
-
+                                /*
                                 {
                                     dataField: 'timeKeeping.d01',
                                     caption: '1',
                                     width: 'auto'
                                 },
-
+                                *//*
+                                {
+                                    dataField: 'StateID',
+                                    caption: 'State',
+                                    width: 48.47,
+                                    lookup: {
+                                        dataSource: states,
+                                        displayExpr: 'Name',
+                                        valueExpr: 'ID',
+                                    }
+                                },*/
+                                {
+                                    dataField: 'timeKeeping.d01',
+                                    caption: '1',
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
+                                },
                                 {
                                     dataField: 'timeKeeping.d02',
                                     caption: '2',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d03',
                                     caption: '3',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d04',
                                     caption: '4',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d05',
                                     caption: '5',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d06',
                                     caption: '6',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d07',
                                     caption: '7',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d08',
                                     caption: '8',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d09',
                                     caption: '9',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d10',
                                     caption: '10',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
-
                                 {
                                     dataField: 'timeKeeping.d11',
                                     caption: '11',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d12',
                                     caption: '12',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d13',
                                     caption: '13',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d14',
                                     caption: '14',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d15',
                                     caption: '15',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d16',
                                     caption: '16',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d17',
                                     caption: '17',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d18',
                                     caption: '18',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d19',
                                     caption: '19',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d20',
                                     caption: '20',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d21',
                                     caption: '21',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d22',
                                     caption: '22',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d23',
                                     caption: '23',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d24',
                                     caption: '24',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d25',
                                     caption: '25',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d26',
                                     caption: '26',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d27',
                                     caption: '27',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d28',
                                     caption: '28',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d29',
                                     caption: '29',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d30',
                                     caption: '30',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
 
                                 {
                                     dataField: 'timeKeeping.d31',
                                     caption: '31',
-                                    width: 'auto'
+                                    width: 'auto',
+                                    lookup: {
+                                        dataSource: times,
+                                        displayExpr: 'Display',
+                                        valueExpr: 'Value',
+                                    }
                                 },
                             ],
                             onRowUpdated(e) {
@@ -1262,7 +1548,7 @@
             });
             $('.dx-scrollable-scrollbar').removeClass('dx-scrollable-scrollbar');
         }
-                                                                /*
+        /*
 $('#dx-texteditor-input').on('input', function (e) {
 console.log("changed!");
 });
@@ -1276,7 +1562,7 @@ console.log("changed!");
 
 
 
-                                                                //dx-texteditor-input
+        //dx-texteditor-input
 
     </script>
 }

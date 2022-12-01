@@ -178,6 +178,13 @@ namespace Opus.Utility
                 public static int AccountNumber { get; set; }
             }
         }
+        public class Types
+        {
+            public static class ContentType
+            {
+                public static string AppJson_UTF8 = "application/json; charset=utf-8";
+            }
+        }
 
         public static string[] GetAllLocalIPv4()
         {
