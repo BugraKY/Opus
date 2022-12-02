@@ -418,11 +418,11 @@ namespace Opus.DataAcces.Migrations
 
             modelBuilder.Entity("Opus.Models.DbModels.LocationInOut", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Break")
                         .HasColumnType("nvarchar(max)");
@@ -433,14 +433,17 @@ namespace Opus.DataAcces.Migrations
                     b.Property<int>("InOutType")
                         .HasColumnType("int");
 
-                    b.Property<string>("LocationId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("LocationId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("ProcessingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("StaffId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("StaffId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("UserIntId")
                         .HasColumnType("int");
