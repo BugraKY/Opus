@@ -133,11 +133,11 @@ ________________________________________________________________________________
 
 
 
-m2.LokasyonHavuzu   = LocationInOut
-m2.Puantaj          = TimeKeeping
-m2.PuantajAciklama  = TimeKeepingDescription
-Personel.Kase       = StaffStamp
-Tanim.Kase          = Stamp
+m2.LokasyonHavuzu   = LocationInOut                     // 2. Sıra
+m2.Puantaj          = TimeKeeping                       // 3. Sıra
+m2.PuantajAciklama  = TimeKeepingDescription            // 4. Sıra
+Personel.Kase       = StaffStamp                        // 5. Sıra Tarihler dikkat edilmeli.
+Tanim.Kase          = Stamp                             // 1. Sıra
 
 
 

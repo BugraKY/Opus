@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 using Opus.Utility;
+using Opus.Models;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -27,7 +28,7 @@ namespace Opus.Areas.HR.Controllers
             //List<Staff> staffs = new List<Staff>();
             //var staffStamp = _uow.StaffStamp.GetAll(i => i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"));
             var staffStamp = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp");
-            var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == 8));
+            var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month));
             var activeStaff = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active));//activestaff ve timekeeping ile beraber countları karşılaştırılıp aylık bazında time keeping kayıtları eklenilebilir. Test edilmedi.!!!!
 
             /*
@@ -53,8 +54,8 @@ namespace Opus.Areas.HR.Controllers
             //var _persMotion = new PersonMotionVM();
 
             //WORKING SOME
-            
-            var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
+
+            var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active &&
             i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
                 .Join(timeekeeping,
                 s => s.StaffId,
@@ -62,7 +63,7 @@ namespace Opus.Areas.HR.Controllers
                 (s, r) => new { staffStamp = s, timeKeeping = r })
                 .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
                 .OrderBy(n => n.staffStamp.Staff.FirstName);
-            
+
             /*
             var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
             i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
@@ -78,6 +79,7 @@ namespace Opus.Areas.HR.Controllers
 
 
             IEnumerable<PersonMotionVM> _personMotion = null;
+            IEnumerable<PersonMotionLocations> personMotionLocations = null;
             switch ((Enums.TimeKeeping)DateTime.Now.Day)
             {
                 case Enums.TimeKeeping.D01:
@@ -332,12 +334,28 @@ namespace Opus.Areas.HR.Controllers
                     break;
             }
 
-            var _locations = _uow.Location.GetAll();
+            var _locations = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false));
+            //var _locationsInOut = _uow.LocationInOut.GetAll(i => i.ProcessingDate == DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd 00:00:00.0000000")));
+            var _currenDatetime2 = DateTime.Now.ToString("yyyy-MM-dd 00:00:00.0000000");
+            var _currenToday = DateTime.Today;
+            var _locationsInOut = _uow.LocationInOut.GetAll(i => (i.ProcessingDate >= DateTime.Parse(_currenDatetime2) && i.InOutType == 1) && i.IsDeleted == false);
             var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
             //result = 131
 
+            foreach (var item in _locations)
+            {
 
-            return View(_personMotion);
+            }
+
+            var PersonMotionMain = new PersonMotionMain
+            {
+                PersonMotionVMs = _personMotion,
+                Locations = _locations,
+            };
+
+
+
+            return View(PersonMotionMain);
         }
         public bool CheckTimeKeeping()
         {

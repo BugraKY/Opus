@@ -2,8 +2,8 @@
     int MR = 0, AL = 0, NW = 0, UL = 0, S=0;
 }
 
-@model IEnumerable<Opus.Models.ViewModels.PersonMotionVM>
-@foreach (var item in Model)
+@model Opus.Models.ViewModels.PersonMotionMain
+@foreach (var item in Model.PersonMotionVMs)
 {
 
     @if (item.Today == "MR")
@@ -91,7 +91,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var item in Model)
+                                            @foreach (var item in Model.PersonMotionVMs)
                                             {
                                                 S++;
                                                 <tr>
@@ -202,78 +202,26 @@
                             <div class="box-header">
                                 <h4 class="text-success">Active Location List</h4>
                             </div>
-
                             <div class="box-body" style="height:750px;">
+
+                                <div style="height:53.59px;">
+                                    <div class="row">
+                                        <div class="col-6"><h6>Active locations: @Model.Locations.Count()</h6></div>
+                                        <div class="col-6"><h6></h6></div>
+                                    </div>
+                                </div>
+
                                 <div class="inner-content-div border-3 p-10">
                                     <div class="row">
-                                        @*
-                                            foreach (var item in Model)
-                                            {
-                                                <div class="col-12 col-xl-4">
-                                                    <div class="box box-inverse box-dangers shadow-selected waves-effect waves-light">
-                                                        <a class="locations" href="#@item.Name">
-                                                            <div class="box-body">
-                                                                <div class="text-center pt-lg-10">
-                                                                    <h5 style="color:white!important;">@item.Name</h5>
-                                                                </div>
-                                                                <div class="text-center my-2">
-                                                                    <span style="font-size:x-large">5</span>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            }
-                                        *@
-                                        @*
-                                            <div class="col-12 col-xl-4">
-                                                <div class="box box-inverse box-success shadow-selected waves-effect waves-light">
-                                                    <a class="locations" href="#COSKUNOZ">
-                                                        <div class="box-body">
-                                                            <div class="text-center pt-lg-10">
-                                                                <h5 style="color:white!important;">COSKUNOZ</h5>
-                                                            </div>
-                                                            <div class="text-center my-2">
-                                                                <span style="font-size:x-large">5</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-xl-4">
-                                                <div class="box box-inverse box-warning shadow-selected waves-effect waves-light">
-                                                    <a class="locations" href="#COSKUNOZ">
-                                                        <div class="box-body">
-                                                            <div class="text-center pt-lg-10">
-                                                                <h5 style="color:white!important;">COSKUNOZ</h5>
-                                                            </div>
-                                                            <div class="text-center my-2">
-                                                                <span style="font-size:x-large">5</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-xl-4">
-                                                <div class="box box-inverse box-info shadow-selected waves-effect waves-light">
-                                                    <a class="locations" href="#COSKUNOZ">
-                                                        <div class="box-body">
-                                                            <div class="text-center pt-lg-10">
-                                                                <h5 style="color:white!important;">COSKUNOZ</h5>
-                                                            </div>
-                                                            <div class="text-center my-2">
-                                                                <span style="font-size:x-large">5</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
+
+                                        @foreach (var item in Model.Locations)
+                                        {
                                             <div class="col-12 col-xl-4">
                                                 <div class="box box-inverse box-dangers shadow-selected waves-effect waves-light">
-                                                    <a class="locations" href="#COSKUNOZ">
+                                                    <a class="locations" href="#@item.Name">
                                                         <div class="box-body">
                                                             <div class="text-center pt-lg-10">
-                                                                <h5 style="color:white!important;">COSKUNOZ</h5>
+                                                                <h5 style="color:white!important;">@item.Name</h5>
                                                             </div>
                                                             <div class="text-center my-2">
                                                                 <span style="font-size:x-large">5</span>
@@ -282,20 +230,79 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-xl-4">
-                                                <div class="box box-inverse box-danger shadow-selected waves-effect waves-light">
-                                                    <a class="locations" href="#COSKUNOZ">
-                                                        <div class="box-body">
-                                                            <div class="text-center pt-lg-10">
-                                                                <h5 style="color:white!important;">COSKUNOZ</h5>
-                                                            </div>
-                                                            <div class="text-center my-2">
-                                                                <span style="font-size:x-large">5</span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                        }
+
+                                        @*
+                <div class="col-12 col-xl-4">
+                    <div class="box box-inverse box-success shadow-selected waves-effect waves-light">
+                        <a class="locations" href="#COSKUNOZ">
+                            <div class="box-body">
+                                <div class="text-center pt-lg-10">
+                                    <h5 style="color:white!important;">COSKUNOZ</h5>
+                                </div>
+                                <div class="text-center my-2">
+                                    <span style="font-size:x-large">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="box box-inverse box-warning shadow-selected waves-effect waves-light">
+                        <a class="locations" href="#COSKUNOZ">
+                            <div class="box-body">
+                                <div class="text-center pt-lg-10">
+                                    <h5 style="color:white!important;">COSKUNOZ</h5>
+                                </div>
+                                <div class="text-center my-2">
+                                    <span style="font-size:x-large">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="box box-inverse box-info shadow-selected waves-effect waves-light">
+                        <a class="locations" href="#COSKUNOZ">
+                            <div class="box-body">
+                                <div class="text-center pt-lg-10">
+                                    <h5 style="color:white!important;">COSKUNOZ</h5>
+                                </div>
+                                <div class="text-center my-2">
+                                    <span style="font-size:x-large">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="box box-inverse box-dangers shadow-selected waves-effect waves-light">
+                        <a class="locations" href="#COSKUNOZ">
+                            <div class="box-body">
+                                <div class="text-center pt-lg-10">
+                                    <h5 style="color:white!important;">COSKUNOZ</h5>
+                                </div>
+                                <div class="text-center my-2">
+                                    <span style="font-size:x-large">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="box box-inverse box-danger shadow-selected waves-effect waves-light">
+                        <a class="locations" href="#COSKUNOZ">
+                            <div class="box-body">
+                                <div class="text-center pt-lg-10">
+                                    <h5 style="color:white!important;">COSKUNOZ</h5>
+                                </div>
+                                <div class="text-center my-2">
+                                    <span style="font-size:x-large">5</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                                         *@
                                     </div>
                                 </div>
@@ -317,8 +324,8 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#personlist').DataTable({});
-            $('.slimScrollDiv').css("height", "500px");
-            $('.inner-content-div').css("height", "500px");
+            $('.slimScrollDiv').css("height", "600px");
+            $('.inner-content-div').css("height", "600px");
         })
     </script>
 }

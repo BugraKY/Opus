@@ -15,7 +15,7 @@ namespace Opus.Models.DbModels
         public long LocationId { get; set; }// LokasyonId
         public int InOutType { get; set; }//1:IN - 2:OUT
         public string Hour { get; set; }//Saat
-        public int UserIntId { get; set; }
+        public long UserIntId { get; set; }
         public DateTime ProcessingDate { get; set; }//İslemTarihi
         public string Break { get; set; }//Mola
         public  bool IsDeleted { get; set; }
