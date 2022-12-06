@@ -10,7 +10,7 @@ namespace Opus.Models.ViewModels
     public class PersonMotionLocations
     {
         public Location Location { get; set; }
-        public IEnumerable<Staff> Staffs { get; set; }
+        //public IEnumerable<Staff> Staffs { get; set; }
         public int Counted { get; set; }
     }
 }

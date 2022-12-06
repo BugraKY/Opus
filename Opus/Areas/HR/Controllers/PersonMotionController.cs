@@ -32,29 +32,19 @@ namespace Opus.Areas.HR.Controllers
             var timeekeeping = _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month));
             var activeStaff = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active));//activestaff ve timekeeping ile beraber countları karşılaştırılıp aylık bazında time keeping kayıtları eklenilebilir. Test edilmedi.!!!!
 
-            /*
-            var orn = _uow.Staff.GetAll()
-                .Join(staffStamp,
+
+            //var _locations = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false));
+            var _currenDatetime2 = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd 00:00:00.0000000");
+            //var _currenDatetime2 = DateTime.Now.ToString("2022-12-05 00:00:00.0000000");//TEST
+            var _currenToday = DateTime.Today;
+            var _locationsInOut = _uow.LocationInOut.GetAll(i => (i.ProcessingDate >= DateTime.Parse(_currenDatetime2) && i.InOutType == 1) && i.IsDeleted == false);
+            var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
+
+            var _exist = _locationsInOut.Join(activeStaff,
+                io => io.StaffId,
                 s => s.Id,
-                r => r.StaffId,
-                (s, r) => new { staffs = s, staffStamp = r })
-                .Where(i => (i.staffs.Active && i.staffs.Status == 1 && i.staffStamp.Stamp.Lost == 0 && i.staffStamp.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
-                .Select(s => s.staffStamp)
-                .OrderBy(n => n.Staff.FirstName);
-            */
-
-            /*
-            var orn = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
-            i.Staff.WhiteCollarWorker == false && i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"))).OrderBy(n => n.Stamp.Id);
-            */
-            /*
-            var test = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
-            i.Staff.WhiteCollarWorker == false && i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000"))).OrderBy(n => n.Stamp.Id);
-            */
-
-            //var _persMotion = new PersonMotionVM();
-
-            //WORKING SOME
+                (io, s) => new { inout = io, staff = s })
+                .Select(x => x.staff);
 
             var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active &&
             i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
@@ -62,21 +52,8 @@ namespace Opus.Areas.HR.Controllers
                 s => s.StaffId,
                 r => r.StaffId,
                 (s, r) => new { staffStamp = s, timeKeeping = r })
-                .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
+                .Where(i => (i.staffStamp.StaffId == i.timeKeeping.StaffId && !_exist.Any(x => x.Id == i.staffStamp.StaffId)))
                 .OrderBy(n => n.staffStamp.Staff.FirstName);
-
-            /*
-            var personmotionAnonymous = _uow.StaffStamp.GetAll(includeProperties: "Staff,Stamp").Where(i => (i.Staff.Active && i.Staff.BlackList == false &&
-            i.Staff.Status == 1 && i.Stamp.Lost == 0 && i.CancelingDate == DateTime.Parse("0001-01-01 00:00:00.0000000")))
-                .Join(timeekeeping,
-                s => s.StaffId,
-                r => r.StaffId,
-                (s, r) => new { staffStamp = s, timeKeeping = r })
-                .Where(i => i.staffStamp.StaffId == i.timeKeeping.StaffId)
-                .OrderBy(n => n.staffStamp.Staff.FirstName);*/
-
-            //CheckTimeKeeping();
-
 
 
             IEnumerable<PersonMotionVM> _personMotion = null;
@@ -335,14 +312,6 @@ namespace Opus.Areas.HR.Controllers
                     break;
             }
 
-            //var _locations = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false));
-            //var _currenDatetime2 = DateTime.Now.ToString("yyyy-MM-dd 00:00:00.0000000");
-            var _currenDatetime2 = DateTime.Now.ToString("2022-12-05 00:00:00.0000000");//TEST
-            var _currenToday = DateTime.Today;
-            var _locationsInOut = _uow.LocationInOut.GetAll(i => (i.ProcessingDate >= DateTime.Parse(_currenDatetime2) && i.InOutType == 1) && i.IsDeleted == false);
-            var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
-
-
 
             var PM = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false))
                 .Join(_locationsInOut,
@@ -360,9 +329,9 @@ namespace Opus.Areas.HR.Controllers
 
             var data = PM.Select(x => new PersonMotionLocations
             {
-                Counted = x.GetLocation.Count(),
-                Location = x.LocationName
-            }).OrderBy(c => c.Counted);
+                Location = x.LocationName,
+                Counted = x.GetLocation.Count()
+            }).OrderByDescending(c => c.Counted);
 
             var PersonMotionMain = new PersonMotionMain
             {
