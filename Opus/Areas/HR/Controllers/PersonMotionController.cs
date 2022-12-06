@@ -8,6 +8,7 @@ using Opus.Models.DbModels;
 using Opus.Models.ViewModels;
 using Opus.Utility;
 using Opus.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -334,26 +335,40 @@ namespace Opus.Areas.HR.Controllers
                     break;
             }
 
-            var _locations = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false));
-            //var _locationsInOut = _uow.LocationInOut.GetAll(i => i.ProcessingDate == DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd 00:00:00.0000000")));
-            var _currenDatetime2 = DateTime.Now.ToString("yyyy-MM-dd 00:00:00.0000000");
+            //var _locations = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false));
+            //var _currenDatetime2 = DateTime.Now.ToString("yyyy-MM-dd 00:00:00.0000000");
+            var _currenDatetime2 = DateTime.Now.ToString("2022-12-05 00:00:00.0000000");//TEST
             var _currenToday = DateTime.Today;
             var _locationsInOut = _uow.LocationInOut.GetAll(i => (i.ProcessingDate >= DateTime.Parse(_currenDatetime2) && i.InOutType == 1) && i.IsDeleted == false);
             var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
-            //result = 131
 
-            foreach (var item in _locations)
+
+
+            var PM = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false))
+                .Join(_locationsInOut,
+                loc => loc.Id,
+                io => io.LocationId,
+                (loc, io) => new { location = loc, inout = io })
+                .GroupBy(i => i.inout.LocationId, (key, g) => new
+                {
+                    Key = key,
+                    LocationName = g.FirstOrDefault().location,
+                    GetLocation = g
+                    .Select(x => x.inout)
+                });
+
+
+            var data = PM.Select(x => new PersonMotionLocations
             {
-
-            }
+                Counted = x.GetLocation.Count(),
+                Location = x.LocationName
+            }).OrderBy(c => c.Counted);
 
             var PersonMotionMain = new PersonMotionMain
             {
                 PersonMotionVMs = _personMotion,
-                Locations = _locations,
+                PersonMotionLocations = data,
             };
-
-
 
             return View(PersonMotionMain);
         }

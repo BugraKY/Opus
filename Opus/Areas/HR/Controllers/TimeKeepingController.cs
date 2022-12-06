@@ -71,7 +71,7 @@ namespace Opus.Areas.HR.Controllers
         {
             var i = 0;
             var _staff = _uow.Staff.GetAll(i => i.Active && i.Status == 1);
-            return _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == 8))
+            return _uow.TimeKeeping.GetAll().Where(i => (i.Year == DateTime.Now.Year && i.Month == DateTime.Now.Month))
                 .Join(_staff,
                 t => t.StaffId,
                 s => s.Id,
