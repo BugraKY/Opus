@@ -141,9 +141,25 @@ Tanim.Kase          = Stamp                             // 1. Sıra
 
 
 
+
+
+
 Data Source =192.168.0.252,1434; Initial Catalog=ExpertIK; User id=sa; Password=1q2w3e;
 Server=45.200.120.35;Database=Opus;User Id=sa;Password=Bugra1216;
 Server=45.195.25.230;Database=Opus;User Id=sa;Password=1JwKSnim306A4jN974DYVqY;
+
+
+
+/*
+#FF9920   orange
+#363636   grey
+#678D58   green
+#E01A4F   RED
+#53B3CB   blue
+#5158BB   purple
+#573D1C   brown
+*/
+
 
 
 https://learn.microsoft.com/en-us/dotnet/api/microsoft.exchange.webservices.data.exchangeservice?view=exchange-ews-api

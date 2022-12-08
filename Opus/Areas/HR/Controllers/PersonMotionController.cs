@@ -337,6 +337,7 @@ namespace Opus.Areas.HR.Controllers
             {
                 PersonMotionVMs = _personMotion,
                 PersonMotionLocations = data,
+                ExistStaff=_exist
             };
 
             return View(PersonMotionMain);
@@ -394,6 +395,76 @@ namespace Opus.Areas.HR.Controllers
             }).Start();
             return true;
         }
+        [HttpGet("person-motion/api/person-info/{id}")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
+        public PersonInfoVM GetPersonInfo(long id)
+        {
+            var _staff = _uow.Staff.GetFirstOrDefault(i => i.Id == id);
+            var LocationInOut = _uow.LocationInOut.GetAll(i => (i.StaffId == id && i.ProcessingDate > DateTime.Now.AddDays(-7))).OrderByDescending(i => i.Id);
+            var LocationList = new List<LocationInOutVM>();
 
+            foreach (var item in LocationInOut)
+            {
+                //var locationIOvm = (LocationInOutVM)item;
+                var locationIOvm = new LocationInOutVM
+                {
+                    Location = _uow.Location.GetFirstOrDefault(i => i.Id == item.LocationId).Name,
+                    Hour = item.Hour,
+                    Break = item.Break,
+                    InOutType = item.InOutType,
+                    Id = item.Id,
+                    LocationId = 0,
+                    StaffId = 0,
+                    UserIntId = 0,
+                    DateStr = item.ProcessingDate.ToString("dd-MM-yyyy"),
+                };
+                //locationIOvm.Location = _uow.Location.GetFirstOrDefault(i => i.Id == item.LocationId).Name;
+                LocationList.Add(locationIOvm);
+            }
+            var personinfo = new PersonInfoVM
+            {
+                FullName = _staff.FirstName + ' ' + _staff.LastName,
+                LocationInOut = LocationList
+            };
+
+            return personinfo;
+
+        }
+        [HttpGet("person-motion/api/location-details/{locationid}")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
+        public LocationDetailsMainVM GetLocationDetais(long locationid)
+        {
+            var _currenDatetime2 = DateTime.Now.AddDays(-20).ToString("yyyy-MM-dd 00:00:00.0000000");
+            //var locationInOut = _uow.LocationInOut.GetAll(i => (i.LocationId == locationid && i.ProcessingDate >= DateTime.Parse(_currenDatetime2) && i.InOutType == 1) && i.IsDeleted == false);
+            //InoutType 1 and IsDeleted 1 olanlar tamamlanmış oluyor. Lokasyon içinde değiller!
+            //InoutType 1 and IsDeleted 0 olanlar lokasyonda mesaide oluyorlar.
+            var locationInOut = _uow.LocationInOut.GetAll(i => (i.LocationId == locationid && i.InOutType == 1) && i.IsDeleted == false);
+            var activeStaff = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active));
+            var locationDetailsItemList = new List<LocationDetailsItemVM>();
+            foreach (var item in locationInOut)
+            {
+                var _staff = activeStaff.FirstOrDefault(i => i.Id == item.StaffId);
+                var locationDetailsItem = new LocationDetailsItemVM
+                {
+                    DateStr = item.ProcessingDate.ToString("dd-MM-yyyy"),
+                    FullName = _staff.FirstName + " " + _staff.LastName,
+                    Hour=item.Hour,
+                    StaffId= item.StaffId,
+                    InOutType= item.InOutType,
+                    LocationInOutId= item.Id,
+                };
+                locationDetailsItemList.Add(locationDetailsItem);
+            }
+
+            var _location = _uow.Location.GetFirstOrDefault(i => i.Id == locationid);
+            var locationDetails = new LocationDetailsMainVM
+            {
+                LocationId = locationid,
+                Location = _location.Name,
+                LocationDetailItems= locationDetailsItemList.OrderBy(i=>i.FullName)
+            };
+            //Thread.Sleep(500);
+            return locationDetails;
+        }
     }
 }

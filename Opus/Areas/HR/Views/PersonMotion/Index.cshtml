@@ -40,6 +40,44 @@
     h5 {
         color: white !important;
     }
+
+    .container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .ellipsis-1 {
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    /*
+    .modal {
+        display: table !important;
+    }
+
+    .modal-opus {
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        display: table;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        border: 1px solid;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    .body {
+        display: table-cell !important;
+        vertical-align: middle !important;
+        text-align: center !important;
+    }*/
 </style>
 <div class="content-header">
     <div class="d-flex align-items-center">
@@ -129,6 +167,7 @@
                                                         }
                                                         else if (item.Today == "UL")
                                                         {
+                                                            <span class="badge badge-warning shadow-2-strong">Unpaid Leave</span>
                                                         }
                                                         else
                                                         {
@@ -137,7 +176,7 @@
 
 
                                                     </td>
-                                                    <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                                                    <td class="text-center"><a href="#" style="font-size:large;color:black" data-bs-toggle="modal" data-bs-target="#person-info" onclick="getpersoninfo(@item.StaffStamp.StaffId)"><i class="fa fa-info-circle"></i></a></td>
                                                 </tr>
                                             }
 
@@ -206,8 +245,8 @@
 
                                 <div style="height:53.59px;">
                                     <div class="row">
-                                        <div class="col-6"><h6>Active locations: @Model.PersonMotionLocations.Count()</h6></div>
-                                        <div class="col-6"><h6></h6></div>
+                                        <div class="col-12"><h6>Active Staff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.ExistStaff.Count()</h6></div>
+                                        <div class="col-12"><h6>Active locations: @Model.PersonMotionLocations.Count()</h6></div>
                                     </div>
                                 </div>
 
@@ -219,14 +258,14 @@
                                             @foreach (var item in Model.PersonMotionLocations)
                                             {
                                                 <div class="col-12 col-xl-4">
-                                                    <div class="box box-inverse box-dangers shadow-selected waves-effect waves-light">
-                                                        <a class="locations" href="#@item.Location.Name">
+                                                    <div class="box box-inverse shadow-selected waves-effect waves-light" style="background-color:@item.Location.ColorHex">
+                                                        <a class="locations" href="#@item.Location.Name" data-bs-toggle="modal" data-bs-target="#location-details" onclick="getlocationDetails(@item.Location.Id)">
                                                             <div class="box-body">
-                                                                <div class="text-center pt-lg-10">
-                                                                    <h5 style="color:white!important;">@item.Counted</h5>
-                                                                </div>
                                                                 <div class="text-center my-2">
                                                                     <span style="font-size:x-large">@item.Location.Name</span>
+                                                                </div>
+                                                                <div class="text-center pt-lg-10">
+                                                                    <h5 style="color:white!important;">@item.Counted</h5>
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -240,11 +279,11 @@
                                                 <div class="box box-inverse box-warning shadow-selected waves-effect waves-light">
                                                     <a class="locations">
                                                         <div class="box-body">
-                                                            <div class="text-center pt-lg-10">
-                                                                <h5 style="color:white!important;"></h5>
-                                                            </div>
                                                             <div class="text-center my-2">
                                                                 <span style="font-size:x-large">No location has been added yet!</span>
+                                                            </div>
+                                                            <div class="text-center pt-lg-10">
+                                                                <h5 style="color:white!important;"></h5>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -340,6 +379,46 @@
     </div>
 </section>
 
+<!-- Modal -->
+<div class="modal center-modal fade" id="person-info" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-opus">
+                <h5 class="modal-title person-info-title">Person Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body person-info-body">
+                <p></p>
+            </div>
+            <div class="modal-footer modal-footer-uniform">
+                @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<!-- Modal -->
+<div class="modal center-modal fade" id="location-details" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-opus">
+                <h5 class="modal-title location-details-title">Location Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body location-details-body">
+                <p></p>
+            </div>
+            <div class="modal-footer modal-footer-uniform">
+                @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+
+
 
 @section Scripts{
     <script type="text/javascript">
@@ -347,6 +426,92 @@
             $('#personlist').DataTable({});
             $('.slimScrollDiv').css("height", "600px");
             $('.inner-content-div').css("height", "600px");
+
+            $('a').on('click', '.pinfo', function (e) {
+            });
+            $('#personlist_length').addClass('d-none');
         })
+
+
+        function getpersoninfo(id) {
+            $.ajax({
+                url: "/person-motion/api/person-info/" + id,
+                contentType: "application/json; charset=utf-8",
+                type: "GET",
+                /*cache: false,*/
+                beforeSend: function () {
+                    $('.person-info-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $('.person-info-title').html(`Person Info - ` + data.fullName);
+                    $('.person-info-body').html(`<table id="personlistd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table>`);
+                    $('#personlistd').DataTable({
+                        paging: false,
+                        searching: false,
+                        ordering: false,
+                        autoWidth: false,
+                        "data": data.locationInOut,
+                        "columns": [
+                            { "data": "location", "title": "Locations", "width": "160px", "className": "ellipsis-1" },
+                            {
+                                "data": "inOutType",
+                                "title": "In/Out Type",
+                                "render": function (data, type, row, meta) {
+                                    if (data == 1)
+                                        return 'In';
+                                    else
+                                        return 'Out';
+                                },
+                                "width": "20px",
+                                "className": "text-center"
+                            },
+                            { "data": "dateStr", "title": "Date", "width": "70px" },
+                            { "data": "hour", "title": "Time" },
+                            { "data": "break", "title": "Off" },
+                        ]
+                    });
+                }
+            });
+
+
+        }
+
+        function getlocationDetails(locationid) {
+            $.ajax({
+                url: "/person-motion/api/location-details/" + locationid,
+                contentType: "application/json; charset=utf-8",
+                type: "GET",
+                /*cache: false,*/
+                beforeSend: function () {
+                    $('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $('.location-details-title').html(`Location - ` + data.location);
+                    $('.location-details-body').html(`<table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table>`);
+                    
+                    $('#locationdetailsd').DataTable({
+                        paging: false,
+                        searching: false,
+                        ordering: false,
+                        autoWidth: false,
+                        "data": data.locationDetailItems,
+                        "columns": [
+                            { "data": "fullName", "title": "Name", "width": "160px", "className": "ellipsis-1" },
+                            { "data": "dateStr", "title": "Date", "width": "70px" },
+                            { "data": "hour", "title": "InTime" },
+                            {
+                                "data": "hour",
+                                "title": "Status",
+                                "render": function (data, type, row, meta) {
+                                    return `<span class="badge badge-success shadow-2-strong">Active</span>`;
+                                },
+                            },
+                        ]
+                    });
+
+                    
+                }
+            });
+        }
     </script>
 }
