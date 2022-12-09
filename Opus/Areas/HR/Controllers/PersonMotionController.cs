@@ -35,7 +35,6 @@ namespace Opus.Areas.HR.Controllers
 
             //var _locations = _uow.Location.GetAll(i => (i.Active && i.IsDelete == false));
             var _currenDatetime2 = DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd 00:00:00.0000000");
-            //var _currenDatetime2 = DateTime.Now.ToString("2022-12-05 00:00:00.0000000");//TEST
             var _currenToday = DateTime.Today;
             var _locationsInOut = _uow.LocationInOut.GetAll(i => (i.ProcessingDate >= DateTime.Parse(_currenDatetime2) && i.InOutType == 1) && i.IsDeleted == false);
             var _motion = _uow.Staff.GetAll(i => (i.Status == 1 && i.Active && i.BlackList == false));
@@ -58,7 +57,7 @@ namespace Opus.Areas.HR.Controllers
 
             IEnumerable<PersonMotionVM> _personMotion = null;
             IEnumerable<PersonMotionLocations> personMotionLocations = null;
-            switch ((Enums.TimeKeeping)DateTime.Now.Day)
+            switch ((Enums.TimeKeeping)DateTime.Now.AddDays(-3).Day)
             {
                 case Enums.TimeKeeping.D01:
                     _personMotion = personmotionAnonymous.Select(x => new PersonMotionVM

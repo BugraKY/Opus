@@ -1,5 +1,6 @@
 ﻿@{
     int MR = 0, AL = 0, NW = 0, UL = 0, S = 0;
+    double calcrange = 0;
 }
 
 @model Opus.Models.ViewModels.PersonMotionMain
@@ -141,6 +142,18 @@
                                                     }
                                                     else
                                                     {
+                                                        if (item.Today != "MR" && item.Today != "AL" && item.Today != "NW" && item.Today != "UL")
+                                                        {
+                                                            calcrange = (100 / 7.5) * double.Parse(item.Today);
+                                                            if (calcrange > 100)
+                                                                calcrange = 100;
+
+                                                            <td>@item.Today - @int.Parse(calcrange.ToString())</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            calcrange = 0;
+                                                        }
                                                         <td>@item.Today</td>
                                                     }
 
@@ -245,8 +258,8 @@
 
                                 <div style="height:53.59px;">
                                     <div class="row">
-                                        <div class="col-12"><h6>Active Staff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.ExistStaff.Count()</h6></div>
-                                        <div class="col-12"><h6>Active locations: @Model.PersonMotionLocations.Count()</h6></div>
+                                        <div class="col-12"><h6>Staff at the location:&nbsp;&nbsp;@Model.ExistStaff.Count()</h6></div>
+                                        <div class="col-12"><h6>Active locations:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.PersonMotionLocations.Count()</h6></div>
                                     </div>
                                 </div>
 
@@ -488,7 +501,7 @@
                 success: function (data, textStatus, jqXHR) {
                     $('.location-details-title').html(`Location - ` + data.location);
                     $('.location-details-body').html(`<table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table>`);
-                    
+
                     $('#locationdetailsd').DataTable({
                         paging: false,
                         searching: false,
@@ -509,7 +522,7 @@
                         ]
                     });
 
-                    
+
                 }
             });
         }
