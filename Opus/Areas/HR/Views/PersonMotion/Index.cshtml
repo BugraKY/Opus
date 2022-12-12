@@ -415,6 +415,7 @@
 <div class="modal center-modal fade" id="location-details" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header bg-opus">
                 <h5 class="modal-title location-details-title">Location Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -500,7 +501,8 @@
                 },
                 success: function (data, textStatus, jqXHR) {
                     $('.location-details-title').html(`Location - ` + data.location);
-                    $('.location-details-body').html(`<table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table>`);
+
+                    $('.location-details-body').html(`<div class="table-responsive"><table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table><button class="btn btn-success waves-effect waves-light" onclick="testforcheckboxquery()">Submit</button></div>`);
 
                     $('#locationdetailsd').DataTable({
                         paging: false,
@@ -509,8 +511,16 @@
                         autoWidth: false,
                         "data": data.locationDetailItems,
                         "columns": [
+                            {
+                                "data": "locationInOutId",
+                                "title": "#",
+                                "width": "50px",
+                                "render": function (data, type, row, meta) {
+                                    return `<input type="checkbox" name="locinoutstatus[]" id="perinfo` + data + `" class="chk-col-success" value="` + data + `"><label for="perinfo` + data + `"></label>`;
+                                }
+                            },
                             { "data": "fullName", "title": "Name", "width": "160px", "className": "ellipsis-1" },
-                            { "data": "dateStr", "title": "Date", "width": "70px" },
+                            { "data": "dateStr", "title": "Date", "width": "85px" },
                             { "data": "hour", "title": "InTime" },
                             {
                                 "data": "hour",
@@ -525,6 +535,36 @@
 
                 }
             });
+        }
+
+        function testforcheckboxquery() {
+            var test = $("input[name='locinoutstatus']").val();
+
+            var values = [];
+            $("input[name='locinoutstatus[]']:checked").each(function () {
+                values.push($(this).val());
+            });
+            if (values.length > 0) {
+                console.log(values);
+                alert("Submit can be done.");
+            } else {
+                alert("You cannot use submit");
+            }
+            /*
+            $.ajax({
+                url: "/person-motion/api/testchkqu/",
+                contentType: "application/json; charset=utf-8",
+                type: 'POST',
+                dataType: 'json',
+                data:
+                //cache: false,
+                beforeSend: function () {
+                    //$('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
+                },
+                success: function (data, textStatus, jqXHR) {
+                }
+            });
+            */
         }
     </script>
 }
