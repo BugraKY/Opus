@@ -52,33 +52,60 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+    .modal-backdrop.show {
+        opacity: 0 !important;
+        /*backdrop-filter: blur(2px)!important;*/
+        filter: blur(4px)!important;
+    }
+    .modal-dialog {
+        max-height: 100% !important;
+    }
     /*
-    .modal {
-        display: table !important;
+    .table-responsive {
+        min-height: 340px !important;
+        height: 500px;
+        max-height: 900px !important;
     }
-
-    .modal-opus {
-        width: 300px;
-        height: 300px;
-        margin: 0 auto;
-        display: table;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 50%;
-        border: 1px solid;
-        -webkit-transform: translateY(-50%);
-        -moz-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        -o-transform: translateY(-50%);
-        transform: translateY(-50%);
+    */
+    @@media only screen and (max-width: 499px) {
+        .modal-dialog {
+            max-height: 100% !important;
+        }
     }
-
-    .body {
-        display: table-cell !important;
-        vertical-align: middle !important;
-        text-align: center !important;
+    /*
+    @@media only screen and (max-width: 800px) {
+        .modal {
+            overflow: hidden !important;
+        }
     }*/
+
+    /*
+        .modal {
+            display: table !important;
+        }
+
+        .modal-opus {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            display: table;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            border: 1px solid;
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .body {
+            display: table-cell !important;
+            vertical-align: middle !important;
+            text-align: center !important;
+        }*/
 </style>
 <div class="content-header">
     <div class="d-flex align-items-center">
@@ -153,8 +180,9 @@
                                                         else
                                                         {
                                                             calcrange = 0;
+                                                            <td>@item.Today</td>
                                                         }
-                                                        <td>@item.Today</td>
+
                                                     }
 
                                                     <td>
@@ -431,12 +459,74 @@
     </div>
 </div>
 <!-- /.modal -->
+<!-- Modal -->
+<div class="modal center-modal fade" id="endofshift" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title endofshift-title">End of time</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body endofshift-body">
+                <div class="row">
+
+                    <div class="col-5">
+                        <div class="form-group row">
+                            <label class="pb-1">Time: </label>
+                            <input class="form-control" type="time" name="shifttime" value="@DateTime.Now.ToString("HH:mm")" />
+                        </div>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-5">
+                        <div class="form-group row">
+                            <label class="pb-1">Meal Time: </label>
+                            <select class="form-control" name="mealtime">
+                                <option value="00:00">00:00</option>
+                                <option value="00:30">00:30</option>
+                                <option value="00:45">00:45</option>
+                                <option value="01:00">01:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-group-lg btn-primary waves-effect waves-light btn-eoshift" onclick="postEOshift()">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modal-footer-uniform">
+                @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
 
 
 
 @section Scripts{
     <script type="text/javascript">
+        var windowtheight = 0;
+        var responsiveheight = 0;
+        var poststatus = false;
+        var selectedLocationId = 0;
+        var endofshiftHTML = `
+<div>
+                        <input class="form-control" type="time" name="shifttime"/>
+</div>`;
+
+        $(window).resize(function () {
+            changeSize();
+        })
+
         $(document).ready(function () {
+
+
+
             $('#personlist').DataTable({});
             $('.slimScrollDiv').css("height", "600px");
             $('.inner-content-div').css("height", "600px");
@@ -444,6 +534,8 @@
             $('a').on('click', '.pinfo', function (e) {
             });
             $('#personlist_length').addClass('d-none');
+
+            changeSize();
         })
 
 
@@ -500,9 +592,16 @@
                     $('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
                 },
                 success: function (data, textStatus, jqXHR) {
+                    selectedLocationId = locationid;
                     $('.location-details-title').html(`Location - ` + data.location);
 
-                    $('.location-details-body').html(`<div class="table-responsive"><table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table><button class="btn btn-success waves-effect waves-light" onclick="testforcheckboxquery()">Submit</button></div>`);
+                    $('.location-details-body').html(`
+<div class="row">
+<div class="col-6"><button class="btn btn-warning waves-effect waves-light" onclick="endcheckboxquery()">End of shift</button></div>
+<div class="col-6"><button class="btn btn-danger waves-effect waves-light" onclick="cancelcheckboxquery()">Cancel</button></div>
+</div>
+<div class="table-responsive" id="locdetresponsive">
+<table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table></div>`);
 
                     $('#locationdetailsd').DataTable({
                         paging: false,
@@ -520,7 +619,7 @@
                                 }
                             },
                             { "data": "fullName", "title": "Name", "width": "160px", "className": "ellipsis-1" },
-                            { "data": "dateStr", "title": "Date", "width": "85px" },
+                            { "data": "dateStr", "title": "Date", "width": "100px" },
                             { "data": "hour", "title": "InTime" },
                             {
                                 "data": "hour",
@@ -532,39 +631,116 @@
                         ]
                     });
 
-
+                    changeSize();
                 }
             });
         }
+        function endcheckboxquery() {
 
-        function testforcheckboxquery() {
+            var values = [];
+
+            $("input[name='locinoutstatus[]']:checked").each(function () {
+                values.push($(this).val());
+            });
+            if (values.length > 0)
+                $('#endofshift').modal('show');
+            else
+                alert("Please select some staff");
+
+
+        }
+
+        function postEOshift() {
+
             var test = $("input[name='locinoutstatus']").val();
 
             var values = [];
+            var endoftime = $("input[name='shifttime']").val();
+            var mealtime = $("select[name='mealtime']").val();
+
             $("input[name='locinoutstatus[]']:checked").each(function () {
                 values.push($(this).val());
             });
             if (values.length > 0) {
-                console.log(values);
-                alert("Submit can be done.");
-            } else {
-                alert("You cannot use submit");
+                console.log(status);
+
+
+
+
+                var status = {
+                    ids: values,
+                    endoftime: $("input[name='shifttime']").val(),
+                    mealtime: $("select[name='mealtime']").val()
+                };
+
+                //status.ids = values;
+                //status.endoftime = $("input[name='time']").val();
+                //status.mealtime = $("input[name='mealtime']").val();
+
+                $.ajax({
+                    url: "/person-motion/api/endofshift/",
+                    contentType: "application/json; charset=utf-8",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(status),
+                    //cache: false,
+                    beforeSend: function () {
+                        $('.btn-eoshift').prop('disabled', true);
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        console.clear();
+                        console.log("End Of Shift: ");
+                        console.log(data);
+                        $('#endofshift').modal("hide");
+                        $('.btn-eoshift').prop('disabled', false);
+
+                        Swal.fire(
+                            'Success',
+                            'Shifts has been successfully ended',
+                            'success'
+                        )
+                        getlocationDetails(selectedLocationId);
+                    }
+                });
+
             }
-            /*
-            $.ajax({
-                url: "/person-motion/api/testchkqu/",
-                contentType: "application/json; charset=utf-8",
-                type: 'POST',
-                dataType: 'json',
-                data:
-                //cache: false,
-                beforeSend: function () {
-                    //$('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
-                },
-                success: function (data, textStatus, jqXHR) {
-                }
-            });
-            */
+            else {
+                alert("Please select some staff");
+            }
         }
+
+        function changeSize() {
+            windowtheight = $(window).height();
+            responsiveheight = windowtheight - 140;
+            if (windowtheight < 800) {
+                $("#locdetresponsive").height(responsiveheight);
+                $("#locdetresponsive").addClass("shadow");
+                //$("body").css("overflow-y", "hidden");
+                //$("body").css("overflow-y", "hidden");
+            }
+            else {
+                $("#locdetresponsive").removeClass("shadow");
+                //$("body").css("overflow-y", "auto");
+            }
+        }
+        /*
+        $(document).on('show.bs.modal', '#endofshift', function (e) {
+            console.log('endof shift açıldı!');
+        });
+        */
+        $('#endofshift').on('shown.bs.modal', function (e) {
+            console.log('endof shift açıldı!');
+            console.log(e);
+
+            //filter: blur(4px);
+            //$(".content-wrapper").css("backdrop-filter", "blur(2px)");
+        });
+        $('#endofshift').on('hidden.bs.modal', function (e) {
+            console.log('endof shift kapandı!');
+            console.log(e);
+            //$(".content-wrapper").css("filter", "blur(0px)");
+
+        });
+
     </script>
 }

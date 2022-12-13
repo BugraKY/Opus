@@ -465,5 +465,18 @@ namespace Opus.Areas.HR.Controllers
             //Thread.Sleep(500);
             return locationDetails;
         }
+
+        [HttpPost("person-motion/api/endofshift/")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
+        public object EndofShift([FromBody] EndOfShiftVM EOshift)
+        {   
+            foreach (var item in EOshift.Ids)
+            {
+                var inout = _uow.LocationInOut.GetFirstOrDefault(i=>i.Id==item);
+                var staff = _uow.Staff.GetFirstOrDefault(i => i.Id == inout.StaffId);
+            }
+            Thread.Sleep(1000);
+            return EOshift;
+        }
     }
 }
