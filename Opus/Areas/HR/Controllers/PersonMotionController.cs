@@ -9,6 +9,7 @@ using Opus.Models.ViewModels;
 using Opus.Utility;
 using Opus.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NuGet.Packaging.Signing;
 
 namespace Opus.Areas.HR.Controllers
 {
@@ -477,6 +478,45 @@ namespace Opus.Areas.HR.Controllers
             }
             Thread.Sleep(1000);
             return EOshift;
+        }
+
+        [HttpPost("person-motion/api/startofshift/")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
+        public StartOfShiftVM StartofShift([FromBody] StartOfShiftVM EOshift)
+        {
+            var _soshift = new List<Staff>();
+            var names = new List<string>();
+            foreach (var item in EOshift.Ids)
+            {
+                //var inout = _uow.LocationInOut.GetFirstOrDefault(i => i.Id == item);
+                var staff = _uow.Staff.GetFirstOrDefault(i => i.Id == item);
+                _soshift.Add(staff);
+                names.Add(staff.FirstName + " " + staff.LastName);
+            }
+            EOshift = new StartOfShiftVM
+            {
+                Ids = EOshift.Ids,
+                Staff = _soshift,
+                LocId=EOshift.LocId,
+                FullName=names
+            };
+            Thread.Sleep(1000);
+            return EOshift;
+        }
+
+        [HttpGet("person-motion/api/get-locations/")]
+        [Authorize(Roles =UserRoles.Admin+","+UserRoles.HR_Responsible)]
+        public object GetLocations()
+        {
+            var locations = _uow.Location.GetAll(i => (!i.IsDelete && i.Active));
+            return _uow.Location.GetAll(i => (!i.IsDelete && i.Active));
+        }
+
+        [HttpGet("person-motion/api/get-watch/")]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
+        public string GetWatch()
+        {
+            return @DateTime.Now.ToString("HH:mm");
         }
     }
 }

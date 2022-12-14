@@ -228,6 +228,16 @@ tbody {
     border-color: #2aa377 !important;
     color: #ffffff !important;
 }
+.btn-danger-opus {
+    background-color: #FB2F00 !important;
+    border-color: #FB2F00 !important;
+    color: #ffffff !important;
+}
+.btn-warning-opus {
+    background-color: #EC8000 !important;
+    border-color: #EC8000 !important;
+    color: #ffffff !important;
+}
 
 .btn-white {
     background-color: #f8f8f8 !important;

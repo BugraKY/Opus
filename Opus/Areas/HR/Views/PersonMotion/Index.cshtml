@@ -52,14 +52,33 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
     .modal-backdrop.show {
         opacity: 0 !important;
         /*backdrop-filter: blur(2px)!important;*/
-        filter: blur(4px)!important;
+        /*filter: blur(4px)!important;*/
     }
+
     .modal-dialog {
         max-height: 100% !important;
     }
+
+    .modal.fade.show {
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        -moz-backdrop-filter: blur(5px);
+        -o-backdrop-filter: blur(5px);
+        -ms-backdrop-filter: blur(5px);
+    }
+    /*
+    td.fitwidth {
+        width: 1px !important;
+        white-space: nowrap !important;
+    }
+
+    .table.plist > tbody > tr > td.fitwidth, .table > tbody > tr > th {
+        padding: 0px 0px 0px 0px !important;
+    }*/
     /*
     .table-responsive {
         min-height: 340px !important;
@@ -67,10 +86,29 @@
         max-height: 900px !important;
     }
     */
+    #locdetresponsive {
+        max-height: 100% !important;
+        height: 600px;
+        min-height: 200px;
+    }
+
     @@media only screen and (max-width: 499px) {
         .modal-dialog {
             max-height: 100% !important;
         }
+    }
+
+    .modal-open .modal {
+        overflow-y: hidden;
+        /*filter:blur(4px);*/
+    }
+
+    body.modal-open .supreme-container {
+        -webkit-filter: blur(4px);
+        -moz-filter: blur(4px);
+        -o-filter: blur(4px);
+        -ms-filter: blur(4px);
+        filter: blur(4px);
     }
     /*
     @@media only screen and (max-width: 800px) {
@@ -78,7 +116,6 @@
             overflow: hidden !important;
         }
     }*/
-
     /*
         .modal {
             display: table !important;
@@ -106,7 +143,26 @@
             vertical-align: middle !important;
             text-align: center !important;
         }*/
+    #personlist_filter {
+        position: sticky !important;
+        /*top:210px!important;
+        display:flex!important;
+        z-index:99!important;
+        left:40px!important;*/
+        top: 0px;
+        z-index: 999 !important;
+    }
+    .dataTables_info{
+        display:none!important;
+    }
+    thead {
+        position: sticky !important;
+        top: -1px;
+        background-color:white!important;
+        z-index:99!important;
+    }
 </style>
+
 <div class="content-header">
     <div class="d-flex align-items-center">
         <div class="me-auto">
@@ -143,138 +199,158 @@
                                         <div class="col-6"><h6>NW:@NW</h6></div>
                                         <div class="col-6"><h6>UL:@UL</h6></div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <button class="btn btn-opus waves-effect waves-light" style="width:100%;" onclick="getlocationsforstart()">Move</button>
+                                        </div>
+                                        <div class="col-4">
+                                            <button class="btn btn-danger-opus waves-effect waves-light" style="width:100%;">NW</button>
+                                        </div>
+                                        <div class="col-4">
+                                            <button class="btn btn-warning-opus waves-effect waves-light" style="width:100%;">UL</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table id="personlist" class="table table-bordered table-hover table-striped dataTables mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Time</th>
-                                                <th scope="col">Work Status</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Info</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model.PersonMotionVMs)
-                                            {
-                                                S++;
+                                <div class="row pt-50">
+                                    <input type="search" name="personlistsrch" placeholder="Search" value="" class="form-control" />
+                                </div>
+                                <div style="max-height: 650px!important;">
+                                    <div class="table-responsive mt-50" style="max-height: 650px!important;position:relative;">
+                                        <!--style="max-height:750px;"-->
+                                        <table id="personlist" class="table plist table-bordered table-hover table-striped dataTables mb-0">
+                                            <thead>
                                                 <tr>
-                                                    <td scope="row">@S.ToString()</td>
-                                                    <td>@item.StaffStamp.Staff.FirstName @item.StaffStamp.Staff.LastName - @item.StaffStamp.Stamp.StampNumber</td>
-                                                    @if (item.Today == null)
-                                                    {
-                                                        <td>0</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        if (item.Today != "MR" && item.Today != "AL" && item.Today != "NW" && item.Today != "UL")
+                                                    <th scope="col">#</th>
+                                                    <th scope="col" style="max-width:35px;">Selection</th>
+                                                    <th scope="col" width="255">Name</th>
+                                                    <th scope="col">Time</th>
+                                                    <th scope="col">Work Status</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.PersonMotionVMs)
+                                                {
+                                                    S++;
+                                                    <tr class="fitwidth">
+                                                        <td scope="row">@S.ToString()</td>
+                                                        <td style="max-width:50px!important;"><input type="checkbox" name="locinoutsmotion[]" id="permot_@item.StaffStamp.StaffId" class="chk-col-success" value="@item.StaffStamp.StaffId"><label for="permot_@item.StaffStamp.StaffId"></label></td>
+                                                        <td>@item.StaffStamp.Staff.FirstName @item.StaffStamp.Staff.LastName - @item.StaffStamp.Stamp.StampNumber</td>
+                                                        @if (item.Today == null)
                                                         {
-                                                            calcrange = (100 / 7.5) * double.Parse(item.Today);
-                                                            if (calcrange > 100)
-                                                                calcrange = 100;
-
-                                                            <td>@item.Today - @int.Parse(calcrange.ToString())</td>
+                                                            <td>0</td>
                                                         }
                                                         else
                                                         {
-                                                            calcrange = 0;
-                                                            <td>@item.Today</td>
+                                                            if (item.Today != "MR" && item.Today != "AL" && item.Today != "NW" && item.Today != "UL")
+                                                            {
+                                                                calcrange = (100 / 7.5) * double.Parse(item.Today);
+                                                                if (calcrange > 100)
+                                                                    calcrange = 100;
+
+                                                                <td>@item.Today - @int.Parse(calcrange.ToString())</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                calcrange = 0;
+                                                                <td>@item.Today</td>
+                                                            }
+
                                                         }
 
-                                                    }
-
-                                                    <td>
-                                                        <div class="progress shadow-1-strong">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                                <span class="sr-only">0% Complete (success)</span>
+                                                        <td>
+                                                            <div class="progress shadow-1-strong">
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                                    <span class="sr-only">0% Complete (success)</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
+                                                        </td>
+                                                        <td class="text-center">
 
-                                                        @if (item.Today == "MR")
-                                                        {
-                                                            <span class="badge badge-warning shadow-2-strong">Medical Report</span>
-                                                        }
-                                                        else if (item.Today == "AL")
-                                                        {
-                                                            <span class="badge badge-warning shadow-2-strong">Annual Leave</span>
-                                                        }
-                                                        else if (item.Today == "NW")
-                                                        {
-                                                            <span class="badge badge-danger shadow-2-strong">Medical Report</span>
-                                                        }
-                                                        else if (item.Today == "UL")
-                                                        {
-                                                            <span class="badge badge-warning shadow-2-strong">Unpaid Leave</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="badge badge-success shadow-2-strong">Active</span>
-                                                        }
-
-
-                                                    </td>
-                                                    <td class="text-center"><a href="#" style="font-size:large;color:black" data-bs-toggle="modal" data-bs-target="#person-info" onclick="getpersoninfo(@item.StaffStamp.StaffId)"><i class="fa fa-info-circle"></i></a></td>
-                                                </tr>
-                                            }
+                                                            @if (item.Today == "MR")
+                                                            {
+                                                                <span class="badge badge-warning shadow-2-strong">Medical Report</span>
+                                                            }
+                                                            else if (item.Today == "AL")
+                                                            {
+                                                                <span class="badge badge-warning shadow-2-strong">Annual Leave</span>
+                                                            }
+                                                            else if (item.Today == "NW")
+                                                            {
+                                                                <span class="badge badge-danger shadow-2-strong">Medical Report</span>
+                                                            }
+                                                            else if (item.Today == "UL")
+                                                            {
+                                                                <span class="badge badge-warning shadow-2-strong">Unpaid Leave</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge badge-success shadow-2-strong">Active</span>
+                                                            }
 
 
-                                            @*
-                                                <tr>
-                                                    <td scope="row">1</td>
-                                                    <td>ABDULLAH AKTEPE - EX-48</td>
-                                                    <td>3</td>
-                                                    <td>
-                                                        <div class="progress shadow-1-strong">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                                <span class="sr-only">0% Complete (success)</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="badge badge-success shadow-2-strong">Active</span>
-                                                    </td>
-                                                    <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row">2</td>
-                                                    <td>ALEYNA TANRIVERDİ - EX-94</td>
-                                                    <td>1</td>
-                                                    <td>
-                                                        <div class="progress shadow-1-strong">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 15%">
-                                                                <span class="sr-only">0% Complete (success)</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="badge badge-success shadow-2-strong">Active</span>
-                                                    </td>
-                                                    <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td scope="row">3</td>
-                                                    <td>ASLI TUFAN - EX-266</td>
-                                                    <td>UL</td>
-                                                    <td>
-                                                        <div class="progress shadow-1-strong">
-                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                                                <span class="sr-only">0% Complete (success)</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <span class="badge badge-success shadow-2-strong">Active</span>
-                                                    </td>
-                                                    <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
-                                                </tr>
-                                            *@
-                                        </tbody>
-                                    </table>
+                                                        </td>
+                                                        <td class="text-center"><a href="#" style="font-size:large;color:black" data-bs-toggle="modal" data-bs-target="#person-info" onclick="getpersoninfo(@item.StaffStamp.StaffId)"><i class="fa fa-info-circle"></i></a></td>
+                                                    </tr>
+                                                }
+
+
+                                                @*
+                    <tr>
+                        <td scope="row">1</td>
+                        <td>ABDULLAH AKTEPE - EX-48</td>
+                        <td>3</td>
+                        <td>
+                            <div class="progress shadow-1-strong">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                    <span class="sr-only">0% Complete (success)</span>
                                 </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-success shadow-2-strong">Active</span>
+                        </td>
+                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">2</td>
+                        <td>ALEYNA TANRIVERDİ - EX-94</td>
+                        <td>1</td>
+                        <td>
+                            <div class="progress shadow-1-strong">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 15%">
+                                    <span class="sr-only">0% Complete (success)</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-success shadow-2-strong">Active</span>
+                        </td>
+                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">3</td>
+                        <td>ASLI TUFAN - EX-266</td>
+                        <td>UL</td>
+                        <td>
+                            <div class="progress shadow-1-strong">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                    <span class="sr-only">0% Complete (success)</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-success shadow-2-strong">Active</span>
+                        </td>
+                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                    </tr>
+                                                *@
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
 
                             </div>
                         </div>
@@ -418,97 +494,143 @@
         </div>
 
     </div>
+
+    <div class="modalsection">
+        <!-- Modal -->
+        <div class="modal center-modal fade" id="person-info" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-opus">
+                        <h5 class="modal-title person-info-title">Person Info</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body person-info-body">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+        <!-- Modal -->
+        <div class="modal center-modal fade" id="location-details" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-opus">
+                        <h5 class="modal-title location-details-title">Location Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body location-details-body">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+        <!-- Modal -->
+        <div class="modal center-modal fade" id="endofshift" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title endofshift-title">End of time</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body endofshift-body">
+                        <div class="row">
+
+                            <div class="col-5">
+                                <div class="form-group row">
+                                    <label class="pb-1">Time: </label>
+                                    <input class="form-control" type="time" name="shifttime" value="@DateTime.Now.ToString("HH:mm")" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="form-group row">
+                                    <label class="pb-1">Meal Time: </label>
+                                    <select class="form-control" name="mealtime">
+                                        <option value="00:00">00:00</option>
+                                        <option value="00:30">00:30</option>
+                                        <option value="00:45">00:45</option>
+                                        <option value="01:00">01:00</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-group-lg btn-primary waves-effect waves-light btn-eoshift" onclick="postEOshift()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+        <!-- Modal -->
+        <div class="modal center-modal fade" id="startofshiftlocation">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-opus">
+                        <h5 class="modal-title startofshift-title">Start of time</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body startofshift-body">
+                        <div class="row pt-10">
+                            <div class="col-12">
+                                <select class="form-control select2" id="shiftlocations">
+                                </select>
+                            </div>
+                            <div class="col-12 pt-10">
+                                <input class="form-control" type="date" name="startshiftdate" min="@DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="col-12 pt-10">
+                                <input class="form-control" type="time" name="startshifttime">
+                            </div>
+                            <div class="row pt-10">
+                                <div class="col-4 text-center"><button class="waves-effect waves-light btn btn-info-light" onclick="shiftmarka()">08:00</button></div>
+                                <div class="col-4 text-center"><button class="waves-effect waves-light btn btn-success-light" onclick="shiftmarkb()">16:00</button></div>
+                                <div class="col-4 text-center"><button class="waves-effect waves-light btn btn-warning-light mb-5" onclick="shiftmarkc()">21:00</button></div>
+                            </div>
+                        </div>
+                        <div class="row pt-10">
+                            <div class="col-12">
+                                <button class="btn btn-opus waves-effect waves-light btn-eoshift" onclick="postSOshift()" style="width:100%;">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-uniform">
+                        @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary float-end">Save changes</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+    </div>
 </section>
 
-<!-- Modal -->
-<div class="modal center-modal fade" id="person-info" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-opus">
-                <h5 class="modal-title person-info-title">Person Info</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body person-info-body">
-                <p></p>
-            </div>
-            <div class="modal-footer modal-footer-uniform">
-                @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary float-end">Save changes</button>*@
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.modal -->
-<!-- Modal -->
-<div class="modal center-modal fade" id="location-details" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
 
-            <div class="modal-header bg-opus">
-                <h5 class="modal-title location-details-title">Location Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body location-details-body">
-                <p></p>
-            </div>
-            <div class="modal-footer modal-footer-uniform">
-                @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary float-end">Save changes</button>*@
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.modal -->
-<!-- Modal -->
-<div class="modal center-modal fade" id="endofshift" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title endofshift-title">End of time</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body endofshift-body">
-                <div class="row">
-
-                    <div class="col-5">
-                        <div class="form-group row">
-                            <label class="pb-1">Time: </label>
-                            <input class="form-control" type="time" name="shifttime" value="@DateTime.Now.ToString("HH:mm")" />
-                        </div>
-                    </div>
-                    <div class="col-2"></div>
-                    <div class="col-5">
-                        <div class="form-group row">
-                            <label class="pb-1">Meal Time: </label>
-                            <select class="form-control" name="mealtime">
-                                <option value="00:00">00:00</option>
-                                <option value="00:30">00:30</option>
-                                <option value="00:45">00:45</option>
-                                <option value="01:00">01:00</option>
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <button class="btn btn-group-lg btn-primary waves-effect waves-light btn-eoshift" onclick="postEOshift()">Save</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer modal-footer-uniform">
-                @*<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary float-end">Save changes</button>*@
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.modal -->
 
 
 
 @section Scripts{
+    <script src="~/lib/vendor_components/dropzone/dropzone.js"></script>
     <script type="text/javascript">
         var windowtheight = 0;
         var responsiveheight = 0;
@@ -516,7 +638,7 @@
         var selectedLocationId = 0;
         var endofshiftHTML = `
 <div>
-                        <input class="form-control" type="time" name="shifttime"/>
+                            <input class="form-control" type="time" name="shifttime"/>
 </div>`;
 
         $(window).resize(function () {
@@ -527,7 +649,10 @@
 
 
 
-            $('#personlist').DataTable({});
+            $('#personlist').DataTable({
+                "bPaginate": false,
+                "bProcessing": true
+            });
             $('.slimScrollDiv').css("height", "600px");
             $('.inner-content-div').css("height", "600px");
 
@@ -538,6 +663,11 @@
             changeSize();
         })
 
+        $("input[name='personlistsrch']").on('keyup', function () {
+            console.log("Searching..");
+            $('#personlist').DataTable().search(this.value).draw();
+            //table.search(this.value).draw();
+        });
 
         function getpersoninfo(id) {
             $.ajax({
@@ -578,8 +708,62 @@
                     });
                 }
             });
+        }
+        function getlocationsforstart() {
 
 
+            var values = [];
+            $("input[name='locinoutsmotion[]']:checked").each(function () {
+                values.push($(this).val());
+            });
+
+            if (values.length > 0)
+                $('#startofshiftlocation').modal('show');//must in success
+            else
+                alert('Please select some staff');
+
+            $('#shiftlocations').empty().trigger("change");
+            var locationSelect = $('#shiftlocations');
+
+            var option = new Option('Select Location', '0', true, true);
+            option.setAttribute('disabled', 'disabled');
+            locationSelect.append(option).trigger('change');
+
+            console.log("starting shift");
+            console.log(status);
+
+            $.ajax({
+                url: "/person-motion/api/get-locations/",
+                contentType: "application/json; charset=utf-8",
+                type: "GET",
+                //cache: false,
+                beforeSend: function () {
+                    /*$('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);*/
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $("input[name='personlistsrch']").val("");
+                    $('#personlist').DataTable().search("").draw();
+                    $("#shiftlocations").select2({ width: '100%' });
+                    console.log(data);
+
+                    $.each(data, function (key, value) {
+                        var option = new Option(value.name, value.id, false, false);
+                        locationSelect.append(option).trigger('change');
+
+                        // manually trigger the `select2:select` event
+                        locationSelect.trigger({
+                            type: 'select2:select',
+                            params: {
+                                data: value
+                            }
+                        });
+                    });
+
+                    getWatch();
+                }
+            });
+
+            
         }
 
         function getlocationDetails(locationid) {
@@ -635,6 +819,20 @@
                 }
             });
         }
+        function startcheckboxquery() {
+
+            var values = [];
+
+            $("input[name='locinoutsmotion[]']:checked").each(function () {
+                values.push($(this).val());
+            });
+            if (values.length > 0)
+                $('#endofshift').modal('show');
+            else
+                alert("Please select some staff");
+
+
+        }
         function endcheckboxquery() {
 
             var values = [];
@@ -650,7 +848,52 @@
 
         }
 
-        function postEOshift() {
+        //DEVELOPING
+        
+        function postSOshift() {//start of shift
+
+            var values = [];
+            $("input[name='locinoutsmotion[]']:checked").each(function () {
+                values.push($(this).val());
+            });
+
+
+            var status = {
+                ids: values,
+                locId: $('#shiftlocations :selected').val(),
+                /*endoftime: $("input[name='shifttime']").val(),
+                mealtime: $("select[name='mealtime']").val()*/
+            };
+            console.log(status);
+
+            
+            $.ajax({
+                url: "/person-motion/api/startofshift/",
+                contentType: "application/json; charset=utf-8",
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(status),
+                //cache: false,
+                beforeSend: function () {
+                   // $('.btn-eoshift').prop('disabled', true);
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.clear();
+                    console.log("Start Of Shift: ");
+                    console.log(data);
+                    /*
+                    Swal.fire(
+                        'Success',
+                        'Shifts has been successfully ended',
+                        'success'
+                    )*/                }
+            });
+            
+        }//start of shift
+        
+
+
+        function postEOshift() {//end of shift
 
             var test = $("input[name='locinoutstatus']").val();
 
@@ -707,7 +950,7 @@
             else {
                 alert("Please select some staff");
             }
-        }
+        }//end of shift
 
         function changeSize() {
             windowtheight = $(window).height();
@@ -723,11 +966,39 @@
                 //$("body").css("overflow-y", "auto");
             }
         }
+
+
+
+        function shiftmarka() {
+            $("input[name='startshifttime']").val('08:00');
+        }
+        function shiftmarkb() {
+            $("input[name='startshifttime']").val('16:00');
+        }
+        function shiftmarkc() {
+            $("input[name='startshifttime']").val('21:00');
+        }
+        function getWatch() {
+            $.ajax({
+                url: "/person-motion/api/get-watch/",
+                contentType: "application/json; charset=utf-8",
+                type: "GET",
+                //cache: false,
+                beforeSend: function () {
+                    /*$('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);*/
+                },
+                success: function (data, textStatus, jqXHR) {
+                    $("input[name='startshifttime']").val(data);
+                }
+            });
+        }
         /*
         $(document).on('show.bs.modal', '#endofshift', function (e) {
             console.log('endof shift açıldı!');
         });
         */
+
+
         $('#endofshift').on('shown.bs.modal', function (e) {
             console.log('endof shift açıldı!');
             console.log(e);
