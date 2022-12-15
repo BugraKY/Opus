@@ -11,6 +11,7 @@ namespace Opus.Models.ViewModels
     {
         public long LocationId { get; set; }
         public string Location { get; set; }
+        public string LocationColor { get; set; }
         public IEnumerable<Staff> Staff { get; set; }
         public IEnumerable<LocationDetailsItemVM> LocationDetailItems { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Opus.Models.DbModels;
+using Opus.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -67,7 +69,7 @@ namespace Opus.Utility
 
         public static class Notification
         {
-            public static class TYPEUSER    
+            public static class TYPEUSER
             {
                 public const string DANGER_I_TAG = @"<i class=""fa fa-users text-danger"">";
                 public const string WARNING_I_TAG = @"<i class=""fa fa-users text-warning"">";
@@ -213,6 +215,91 @@ namespace Opus.Utility
                 }
             }
             return ipAddrList.ToArray();
+        }
+
+        public static TimeKeeping SelectDay(TimeKeeping timeKeeping, int Day, string StartOfTime, string EndOfTime, string MealTime, DateTime StartOfDate, DateTime EndOfDate)
+        {
+            string StartOfDateTime = StartOfDate.ToString("dd/MM/yyyy " + StartOfTime);
+            string EndOfDateTime = EndOfDate.ToString("dd/MM/yyyy " + EndOfTime);
+
+            var TimeSpanCurrent = TimeSpan.Parse((DateTime.Parse(EndOfDateTime) - DateTime.Parse(StartOfDateTime)).ToString());
+            string CurrentHour2 = (TimeSpanCurrent - TimeSpan.Parse(MealTime)).TotalHours.ToString();
+
+            switch ((Enums.TimeKeeping)Day)
+            {
+                case Enums.TimeKeeping.D01:
+                    timeKeeping.D01 = (int.Parse(EndOfTime) - int.Parse(StartOfTime)).ToString();
+                    break;
+                case Enums.TimeKeeping.D02:
+                    break;
+                case Enums.TimeKeeping.D03:
+                    break;
+                case Enums.TimeKeeping.D04:
+                    break;
+                case Enums.TimeKeeping.D05:
+                    break;
+                case Enums.TimeKeeping.D06:
+                    break;
+                case Enums.TimeKeeping.D07:
+                    break;
+                case Enums.TimeKeeping.D08:
+                    break;
+                case Enums.TimeKeeping.D09:
+                    break;
+                case Enums.TimeKeeping.D10:
+                    break;
+                case Enums.TimeKeeping.D11:
+
+                    break;
+                case Enums.TimeKeeping.D12:
+
+                    break;
+                case Enums.TimeKeeping.D13:
+
+                    break;
+                case Enums.TimeKeeping.D14:
+
+                    break;
+                case Enums.TimeKeeping.D15:
+                    timeKeeping.D15 = CurrentHour2;
+                    break;
+                case Enums.TimeKeeping.D16:
+                    break;
+                case Enums.TimeKeeping.D17:
+                    break;
+                case Enums.TimeKeeping.D18:
+                    break;
+                case Enums.TimeKeeping.D19:
+                    break;
+                case Enums.TimeKeeping.D20:
+                    break;
+                case Enums.TimeKeeping.D21:
+                    break;
+                case Enums.TimeKeeping.D22:
+                    break;
+                case Enums.TimeKeeping.D23:
+                    break;
+                case Enums.TimeKeeping.D24:
+                    break;
+                case Enums.TimeKeeping.D25:
+                    break;
+                case Enums.TimeKeeping.D26:
+                    break;
+                case Enums.TimeKeeping.D27:
+                    break;
+                case Enums.TimeKeeping.D28:
+                    break;
+                case Enums.TimeKeeping.D29:
+                    break;
+                case Enums.TimeKeeping.D30:
+                    break;
+                case Enums.TimeKeeping.D31:
+                    break;
+                default:
+                    break;
+            }
+
+            return timeKeeping;
         }
 
     }

@@ -11,6 +11,8 @@ namespace Opus.Models.ViewModels
     {
         public long[] Ids { get; set; }
         public long LocId { get; set; }
+        public string Hour { get; set; }
+        public string Date { get; set; }
         public IEnumerable<Staff> Staff { get; set; }
         public IEnumerable<string> FullName { get; set; }
     }

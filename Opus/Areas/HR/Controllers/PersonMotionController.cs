@@ -337,7 +337,7 @@ namespace Opus.Areas.HR.Controllers
             {
                 PersonMotionVMs = _personMotion,
                 PersonMotionLocations = data,
-                ExistStaff=_exist
+                ExistStaff = _exist
             };
 
             return View(PersonMotionMain);
@@ -448,10 +448,10 @@ namespace Opus.Areas.HR.Controllers
                 {
                     DateStr = item.ProcessingDate.ToString("dd-MM-yyyy"),
                     FullName = _staff.FirstName + " " + _staff.LastName,
-                    Hour=item.Hour,
-                    StaffId= item.StaffId,
-                    InOutType= item.InOutType,
-                    LocationInOutId= item.Id,
+                    Hour = item.Hour,
+                    StaffId = item.StaffId,
+                    InOutType = item.InOutType,
+                    LocationInOutId = item.Id,
                 };
                 locationDetailsItemList.Add(locationDetailsItem);
             }
@@ -461,7 +461,8 @@ namespace Opus.Areas.HR.Controllers
             {
                 LocationId = locationid,
                 Location = _location.Name,
-                LocationDetailItems= locationDetailsItemList.OrderBy(i=>i.FullName)
+                LocationColor = _location.ColorHex,
+                LocationDetailItems = locationDetailsItemList.OrderBy(i => i.FullName)
             };
             //Thread.Sleep(500);
             return locationDetails;
@@ -470,11 +471,27 @@ namespace Opus.Areas.HR.Controllers
         [HttpPost("person-motion/api/endofshift/")]
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
         public object EndofShift([FromBody] EndOfShiftVM EOshift)
-        {   
+        {
+            var DATENOW = DateTime.Now;
+            var DATENOWSTRING = DATENOW.ToString("dd/MM/yyyy");
+            var locInOuts = new List<LocationInOut>();
+            var timeKeepings = new List<TimeKeeping>();
             foreach (var item in EOshift.Ids)
             {
-                var inout = _uow.LocationInOut.GetFirstOrDefault(i=>i.Id==item);
+                var inout = _uow.LocationInOut.GetFirstOrDefault(i => i.Id == item);
                 var staff = _uow.Staff.GetFirstOrDefault(i => i.Id == inout.StaffId);
+                var TimeKeeping = _uow.TimeKeeping.GetFirstOrDefault(i => (i.StaffId == staff.Id && i.Month == DATENOW.Month && i.Year == DATENOW.Year));
+                TimeKeeping = ProjectConstant.SelectDay(
+                    TimeKeeping, 
+                    DATENOW.Day, 
+                    inout.Hour, 
+                    EOshift.Endoftime, 
+                    EOshift.Mealtime, 
+                    inout.ProcessingDate, 
+                    DATENOW
+                    );
+                locInOuts.Add(inout);
+                timeKeepings.Add(TimeKeeping);
             }
             Thread.Sleep(1000);
             return EOshift;
@@ -486,26 +503,40 @@ namespace Opus.Areas.HR.Controllers
         {
             var _soshift = new List<Staff>();
             var names = new List<string>();
+            var convertedDate = DateTime.Parse(EOshift.Date);
+            var LocationInOutList = new List<LocationInOut>();
             foreach (var item in EOshift.Ids)
             {
                 //var inout = _uow.LocationInOut.GetFirstOrDefault(i => i.Id == item);
                 var staff = _uow.Staff.GetFirstOrDefault(i => i.Id == item);
                 _soshift.Add(staff);
                 names.Add(staff.FirstName + " " + staff.LastName);
+                var _inoutloc = new LocationInOut
+                {
+                    Hour = EOshift.Hour,
+                    InOutType = 1,
+                    StaffId = item,
+                    IsDeleted = false,
+                    LocationId = EOshift.LocId,
+                    ProcessingDate = convertedDate,
+                    UserIntId = 0
+                };
+                LocationInOutList.Add(_inoutloc);
             }
+            _uow.LocationInOut.AddRange((IEnumerable<LocationInOut>)LocationInOutList);
+            _uow.Save();
             EOshift = new StartOfShiftVM
             {
                 Ids = EOshift.Ids,
                 Staff = _soshift,
-                LocId=EOshift.LocId,
-                FullName=names
+                LocId = EOshift.LocId,
+                FullName = names
             };
-            Thread.Sleep(1000);
             return EOshift;
         }
 
         [HttpGet("person-motion/api/get-locations/")]
-        [Authorize(Roles =UserRoles.Admin+","+UserRoles.HR_Responsible)]
+        [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
         public object GetLocations()
         {
             var locations = _uow.Location.GetAll(i => (!i.IsDelete && i.Active));

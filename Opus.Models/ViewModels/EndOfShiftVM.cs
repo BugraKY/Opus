@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Opus.Models.DbModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace Opus.Models.ViewModels
 
         public string Endoftime { get; set; }
         public string Mealtime { get; set; }
+        public IEnumerable<LocationInOut> LocationInOuts { get; set; }
+        public IEnumerable<TimeKeeping> TimeKeepings { get; set; }
         /*
         public long LocationInOutId { get; set; }
         public string FullName { get; set; }

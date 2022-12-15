@@ -1,4 +1,17 @@
-﻿==Migration commands for multiple context==
+﻿Çıkış tarihi ve saati puantaj tablosuna işlenir.
+Örnek 
+15-12-2022 / 22:00 Giriş
+16-12-2022 / 05:00 ÇIKIŞ
+
+puantaj tablosu 16-12-2022 tarihli işlenir !!!!!
+
+
+
+
+
+
+
+==Migration commands for multiple context==
 
 1 - add-migration InitialMigration -Context AccountingDbContext
 2 - update-database -Context "AccountingDbContext"

@@ -97,18 +97,29 @@
             max-height: 100% !important;
         }
     }
-
+    /*
     .modal-open .modal {
-        overflow-y: hidden;
-        /*filter:blur(4px);*/
+        overflow-y: hidden!important;
+    }*/
+    .modal-open .modal {
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
     }
-
+    /*
+    body > .modal-open .modal {
+        overflow-y: hidden !important;
+    }
+    */
     body.modal-open .supreme-container {
         -webkit-filter: blur(4px);
         -moz-filter: blur(4px);
         -o-filter: blur(4px);
         -ms-filter: blur(4px);
         filter: blur(4px);
+    }
+
+    .btn-close {
+        filter: brightness(0) invert(1);
     }
     /*
     @@media only screen and (max-width: 800px) {
@@ -151,15 +162,28 @@
         left:40px!important;*/
         top: 0px;
         z-index: 999 !important;
+        display: none;
     }
-    .dataTables_info{
-        display:none!important;
+
+    .dataTables_info {
+        display: none !important;
     }
+
     thead {
         position: sticky !important;
         top: -1px;
-        background-color:white!important;
-        z-index:99!important;
+        background-color: white !important;
+        z-index: 99 !important;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(even) {
+        --bs-table-accent-bg: rgb(0 0 0 / 1%);
+        color: var(--bs-table-striped-color);
+    }
+
+    .table-striped tbody > tr:hover {
+        --bs-table-accent-bg: rgb(64 95 153 / 35%);
+        color: var(--bs-table-striped-color);
     }
 </style>
 
@@ -212,10 +236,18 @@
                                     </div>
                                 </div>
                                 <div class="row pt-50">
-                                    <input type="search" name="personlistsrch" placeholder="Search" value="" class="form-control" />
+                                    <div class="col-12">
+                                        <input type="search" name="personlistsrch" placeholder="Search" value="" class="form-control" />
+                                    </div>
+
+                                </div>
+                                <div class="row pt-10">
+                                    <div class="col-12">
+                                        <div class="personlistrowcount">Showing 83 entries</div>
+                                    </div>
                                 </div>
                                 <div style="max-height: 650px!important;">
-                                    <div class="table-responsive mt-50" style="max-height: 650px!important;position:relative;">
+                                    <div class="table-responsive" style="max-height: 650px!important;position:relative;">
                                         <!--style="max-height:750px;"-->
                                         <table id="personlist" class="table plist table-bordered table-hover table-striped dataTables mb-0">
                                             <thead>
@@ -249,7 +281,7 @@
                                                                 if (calcrange > 100)
                                                                     calcrange = 100;
 
-                                                                <td>@item.Today - @int.Parse(calcrange.ToString())</td>
+                                                                <td>@item.Today@* - @Math.Round(calcrange, 0)*@</td>
                                                             }
                                                             else
                                                             {
@@ -261,7 +293,7 @@
 
                                                         <td>
                                                             <div class="progress shadow-1-strong">
-                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Math.Round(calcrange, 0)" aria-valuemin="0" aria-valuemax="100" style="width: @Math.Round(calcrange, 0)%">
                                                                     <span class="sr-only">0% Complete (success)</span>
                                                                 </div>
                                                             </div>
@@ -297,57 +329,64 @@
 
 
                                                 @*
-                    <tr>
-                        <td scope="row">1</td>
-                        <td>ABDULLAH AKTEPE - EX-48</td>
-                        <td>3</td>
-                        <td>
-                            <div class="progress shadow-1-strong">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                    <span class="sr-only">0% Complete (success)</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge badge-success shadow-2-strong">Active</span>
-                        </td>
-                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td>ALEYNA TANRIVERDİ - EX-94</td>
-                        <td>1</td>
-                        <td>
-                            <div class="progress shadow-1-strong">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 15%">
-                                    <span class="sr-only">0% Complete (success)</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge badge-success shadow-2-strong">Active</span>
-                        </td>
-                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
-                    </tr>
-                    <tr>
-                        <td scope="row">3</td>
-                        <td>ASLI TUFAN - EX-266</td>
-                        <td>UL</td>
-                        <td>
-                            <div class="progress shadow-1-strong">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                    <span class="sr-only">0% Complete (success)</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <span class="badge badge-success shadow-2-strong">Active</span>
-                        </td>
-                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
-                    </tr>
+                                                    <tr>
+                                                        <td scope="row">1</td>
+                                                        <td>ABDULLAH AKTEPE - EX-48</td>
+                                                        <td>3</td>
+                                                        <td>
+                                                            <div class="progress shadow-1-strong">
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                                    <span class="sr-only">0% Complete (success)</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="badge badge-success shadow-2-strong">Active</span>
+                                                        </td>
+                                                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">2</td>
+                                                        <td>ALEYNA TANRIVERDİ - EX-94</td>
+                                                        <td>1</td>
+                                                        <td>
+                                                            <div class="progress shadow-1-strong">
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 15%">
+                                                                    <span class="sr-only">0% Complete (success)</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="badge badge-success shadow-2-strong">Active</span>
+                                                        </td>
+                                                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td scope="row">3</td>
+                                                        <td>ASLI TUFAN - EX-266</td>
+                                                        <td>UL</td>
+                                                        <td>
+                                                            <div class="progress shadow-1-strong">
+                                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                                                    <span class="sr-only">0% Complete (success)</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span class="badge badge-success shadow-2-strong">Active</span>
+                                                        </td>
+                                                        <td class="text-center"><a href="#" style="font-size:large;color:black"><i class="fa fa-info-circle"></i></a></td>
+                                                    </tr>
                                                 *@
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="personlistrowcount">
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -497,7 +536,7 @@
 
     <div class="modalsection">
         <!-- Modal -->
-        <div class="modal center-modal fade" id="person-info" tabindex="-1">
+        <div class="modal center-modal fade" id="person-info">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bg-opus">
@@ -516,11 +555,11 @@
         </div>
         <!-- /.modal -->
         <!-- Modal -->
-        <div class="modal center-modal fade" id="location-details" tabindex="-1">
+        <div class="modal center-modal fade" id="location-details">
             <div class="modal-dialog">
                 <div class="modal-content">
 
-                    <div class="modal-header bg-opus">
+                    <div class="modal-header location-details-header bg-opus">
                         <h5 class="modal-title location-details-title">Location Details</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -536,11 +575,11 @@
         </div>
         <!-- /.modal -->
         <!-- Modal -->
-        <div class="modal center-modal fade" id="endofshift" tabindex="-1">
+        <div class="modal center-modal fade" id="endofshift">
             <div class="modal-dialog">
                 <div class="modal-content">
 
-                    <div class="modal-header bg-warning">
+                    <div class="modal-header endofshift-header bg-warning">
                         <h5 class="modal-title endofshift-title">End of time</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -610,7 +649,7 @@
                         </div>
                         <div class="row pt-10">
                             <div class="col-12">
-                                <button class="btn btn-opus waves-effect waves-light btn-eoshift" onclick="postSOshift()" style="width:100%;">Save</button>
+                                <button class="btn btn-opus waves-effect waves-light btn-soshift" onclick="this.disabled=true; postSOshift();" style="width:100%;">Save</button>
                             </div>
                         </div>
                     </div>
@@ -638,7 +677,7 @@
         var selectedLocationId = 0;
         var endofshiftHTML = `
 <div>
-                            <input class="form-control" type="time" name="shifttime"/>
+                                                                    <input class="form-control" type="time" name="shifttime"/>
 </div>`;
 
         $(window).resize(function () {
@@ -661,12 +700,24 @@
             $('#personlist_length').addClass('d-none');
 
             changeSize();
+
+            var totalcount = $('#personlist').DataTable().rows().count();
+            $('.personlistrowcount').html(`Showing ` + totalcount + ` entries`);
         })
 
         $("input[name='personlistsrch']").on('keyup', function () {
             console.log("Searching..");
+
             $('#personlist').DataTable().search(this.value).draw();
-            //table.search(this.value).draw();
+            var totalcount = $('#personlist').DataTable().rows().count();
+            var searchedcount = $('#personlist tr').length - 1;
+            if ($('#personlist tr td.dataTables_empty').length < 1)
+                $('.personlistrowcount').html(`Showing ` + searchedcount + ` entries (filtered from ` + totalcount + ` total entries)`);
+            else
+                $('.personlistrowcount').html(`Showing 0 entries (filtered from ` + totalcount + ` total entries)`);
+            if (totalcount == searchedcount)
+                $('.personlistrowcount').html(`Showing ` + totalcount + ` entries`);
+
         });
 
         function getpersoninfo(id) {
@@ -711,7 +762,7 @@
         }
         function getlocationsforstart() {
 
-
+            $('#personlist').DataTable().search("").draw();
             var values = [];
             $("input[name='locinoutsmotion[]']:checked").each(function () {
                 values.push($(this).val());
@@ -742,7 +793,10 @@
                 },
                 success: function (data, textStatus, jqXHR) {
                     $("input[name='personlistsrch']").val("");
-                    $('#personlist').DataTable().search("").draw();
+
+                    var totalcount = $('#personlist').DataTable().rows().count();
+                    $('.personlistrowcount').html(`Showing ` + totalcount + ` entries`);
+
                     $("#shiftlocations").select2({ width: '100%' });
                     console.log(data);
 
@@ -763,7 +817,7 @@
                 }
             });
 
-            
+
         }
 
         function getlocationDetails(locationid) {
@@ -777,6 +831,9 @@
                 },
                 success: function (data, textStatus, jqXHR) {
                     selectedLocationId = locationid;
+                    var bgColor = 'background-color:' + data.locationColor + '!important';
+                    $('.endofshift-header').attr('style', bgColor);
+                    $('.location-details-header').attr('style', bgColor);
                     $('.location-details-title').html(`Location - ` + data.location);
 
                     $('.location-details-body').html(`
@@ -784,7 +841,7 @@
 <div class="col-6"><button class="btn btn-warning waves-effect waves-light" onclick="endcheckboxquery()">End of shift</button></div>
 <div class="col-6"><button class="btn btn-danger waves-effect waves-light" onclick="cancelcheckboxquery()">Cancel</button></div>
 </div>
-<div class="table-responsive" id="locdetresponsive">
+<div class="table-responsive" id="locdetresponsive" style="position:relative;">
 <table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table></div>`);
 
                     $('#locationdetailsd').DataTable({
@@ -849,9 +906,9 @@
         }
 
         //DEVELOPING
-        
-        function postSOshift() {//start of shift
 
+        function postSOshift() {//start of shift
+            $('.btn-soshift').attr('disabled', 'disabled');
             var values = [];
             $("input[name='locinoutsmotion[]']:checked").each(function () {
                 values.push($(this).val());
@@ -861,12 +918,12 @@
             var status = {
                 ids: values,
                 locId: $('#shiftlocations :selected').val(),
-                /*endoftime: $("input[name='shifttime']").val(),
-                mealtime: $("select[name='mealtime']").val()*/
+                hour: $("input[name='startshifttime']").val(),
+                date: $("input[name='startshiftdate']").val()
             };
             console.log(status);
 
-            
+
             $.ajax({
                 url: "/person-motion/api/startofshift/",
                 contentType: "application/json; charset=utf-8",
@@ -875,7 +932,7 @@
                 data: JSON.stringify(status),
                 //cache: false,
                 beforeSend: function () {
-                   // $('.btn-eoshift').prop('disabled', true);
+                    // $('.btn-eoshift').prop('disabled', true);
                 },
                 success: function (data, textStatus, jqXHR) {
                     console.clear();
@@ -886,11 +943,28 @@
                         'Success',
                         'Shifts has been successfully ended',
                         'success'
-                    )*/                }
+                    )*/
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Shift has been successfully added',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) { }
+                        setTimeout(function () {
+                            $('#loader').attr('style', 'opacity: 1');
+                            $('#loader').attr('style', 'display: block');
+                            $('#loader').attr('style', 'backdrop-filter: blur(5px)');
+                            $("#startofshiftlocation").modal('hide');
+                            location.reload();
+                        }, 500);
+
+                    })
+                }
             });
-            
+
         }//start of shift
-        
+
 
 
         function postEOshift() {//end of shift
@@ -967,8 +1041,6 @@
             }
         }
 
-
-
         function shiftmarka() {
             $("input[name='startshifttime']").val('08:00');
         }
@@ -1013,5 +1085,21 @@
 
         });
 
+
+
+
+        $('#location-details').on('shown.bs.modal', function (e) {
+            console.log('endof shift açıldı!');
+            console.log(e);
+            $('body').attr('style', 'overflow-y:none!important');
+
+        });
+        $('#location-details').on('hidden.bs.modal', function (e) {
+            $('body').attr('style', 'height:auto;min-height:100%;');
+            //$('body').attr('style', 'min-height:100%');
+            console.log('endof shift kapandı!');
+            console.log(e);
+
+        });
     </script>
 }
