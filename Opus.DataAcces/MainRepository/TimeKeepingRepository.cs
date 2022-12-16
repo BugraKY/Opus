@@ -22,5 +22,9 @@ namespace Opus.DataAcces.MainRepository
         {
             _db.Update(timeKeeping);
         }
+        public void UpdateRange(IEnumerable<TimeKeeping> timeKeeping)
+        {
+            _db.UpdateRange(timeKeeping);
+        }
     }
 }

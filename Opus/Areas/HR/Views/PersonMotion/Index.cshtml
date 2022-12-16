@@ -556,8 +556,8 @@
         <!-- /.modal -->
         <!-- Modal -->
         <div class="modal center-modal fade" id="location-details">
-            <div class="modal-dialog">
-                <div class="modal-content">
+            <div class="modal-dialog" style="min-height: 250px;">
+                <div class="modal-content" style="min-height: 250px;">
 
                     <div class="modal-header location-details-header bg-opus">
                         <h5 class="modal-title location-details-title">Location Details</h5>
@@ -675,9 +675,10 @@
         var responsiveheight = 0;
         var poststatus = false;
         var selectedLocationId = 0;
+        var postSuccess = false;
         var endofshiftHTML = `
 <div>
-                                                                    <input class="form-control" type="time" name="shifttime"/>
+                                                                        <input class="form-control" type="time" name="shifttime"/>
 </div>`;
 
         $(window).resize(function () {
@@ -827,7 +828,15 @@
                 type: "GET",
                 /*cache: false,*/
                 beforeSend: function () {
-                    $('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
+                    //$('.location-details-body').html(`<h3 class="d-flex justify-content-center align-content-center">Loading..</h3>`);
+                    $('.location-details-header').attr('style', 'background-color:#2AA377!important');
+                    $('.location-details-title').html('Loading..');
+                    $('.location-details-body').html(`
+                <div class="d-flex align-items-center justify-content-center" style="min-height:175px">
+                    <img src="/loader.png" class="loader-anim" width="50">
+                </div>
+`);
+                    //location-details-header
                 },
                 success: function (data, textStatus, jqXHR) {
                     selectedLocationId = locationid;
@@ -844,35 +853,40 @@
 <div class="table-responsive" id="locdetresponsive" style="position:relative;">
 <table id="locationdetailsd" class="table table-bordered table-hover table-striped dataTables mb-0 dataTable no-footer" style="width:auto;"></table></div>`);
 
-                    $('#locationdetailsd').DataTable({
-                        paging: false,
-                        searching: false,
-                        ordering: false,
-                        autoWidth: false,
-                        "data": data.locationDetailItems,
-                        "columns": [
-                            {
-                                "data": "locationInOutId",
-                                "title": "#",
-                                "width": "50px",
-                                "render": function (data, type, row, meta) {
-                                    return `<input type="checkbox" name="locinoutstatus[]" id="perinfo` + data + `" class="chk-col-success" value="` + data + `"><label for="perinfo` + data + `"></label>`;
-                                }
-                            },
-                            { "data": "fullName", "title": "Name", "width": "160px", "className": "ellipsis-1" },
-                            { "data": "dateStr", "title": "Date", "width": "100px" },
-                            { "data": "hour", "title": "InTime" },
-                            {
-                                "data": "hour",
-                                "title": "Status",
-                                "render": function (data, type, row, meta) {
-                                    return `<span class="badge badge-success shadow-2-strong">Active</span>`;
+                    if (data.locationDetailItems.length < 1) {
+                        $('#locationdetailsd').html('');
+                        location.reload();
+                    }
+                    else {
+                        $('#locationdetailsd').DataTable({
+                            paging: false,
+                            searching: false,
+                            ordering: false,
+                            autoWidth: false,
+                            "data": data.locationDetailItems,
+                            "columns": [
+                                {
+                                    "data": "locationInOutId",
+                                    "title": "#",
+                                    "width": "50px",
+                                    "render": function (data, type, row, meta) {
+                                        return `<input type="checkbox" name="locinoutstatus[]" id="perinfo` + data + `" class="chk-col-success" value="` + data + `"><label for="perinfo` + data + `"></label>`;
+                                    }
                                 },
-                            },
-                        ]
-                    });
-
-                    changeSize();
+                                { "data": "fullName", "title": "Name", "width": "160px", "className": "ellipsis-1" },
+                                { "data": "dateStr", "title": "Date", "width": "100px" },
+                                { "data": "hour", "title": "InTime" },
+                                {
+                                    "data": "hour",
+                                    "title": "Status",
+                                    "render": function (data, type, row, meta) {
+                                        return `<span class="badge badge-success shadow-2-strong">Active</span>`;
+                                    },
+                                },
+                            ]
+                        });
+                        changeSize();
+                    }
                 }
             });
         }
@@ -1005,6 +1019,7 @@
                         $('.btn-eoshift').prop('disabled', true);
                     },
                     success: function (data, textStatus, jqXHR) {
+                        postSuccess = true;
                         console.clear();
                         console.log("End Of Shift: ");
                         console.log(data);
@@ -1099,6 +1114,10 @@
             //$('body').attr('style', 'min-height:100%');
             console.log('endof shift kapandı!');
             console.log(e);
+            if (postSuccess) {
+                $('#loader').attr('style', 'display: block;backdrop-filter: blur(5px);-webkit-backdrop-filter: blur(5px);-moz-backdrop-filter: blur(5px);-o-backdrop-filter: blur(5px);-ms-backdrop-filter: blur(5px);');
+                location.reload();
+            }
 
         });
     </script>

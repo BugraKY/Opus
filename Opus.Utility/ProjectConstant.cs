@@ -217,90 +217,145 @@ namespace Opus.Utility
             return ipAddrList.ToArray();
         }
 
-        public static TimeKeeping SelectDay(TimeKeeping timeKeeping, int Day, string StartOfTime, string EndOfTime, string MealTime, DateTime StartOfDate, DateTime EndOfDate)
+        public static PersonMotionVM SelectDay(TimeKeeping timeKeeping, int Day, string StartOfTime, string EndOfTime, string MealTime, DateTime StartOfDate, DateTime EndOfDate, long LocationId, long StaffId)
         {
-            string StartOfDateTime = StartOfDate.ToString("dd/MM/yyyy " + StartOfTime);
-            string EndOfDateTime = EndOfDate.ToString("dd/MM/yyyy " + EndOfTime);
+            string StartOfDateTime = "";
+            string EndOfDateTime = "";
+            string CurrentHour = "";
+            TimeSpan TimeSpanCurrent = new TimeSpan();
 
-            var TimeSpanCurrent = TimeSpan.Parse((DateTime.Parse(EndOfDateTime) - DateTime.Parse(StartOfDateTime)).ToString());
-            string CurrentHour2 = (TimeSpanCurrent - TimeSpan.Parse(MealTime)).TotalHours.ToString();
+
+            StartOfDateTime = StartOfDate.ToString("dd/MM/yyyy " + StartOfTime);
+            EndOfDateTime = EndOfDate.ToString("dd/MM/yyyy " + EndOfTime);
+
+            TimeSpanCurrent = TimeSpan.Parse((DateTime.Parse(EndOfDateTime) - DateTime.Parse(StartOfDateTime)).ToString());
+            CurrentHour = (TimeSpanCurrent - TimeSpan.Parse(MealTime)).TotalHours.ToString();
+            /*
+            bool IsNumber = double.TryParse(CurrentHour, out double result);
+
+            if (IsNumber)
+            {
+            }
+            */
+
+            var _out = new LocationInOut
+            {
+                Break = MealTime,
+                Hour = EndOfTime,
+                InOutType = 2,
+                IsDeleted = false,
+                ProcessingDate = DateTime.Now,
+                LocationId = LocationId,
+                StaffId = StaffId,
+                UserIntId = 0
+            };
 
             switch ((Enums.TimeKeeping)Day)
             {
                 case Enums.TimeKeeping.D01:
-                    timeKeeping.D01 = (int.Parse(EndOfTime) - int.Parse(StartOfTime)).ToString();
+                    timeKeeping.D01 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D02:
+                    timeKeeping.D02 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D03:
+                    timeKeeping.D03 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D04:
+                    timeKeeping.D04 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D05:
+                    timeKeeping.D05 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D06:
+                    timeKeeping.D06 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D07:
+                    timeKeeping.D07 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D08:
+                    timeKeeping.D08 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D09:
+                    timeKeeping.D09 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D10:
+                    timeKeeping.D10 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D11:
-
+                    timeKeeping.D11 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D12:
-
+                    timeKeeping.D12 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D13:
-
+                    timeKeeping.D13 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D14:
-
+                    timeKeeping.D14 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D15:
-                    timeKeeping.D15 = CurrentHour2;
+                    timeKeeping.D15 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D16:
+                    timeKeeping.D16 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D17:
+                    timeKeeping.D17 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D18:
+                    timeKeeping.D18 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D19:
+                    timeKeeping.D19 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D20:
+                    timeKeeping.D20 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D21:
+                    timeKeeping.D21 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D22:
+                    timeKeeping.D22 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D23:
+                    timeKeeping.D23 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D24:
+                    timeKeeping.D24 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D25:
+                    timeKeeping.D25 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D26:
+                    timeKeeping.D26 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D27:
+                    timeKeeping.D27 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D28:
+                    timeKeeping.D28 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D29:
+                    timeKeeping.D29 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D30:
+                    timeKeeping.D30 = CurrentHour;
                     break;
                 case Enums.TimeKeeping.D31:
+                    timeKeeping.D31 = CurrentHour;
                     break;
                 default:
                     break;
             }
 
-            return timeKeeping;
-        }
 
+            var OutAndTimeKeeping = new PersonMotionVM
+            {
+                TimeKeeping = timeKeeping,
+                LocationInOut = _out
+            };
+            return OutAndTimeKeeping;
+        }
     }
 }

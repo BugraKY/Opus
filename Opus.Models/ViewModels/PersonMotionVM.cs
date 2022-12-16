@@ -11,6 +11,7 @@ namespace Opus.Models.ViewModels
     {
         public StaffStamp StaffStamp { get; set; }
         public TimeKeeping TimeKeeping { get; set; }
+        public LocationInOut LocationInOut { get; set; }
         public string Today { get; set; }
     }
 }

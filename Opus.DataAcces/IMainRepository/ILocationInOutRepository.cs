@@ -10,5 +10,6 @@ namespace Opus.DataAcces.IMainRepository
     public interface ILocationInOutRepository : IRepository<LocationInOut>
     {
         void Update(LocationInOut locationInOut);
+        void UpdateRange(IEnumerable<LocationInOut> locationInOut);
     }
 }

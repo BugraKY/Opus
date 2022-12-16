@@ -22,5 +22,10 @@ namespace Opus.DataAcces.MainRepository
         {
             _db.Update(locationInOut);
         }
+
+        public void UpdateRange(IEnumerable<LocationInOut> locationInOut)
+        {
+            _db.UpdateRange(locationInOut);
+        }
     }
 }

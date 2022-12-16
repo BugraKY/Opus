@@ -15,6 +15,7 @@ namespace Opus.Models.ViewModels
 
         public string Endoftime { get; set; }
         public string Mealtime { get; set; }
+        public string Description { get; set; }
         public IEnumerable<LocationInOut> LocationInOuts { get; set; }
         public IEnumerable<TimeKeeping> TimeKeepings { get; set; }
         /*

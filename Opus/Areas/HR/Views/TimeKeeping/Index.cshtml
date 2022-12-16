@@ -217,6 +217,10 @@
                                     </table>
                                 </div>
                             *@
+                            <div class="row mb-10">
+                                <div class="col tkinfo">
+                                </div>
+                            </div>
                             <div class="">
                                 <div class="demo-container">
                                     <div id="gridContainer" style="height:600px;" class="vertical-align text-center">
@@ -526,7 +530,7 @@
                             //columns: [html]
 
                             columns: [
-                                                                                            /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
+                                                                                                /*{ dataField: 'timeKeeping.id', caption: 'id', width: 'auto', visible: true }*/,// visible: false
                                 /*{
                                     calculateCellValue: function (rowData) {
                                         var count = countlist++;
@@ -1544,11 +1548,14 @@
                     $('#gridContainer').removeClass('text-center');
 
                     $('#gridstatus').html('<h6> Total: ' + data.length + '<h6>')
+                    $('.tkinfo').html(`<div class="badge badge-success shadow">
+                                        <h6>You can draggable table to down and right side.</h6>
+                                       </div>`);
                 }
             });
             $('.dx-scrollable-scrollbar').removeClass('dx-scrollable-scrollbar');
         }
-        /*
+            /*
 $('#dx-texteditor-input').on('input', function (e) {
 console.log("changed!");
 });
@@ -1562,7 +1569,7 @@ console.log("changed!");
 
 
 
-        //dx-texteditor-input
+            //dx-texteditor-input
 
     </script>
 }

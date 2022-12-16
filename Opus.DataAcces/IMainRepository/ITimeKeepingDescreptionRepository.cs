@@ -10,5 +10,6 @@ namespace Opus.DataAcces.IMainRepository
     public interface ITimeKeepingDescreptionRepository : IRepository<TimeKeepingDescreption>
     {
         void Update(TimeKeepingDescreption timeKeepingDescreption);
+        void UpdateRange(IEnumerable<TimeKeepingDescreption> timeKeepingDescreption);
     }
 }

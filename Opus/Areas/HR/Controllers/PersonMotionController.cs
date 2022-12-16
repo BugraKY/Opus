@@ -464,39 +464,37 @@ namespace Opus.Areas.HR.Controllers
                 LocationColor = _location.ColorHex,
                 LocationDetailItems = locationDetailsItemList.OrderBy(i => i.FullName)
             };
-            //Thread.Sleep(500);
+            Thread.Sleep(250);
             return locationDetails;
         }
-
         [HttpPost("person-motion/api/endofshift/")]
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
         public object EndofShift([FromBody] EndOfShiftVM EOshift)
         {
             var DATENOW = DateTime.Now;
             var DATENOWSTRING = DATENOW.ToString("dd/MM/yyyy");
-            var locInOuts = new List<LocationInOut>();
+            var locIn = new List<LocationInOut>();
+            var locOut = new List<LocationInOut>();
             var timeKeepings = new List<TimeKeeping>();
             foreach (var item in EOshift.Ids)
             {
                 var inout = _uow.LocationInOut.GetFirstOrDefault(i => i.Id == item);
                 var staff = _uow.Staff.GetFirstOrDefault(i => i.Id == inout.StaffId);
                 var TimeKeeping = _uow.TimeKeeping.GetFirstOrDefault(i => (i.StaffId == staff.Id && i.Month == DATENOW.Month && i.Year == DATENOW.Year));
-                TimeKeeping = ProjectConstant.SelectDay(
-                    TimeKeeping, 
-                    DATENOW.Day, 
-                    inout.Hour, 
-                    EOshift.Endoftime, 
-                    EOshift.Mealtime, 
-                    inout.ProcessingDate, 
-                    DATENOW
-                    );
-                locInOuts.Add(inout);
+                var OutAndTimeKeeping = ProjectConstant.SelectDay(TimeKeeping, DATENOW.Day, inout.Hour, EOshift.Endoftime, EOshift.Mealtime, inout.ProcessingDate, DATENOW,inout.LocationId,inout.StaffId);
+
+                inout.IsDeleted = true;
+                locIn.Add(inout);
+                locOut.Add(OutAndTimeKeeping.LocationInOut);
                 timeKeepings.Add(TimeKeeping);
             }
-            Thread.Sleep(1000);
+            _uow.TimeKeeping.UpdateRange(timeKeepings);
+            _uow.LocationInOut.AddRange(locOut);
+            _uow.LocationInOut.UpdateRange(locIn);
+            _uow.Save();
+            Thread.Sleep(200);
             return EOshift;
         }
-
         [HttpPost("person-motion/api/startofshift/")]
         [Authorize(Roles = UserRoles.Admin + "," + UserRoles.HR_Responsible)]
         public StartOfShiftVM StartofShift([FromBody] StartOfShiftVM EOshift)
