@@ -1,0 +1,449 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@*
+
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="d-flex align-items-center">
+            <div class="me-auto">
+                <h3 class="page-title">Accounting</h3>
+                <div class="d-inline-block align-items-center">
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item" aria-current="page">Door Trim</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Add User</h4>
+                        <a asp-area="Applications" asp-controller="DoortrimApp" asp-action="AddUser" class="btn btn-success"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+*@
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+
+                <div class="box-header with-border">
+                    <h4 class="box-title">Staff based users</h4>
+                </div>
+
+                <div class="box-body">
+                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                        <li class="nav-item"><a class="nav-link waves-effect waves-light slist active" data-bs-toggle="tab" href="#staffuserlist" role="tab" draggable="false"><span><i class="ion-android-list"></i></span><span class="hidden-xs-down ms-15">User List</span></a> </li>
+                        <li class="nav-item"><a class="nav-link waves-effect waves-light" data-bs-toggle="tab" href="#staffuseradd" role="tab" draggable="false"><span><i class="ion-person-add"></i></span><span class="hidden-xs-down ms-15">Add</span></a> </li>
+                    </ul>
+                    <div class="tab-content tabcontent-border">
+                        <div class="tab-pane active" id="staffuserlist" role="tabpanel">
+                            <div class="p-15">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive">
+
+                                            <table class="table table-hover table-bordered table-striped dataTables" id="staffuser">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="d-none"></th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>User Name</th>
+                                                        <th>User Password</th>
+                                                        <th>Last Action Date Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td>@item.FirstName</td>
+                                                                <td>@item.LastName</td>
+                                                                <td>@item.AppUser</td>
+                                                                <td>@item.Auth</td>
+                                                            </tr>
+                                                        }*@
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="staffuseradd" role="tabpanel">
+                            <div class="p-15">
+
+                                <h4>Add User</h4>
+                                <div class="row">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Select Staff:</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <select class="form-control select2" style="width: 100%;" id="userstaffselect">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row my-2">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">User Name(Login ID):</h6>
+                                    </div>
+                                    <div class="col-lg-4 col-12">
+                                        <input class="form-control custom-date" type="text" id="userNameId" name="UserName" style="max-width:200px;" placeholder="User Name" value="" maxlength="10">
+                                    </div>
+                                </div>
+
+                                <div class="row my-2">
+                                    <div class="col-lg-2 col-12">
+                                        <h6 class="my-10">Password:</h6>
+                                    </div>
+                                    <div class="col-lg-2 col-12">
+                                        <input class="form-control custom-date" type="text" name="Password" style="max-width:200px;background-color:#FFFFFF;" readonly="" maxlength="6">
+                                    </div>
+                                    <div class="col-lg-4 col-12 my-1">
+                                        <button class="btn btn-sm btn-primary" onclick="generatePass()">Generate</button>
+                                    </div>
+                                </div>
+                                @*
+                                    <div class="row my-2">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Is Active:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12 my-2">
+                                            <input type="checkbox" id="active_check" class="filled-in chk-col-success" checked="checked">
+                                            <label for="active_check">Active</label>
+                                        </div>
+                                    </div>
+                                *@
+                                @*
+                                    <div class="row">
+                                        <div class="col-lg-2 col-12">
+                                            <h6 class="my-10">Is Officer:</h6>
+                                        </div>
+                                        <div class="col-lg-4 col-12 my-2">
+                                            <input type="checkbox" id="admin_check" class="filled-in chk-col-success">
+                                            <label for="admin_check" id="adminCheckLabel">User</label>
+                                        </div>
+                                    </div>
+                                *@
+                                <div class="row">
+                                    <div class="col">
+                                        <div id="message">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-opus" style="float:right;" id="addUser" onclick="userstaffPost()">Add User</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<h1>Door Trim App Management</h1>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        var messageTEXT = '';
+        var apiurl = 'api/app-doortrim/';
+        var admin = 2;
+        var staffusertablew = 0;
+        var firstComplete = false;
+        $(document).ready(function () {
+            //$('#staffuser').DataTable({});
+            listUsers();
+            userstaffSelect();
+            admin_checkBox();
+
+            $("#userstaffselect").on("select2:select", function (e) {
+                const fullnameId = $(e.currentTarget).val();
+                const fullname = $('#userstaffselect').find(':selected')[0].innerText;
+                if (fullname != "Select Staff") {
+                    $('#message').html('');
+                    generateUsername(fullname);
+                    generatePass();
+                    $('#addUser').prop('disabled', false);
+                }
+
+            });
+
+            setTimeout(function () {
+                calcStaffUTableWidth();
+            });
+        });
+        function listUsers() {
+            //cust_def_list
+            $('#staffuser').DataTable({
+                order: [[1, 'asc']],
+                "bDestroy": true,
+                "bProcessing": true,
+                "bServerSide": false,
+                "bPaginate": true,
+                "ajax": {
+                    "type": "GET",
+                    "url": apiurl + 'get-users',
+                    'dataSrc': '',
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "columns": [
+                    { "data": "id", "className": "d-none" },
+                    { "data": "staff.firstName", "width": "auto" },
+                    { "data": "staff.lastName", "width": "auto" },
+                    { "data": "userName", "width": "auto" },
+                    { "data": "password", "width": "auto" },
+                    {
+                        "data": "LastAction",
+                        "width": "auto",
+                        "render": function (data, type, row, meta) {
+                            //console.log(row.lastAction);
+
+                            if (row.lastAction == '0001-01-01T00:00:00')
+                                return 'NO ACTION FIND';
+                            else
+                                return row.lastAction;
+                        }
+                    },
+                    /*{
+                        "data": "id",
+                        "type": "num-fmt",
+                        render: function (data, type, row) {
+                            return `<a href="training/view/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-id-card"></i> View</a>
+                                    <a href="training/edit/` + data + `" role="button" class="list-icons-item me-10 card-btn"><i class="fa fa-edit"></i> Edit</a>
+
+`
+                        },
+                    },*/
+                ]
+            });
+            //$("#categoryId").select2({ width: '200px' });
+        }
+
+        function userstaffSelect() {
+            $("input[name=UserName]").val('');
+            $("input[name=Password]").val('');
+            $('#userstaffselect').empty().trigger("change");
+
+            var userstaffselect = $('#userstaffselect');
+            //staffSelect.val(null).trigger('change');
+            var option = new Option('Select Staff', '0', true, true);
+            option.setAttribute('disabled', 'disabled');
+            userstaffselect.append(option).trigger('change');
+
+
+            $.ajax({
+                url: apiurl + 'get-staff',
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+            }).then(function (data) {
+                $.each(data, function (key, value) {
+                    // create the option and append to Select2
+                    var option = new Option(value.firstName + ' ' + value.lastName, value.id, false, false);
+                    userstaffselect.append(option).trigger('change');
+
+                    // manually trigger the `select2:select` event
+                    userstaffselect.trigger({
+                        type: 'select2:select',
+                        params: {
+                            data: value
+                        }
+                    });
+
+
+                });
+
+            });
+        }/*
+                                  function getLocationAjx() {
+
+                                  }*/
+        function generateUsername(fullname) {
+            $.ajax({
+                url: apiurl + 'generate-username',
+                data: JSON.stringify(fullname),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (received) {
+                    $('input[name="UserName"]').val(received);
+                }
+            });
+        }
+        function generatePass() {
+            $.ajax({
+                url: apiurl + 'generate-pass',
+                data: JSON.stringify("vasd7564as52d9c7s"),
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (received) {
+                    $('input[name="Password"]').val(received);
+                }
+            });
+        }
+
+        function userstaffPost() {
+            $('#addUser').prop('disabled', true);
+            const userName = $("input[name=UserName]").val();
+            const password = $("input[name=Password]").val();
+            const userselect = $('#userstaffselect').find(':selected').val();
+
+            if (userName == "") {
+                messageTEXT = "Username field required";
+                const messageHTML = `<div class="alert alert-warning">` + messageTEXT + `</div>`;
+                $('#message').html(messageHTML);
+            }
+            else if (password == "") {
+                messageTEXT = "Password field required";
+                const messageHTML = `<div class="alert alert-warning">` + messageTEXT + `</div>`;
+                $('#message').html(messageHTML);
+            }
+            else if (userselect == 0) {
+                messageTEXT = "Staff selection required";
+                const messageHTML = `<div class="alert alert-warning">` + messageTEXT + `</div>`;
+                $('#message').html(messageHTML);
+            }
+            else {
+                setTimeout(function () {
+                    $('#message').html('');
+                    //$('#addUser').prop("disabled", true);
+                    //userstaffSelect();
+                    const user = {
+                        staffid: userselect,
+                        userName: userName,
+                        password: password
+                    };
+                    console.log("user staff post triggerd!");
+                    $.ajax({
+                        url: apiurl + 'add-user',
+                        data: JSON.stringify(user),
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function () {
+                            showLoader();
+                        },
+                        success: function (received) {
+                            //$('input[name="UserName"]').val(received);
+                            userstaffSelect();
+                            $('#addUser').prop('disabled', false);
+                            useraddedtoast(received);
+                            hideLoader();
+                            listUsers();
+                        }
+                    });
+                }, 500);
+
+
+            }
+
+        }//may update this.
+
+
+
+
+        function admin_checkBox() {
+            $("#admin_check").change(function () {
+                $('#message').html("");
+                if (this.checked) {
+                    admin = 1;
+                    $('label[for="admin_check"]').html("Officer");
+                }
+                else {
+                    admin = 2;
+                    $('label[for="admin_check"]').html("User");
+                }
+            });
+        } // no required
+        function useraddedtoast(data) {
+            $.toast({
+                heading: data.header,
+                text: data.message,
+                icon: data.icon,
+                showHideTransition: data.showHideTransition,
+                loader: false,        // Change it to false to disable loader
+                loaderBg: '#2aa377',  // To change the background
+                position: 'top-right',
+                hideAfter: data.hideAfter
+            });
+        }
+        function showLoader() {
+            $('#loader').attr('style', 'opacity: 0.99');
+            $('#loader').attr('style', 'display: block');
+            $('#opus-content').addClass('d-none');
+        }
+        function hideLoader() {
+            $('#loader').attr('style', 'opacity: 0.01');
+            $('#loader').attr('style', 'display: none');
+            $('#opus-content').removeClass('d-none');
+        }
+
+        function calcStaffUTableWidth() {
+            $('#staffuser').width('100%');
+            var calc = $('#staffuser').width() - 2;
+            var calcedpx = calc + 'px';
+            $('#staffuser').width(calcedpx);
+        }
+
+
+        $('a.slist').click(function () {
+
+            console.log("nav clicked.");
+            setTimeout(function () {
+                calcStaffUTableWidth();
+            }, 500);
+            /*
+            setTimeout(function () {
+                $('#staffuser').width('100%');
+                var calc = $('#staffuser').width() - 25;
+                var calcedpx = calc + 'px';
+                $('#staffuser').width(calcedpx);
+            }, 1000);
+            */
+        });
+        /*
+                    setTimeout(function () {
+                        $('#staffuser').width('100%');
+                        var calc = $('#staffuser').width() - 25;
+                        var calcedpx = calc + 'px';
+                        $('#staffuser').width(calcedpx);
+                    }, 1000);
+
+         */
+
+        $('#addUser').once('click', function (e) {
+            userstaffPost();
+        });
+    </script>
+
+}

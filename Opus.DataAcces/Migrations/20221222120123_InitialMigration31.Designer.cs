@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Opus.DataAcces.Data;
 
@@ -11,9 +12,10 @@ using Opus.DataAcces.Data;
 namespace Opus.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221222120123_InitialMigration31")]
+    partial class InitialMigration31
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,14 +236,14 @@ namespace Opus.DataAcces.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("LastAction")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("StaffId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -251,7 +253,7 @@ namespace Opus.DataAcces.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StaffId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("ApiUser");
                 });
@@ -1325,13 +1327,11 @@ namespace Opus.DataAcces.Migrations
 
             modelBuilder.Entity("Opus.Models.DbModels.ApiUser", b =>
                 {
-                    b.HasOne("Opus.Models.DbModels.Staff", "Staff")
+                    b.HasOne("Opus.Models.DbModels.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
-                    b.Navigation("Staff");
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Opus.Models.DbModels.Company", b =>

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "AddUser";
+}
+@model IEnumerable<Opus.Models.DbModels.Staff>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="d-flex align-items-center">
+        <div class="me-auto">
+            <h3 class="page-title">Accounting</h3>
+            <div class="d-inline-block align-items-center">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="/app-doortrim">Door Trim</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Add User</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="pb-10"></div>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="box-header with-border mb-20">
+                        <h4 class="box-title">Add User</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col col-md-3">
+                                        <select class="select2" name="ApplicationUserId">
+                                            @foreach (var item in Model)
+                                            {
+                                                <option value="@item.Id">@item.FirstName @item.LastName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row pb-10">
+                                    <div class="col col-md-3">
+                                        @Model.Count()
+                                    </div>
+                                </div>
+                                <div class="row pb-10">
+                                    <div class="col col-md-3">
+                                        <input class="form-control" placeholder="User Name" type="text" name="UserName" value="" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row pb-10">
+                                    <div class="col col-md-3">
+                                        <input class="form-control" placeholder="Password" type="text" name="Password" value="" autocomplete="off" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-primary" type="submit">Add User</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<h1>Door Trim App - Add User</h1>
+

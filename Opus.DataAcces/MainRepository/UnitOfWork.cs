@@ -52,6 +52,7 @@ namespace Opus.DataAcces.MainRepository
             TimeKeeping = new TimeKeepingRepository(_db);
             TimeKeepingDescreption = new TimeKeepingDescreptionRepository(_db);
             LocationInOut = new LocationInOutRepository(_db);
+            ApiUser = new ApiUserRepository(_db);
             #endregion Main And HR
 
             #region Accounting
@@ -123,6 +124,7 @@ namespace Opus.DataAcces.MainRepository
         public ITimeKeepingRepository TimeKeeping { get; private set; }
         public ITimeKeepingDescreptionRepository TimeKeepingDescreption { get; private set; }
         public ILocationInOutRepository LocationInOut { get; private set; }
+        public IApiUserRepository ApiUser { get; private set; }
         #endregion Main And HR
 
         #region Accounting

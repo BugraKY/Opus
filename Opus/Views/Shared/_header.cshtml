@@ -208,8 +208,9 @@
                         {
                             <li class="treeview">
                                 <a href="#" class="Header">
-                                    <i class="fa fa-users fa-sm"><span class="path1"></span><span class="path2"></span>
-                                        </i><span class="lititle">HUMAN RESOURCES</span>
+                                    <i class="fa fa-users fa-sm">
+                                        <span class="path1"></span><span class="path2"></span>
+                                    </i><span class="lititle">HUMAN RESOURCES</span>
                                     <span class="pull-right-container">
                                         <i class="fa fa-angle-right pull-right"></i>
                                     </span>
@@ -293,7 +294,11 @@
                                     </span>
                                     <i class="fa fa-list-ul fa-sm"></i><span class="lititle">APPLICATIONS (DEV)</span>
                                 </a>
-                                <ul class="treeview-menu"></ul>
+                                <ul class="treeview-menu">
+                                    <li class="@Html.ActiveClass("DoortrimApp")">
+                                        <a asp-area="Applications" asp-controller="DoortrimApp" asp-action="Index"><i class="si-notebook si"></i><span class="sidebar-title">Door Trim - Reference Insert</span></a>
+                                    </li>
+                                </ul>
                             </li>
                         }
                         @if (User.IsInRole(UserRoles.Admin))

@@ -41,6 +41,7 @@ namespace Opus.DataAcces.Data
         public DbSet<TimeKeeping> TimeKeeping { get; set; }
         public DbSet<TimeKeepingDescreption> TimeKeepingDescreption { get; set; }
         public DbSet<LocationInOut> LocationInOut { get; set; }
+        public DbSet<ApiUser> ApiUser { get; set; }
         //public DbSet<Unit> Unit { get; set; }
 
         /*

@@ -98,6 +98,14 @@ namespace Opus.Utility
                 public const string DANGER = "Scanned or Entered Uneducated Reference by ";
             }
         }
+
+        public static class ApplicationsConstant
+        {
+            public static class APPCONSTYPES
+            {
+                public const string DoorTrimn = "DOOR_TRIM";
+            }
+        }
         public class Toast
         {
             public static class ShowHideTransition

@@ -37,6 +37,7 @@ namespace Opus.DataAcces.IMainRepository
         ITimeKeepingRepository TimeKeeping { get; }
         ITimeKeepingDescreptionRepository TimeKeepingDescreption { get; }
         ILocationInOutRepository LocationInOut { get; }
+        IApiUserRepository ApiUser { get; }
         #endregion Main And HR
 
 
